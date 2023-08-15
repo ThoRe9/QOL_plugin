@@ -19,6 +19,7 @@ public class DrinkCraftRecipe {
     public Map<Character, Material> ingredients = new HashMap<Character, Material>();
     public Map<Character, SuperItemType> superIngredients = new HashMap<Character, SuperItemType>();
     public DrinkCraftType drinkCraftType = null;
+    private DrinkCraftable resultClass = null;
 
     public DrinkCraftRecipe(ItemStack result, String[] shape, Map<Character, Material> ingredients, Map<Character, SuperItemType> superIngredients) {
         this.result = result;
@@ -112,6 +113,12 @@ public class DrinkCraftRecipe {
 
     public void setDrinkCraftType(DrinkCraftType drinkCraftType) {
         this.drinkCraftType = drinkCraftType;
+    }
+    public void setResultClass(DrinkCraftable resultClass) {
+        this.resultClass = resultClass;
+    }
+    public DrinkCraftable getResultClass() {
+        return this.resultClass;
     }
 
 

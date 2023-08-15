@@ -2,9 +2,7 @@ package net.okuri.qol;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.okuri.qol.drinks.DrinkCraftRecipe;
-import net.okuri.qol.drinks.DrinkCraft;
-import net.okuri.qol.drinks.DrinkCraftType;
+import net.okuri.qol.drinks.*;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -59,6 +57,7 @@ public final class QOL extends JavaPlugin {
         whiskyRecipe.addIngredient('B', Material.WATER_BUCKET);
         whiskyRecipe.addSuperIngredient('C', SuperItemType.COAL);
         whiskyRecipe.setDrinkCraftType(DrinkCraftType.WHISKY_INGREDIENT);
+        whiskyRecipe.setResultClass(new WhiskyIngredient());
 
         drinkCraft.addDrinkCraftRecipe(whiskyRecipe);
 
@@ -70,6 +69,7 @@ public final class QOL extends JavaPlugin {
         whiskyWithIceRecipe.addIngredient('I', Material.ICE);
         whiskyWithIceRecipe.addIngredient('B', Material.GLASS_BOTTLE);
         whiskyWithIceRecipe.setDrinkCraftType(DrinkCraftType.WHISKY_WITH_ICE);
+        whiskyWithIceRecipe.setResultClass(new WhiskyWithIce());
 
         drinkCraft.addDrinkCraftRecipe(whiskyWithIceRecipe);
 

@@ -8,6 +8,7 @@ net\okuri\qol\superItems\SuperItem.class
 net\okuri\qol\superItems\SuperItemType.class
 net\okuri\qol\drinks\WhiskyIngredient.class
 net\okuri\qol\drinks\Maturation\Maturation$1.class
+net\okuri\qol\drinks\DrinkCraftable.class
 net\okuri\qol\QOL.class
 net\okuri\qol\drinks\distillation\Distillation.class
 net\okuri\qol\drinks\WhiskyWithIce.class
@@ -15,7 +16,6 @@ net\okuri\qol\drinks\DrinkCraftRecipe.class
 net\okuri\qol\Commands.class
 net\okuri\qol\drinks\Maturation\Whisky.class
 net\okuri\qol\ProtectedBlock.class
-net\okuri\qol\drinks\DrinkCraft$1.class
 net\okuri\qol\drinks\DrinkCraft.class
 net\okuri\qol\drinks\Maturation\Maturation.class
 net\okuri\qol\superItems\SuperWheat.class

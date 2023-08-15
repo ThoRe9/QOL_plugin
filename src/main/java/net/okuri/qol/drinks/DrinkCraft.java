@@ -36,17 +36,9 @@ public class DrinkCraft implements Listener {
         for (DrinkCraftRecipe drinkCraftRecipe : drinkCraftRecipes) {
             if (drinkCraftRecipe.checkDrinkRecipe(matrix)) {
                 Bukkit.getLogger().info("DrinkCraftRecipe matched!");
-                switch(drinkCraftRecipe.drinkCraftType) {
-                    case WHISKY_INGREDIENT:
-                        ItemStack barley = matrix[1];
-                        ItemStack coal = matrix[7];
-                        inventory.setResult(new WhiskyIngredient(barley, coal).getSuperItem());
-                        break;
-                    case WHISKY_WITH_ICE:
-                        ItemStack whisky = matrix[4];
-                        inventory.setResult(new WhiskyWithIce(whisky).getSuperItem());
-                        break;
-                }
+                DrinkCraftable result = drinkCraftRecipe.getResultClass();
+                result.setMatrix(matrix);
+                inventory.setResult(result.getSuperItem());
             }
         }
 

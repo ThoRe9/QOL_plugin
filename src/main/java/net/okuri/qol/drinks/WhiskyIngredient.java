@@ -20,8 +20,7 @@ import java.util.List;
 import java.util.Objects;
 
 // WhiskyIngredientは、Whiskyの材料となるアイテムです。これをMaturingBarrelに入れることで、Whiskyを作ることができます。
-// TODO Distilleryに入れることで、濃縮されたWhiskyIngredientを作ることができるようにする。
-public class WhiskyIngredient extends SuperItem {
+public class WhiskyIngredient extends DrinkCraftable {
 
     public static NamespacedKey xKey = new NamespacedKey("qol", "qol_x");
     public static NamespacedKey yKey = new NamespacedKey("qol", "qol_y");
@@ -32,6 +31,7 @@ public class WhiskyIngredient extends SuperItem {
     public static NamespacedKey distilledKey = new NamespacedKey("qol", "qol_distilled");
     private SuperItemType superItemType = SuperItemType.WHISKY_INGREDIENT;
     private ItemStack itemStack = null;
+    private ItemStack[] matrix = null;
     private double x = 0.0;
     private double y = 0.0;
     private double z = 0.0;
@@ -49,6 +49,9 @@ public class WhiskyIngredient extends SuperItem {
     private double rarity = 0.0;
     // maxDurationは効果全ての効果時間の総和の基準値。超えたり超えなかったりする。
     private final int maxDuration = 6000;
+
+    public WhiskyIngredient(){
+    }
 
     public WhiskyIngredient(ItemStack whisky_ingredient){
         this.superItemType = SuperItemType.WHISKY_INGREDIENT;
@@ -70,9 +73,39 @@ public class WhiskyIngredient extends SuperItem {
         this.distilled = potionMeta.getPersistentDataContainer().get(distilledKey, PersistentDataType.INTEGER);
         setType();
     }
+    public WhiskyIngredient(ItemStack[] matrix){
+        setting(matrix[1],matrix[7]);
+    }
 
     public WhiskyIngredient(ItemStack barley, ItemStack coal){
+        setting(barley, coal);
+    }
 
+    public WhiskyIngredient(double x, double y, double z, double coalRarity, double quality) {
+        this.superItemType = SuperItemType.UNDISTILLED_WHISKY_INGREDIENT;
+        this.itemStack = new ItemStack(Material.POTION);
+        this.quality = quality;
+        this.divLine = 1.25 - coalRarity;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.hasteLevel = this.calcLevel(x);
+        this.hasteDuration = this.calcDuration(x);
+        this.speedLevel = this.calcLevel(y);
+        this.speedDuration = this.calcDuration(y);
+        this.nightVisionLevel = this.calcLevel(z);
+        this.nightVisionDuration = this.calcDuration(z);
+        this.rarity = calcRarity(x,y,z, quality);
+        setType();
+    }
+
+    @Override
+    public void setMatrix(ItemStack[] matrix){
+        this.matrix = matrix;
+        setting(matrix[1], matrix[7]);
+    }
+
+    private void setting(ItemStack barley, ItemStack coal){
         this.superItemType = SuperItemType.UNDISTILLED_WHISKY_INGREDIENT;
         this.itemStack = new ItemStack(Material.POTION);
         this.distilled = 0;
@@ -133,24 +166,6 @@ public class WhiskyIngredient extends SuperItem {
         setType();
     }
 
-    public WhiskyIngredient(double x, double y, double z, double coalRarity, double quality) {
-        this.superItemType = SuperItemType.UNDISTILLED_WHISKY_INGREDIENT;
-        this.itemStack = new ItemStack(Material.POTION);
-        this.quality = quality;
-        this.divLine = 1.25 - coalRarity;
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.hasteLevel = this.calcLevel(x);
-        this.hasteDuration = this.calcDuration(x);
-        this.speedLevel = this.calcLevel(y);
-        this.speedDuration = this.calcDuration(y);
-        this.nightVisionLevel = this.calcLevel(z);
-        this.nightVisionDuration = this.calcDuration(z);
-        this.rarity = calcRarity(x,y,z, quality);
-        setType();
-    }
-
     @Override
     public ItemStack getSuperItem() {
         setType();
@@ -190,6 +205,8 @@ public class WhiskyIngredient extends SuperItem {
 
         return this.itemStack;
     }
+
+
 
     public boolean distilled(){
         if (this.distilled >= 3){
