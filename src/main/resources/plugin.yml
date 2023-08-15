@@ -1,0 +1,17 @@
+name: QOL
+version: '${project.version}'
+main: net.okuri.qol.QOL
+api-version: '1.20'
+commands:
+  getenv:
+    aliases: [ env ]
+    description: You can get environment variables.
+    permission: qol.command.getenv
+    permission-message: Permission denied
+    usage: /<command> <key>
+  matsign:
+    aliases: [ mat ]
+    description: You can edit maturation sign date.
+    permission: qol.command.maturation
+    permission-message: Permission denied
+    usage: /<command> <x> <y> <z> <date>
