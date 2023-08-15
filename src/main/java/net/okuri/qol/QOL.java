@@ -56,6 +56,7 @@ public final class QOL extends JavaPlugin {
         Component display;
         display = Component.text("Whisky Ingredients").color(NamedTextColor.GOLD);
         whiskyMeta.displayName(display);
+        whiskyMeta.lore(new LoreGenerator().addInfoLore("Whisky Ingredients").generateLore());
         whisky.setItemMeta(whiskyMeta);
         DrinkCraftRecipe whiskyRecipe = new DrinkCraftRecipe(whisky);
         whiskyRecipe.setShape(new String[]{" W ", " B ", " C "});
@@ -78,6 +79,7 @@ public final class QOL extends JavaPlugin {
         PotionMeta wwim = (PotionMeta)whiskyWithIce.getItemMeta();
         wwim.setColor(Color.fromRGB(170,70,10));
         wwim.displayName(Component.text("Whisky With Ice").color(NamedTextColor.GOLD));
+        wwim.lore(new LoreGenerator().addInfoLore("Whisky on the rocks!").generateLore());
         whiskyWithIce.setItemMeta(wwim);
         DrinkCraftRecipe whiskyWithIceRecipe = new DrinkCraftRecipe(whiskyWithIce);
         whiskyWithIceRecipe.setShape(new String[]{" I ", " W ", "BBB"});
@@ -100,6 +102,7 @@ public final class QOL extends JavaPlugin {
         PotionMeta sodaMeta = (PotionMeta)soda.getItemMeta();
         sodaMeta.setColor(Color.AQUA);
         sodaMeta.displayName(Component.text("Soda").color(NamedTextColor.AQUA));
+        sodaMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE!").generateLore());
         soda.setItemMeta(sodaMeta);
         DrinkCraftRecipe sodaRecipe = new DrinkCraftRecipe(soda);
         sodaRecipe.setShape(new String[]{"CCC", " W ", "BBB"});
@@ -121,6 +124,7 @@ public final class QOL extends JavaPlugin {
         PotionMeta highballMeta = (PotionMeta)highball.getItemMeta();
         highballMeta.setColor(Color.fromRGB(220,210,150));
         highballMeta.displayName(Component.text("Highball").color(NamedTextColor.GOLD));
+        highballMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE!").generateLore());
         highball.setItemMeta(highballMeta);
         DrinkCraftRecipe highballRecipe = new DrinkCraftRecipe(highball);
         highballRecipe.setShape(new String[]{" I ", " W ", "SSS"});
