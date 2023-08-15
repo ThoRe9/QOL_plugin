@@ -9,8 +9,11 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.awt.*;
 
 public final class QOL extends JavaPlugin {
 
@@ -42,6 +45,14 @@ public final class QOL extends JavaPlugin {
 
     public void registerRecipes(DrinkCraft drinkCraft) {
     //ここに特殊レシピ(作業台)を登録する
+
+        //test
+        ShapedRecipe test = new ShapedRecipe(new NamespacedKey("qol", "test"), new ItemStack(Material.POTION, 1));
+        test.shape(" W ", " B ", " C ");
+        test.setIngredient('W', Material.WHEAT);
+        test.setIngredient('B', Material.WATER_BUCKET);
+        test.setIngredient('C', Material.COAL);
+        Bukkit.addRecipe(test);
 
         // Whisky Ingredient
         ItemStack whisky = new ItemStack(Material.POTION, 1);
@@ -82,6 +93,14 @@ public final class QOL extends JavaPlugin {
         drinkCraft.addDrinkCraftRecipe(sodaRecipe);
 
         //Highball
+        ItemStack highball = new ItemStack(Material.POTION, 1);
+        DrinkCraftRecipe highballRecipe = new DrinkCraftRecipe(highball);
+        highballRecipe.setShape(new String[]{" I ", " W ", "SSS"});
+        highballRecipe.addSuperIngredient('W', SuperItemType.WHISKY);
+        highballRecipe.addIngredient('I', Material.ICE);
+        highballRecipe.addSuperIngredient('S', SuperItemType.SODA);
+        highballRecipe.setResultClass(new Highball());
+        drinkCraft.addDrinkCraftRecipe(highballRecipe);
 
     }
 

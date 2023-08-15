@@ -39,10 +39,13 @@ public class DrinkCraft implements Listener {
                 DrinkCraftable result = drinkCraftRecipe.getResultClass();
                 result.setMatrix(matrix);
                 inventory.setResult(result.getSuperItem());
+                return;
             }
         }
-
     }
+
+
+
     @EventHandler
     // Distillationのレシピを登録する
     public void FurnaceSmeltEvent(FurnaceSmeltEvent event) {

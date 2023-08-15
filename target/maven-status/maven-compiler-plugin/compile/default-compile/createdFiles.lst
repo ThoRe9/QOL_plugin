@@ -8,6 +8,7 @@ net\okuri\qol\superItems\SuperCoal.class
 net\okuri\qol\superItems\SuperItem.class
 net\okuri\qol\superItems\SuperItemType.class
 net\okuri\qol\drinks\WhiskyIngredient.class
+net\okuri\qol\drinks\Highball.class
 net\okuri\qol\drinks\Maturation\Maturation$1.class
 net\okuri\qol\drinks\DrinkCraftable.class
 net\okuri\qol\QOL.class
