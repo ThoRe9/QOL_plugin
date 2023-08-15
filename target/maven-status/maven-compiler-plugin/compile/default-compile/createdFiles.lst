@@ -3,6 +3,7 @@ net\okuri\qol\SignFunction.class
 net\okuri\qol\LoreGenerator.class
 net\okuri\qol\EventListener.class
 net\okuri\qol\drinks\distillation\Distillation$1.class
+net\okuri\qol\drinks\Soda.class
 net\okuri\qol\superItems\SuperCoal.class
 net\okuri\qol\superItems\SuperItem.class
 net\okuri\qol\superItems\SuperItemType.class

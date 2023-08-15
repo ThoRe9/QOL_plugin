@@ -58,7 +58,6 @@ public final class QOL extends JavaPlugin {
         whiskyRecipe.addSuperIngredient('C', SuperItemType.COAL);
         whiskyRecipe.setDrinkCraftType(DrinkCraftType.WHISKY_INGREDIENT);
         whiskyRecipe.setResultClass(new WhiskyIngredient());
-
         drinkCraft.addDrinkCraftRecipe(whiskyRecipe);
 
         // WhiskyWithIce
@@ -70,8 +69,19 @@ public final class QOL extends JavaPlugin {
         whiskyWithIceRecipe.addIngredient('B', Material.GLASS_BOTTLE);
         whiskyWithIceRecipe.setDrinkCraftType(DrinkCraftType.WHISKY_WITH_ICE);
         whiskyWithIceRecipe.setResultClass(new WhiskyWithIce());
-
         drinkCraft.addDrinkCraftRecipe(whiskyWithIceRecipe);
+
+        // Soda
+        ItemStack soda = new ItemStack(Material.POTION, 1);
+        DrinkCraftRecipe sodaRecipe = new DrinkCraftRecipe(soda);
+        sodaRecipe.setShape(new String[]{"CCC", " W ", "BBB"});
+        sodaRecipe.addSuperIngredient('C', SuperItemType.COAL);
+        sodaRecipe.addIngredient('W', Material.WATER_BUCKET);
+        sodaRecipe.addIngredient('B', Material.GLASS_BOTTLE);
+        sodaRecipe.setResultClass(new Soda());
+        drinkCraft.addDrinkCraftRecipe(sodaRecipe);
+
+        //Highball
 
     }
 
