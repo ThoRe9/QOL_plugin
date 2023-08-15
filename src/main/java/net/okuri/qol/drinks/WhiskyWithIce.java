@@ -10,9 +10,9 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
-public class WhiskyWithIce extends SuperItem {
+public class WhiskyWithIce extends DrinkCraftable {
     private ItemStack whisky = null;
-
+    private ItemStack[] matrix = null;
 
     @Override
     public ItemStack getSuperItem() {
@@ -31,8 +31,22 @@ public class WhiskyWithIce extends SuperItem {
 
         return WWI;
     }
-
+    public WhiskyWithIce(ItemStack[] matrix) {
+        setting(matrix[4]);
+    }
     public WhiskyWithIce(ItemStack whisky) {
+        setting(whisky);
+    }
+
+    public WhiskyWithIce() {
+    }
+    @Override
+    public void setMatrix(ItemStack[] matrix) {
+        this.matrix = matrix;
+        setting(matrix[4]);
+    }
+
+    private void setting(ItemStack whisky) {
         this.whisky = whisky;
     }
 }

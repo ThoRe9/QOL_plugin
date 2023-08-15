@@ -108,6 +108,11 @@ public class EventListener implements Listener {
             player.sendMessage("You cannot break it!");
             event.setCancelled(true);
         }
+
+        // SilkTouchのエンチャントを持つツールをプレイヤーが持っていた場合はここで終了
+        if (event.getPlayer().getInventory().getItemInMainHand().getEnchantments().containsKey(org.bukkit.enchantments.Enchantment.SILK_TOUCH)) {
+            return;
+        }
         // SuperItemをドロップさせる最初の処理
         // elseifで追加していく
         if (blockType == Material.WHEAT) {
@@ -157,7 +162,9 @@ public class EventListener implements Listener {
         Block block = e.getBlock();
         Random rand = new Random();
         int n = rand.nextInt(100);
-        player.sendMessage("n: " + n);
+        player.sendMessage(String.valueOf(block.getState().isCollidable()));
+        // CoalOre(Block)が自然生成されたものか確認する。もしそうでないなら何も起きない。
+
         if (n < 10){
             // SuperCoal を与える
             player.sendMessage("You got a SuperCoal!");

@@ -13,7 +13,6 @@ public abstract class SuperItem {
     private ItemStack itemStack;
 
     private SuperItemType superItemType;
-
     public abstract ItemStack getSuperItem();
 
 

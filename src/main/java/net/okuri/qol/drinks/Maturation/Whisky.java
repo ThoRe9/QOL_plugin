@@ -24,6 +24,7 @@ import java.util.List;
 
 public class Whisky extends SuperItem {
     private SuperItemType superItemType = SuperItemType.WHISKY;
+    private ItemStack[] matrix;
     private LocalDateTime start;
     private int days;
     private double temperature;
