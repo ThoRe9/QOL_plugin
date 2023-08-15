@@ -56,7 +56,7 @@ public final class QOL extends JavaPlugin {
         Component display;
         display = Component.text("Whisky Ingredients").color(NamedTextColor.GOLD);
         whiskyMeta.displayName(display);
-        whiskyMeta.lore(new LoreGenerator().addInfoLore("Whisky Ingredients").generateLore());
+        whiskyMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE!").generateLore());
         whisky.setItemMeta(whiskyMeta);
         DrinkCraftRecipe whiskyRecipe = new DrinkCraftRecipe(whisky);
         whiskyRecipe.setShape(new String[]{" W ", " B ", " C "});
@@ -79,7 +79,7 @@ public final class QOL extends JavaPlugin {
         PotionMeta wwim = (PotionMeta)whiskyWithIce.getItemMeta();
         wwim.setColor(Color.fromRGB(170,70,10));
         wwim.displayName(Component.text("Whisky With Ice").color(NamedTextColor.GOLD));
-        wwim.lore(new LoreGenerator().addInfoLore("Whisky on the rocks!").generateLore());
+        wwim.lore(new LoreGenerator().addImportantLore("WRONG RECIPE!").generateLore());
         whiskyWithIce.setItemMeta(wwim);
         DrinkCraftRecipe whiskyWithIceRecipe = new DrinkCraftRecipe(whiskyWithIce);
         whiskyWithIceRecipe.setShape(new String[]{" I ", " W ", "BBB"});
