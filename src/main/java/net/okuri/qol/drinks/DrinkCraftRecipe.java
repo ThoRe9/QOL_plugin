@@ -35,7 +35,7 @@ public class DrinkCraftRecipe {
     // レシピの判定
     public boolean checkDrinkRecipe(ItemStack[] matrix){
 
-        Bukkit.getServer().getLogger().info("checkDrinkRecipe");
+        //Bukkit.getServer().getLogger().info("checkDrinkRecipe");
 
         for (int i = 0; i < 3; i++) {
             String row = shape[i];
@@ -44,32 +44,32 @@ public class DrinkCraftRecipe {
                 int checkIndex = i * 3 + j;
                 char ingredient = row.charAt(j);
                 if (ingredient == ' ') {
-                    Bukkit.getServer().getLogger().info("nullAndAirSlotDetected");
-                    Bukkit.getServer().getLogger().info(String.valueOf(checkIndex));
+                    //Bukkit.getServer().getLogger().info("nullAndAirSlotDetected");
+                    //Bukkit.getServer().getLogger().info(String.valueOf(checkIndex));
                     if (matrix[checkIndex] != null) {
-                        Bukkit.getServer().getLogger().info(matrix[checkIndex].toString());
+                        //Bukkit.getServer().getLogger().info(matrix[checkIndex].toString());
                         return false;
                     }
                 } else if (ingredients.containsKey(ingredient)) {
                     if (matrix[checkIndex] == null) {
-                        Bukkit.getServer().getLogger().info("nullSlotDetected");
+                        //Bukkit.getServer().getLogger().info("nullSlotDetected");
                         return false;
                     }
                     if (matrix[checkIndex].getType() != ingredients.get(ingredient)) {
-                        Bukkit.getServer().getLogger().info("differentMaterialDetected");
+                        //Bukkit.getServer().getLogger().info("differentMaterialDetected");
                         return false;
                     }
                 } else if (superIngredients.containsKey(ingredient)) {
                     if (matrix[checkIndex] == null) {
-                        Bukkit.getServer().getLogger().info("nullSlotDetected");
+                       // Bukkit.getServer().getLogger().info("nullSlotDetected");
                         return false;
                     }
                     if (!matrix[checkIndex].getItemMeta().getPersistentDataContainer().has(SuperItemType.typeKey, PersistentDataType.STRING)) {
-                        Bukkit.getServer().getLogger().info("noTypeDetected");
+                        //Bukkit.getServer().getLogger().info("noTypeDetected");
                         return false;
                     }
                     if (!Objects.equals(matrix[checkIndex].getItemMeta().getPersistentDataContainer().get(SuperItemType.typeKey, PersistentDataType.STRING), superIngredients.get(ingredient).toString())) {
-                        Bukkit.getServer().getLogger().info("differentTypeDetected");
+                        //Bukkit.getServer().getLogger().info("differentTypeDetected");
                         return false;
                     }
                 } else {

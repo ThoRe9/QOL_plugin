@@ -34,13 +34,13 @@ public class SignFunction implements Listener {
             if (lines[1].equals("[Maturation]")){
                 if (!MaturationEvent(event)){
                     event.setCancelled(true);
-                    player.sendMessage("You did it in the wrong way!");
+                    new ChatGenerator().addWarning("You did it in the wrong way!").sendMessage(player);
                 }
             }
             if (lines[1].equals("[Distillation]")){
                 if (!DistillationEvent(event)){
                     event.setCancelled(true);
-                    player.sendMessage("You did it in the wrong way!");
+                    new ChatGenerator().addWarning("You did it in the wrong way!").sendMessage(player);
                 }
             }
         }
@@ -65,7 +65,7 @@ public class SignFunction implements Listener {
                         count++;
                     }
                 }
-                player.sendMessage(String.valueOf(barrelData.getInventory().getSize()));
+                //player.sendMessage(String.valueOf(barrelData.getInventory().getSize()));
                 if (count == 1){
                     // そのアイテムが熟成可能なアイテムであるかどうかを確認する
                     ItemStack item = barrelData.getInventory().getContents()[0];
@@ -80,20 +80,20 @@ public class SignFunction implements Listener {
                             ProtectedBlock pb = new ProtectedBlock();
                             pb.setProtectedBlock(barrel, true);
                             pb.setProtectedBlock(sign, true);
-                            player.sendMessage("Maturation started!");
+                            new ChatGenerator().addSuccess("Maturation started!").sendMessage(player);
                             return true;
                         } else {
-                            player.sendMessage("1 This item is not maturationable!");
+                            new ChatGenerator().addWarning("This item is not maturationable!").sendMessage(player);
                         }
                     } else{
-                        player.sendMessage("2 This item is not maturationable!");
+                        new ChatGenerator().addWarning("This item is not maturationable!").sendMessage(player);
                     }
                 } else {
-                    player.sendMessage("There are too many items in the barrel!");
+                    new ChatGenerator().addWarning("There is something wrong in this barrel!").sendMessage(player);
                 }
 
             } else {
-                player.sendMessage("This block is not barrel!");
+                new ChatGenerator().addWarning("This block is not barrel!").sendMessage(player);
             }
         }
         return false;
@@ -115,7 +115,7 @@ public class SignFunction implements Listener {
                 pb.setProtectedBlock(furnece, true);
 
             } else {
-                player.sendMessage("This block is not furnace!");
+                new ChatGenerator().addWarning("This block is not furnace!").sendMessage(player);
             }
         }
 
