@@ -28,7 +28,7 @@ public class DrinkCraft implements Listener {
     public void PrepareItemCraftEvent(PrepareItemCraftEvent event) {
         // drinkCraftRecipes に登録されているレシピをチェック
         // レシピが一致したら、logに出力
-        Bukkit.getServer().getLogger().info("PrepareItemCraftEvent");
+        //Bukkit.getServer().getLogger().info("PrepareItemCraftEvent");
         CraftingInventory inventory = event.getInventory();
         ItemStack[] matrix = event.getInventory().getMatrix();
 

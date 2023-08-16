@@ -9,21 +9,24 @@ import net.okuri.qol.superItems.SuperWheat;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.Barrel;
-import org.bukkit.block.Biome;
-import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
+import org.bukkit.Sound;
+import org.bukkit.block.*;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.sign.Side;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.minecart.HopperMinecart;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.inventory.HopperInventorySearchEvent;
+import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 import org.joml.Random;
 
@@ -62,9 +65,8 @@ public class EventListener implements Listener {
                 protectedBlock.setProtectedBlock(sign, false);
                 barrelData.update();
 
-
-                player.sendMessage("You opened the maturation!");
-
+                new ChatGenerator().addInfo("Barrel is no longer protected.").addSuccess("You opened barrel!").sendMessage(player);
+                player.playSound(player.getLocation(), Sound.BLOCK_BARREL_OPEN, 1.0f, 1.0f);
             }
             event.setCancelled(true);
         }
@@ -73,8 +75,34 @@ public class EventListener implements Listener {
         // 保護ブロックは、プレイヤーが何もできないようにされる
         ProtectedBlock protectedBlock = new ProtectedBlock();
         if (protectedBlock.isProtectedBlock(sign)){
-            player.sendMessage("You cannot open it!");
+            new ChatGenerator().addWarning("You cannot open it!").sendMessage(player);
             event.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void InventoryMoveItemEvent(InventoryMoveItemEvent event){
+        // HopperMinecraftの場合
+        if (event.getDestination().getHolder() instanceof HopperMinecart) {
+            HopperMinecart hopperMinecart = (HopperMinecart) event.getDestination().getHolder();
+            Block sourceInventoryBlock = event.getSource().getLocation().getBlock();
+            Block destinationInventoryBlock = event.getDestination().getLocation().getBlock();
+            // 保護ブロックの処理
+            // 保護ブロックは、プレイヤーが何もできないようにされる
+            ProtectedBlock protectedBlock = new ProtectedBlock();
+            if (protectedBlock.isProtectedBlock(sourceInventoryBlock) || protectedBlock.isProtectedBlock(destinationInventoryBlock)){
+                hopperMinecart.setVelocity(hopperMinecart.getVelocity().multiply(-1));
+                event.setCancelled(true);
+            }
+        // Hopperの場合
+        } else if (event.getDestination().getHolder() instanceof Hopper || event.getSource().getHolder() instanceof Hopper) {
+            Block sourceInventoryBlock = event.getSource().getLocation().getBlock();
+            Block destinationInventoryBlock = event.getDestination().getLocation().getBlock();
+            // 保護ブロックの処理
+            // 保護ブロックは、プレイヤーが何もできないようにされる
+            ProtectedBlock protectedBlock = new ProtectedBlock();
+            if (protectedBlock.isProtectedBlock(sourceInventoryBlock) || protectedBlock.isProtectedBlock(destinationInventoryBlock)){
+                event.setCancelled(true);
+            }
         }
     }
 
@@ -88,7 +116,7 @@ public class EventListener implements Listener {
 
         if (meta.getPersistentDataContainer().has(key, PersistentDataType.BOOLEAN)){
             if (!meta.getPersistentDataContainer().get(key, PersistentDataType.BOOLEAN)){
-                player.sendMessage("You cannot use it!");
+                new ChatGenerator().addWarning("You cannot use it!").sendMessage(player);
                 event.setCancelled(true);
             }
         }
@@ -140,11 +168,11 @@ public class EventListener implements Listener {
             Random rand = new Random();
             int n = rand.nextInt(100);
             // debug
-            player.sendMessage("n: " + n);
+            new ChatGenerator().addDebug(String.valueOf(n)).sendMessage(player);
 
             if (n < 10) {
                 // SuperWheat を与える
-                player.sendMessage("You got a SuperWheat!");
+                new ChatGenerator().addSuccess("You got a SuperWheat!").sendMessage(player);
 
                 double temp =  player.getLocation().getBlock().getTemperature();
                 Bukkit.getServer().getLogger().info("temp: " + temp);
@@ -162,7 +190,7 @@ public class EventListener implements Listener {
         Block block = e.getBlock();
         Random rand = new Random();
         int n = rand.nextInt(100);
-        player.sendMessage(String.valueOf(block.getState().isCollidable()));
+        new ChatGenerator().addDebug(String.valueOf(n)).sendMessage(player);
         // CoalOre(Block)が自然生成されたものか確認する。もしそうでないなら何も起きない。
 
         if (n < 10){

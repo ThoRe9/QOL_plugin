@@ -16,12 +16,14 @@ public class Commands implements CommandExecutor {
         if (command.getName().equalsIgnoreCase("getenv")) { //親コマンドの判定
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                sender.sendMessage("temperature: " + player.getLocation().getBlock().getTemperature());
-                sender.sendMessage("humidity: " + player.getLocation().getBlock().getHumidity());
-                sender.sendMessage("biome: " + player.getLocation().getBlock().getBiome());
-                sender.sendMessage("Blocklight: " + player.getLocation().getBlock().getLightFromBlocks());
-                sender.sendMessage("Skylight: " + player.getLocation().getBlock().getLightFromSky());
-                sender.sendMessage("LightLevel: " + player.getLocation().getBlock().getLightLevel());
+                ChatGenerator chat = new ChatGenerator();
+                chat.addInfo("temperature: " + player.getLocation().getBlock().getTemperature());
+                chat.addInfo("humidity: " + player.getLocation().getBlock().getHumidity());
+                chat.addInfo("biome: " + player.getLocation().getBlock().getBiome());
+                chat.addInfo("Blocklight: " + player.getLocation().getBlock().getLightFromBlocks());
+                chat.addInfo("Skylight: " + player.getLocation().getBlock().getLightFromSky());
+                chat.addInfo("LightLevel: " + player.getLocation().getBlock().getLightLevel());
+                chat.sendMessage(player);
                 return true;
             }
         } else if(command.getName().equalsIgnoreCase("matsign")) {
@@ -40,11 +42,11 @@ public class Commands implements CommandExecutor {
                         Sign sign = (Sign) player.getWorld().getBlockAt(x, y, z).getState();
                         sign.getSide(Side.FRONT).line(2, Component.text(date.toString()));
                         sign.update();
-                        sender.sendMessage("Sign updated!");
+                        new ChatGenerator().addInfo("Successfully set the date!").sendMessage(player);
 
                         return true;
                     } else {
-                        sender.sendMessage("No sign found at " + x + ", " + y + ", " + z);
+                        new ChatGenerator().addWarning("There is no sign!").sendMessage(player);
                         return true;
                     }
                 }
