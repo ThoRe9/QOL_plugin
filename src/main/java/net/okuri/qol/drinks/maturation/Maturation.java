@@ -1,4 +1,4 @@
-package net.okuri.qol.drinks.Maturation;
+package net.okuri.qol.drinks.maturation;
 
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Bukkit;

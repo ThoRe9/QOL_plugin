@@ -1,11 +1,10 @@
-package net.okuri.qol.drinks.Maturation;
+package net.okuri.qol.drinks.maturation;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.superItems.SuperItem;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -19,7 +18,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Whisky extends SuperItem {

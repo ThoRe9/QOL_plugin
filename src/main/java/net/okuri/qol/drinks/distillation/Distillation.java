@@ -1,6 +1,5 @@
 package net.okuri.qol.drinks.distillation;
 
-import net.okuri.qol.drinks.Maturation.Whisky;
 import net.okuri.qol.drinks.WhiskyIngredient;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.NamespacedKey;
