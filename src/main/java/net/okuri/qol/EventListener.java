@@ -193,7 +193,7 @@ public class EventListener implements Listener {
         new ChatGenerator().addDebug(String.valueOf(n)).sendMessage(player);
         // CoalOre(Block)が自然生成されたものか確認する。もしそうでないなら何も起きない。
 
-        if (n < 10){
+        if (n < 2){
             // SuperCoal を与える
             player.sendMessage("You got a SuperCoal!");
             // TODO qualityはJOBのレベルによって変える
