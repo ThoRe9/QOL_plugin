@@ -3,8 +3,8 @@ package net.okuri.qol.drinks;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperCoal;
-import net.okuri.qol.superItems.SuperItem;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.SuperWheat;
 import org.bukkit.Material;
@@ -15,12 +15,10 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 // WhiskyIngredientは、Whiskyの材料となるアイテムです。これをMaturingBarrelに入れることで、Whiskyを作ることができます。
-public class WhiskyIngredient extends DrinkCraftable {
+public class WhiskyIngredient extends SuperCraftable {
 
     public static NamespacedKey xKey = new NamespacedKey("qol", "qol_x");
     public static NamespacedKey yKey = new NamespacedKey("qol", "qol_y");

@@ -4,13 +4,13 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
 
-import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superCraft.SuperCraftable;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
-public class WhiskyWithIce extends DrinkCraftable {
+public class WhiskyWithIce extends SuperCraftable {
     private ItemStack whisky = null;
     private ItemStack[] matrix = null;
 

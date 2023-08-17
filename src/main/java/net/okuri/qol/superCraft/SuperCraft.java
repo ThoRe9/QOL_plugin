@@ -1,8 +1,7 @@
-package net.okuri.qol.drinks;
+package net.okuri.qol.superCraft;
 
 import net.okuri.qol.drinks.distillation.Distillation;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Furnace;
 import org.bukkit.event.EventHandler;
@@ -16,27 +15,27 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 
 
-public class DrinkCraft implements Listener {
+public class SuperCraft implements Listener {
 
-    private final ArrayList<DrinkCraftRecipe> drinkCraftRecipes = new ArrayList<>();
+    private final ArrayList<SuperCraftRecipe> superCraftRecipes = new ArrayList<>();
 
-    public void addDrinkCraftRecipe(DrinkCraftRecipe drinkCraftRecipe) {
-        drinkCraftRecipes.add(drinkCraftRecipe);
+    public void addDrinkCraftRecipe(SuperCraftRecipe superCraftRecipe) {
+        superCraftRecipes.add(superCraftRecipe);
     }
 
     @EventHandler
     public void PrepareItemCraftEvent(PrepareItemCraftEvent event) {
-        // drinkCraftRecipes に登録されているレシピをチェック
+        // superCraftRecipes に登録されているレシピをチェック
         // レシピが一致したら、logに出力
         //Bukkit.getServer().getLogger().info("PrepareItemCraftEvent");
         CraftingInventory inventory = event.getInventory();
         ItemStack[] matrix = event.getInventory().getMatrix();
 
         // レシピの判定
-        for (DrinkCraftRecipe drinkCraftRecipe : drinkCraftRecipes) {
-            if (drinkCraftRecipe.checkDrinkRecipe(matrix)) {
-                Bukkit.getLogger().info("DrinkCraftRecipe matched!");
-                DrinkCraftable result = drinkCraftRecipe.getResultClass();
+        for (SuperCraftRecipe superCraftRecipe : superCraftRecipes) {
+            if (superCraftRecipe.checkDrinkRecipe(matrix)) {
+                Bukkit.getLogger().info("SuperCraftRecipe matched!");
+                SuperCraftable result = superCraftRecipe.getResultClass();
                 result.setMatrix(matrix);
                 inventory.setResult(result.getSuperItem());
                 return;
