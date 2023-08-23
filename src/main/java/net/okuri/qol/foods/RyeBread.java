@@ -6,6 +6,9 @@ import net.okuri.qol.superItems.SuperWheat;
 import org.bukkit.NamespacedKey;
 
 public class RyeBread extends Bread{
-    private Component display = Component.text("Rye Bread").color(NamedTextColor.DARK_GREEN);
-    private NamespacedKey wheatkey = SuperWheat.xkey;
+
+    public RyeBread(){
+        super.display = Component.text("Rye Bread").color(NamedTextColor.DARK_GREEN);
+        super.wheatkey = SuperWheat.xkey;
+    }
 }

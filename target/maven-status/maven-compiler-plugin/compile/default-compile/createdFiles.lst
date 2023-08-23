@@ -22,6 +22,7 @@ net\okuri\qol\superItems\SuperItemType.class
 net\okuri\qol\drinks\distillation\Distillation.class
 net\okuri\qol\drinks\WhiskyWithIce.class
 net\okuri\qol\ChatGenerator.class
+net\okuri\qol\foods\Food.class
 net\okuri\qol\drinks\maturation\Maturation.class
 net\okuri\qol\superCraft\SuperCraftable.class
 net\okuri\qol\drinks\maturation\Maturation$1.class

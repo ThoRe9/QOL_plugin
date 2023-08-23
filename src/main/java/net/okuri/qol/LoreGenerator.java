@@ -73,4 +73,12 @@ public class LoreGenerator {
         this.important.add(lore);
         return this;
     }
+    public LoreGenerator addFoodLevelLore(int foodLevel) {
+        this.parameters.add("Food Level: " + StringUtils.repeat("🍈" , foodLevel/2) + StringUtils.repeat("🍉", foodLevel%2));
+        return this;
+    }
+    public LoreGenerator addFoodSaturationLore(float foodSaturation) {
+        this.parameters.add("Food Saturation: " + StringUtils.repeat('|', (int)(foodSaturation * 10)));
+        return this;
+    }
 }
