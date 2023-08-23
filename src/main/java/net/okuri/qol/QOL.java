@@ -3,6 +3,9 @@ package net.okuri.qol;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.drinks.*;
+import net.okuri.qol.foods.BarleyBread;
+import net.okuri.qol.foods.Bread;
+import net.okuri.qol.foods.RyeBread;
 import net.okuri.qol.superCraft.SuperCraft;
 import net.okuri.qol.superCraft.SuperCraftRecipe;
 import net.okuri.qol.superItems.SuperItemType;
@@ -138,6 +141,33 @@ public final class QOL extends JavaPlugin {
         HR.setIngredient('W', Material.POTION);
         HR.setIngredient('S', Material.POTION);
         Bukkit.addRecipe(HR);
+
+        // Bread
+        ItemStack superBread = new ItemStack(Material.BREAD, 1);
+        SuperCraftRecipe superBreadRecipe = new SuperCraftRecipe(superBread);
+        superBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
+        superBreadRecipe.addSuperIngredient('W', SuperItemType.WHEAT);
+        superBreadRecipe.setResultClass(new Bread());
+        superCraft.addDrinkCraftRecipe(superBreadRecipe);
+        // パンは元からレシピが存在するので以下略
+
+        // RyeBread
+        ItemStack superRyeBread = new ItemStack(Material.BREAD, 1);
+        SuperCraftRecipe superRyeBreadRecipe = new SuperCraftRecipe(superRyeBread);
+        superRyeBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
+        superRyeBreadRecipe.addSuperIngredient('W', SuperItemType.RYE);
+        superRyeBreadRecipe.setResultClass(new RyeBread());
+        superCraft.addDrinkCraftRecipe(superRyeBreadRecipe);
+
+        // BarleyBread
+        ItemStack superBarleyBread = new ItemStack(Material.BREAD, 1);
+        SuperCraftRecipe superBarleyBreadRecipe = new SuperCraftRecipe(superBarleyBread);
+        superBarleyBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
+        superBarleyBreadRecipe.addSuperIngredient('W', SuperItemType.BARLEY);
+        superBarleyBreadRecipe.setResultClass(new BarleyBread());
+        superCraft.addDrinkCraftRecipe(superBarleyBreadRecipe);
+
+
 
     }
 

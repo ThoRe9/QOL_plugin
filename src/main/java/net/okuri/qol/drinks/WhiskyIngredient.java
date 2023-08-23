@@ -135,20 +135,20 @@ public class WhiskyIngredient extends SuperCraftable {
             this.quality = coalpdc.get(SuperCoal.qualitykey, PersistentDataType.DOUBLE);
         } else{throw new IllegalArgumentException("coal is not super");}
 
-        if (barleypdc.has(SuperWheat.dataxkey, PersistentDataType.DOUBLE)){
-            double x = barleypdc.get(SuperWheat.dataxkey, PersistentDataType.DOUBLE);
+        if (barleypdc.has(SuperWheat.xkey, PersistentDataType.DOUBLE)){
+            double x = barleypdc.get(SuperWheat.xkey, PersistentDataType.DOUBLE);
             this.x = x;
             this.hasteLevel = this.calcLevel(x);
             this.hasteDuration = this.calcDuration(x);
 
-            if (barleypdc.has(SuperWheat.dataykey, PersistentDataType.DOUBLE)){
-                double y = barleypdc.get(SuperWheat.dataykey, PersistentDataType.DOUBLE);
+            if (barleypdc.has(SuperWheat.ykey, PersistentDataType.DOUBLE)){
+                double y = barleypdc.get(SuperWheat.ykey, PersistentDataType.DOUBLE);
                 this.y = y;
                 this.speedLevel = this.calcLevel(y);
                 this.speedDuration = this.calcDuration(y);
 
-                if (barleypdc.has(SuperWheat.datazkey, PersistentDataType.DOUBLE)){
-                    double z = barleypdc.get(SuperWheat.datazkey, PersistentDataType.DOUBLE);
+                if (barleypdc.has(SuperWheat.zkey, PersistentDataType.DOUBLE)){
+                    double z = barleypdc.get(SuperWheat.zkey, PersistentDataType.DOUBLE);
                     this.z = z;
                     this.nightVisionLevel = this.calcLevel(z);
                     this.nightVisionDuration = this.calcDuration(z);

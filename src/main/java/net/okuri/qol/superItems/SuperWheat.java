@@ -3,16 +3,12 @@ package net.okuri.qol.superItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
-import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SuperWheat extends SuperItem{
     private final ItemStack wheat = new ItemStack(Material.WHEAT);
@@ -27,9 +23,9 @@ public class SuperWheat extends SuperItem{
     private double px;
     private double py;
     private double pz;
-    public static NamespacedKey dataxkey = new NamespacedKey("qol", "super_wheat_data_x");
-    public static NamespacedKey dataykey = new NamespacedKey("qol", "super_wheat_data_y");
-    public static NamespacedKey datazkey = new NamespacedKey("qol", "super_wheat_data_z");
+    public static NamespacedKey xkey = new NamespacedKey("qol", "super_wheat_data_x");
+    public static NamespacedKey ykey = new NamespacedKey("qol", "super_wheat_data_y");
+    public static NamespacedKey zkey = new NamespacedKey("qol", "super_wheat_data_z");
     public static NamespacedKey namekey = new NamespacedKey("qol", "super_wheat_name");
     
     public SuperWheat(int x, int y, int z, String name, double temp, int biomeID, double quality) {
@@ -60,9 +56,9 @@ public class SuperWheat extends SuperItem{
         ItemMeta meta = wheat.getItemMeta();
 
         meta.getPersistentDataContainer().set(typekey, PersistentDataType.STRING, this.superItemType.getStringType());
-        meta.getPersistentDataContainer().set(dataxkey, PersistentDataType.DOUBLE, this.px);
-        meta.getPersistentDataContainer().set(dataykey, PersistentDataType.DOUBLE, this.py);
-        meta.getPersistentDataContainer().set(datazkey, PersistentDataType.DOUBLE, this.pz);
+        meta.getPersistentDataContainer().set(xkey, PersistentDataType.DOUBLE, this.px);
+        meta.getPersistentDataContainer().set(ykey, PersistentDataType.DOUBLE, this.py);
+        meta.getPersistentDataContainer().set(zkey, PersistentDataType.DOUBLE, this.pz);
         meta.getPersistentDataContainer().set(namekey, PersistentDataType.STRING, this.name);
 
         // 名前を設定
