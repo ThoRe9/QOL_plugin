@@ -3,6 +3,11 @@ package net.okuri.qol;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.drinks.*;
+import net.okuri.qol.foods.BarleyBread;
+import net.okuri.qol.foods.Bread;
+import net.okuri.qol.foods.RyeBread;
+import net.okuri.qol.superCraft.SuperCraft;
+import net.okuri.qol.superCraft.SuperCraftRecipe;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -11,10 +16,8 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.potion.Potion;
 
 
 public final class QOL extends JavaPlugin {
@@ -24,11 +27,11 @@ public final class QOL extends JavaPlugin {
         // Plugin startup logic
 
         // drinkCraftsには特殊レシピを登録する
-        DrinkCraft drinkCraft = new DrinkCraft();
+        SuperCraft superCraft = new SuperCraft();
         getServer().getPluginManager().registerEvents(new EventListener(), this);
-        getServer().getPluginManager().registerEvents(drinkCraft, this);
+        getServer().getPluginManager().registerEvents(superCraft, this);
         getServer().getPluginManager().registerEvents(new SignFunction(), this);
-        registerRecipes(drinkCraft);
+        registerRecipes(superCraft);
         getCommand("getenv").setExecutor(new Commands());
         getCommand("matsign").setExecutor(new Commands());
 
@@ -45,7 +48,7 @@ public final class QOL extends JavaPlugin {
         getLogger().info("QOL Plugin Disabled");
     }
 
-    public void registerRecipes(DrinkCraft drinkCraft) {
+    public void registerRecipes(SuperCraft superCraft) {
     //ここに特殊レシピ(作業台)を登録する
         // 注意: VANILLAのレシピも登録しておくこと！！材料増えるバグが発生するよ。
 
@@ -58,14 +61,13 @@ public final class QOL extends JavaPlugin {
         whiskyMeta.displayName(display);
         whiskyMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE!").generateLore());
         whisky.setItemMeta(whiskyMeta);
-        DrinkCraftRecipe whiskyRecipe = new DrinkCraftRecipe(whisky);
+        SuperCraftRecipe whiskyRecipe = new SuperCraftRecipe(whisky);
         whiskyRecipe.setShape(new String[]{" W ", " B ", " C "});
         whiskyRecipe.addSuperIngredient('W', SuperItemType.BARLEY);
         whiskyRecipe.addIngredient('B', Material.WATER_BUCKET);
         whiskyRecipe.addSuperIngredient('C', SuperItemType.COAL);
-        whiskyRecipe.setDrinkCraftType(DrinkCraftType.WHISKY_INGREDIENT);
         whiskyRecipe.setResultClass(new WhiskyIngredient());
-        drinkCraft.addDrinkCraftRecipe(whiskyRecipe);
+        superCraft.addDrinkCraftRecipe(whiskyRecipe);
 
         ShapedRecipe WVR = new ShapedRecipe(new NamespacedKey("qol","whisky_ingredient"), whisky);
         WVR.shape(" W ", " B ", " C ");
@@ -81,14 +83,13 @@ public final class QOL extends JavaPlugin {
         wwim.displayName(Component.text("Whisky With Ice").color(NamedTextColor.GOLD));
         wwim.lore(new LoreGenerator().addImportantLore("WRONG RECIPE!").generateLore());
         whiskyWithIce.setItemMeta(wwim);
-        DrinkCraftRecipe whiskyWithIceRecipe = new DrinkCraftRecipe(whiskyWithIce);
+        SuperCraftRecipe whiskyWithIceRecipe = new SuperCraftRecipe(whiskyWithIce);
         whiskyWithIceRecipe.setShape(new String[]{" I ", " W ", "BBB"});
         whiskyWithIceRecipe.addSuperIngredient('W', SuperItemType.WHISKY);
         whiskyWithIceRecipe.addIngredient('I', Material.ICE);
         whiskyWithIceRecipe.addIngredient('B', Material.GLASS_BOTTLE);
-        whiskyWithIceRecipe.setDrinkCraftType(DrinkCraftType.WHISKY_WITH_ICE);
         whiskyWithIceRecipe.setResultClass(new WhiskyWithIce());
-        drinkCraft.addDrinkCraftRecipe(whiskyWithIceRecipe);
+        superCraft.addDrinkCraftRecipe(whiskyWithIceRecipe);
 
         ShapedRecipe WWIR = new ShapedRecipe(new NamespacedKey("qol","whisky_with_ice"), whiskyWithIce);
         WWIR.shape(" I ", " W ", "BBB");
@@ -104,13 +105,13 @@ public final class QOL extends JavaPlugin {
         sodaMeta.displayName(Component.text("Soda").color(NamedTextColor.AQUA));
         sodaMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE!").generateLore());
         soda.setItemMeta(sodaMeta);
-        DrinkCraftRecipe sodaRecipe = new DrinkCraftRecipe(soda);
+        SuperCraftRecipe sodaRecipe = new SuperCraftRecipe(soda);
         sodaRecipe.setShape(new String[]{"CCC", " W ", "BBB"});
         sodaRecipe.addSuperIngredient('C', SuperItemType.COAL);
         sodaRecipe.addIngredient('W', Material.WATER_BUCKET);
         sodaRecipe.addIngredient('B', Material.GLASS_BOTTLE);
         sodaRecipe.setResultClass(new Soda());
-        drinkCraft.addDrinkCraftRecipe(sodaRecipe);
+        superCraft.addDrinkCraftRecipe(sodaRecipe);
 
         ShapedRecipe SR = new ShapedRecipe(new NamespacedKey("qol","soda"), soda);
         SR.shape("CCC", " W ", "BBB");
@@ -126,13 +127,13 @@ public final class QOL extends JavaPlugin {
         highballMeta.displayName(Component.text("Highball").color(NamedTextColor.GOLD));
         highballMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE!").generateLore());
         highball.setItemMeta(highballMeta);
-        DrinkCraftRecipe highballRecipe = new DrinkCraftRecipe(highball);
+        SuperCraftRecipe highballRecipe = new SuperCraftRecipe(highball);
         highballRecipe.setShape(new String[]{" I ", " W ", "SSS"});
         highballRecipe.addSuperIngredient('W', SuperItemType.WHISKY);
         highballRecipe.addIngredient('I', Material.ICE);
         highballRecipe.addSuperIngredient('S', SuperItemType.SODA);
         highballRecipe.setResultClass(new Highball());
-        drinkCraft.addDrinkCraftRecipe(highballRecipe);
+        superCraft.addDrinkCraftRecipe(highballRecipe);
 
         ShapedRecipe HR = new ShapedRecipe(new NamespacedKey("qol","highball"), highball);
         HR.shape(" I ", " W ", "SSS");
@@ -140,6 +141,33 @@ public final class QOL extends JavaPlugin {
         HR.setIngredient('W', Material.POTION);
         HR.setIngredient('S', Material.POTION);
         Bukkit.addRecipe(HR);
+
+        // Bread
+        ItemStack superBread = new ItemStack(Material.BREAD, 1);
+        SuperCraftRecipe superBreadRecipe = new SuperCraftRecipe(superBread);
+        superBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
+        superBreadRecipe.addSuperIngredient('W', SuperItemType.WHEAT);
+        superBreadRecipe.setResultClass(new Bread());
+        superCraft.addDrinkCraftRecipe(superBreadRecipe);
+        // パンは元からレシピが存在するので以下略
+
+        // RyeBread
+        ItemStack superRyeBread = new ItemStack(Material.BREAD, 1);
+        SuperCraftRecipe superRyeBreadRecipe = new SuperCraftRecipe(superRyeBread);
+        superRyeBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
+        superRyeBreadRecipe.addSuperIngredient('W', SuperItemType.RYE);
+        superRyeBreadRecipe.setResultClass(new RyeBread());
+        superCraft.addDrinkCraftRecipe(superRyeBreadRecipe);
+
+        // BarleyBread
+        ItemStack superBarleyBread = new ItemStack(Material.BREAD, 1);
+        SuperCraftRecipe superBarleyBreadRecipe = new SuperCraftRecipe(superBarleyBread);
+        superBarleyBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
+        superBarleyBreadRecipe.addSuperIngredient('W', SuperItemType.BARLEY);
+        superBarleyBreadRecipe.setResultClass(new BarleyBread());
+        superCraft.addDrinkCraftRecipe(superBarleyBreadRecipe);
+
+
 
     }
 

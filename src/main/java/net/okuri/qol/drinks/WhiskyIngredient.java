@@ -3,8 +3,8 @@ package net.okuri.qol.drinks;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperCoal;
-import net.okuri.qol.superItems.SuperItem;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.SuperWheat;
 import org.bukkit.Material;
@@ -15,12 +15,10 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 // WhiskyIngredientは、Whiskyの材料となるアイテムです。これをMaturingBarrelに入れることで、Whiskyを作ることができます。
-public class WhiskyIngredient extends DrinkCraftable {
+public class WhiskyIngredient extends SuperCraftable {
 
     public static NamespacedKey xKey = new NamespacedKey("qol", "qol_x");
     public static NamespacedKey yKey = new NamespacedKey("qol", "qol_y");
@@ -137,20 +135,20 @@ public class WhiskyIngredient extends DrinkCraftable {
             this.quality = coalpdc.get(SuperCoal.qualitykey, PersistentDataType.DOUBLE);
         } else{throw new IllegalArgumentException("coal is not super");}
 
-        if (barleypdc.has(SuperWheat.dataxkey, PersistentDataType.DOUBLE)){
-            double x = barleypdc.get(SuperWheat.dataxkey, PersistentDataType.DOUBLE);
+        if (barleypdc.has(SuperWheat.xkey, PersistentDataType.DOUBLE)){
+            double x = barleypdc.get(SuperWheat.xkey, PersistentDataType.DOUBLE);
             this.x = x;
             this.hasteLevel = this.calcLevel(x);
             this.hasteDuration = this.calcDuration(x);
 
-            if (barleypdc.has(SuperWheat.dataykey, PersistentDataType.DOUBLE)){
-                double y = barleypdc.get(SuperWheat.dataykey, PersistentDataType.DOUBLE);
+            if (barleypdc.has(SuperWheat.ykey, PersistentDataType.DOUBLE)){
+                double y = barleypdc.get(SuperWheat.ykey, PersistentDataType.DOUBLE);
                 this.y = y;
                 this.speedLevel = this.calcLevel(y);
                 this.speedDuration = this.calcDuration(y);
 
-                if (barleypdc.has(SuperWheat.datazkey, PersistentDataType.DOUBLE)){
-                    double z = barleypdc.get(SuperWheat.datazkey, PersistentDataType.DOUBLE);
+                if (barleypdc.has(SuperWheat.zkey, PersistentDataType.DOUBLE)){
+                    double z = barleypdc.get(SuperWheat.zkey, PersistentDataType.DOUBLE);
                     this.z = z;
                     this.nightVisionLevel = this.calcLevel(z);
                     this.nightVisionDuration = this.calcDuration(z);

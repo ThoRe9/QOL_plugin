@@ -3,6 +3,7 @@ package net.okuri.qol.drinks;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.superCraft.SuperCraftable;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -10,7 +11,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 
-public class Highball extends DrinkCraftable{
+public class Highball extends SuperCraftable {
     private ItemStack whisky = null;
     private ItemStack[] matrix = null;
     private double strength = 1.0;

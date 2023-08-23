@@ -1,16 +1,15 @@
-package net.okuri.qol.drinks;
+package net.okuri.qol.superCraft;
 
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.Bukkit;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class DrinkCraftRecipe {
+public class SuperCraftRecipe {
     // 特殊レシピの判定ができる
     // Materialだけでなく、SuperItemTypeも判定できる
 
@@ -18,17 +17,16 @@ public class DrinkCraftRecipe {
     public String[] shape = new String[3];
     public Map<Character, Material> ingredients = new HashMap<Character, Material>();
     public Map<Character, SuperItemType> superIngredients = new HashMap<Character, SuperItemType>();
-    public DrinkCraftType drinkCraftType = null;
-    private DrinkCraftable resultClass = null;
+    private SuperCraftable resultClass = null;
 
-    public DrinkCraftRecipe(ItemStack result, String[] shape, Map<Character, Material> ingredients, Map<Character, SuperItemType> superIngredients) {
+    public SuperCraftRecipe(ItemStack result, String[] shape, Map<Character, Material> ingredients, Map<Character, SuperItemType> superIngredients) {
         this.result = result;
         this.shape = shape;
         this.ingredients = ingredients;
         this.superIngredients = superIngredients;
     }
 
-    public DrinkCraftRecipe(ItemStack result){
+    public SuperCraftRecipe(ItemStack result){
         this.result = result;
     }
 
@@ -80,11 +78,11 @@ public class DrinkCraftRecipe {
         return true;
     }
 
-    public DrinkCraftRecipe(String[] shape) {
+    public SuperCraftRecipe(String[] shape) {
         this.shape = shape;
     }
 
-    public DrinkCraftRecipe() {
+    public SuperCraftRecipe() {
     }
 
     public void setShape(String[] shape) {
@@ -107,17 +105,13 @@ public class DrinkCraftRecipe {
         this.superIngredients.put(key, value);
     }
 
-    public DrinkCraftRecipe getRecipe() {
+    public SuperCraftRecipe getRecipe() {
         return this;
     }
-
-    public void setDrinkCraftType(DrinkCraftType drinkCraftType) {
-        this.drinkCraftType = drinkCraftType;
-    }
-    public void setResultClass(DrinkCraftable resultClass) {
+    public void setResultClass(SuperCraftable resultClass) {
         this.resultClass = resultClass;
     }
-    public DrinkCraftable getResultClass() {
+    public SuperCraftable getResultClass() {
         return this.resultClass;
     }
 

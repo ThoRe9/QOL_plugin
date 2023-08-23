@@ -19,6 +19,7 @@ public enum SuperItemType {
     STRAIGHT_WHISKY("STRAIGHT_WHISKY"),
     HIGHBALL("HIGHBALL"),
     WHISKY_WITH_WATER("WHISKY_WITH_WATER"),
+    BREAD("BREAD"),
     SODA("SODA");
 
     private String type;

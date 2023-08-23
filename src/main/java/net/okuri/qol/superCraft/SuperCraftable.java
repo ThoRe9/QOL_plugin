@@ -1,9 +1,9 @@
-package net.okuri.qol.drinks;
+package net.okuri.qol.superCraft;
 
 import net.okuri.qol.superItems.SuperItem;
 import org.bukkit.inventory.ItemStack;
 
-public abstract class DrinkCraftable extends SuperItem {
+public abstract class SuperCraftable extends SuperItem {
     // matrixは作業台の材料を記憶する
     // 注意!!
     // DrinkCraftで呼び出さられるのはsetMatrix,ののちにgetSuperItemが呼び出される
