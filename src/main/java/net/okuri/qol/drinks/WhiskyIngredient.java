@@ -29,7 +29,7 @@ public class WhiskyIngredient extends SuperCraftable {
     public static NamespacedKey distilledKey = new NamespacedKey("qol", "qol_distilled");
     private SuperItemType superItemType = SuperItemType.WHISKY_INGREDIENT;
     private ItemStack itemStack = null;
-    private ItemStack[] matrix = null;
+    protected ItemStack[] matrix = null;
     private double x = 0.0;
     private double y = 0.0;
     private double z = 0.0;

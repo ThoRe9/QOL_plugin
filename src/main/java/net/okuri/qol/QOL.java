@@ -167,6 +167,29 @@ public final class QOL extends JavaPlugin {
         superBarleyBreadRecipe.setResultClass(new BarleyBread());
         superCraft.addDrinkCraftRecipe(superBarleyBreadRecipe);
 
+        // BeerIngredient
+        ItemStack beer = new ItemStack(Material.POTION, 1);
+        PotionMeta beerMeta = (PotionMeta)beer.getItemMeta();
+        beerMeta.setColor(Color.fromRGB(255,255,255));
+        beerMeta.displayName(Component.text("Beer Ingredients").color(NamedTextColor.GOLD));
+        beerMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE!").generateLore());
+        beer.setItemMeta(beerMeta);
+        SuperCraftRecipe beerRecipe = new SuperCraftRecipe(beer);
+        beerRecipe.setShape(new String[]{" W ", " B ", " V "});
+        beerRecipe.addSuperIngredient('W', SuperItemType.BARLEY);
+        beerRecipe.addIngredient('B', Material.WATER_BUCKET);
+        beerRecipe.addIngredient('V', Material.VINE);
+        beerRecipe.setResultClass(new BeerIngredient());
+        superCraft.addDrinkCraftRecipe(beerRecipe);
+
+        ShapedRecipe BIR = new ShapedRecipe(new NamespacedKey("qol","beer_ingredient"), beer);
+        BIR.shape(" W ", " B ", " V ");
+        BIR.setIngredient('W', Material.WHEAT);
+        BIR.setIngredient('B', Material.WATER_BUCKET);
+        BIR.setIngredient('V', Material.VINE);
+        Bukkit.addRecipe(BIR);
+
+
 
 
     }
