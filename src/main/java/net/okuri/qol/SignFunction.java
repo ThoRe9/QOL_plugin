@@ -2,6 +2,7 @@ package net.okuri.qol;
 
 import net.kyori.adventure.text.Component;
 import net.okuri.qol.drinks.WhiskyIngredient;
+import net.okuri.qol.drinks.maturation.Maturation;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -71,7 +72,7 @@ public class SignFunction implements Listener {
                     ItemStack item = barrelData.getInventory().getContents()[0];
                     ItemMeta meta = item.getItemMeta();
                     if (meta.getPersistentDataContainer().has(SuperItemType.typeKey, PersistentDataType.STRING)){
-                        if (SuperItemType.valueOf(meta.getPersistentDataContainer().get(SuperItemType.typeKey, PersistentDataType.STRING)).isMaturationable()){
+                        if (Maturation.isMaturationable(SuperItemType.valueOf(meta.getPersistentDataContainer().get(SuperItemType.typeKey, PersistentDataType.STRING)))){
 
                             event.line(0, Component.text("[QOL]"));
                             event.line(1, Component.text("[Maturation]"));

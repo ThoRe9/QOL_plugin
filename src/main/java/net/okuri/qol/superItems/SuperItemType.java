@@ -39,10 +39,6 @@ public enum SuperItemType {
         return this.type;
     }
 
-    public boolean isMaturationable() {
-        return this == WHISKY_INGREDIENT;
-    }
-
     public static SuperItemType getTypeFromString(String type) {
         for (SuperItemType superItemType : SuperItemType.values()) {
             if (superItemType.getStringType().equals(type)) {
