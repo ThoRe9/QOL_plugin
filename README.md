@@ -10,9 +10,9 @@ Minecraft 1.20.1 paper用プラグイン
 ・ウィスキー関連SuperItemの追加
 ・Maturation, Distillationの追加
 ・独自のProtectedBlockシステム(上のやつ用)
+・ビール関連SuperItem
 
 TODOリスト
-・ビール関連SuperItem
 ・焼酎・日本酒関連SuperItem
 ・ワイン・ブランデー関連SuperItem
 ・Foodsの追加
