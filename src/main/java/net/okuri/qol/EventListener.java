@@ -203,7 +203,7 @@ public class EventListener implements Listener {
             // debug
             new ChatGenerator().addDebug(String.valueOf(n)).sendMessage(player);
 
-            if (n < 10) {
+            if (n < 1) {
                 // SuperWheat を与える
                 new ChatGenerator().addSuccess("You got a SuperWheat!").sendMessage(player);
 
