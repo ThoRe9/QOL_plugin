@@ -95,7 +95,7 @@ public class Beer {
             this.maxDuration = 6000;
         } else {
             tempLine = 0.75;
-            dayLine = 2;
+            dayLine = 1;
             this.superItemType = SuperItemType.ALE_BEER;
             this.maxDuration = 12000;
         }
