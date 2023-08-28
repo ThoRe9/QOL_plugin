@@ -48,6 +48,7 @@ public class Whisky extends SuperItem {
         // アイテム生成
         ItemStack whisky = new ItemStack(Material.POTION, 1);
         PotionMeta whiskyMeta = (PotionMeta) whisky.getItemMeta();
+        whiskyMeta.setCustomModelData(this.superItemType.getCustomModelData());
         whiskyMeta.displayName(Component.text("Whisky").color(NamedTextColor.GOLD));
         LoreGenerator loreGenerator = new LoreGenerator();
         loreGenerator.addParametersLore("Age: ", this.days/70.0);

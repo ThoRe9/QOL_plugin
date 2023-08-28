@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.superCraft.SuperCraftable;
+import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -13,6 +14,7 @@ import org.bukkit.potion.PotionEffect;
 
 public class Highball extends SuperCraftable {
     private ItemStack whisky = null;
+    private SuperItemType superItemType = SuperItemType.HIGHBALL;
     private ItemStack[] matrix = null;
     private double strength = 1.0;
 
@@ -22,6 +24,8 @@ public class Highball extends SuperCraftable {
         ItemStack highball = new ItemStack(Material.POTION, 3);
         PotionMeta meta = (PotionMeta)highball.getItemMeta();
         PotionMeta whiskyMeta = (PotionMeta) this.whisky.getItemMeta();
+        meta.setCustomModelData(this.superItemType.getCustomModelData());
+        meta.getPersistentDataContainer().set(SuperItemType.typeKey, PersistentDataType.STRING, this.superItemType.toString());
         for (PotionEffect effect : whiskyMeta.getCustomEffects()) {
             PotionEffect newEffect = new PotionEffect(effect.getType(), (int)Math.round(effect.getDuration() * this.strength), effect.getAmplifier(), effect.isAmbient(), effect.hasParticles(), effect.hasIcon());
             meta.addCustomEffect(newEffect, true);

@@ -53,6 +53,7 @@ public class Beer {
         LoreGenerator lore = new LoreGenerator();
         // パラメータ計算
         calcParam();
+        meta.setCustomModelData(this.superItemType.getCustomModelData());
         // Ale Beer or Lager Beer
         if (this.superItemType == SuperItemType.ALE_BEER){
             meta.displayName(Component.text("Ale Beer").color(NamedTextColor.GOLD));
