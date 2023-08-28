@@ -18,7 +18,7 @@ TODOリスト
 ・Foodsの追加
 ・その場所の気候が分かるアイテム
 ・Maturationの時間を飛ばせるアイテム
-・より洗練されたDistillation
+・より洗練されたDistillationのシステム(新SuperCraftのような感じにする)
 ・SuperWheat, SuperCoalのQualityがjobのskillによって変化する(Jobs rebornを使う?)
 ・SuperToolsシステムの追加!!(カスタムエンチャント)
 ・家畜関連へのSuperItem化
