@@ -8,7 +8,7 @@ public abstract class SuperCraftable extends SuperItem {
     // 注意!!
     // DrinkCraftで呼び出さられるのはsetMatrix,ののちにgetSuperItemが呼び出される
     //
-    private ItemStack[] matrix;
+    protected ItemStack[] matrix;
 
     public void setMatrix(ItemStack[] matrix) {
         this.matrix = matrix;

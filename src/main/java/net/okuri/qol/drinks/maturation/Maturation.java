@@ -9,19 +9,22 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Maturation {
     private LocalDateTime start;
     private Barrel barrel;
     private ItemStack ingredient;
-    private ArrayList<SuperItemType> maturationableItems = new ArrayList<>();
+    // ここにMaturation可能なアイテムを追加
+    private static ArrayList<SuperItemType> maturationableItems = new ArrayList<>(Arrays.asList(
+            SuperItemType.WHISKY_INGREDIENT,
+            SuperItemType.BEER_INGREDIENT
+    ));
 
     public Maturation(LocalDateTime start, Barrel barrel){
         this.start = start;
         this.barrel = barrel;
         this.ingredient = barrel.getInventory().getItem(0);
-        // ここにMaturation可能なアイテムを追加
-        this.maturationableItems.add(SuperItemType.WHISKY_INGREDIENT);
     }
 
     public ItemStack getResult(){
@@ -36,6 +39,9 @@ public class Maturation {
             case WHISKY_INGREDIENT:
                 result = getWhisky();
                 break;
+            case BEER_INGREDIENT:
+                result = getBeer();
+                break;
             default:
                 break;
         }
@@ -43,7 +49,7 @@ public class Maturation {
 
     }
 
-    public boolean isMaturationable(SuperItemType superItemType){
+    public static boolean isMaturationable(SuperItemType superItemType){
         return maturationableItems.contains(superItemType);
     }
 
@@ -51,8 +57,14 @@ public class Maturation {
         Whisky whisky = new Whisky(this.ingredient, this.start);
         whisky.setTemperature(this.barrel.getWorld().getTemperature(this.barrel.getX(), this.barrel.getY(), this.barrel.getZ()));
         whisky.setHumidity(this.barrel.getWorld().getHumidity(this.barrel.getX(), this.barrel.getY(), this.barrel.getZ()));
-        Bukkit.getServer().getLogger().info(whisky.toString());
+        //Bukkit.getServer().getLogger().info(whisky.toString());
         return whisky.getSuperItem();
+    }
+    private ItemStack getBeer(){
+        Beer beer = new Beer(this.ingredient, this.start);
+        beer.setTemperature(this.barrel.getWorld().getTemperature(this.barrel.getX(), this.barrel.getY(), this.barrel.getZ()));
+        Bukkit.getServer().getLogger().info(beer.toString());
+        return beer.getSuperItem();
     }
 
 
