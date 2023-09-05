@@ -28,7 +28,7 @@ public final class QOL extends JavaPlugin {
 
         // drinkCraftsには特殊レシピを登録する
         SuperCraft superCraft = new SuperCraft();
-        getServer().getPluginManager().registerEvents(new EventListener(), this);
+        getServer().getPluginManager().registerEvents(new EventListener(this), this);
         getServer().getPluginManager().registerEvents(superCraft, this);
         getServer().getPluginManager().registerEvents(new SignFunction(), this);
         registerRecipes(superCraft);
@@ -189,6 +189,26 @@ public final class QOL extends JavaPlugin {
         BIR.setIngredient('V', Material.VINE);
         Bukkit.addRecipe(BIR);
 
+        // ストゼロ
+        ItemStack st0 = new ItemStack(Material.POTION, 1);
+        PotionMeta st0meta = (PotionMeta) st0.getItemMeta();
+        st0meta.displayName(Component.text("Strong Zero").color(NamedTextColor.GREEN));
+        st0meta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE").generateLore());
+        st0.setItemMeta(st0meta);
+        SuperCraftRecipe st0Recipe = new SuperCraftRecipe(st0);
+        st0Recipe.setShape(new String[]{" B ", " R ", " W "});
+        st0Recipe.addIngredient('B', Material.SWEET_BERRIES);
+        st0Recipe.addSuperIngredient('R', SuperItemType.RICE);
+        st0Recipe.addIngredient('W', Material.POTION);
+        st0Recipe.setResultClass(new StrongZero());
+        superCraft.addDrinkCraftRecipe(st0Recipe);
+
+        ShapedRecipe SZR = new ShapedRecipe(new NamespacedKey("qol","strong_zero"), st0);
+        SZR.shape(" B "," R "," W ");
+        SZR.setIngredient('B', Material.SWEET_BERRIES);
+        SZR.setIngredient('R', Material.WHEAT);
+        SZR.setIngredient('W', Material.POTION);
+        Bukkit.addRecipe(SZR);
 
 
 

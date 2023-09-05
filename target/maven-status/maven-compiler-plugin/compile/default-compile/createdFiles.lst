@@ -18,6 +18,7 @@ net\okuri\qol\foods\Bread.class
 net\okuri\qol\Commands.class
 net\okuri\qol\ProtectedBlock.class
 net\okuri\qol\superItems\SuperWheat.class
+net\okuri\qol\drinks\StrongZero.class
 net\okuri\qol\SignFunction.class
 net\okuri\qol\superItems\SuperItemType.class
 net\okuri\qol\drinks\BeerIngredient.class

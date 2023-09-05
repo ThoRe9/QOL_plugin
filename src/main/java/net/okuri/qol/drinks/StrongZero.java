@@ -2,6 +2,7 @@ package net.okuri.qol.drinks;
 
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.superCraft.SuperCraftable;
+import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -26,7 +27,7 @@ public class StrongZero extends SuperCraftable {
 
     @Override
     public ItemStack getSuperItem() {
-        ItemStack strongZero = new ItemStack(this.rice.getType(), 1);
+        ItemStack strongZero = new ItemStack(Material.POTION, 1);
         PotionMeta meta = (PotionMeta)strongZero.getItemMeta();
         meta.getPersistentDataContainer().set(st0key, PersistentDataType.STRING, "strongzero");
         meta.setDisplayName("Strong Zero");

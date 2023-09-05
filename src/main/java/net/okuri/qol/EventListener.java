@@ -3,6 +3,7 @@ package net.okuri.qol;
 import io.papermc.paper.event.player.PlayerOpenSignEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
+import net.okuri.qol.drinks.StrongZero;
 import net.okuri.qol.drinks.maturation.Maturation;
 import net.okuri.qol.foods.Food;
 import net.okuri.qol.superItems.SuperCoal;
@@ -16,6 +17,7 @@ import org.bukkit.block.data.Directional;
 import org.bukkit.block.sign.Side;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.minecart.HopperMinecart;
+import org.bukkit.event.Event;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.EventHandler;
@@ -26,14 +28,22 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.joml.Random;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
 public class EventListener implements Listener {
+    private JavaPlugin plugin;
+    public EventListener(JavaPlugin plugin) {
+        this.plugin = plugin;
+    }
 
     @EventHandler
     public void PlayerOpenSignEvent(PlayerOpenSignEvent event){
@@ -120,6 +130,46 @@ public class EventListener implements Listener {
             }
         }
 
+        // ストゼロの処理
+        this.St0Event(player, item, meta);
+    }
+    private void St0Event(Player player, ItemStack item, ItemMeta meta){
+        // ストゼロの効果
+        if (meta.getPersistentDataContainer().has(StrongZero.st0key, PersistentDataType.STRING)){
+            if(Objects.equals(meta.getPersistentDataContainer().get(StrongZero.st0key, PersistentDataType.STRING), "strongzero")) {
+                new ChatGenerator().addDebug("DRINKED st0").sendMessage(player);
+                // 飲むのが1回目の場合 攻撃力上昇、速度低下の効果を5分プレイヤーに与える
+                if (!player.getPersistentDataContainer().has(StrongZero.st0key, PersistentDataType.INTEGER)) {
+                    player.getPersistentDataContainer().set(StrongZero.st0key, PersistentDataType.INTEGER, 1);
+                    new ChatGenerator().addSuccess("You got buff!").sendMessage(player);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 6000, 1, false, false));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 6000, 1, false, false));
+                    // 5分後、弱体化の効果5分を与える
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 6000, 1, false, false));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 6000, 1, false, false));
+                    }, 6000);
+                }
+                // 飲むのが2回目の場合 攻撃力上昇、速度低下の効果を10分プレイヤーに与える
+                else if (player.getPersistentDataContainer().get(StrongZero.st0key, PersistentDataType.INTEGER) == 1) {
+                    player.getPersistentDataContainer().set(StrongZero.st0key, PersistentDataType.INTEGER, 2);
+                    new ChatGenerator().addSuccess("You got buff!").sendMessage(player);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 12000, 2, false, false));
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 12000, 2, false, false));
+                    // 10分後、弱体化と吐き気の効果5分を与える。
+                    Bukkit.getScheduler().runTaskLater(plugin, () -> {
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 12000, 2, false, false));
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 12000, 2, false, false));
+                    }, 12000);
+                }
+                // 飲むのが3回目の場合 死亡する
+                else if (player.getPersistentDataContainer().get(StrongZero.st0key, PersistentDataType.INTEGER) <= 2) {
+                    player.damage(1000);
+                    // 回数を0に戻す
+                    player.getPersistentDataContainer().remove(StrongZero.st0key);
+                }
+            }
+        }
     }
 
 
