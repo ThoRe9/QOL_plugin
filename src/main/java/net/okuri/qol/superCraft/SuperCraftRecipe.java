@@ -31,9 +31,9 @@ public class SuperCraftRecipe {
     }
 
     // レシピの判定
-    public boolean checkDrinkRecipe(ItemStack[] matrix){
+    public boolean checkSuperRecipe(ItemStack[] matrix){
 
-        //Bukkit.getServer().getLogger().info("checkDrinkRecipe");
+        //Bukkit.getServer().getLogger().info("checkSuperRecipe");
 
         for (int i = 0; i < 3; i++) {
             String row = shape[i];

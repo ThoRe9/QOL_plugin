@@ -19,7 +19,7 @@ public class SuperCraft implements Listener {
 
     private final ArrayList<SuperCraftRecipe> superCraftRecipes = new ArrayList<>();
 
-    public void addDrinkCraftRecipe(SuperCraftRecipe superCraftRecipe) {
+    public void addSuperCraftRecipe(SuperCraftRecipe superCraftRecipe) {
         superCraftRecipes.add(superCraftRecipe);
     }
 
@@ -33,7 +33,7 @@ public class SuperCraft implements Listener {
 
         // レシピの判定
         for (SuperCraftRecipe superCraftRecipe : superCraftRecipes) {
-            if (superCraftRecipe.checkDrinkRecipe(matrix)) {
+            if (superCraftRecipe.checkSuperRecipe(matrix)) {
                 Bukkit.getLogger().info("SuperCraftRecipe matched!");
                 SuperCraftable result = superCraftRecipe.getResultClass();
                 result.setMatrix(matrix);

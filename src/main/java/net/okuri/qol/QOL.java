@@ -71,7 +71,7 @@ public final class QOL extends JavaPlugin {
         whiskyRecipe.addIngredient('B', Material.WATER_BUCKET);
         whiskyRecipe.addSuperIngredient('C', SuperItemType.COAL);
         whiskyRecipe.setResultClass(new WhiskyIngredient());
-        superCraft.addDrinkCraftRecipe(whiskyRecipe);
+        superCraft.addSuperCraftRecipe(whiskyRecipe);
 
         ShapedRecipe WVR = new ShapedRecipe(new NamespacedKey("qol","whisky_ingredient"), whisky);
         WVR.shape(" W ", " B ", " C ");
@@ -93,7 +93,7 @@ public final class QOL extends JavaPlugin {
         whiskyWithIceRecipe.addIngredient('I', Material.ICE);
         whiskyWithIceRecipe.addIngredient('B', Material.GLASS_BOTTLE);
         whiskyWithIceRecipe.setResultClass(new WhiskyWithIce());
-        superCraft.addDrinkCraftRecipe(whiskyWithIceRecipe);
+        superCraft.addSuperCraftRecipe(whiskyWithIceRecipe);
 
         ShapedRecipe WWIR = new ShapedRecipe(new NamespacedKey("qol","whisky_with_ice"), whiskyWithIce);
         WWIR.shape(" I ", " W ", "BBB");
@@ -115,7 +115,7 @@ public final class QOL extends JavaPlugin {
         sodaRecipe.addIngredient('W', Material.WATER_BUCKET);
         sodaRecipe.addIngredient('B', Material.GLASS_BOTTLE);
         sodaRecipe.setResultClass(new Soda());
-        superCraft.addDrinkCraftRecipe(sodaRecipe);
+        superCraft.addSuperCraftRecipe(sodaRecipe);
 
         ShapedRecipe SR = new ShapedRecipe(new NamespacedKey("qol","soda"), soda);
         SR.shape("CCC", " W ", "BBB");
@@ -137,7 +137,7 @@ public final class QOL extends JavaPlugin {
         highballRecipe.addIngredient('I', Material.ICE);
         highballRecipe.addSuperIngredient('S', SuperItemType.SODA);
         highballRecipe.setResultClass(new Highball());
-        superCraft.addDrinkCraftRecipe(highballRecipe);
+        superCraft.addSuperCraftRecipe(highballRecipe);
 
         ShapedRecipe HR = new ShapedRecipe(new NamespacedKey("qol","highball"), highball);
         HR.shape(" I ", " W ", "SSS");
@@ -152,7 +152,7 @@ public final class QOL extends JavaPlugin {
         superBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
         superBreadRecipe.addSuperIngredient('W', SuperItemType.WHEAT);
         superBreadRecipe.setResultClass(new Bread());
-        superCraft.addDrinkCraftRecipe(superBreadRecipe);
+        superCraft.addSuperCraftRecipe(superBreadRecipe);
         // パンは元からレシピが存在するので以下略
 
         // RyeBread
@@ -161,7 +161,7 @@ public final class QOL extends JavaPlugin {
         superRyeBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
         superRyeBreadRecipe.addSuperIngredient('W', SuperItemType.RYE);
         superRyeBreadRecipe.setResultClass(new RyeBread());
-        superCraft.addDrinkCraftRecipe(superRyeBreadRecipe);
+        superCraft.addSuperCraftRecipe(superRyeBreadRecipe);
 
         // BarleyBread
         ItemStack superBarleyBread = new ItemStack(Material.BREAD, 1);
@@ -169,7 +169,7 @@ public final class QOL extends JavaPlugin {
         superBarleyBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
         superBarleyBreadRecipe.addSuperIngredient('W', SuperItemType.BARLEY);
         superBarleyBreadRecipe.setResultClass(new BarleyBread());
-        superCraft.addDrinkCraftRecipe(superBarleyBreadRecipe);
+        superCraft.addSuperCraftRecipe(superBarleyBreadRecipe);
 
         // BeerIngredient
         ItemStack beer = new ItemStack(Material.POTION, 1);
@@ -184,7 +184,7 @@ public final class QOL extends JavaPlugin {
         beerRecipe.addIngredient('B', Material.WATER_BUCKET);
         beerRecipe.addIngredient('V', Material.VINE);
         beerRecipe.setResultClass(new BeerIngredient());
-        superCraft.addDrinkCraftRecipe(beerRecipe);
+        superCraft.addSuperCraftRecipe(beerRecipe);
 
         ShapedRecipe BIR = new ShapedRecipe(new NamespacedKey("qol","beer_ingredient"), beer);
         BIR.shape(" W ", " B ", " V ");
@@ -205,7 +205,7 @@ public final class QOL extends JavaPlugin {
         st0Recipe.addSuperIngredient('R', SuperItemType.RICE);
         st0Recipe.addIngredient('W', Material.POTION);
         st0Recipe.setResultClass(new StrongZero());
-        superCraft.addDrinkCraftRecipe(st0Recipe);
+        superCraft.addSuperCraftRecipe(st0Recipe);
 
         ShapedRecipe SZR = new ShapedRecipe(new NamespacedKey("qol","strong_zero"), st0);
         SZR.shape(" B "," R "," W ");
