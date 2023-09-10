@@ -68,6 +68,14 @@ public class LoreGenerator {
         this.parameters.add(parameterName + ": " + StringUtils.repeat('|', (int)(parameter * 10)));
         return this;
     }
+    public LoreGenerator addParametersLore(String parameterName, double parameter, boolean isNumber) {
+        if (isNumber) {
+            this.parameters.add(parameterName + ": " + parameter);
+        } else {
+            this.parameters.add(parameterName + ": " + StringUtils.repeat('|', (int)(parameter * 10)));
+        }
+        return this;
+    }
 
     public LoreGenerator addImportantLore(String lore) {
         this.important.add(lore);

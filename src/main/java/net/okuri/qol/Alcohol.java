@@ -25,31 +25,35 @@ public class Alcohol extends BukkitRunnable {
     @Override
     public void run() {
         for (Player player : Bukkit.getOnlinePlayers()){
+            new ChatGenerator().addDebug("alc CHECKing...").sendMessage(player);
             // プレイヤーのAlcoholLevelを取得
             // ない場合は無視
             if (!player.getPersistentDataContainer().has(alcLvKey, PersistentDataType.DOUBLE)) continue;
             double alcLv = player.getPersistentDataContainer().get(alcLvKey, PersistentDataType.DOUBLE);
+            new ChatGenerator().addDebug("alcLv: "+alcLv).sendMessage(player);
             // 一旦効果をリセット
-            player.setWalkSpeed(0.100f);
+            player.setWalkSpeed(0.200f);
+
             player.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1.00);
             // 効果を与える
             // TODO speedを%で指定する方法がわからない
             if (alcLv >= 0.02 && alcLv < 0.05) {
-                player.setWalkSpeed(0.105f);
+                player.setWalkSpeed(0.210f);
             } else if (alcLv >= 0.05 && alcLv < 0.10) {
-                player.setWalkSpeed(0.110f);
+                player.setWalkSpeed(0.220f);
                 player.getAttribute(org.bukkit.attribute.Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(1.05);
             } else if (alcLv >= 0.10 && alcLv < 0.15) {
-                player.setWalkSpeed(0.090f);
+                player.setWalkSpeed(0.190f);
             } else if (alcLv >= 0.15 && alcLv < 0.30) {
-                player.setWalkSpeed(0.085f);
+                player.setWalkSpeed(0.180f);
                 player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.CONFUSION, 200, 0));
             } else if (alcLv >= 0.30 && alcLv < 0.40) {
-                player.setWalkSpeed(0.080f);
+                player.setWalkSpeed(0.150f);
                 player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.CONFUSION, 400, 0));
                 player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.BLINDNESS, 200, 0));
             } else if (alcLv >= 0.40) {
                 player.damage(1000);
+                alcLv = 0.00;
             }
 
             // 0.01減少

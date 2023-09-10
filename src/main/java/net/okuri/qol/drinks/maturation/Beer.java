@@ -2,6 +2,7 @@ package net.okuri.qol.drinks.maturation;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.SuperWheat;
@@ -68,6 +69,8 @@ public class Beer {
             lore.addInfoLore("Heavy stouts lager Beer!!");
         }
         lore.addParametersLore("Age: ", this.timeParam);
+        lore.addParametersLore("Alcohol: ", 0.05, true);
+        lore.addParametersLore("Amount: ", 300.0, true);
         meta.lore(lore.generateLore());
         // PersistentDataContainerにデータを保存
         meta.getPersistentDataContainer().set(SuperItemType.typeKey, PersistentDataType.STRING, this.superItemType.toString());
@@ -79,7 +82,9 @@ public class Beer {
         meta.getPersistentDataContainer().set(new NamespacedKey("qol", "durationamp"), PersistentDataType.DOUBLE, this.durationAmp);
         meta.getPersistentDataContainer().set(new NamespacedKey("qol", "timeparam"), PersistentDataType.DOUBLE, this.timeParam);
         meta.getPersistentDataContainer().set(new NamespacedKey("qol", "tempparam"), PersistentDataType.DOUBLE, this.tempParam);
-
+        meta.getPersistentDataContainer().set(Alcohol.alcPerKey, PersistentDataType.DOUBLE, 0.05);
+        meta.getPersistentDataContainer().set(Alcohol.alcAmountKey, PersistentDataType.DOUBLE, 300.0);
+        meta.getPersistentDataContainer().set(Alcohol.alcKey, PersistentDataType.BOOLEAN, true);
         result.setItemMeta(meta);
         return result;
     }

@@ -2,6 +2,7 @@ package net.okuri.qol.drinks;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
 
 import net.okuri.qol.superCraft.SuperCraftable;
@@ -16,6 +17,8 @@ public class WhiskyWithIce extends SuperCraftable {
     private ItemStack whisky = null;
     private SuperItemType superItemType = SuperItemType.WHISKY_WITH_ICE;
     private ItemStack[] matrix = null;
+    private double alcoholAmount = 30.0;
+    private double alcoholPer = 0.40;
 
     @Override
     public ItemStack getSuperItem() {
@@ -24,9 +27,14 @@ public class WhiskyWithIce extends SuperCraftable {
         PotionMeta Wmeta = (PotionMeta) this.whisky.getItemMeta();
         WWImeta.setCustomModelData(this.superItemType.getCustomModelData());
         WWImeta.getPersistentDataContainer().set(SuperItemType.typeKey, PersistentDataType.STRING, this.superItemType.toString());
+        WWImeta.getPersistentDataContainer().set(Alcohol.alcKey, PersistentDataType.BOOLEAN, true);
+        WWImeta.getPersistentDataContainer().set(Alcohol.alcPerKey, PersistentDataType.DOUBLE, this.alcoholPer);
+        WWImeta.getPersistentDataContainer().set(Alcohol.alcAmountKey, PersistentDataType.DOUBLE, this.alcoholAmount);
         WWImeta.displayName(Component.text("Whisky with Ice").color(NamedTextColor.GOLD));
         LoreGenerator loreGenerator = new LoreGenerator();
         loreGenerator.addInfoLore("Whisky on the rocks!");
+        loreGenerator.addParametersLore("Alcohol: ", this.alcoholPer, true);
+        loreGenerator.addParametersLore("Amount: ", this.alcoholAmount, true);
         WWImeta.lore(loreGenerator.generateLore());
         WWImeta.addCustomEffect(Wmeta.getCustomEffects().get(0), true);
         WWImeta.addCustomEffect(Wmeta.getCustomEffects().get(1), true);
@@ -53,5 +61,6 @@ public class WhiskyWithIce extends SuperCraftable {
 
     private void setting(ItemStack whisky) {
         this.whisky = whisky;
+        this.alcoholPer = whisky.getItemMeta().getPersistentDataContainer().get(Alcohol.alcPerKey, PersistentDataType.DOUBLE);
     }
 }
