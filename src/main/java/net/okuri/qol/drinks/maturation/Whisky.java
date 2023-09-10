@@ -2,6 +2,7 @@ package net.okuri.qol.drinks.maturation;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.superItems.SuperItem;
 import net.okuri.qol.superItems.SuperItemType;
@@ -36,6 +37,7 @@ public class Whisky extends SuperItem {
     private double amountAmplifier;
     private double alcoholLevel;
     private double amplifier;
+    private double alcoholPer = 0.40;
     public static NamespacedKey daysKey = new NamespacedKey("qol", "qol_days");
     @Override
     public ItemStack getSuperItem() {
@@ -54,6 +56,7 @@ public class Whisky extends SuperItem {
         loreGenerator.addParametersLore("Age: ", this.days/70.0);
         loreGenerator.addImportantLore("VERY STRONG ORIGINAL WHISKY");
         loreGenerator.addImportantLore("TOO STRONG TO DRINK!!");
+        loreGenerator.addParametersLore("Alcohol: ", this.alcoholPer, true);
         whiskyMeta.lore(loreGenerator.generateLore());
 
         // 日数に応じて色を変える
@@ -69,6 +72,7 @@ public class Whisky extends SuperItem {
         pdc.set(SuperItemType.typeKey, PersistentDataType.STRING, this.superItemType.getStringType());
         pdc.set(daysKey, PersistentDataType.INTEGER, this.days);
         pdc.set(new NamespacedKey("qol", "qol_consumable"), PersistentDataType.BOOLEAN, false);
+        pdc.set(Alcohol.alcPerKey, PersistentDataType.DOUBLE, this.alcoholPer);
         whisky.setItemMeta(whiskyMeta);
         return whisky;
     }
@@ -112,6 +116,8 @@ public class Whisky extends SuperItem {
                 this.nightVisionDuration = effect.getDuration();
             }
         }
+        // PersistentDataContainerからalcohol_percentを取得
+        this.alcoholPer = pdc.get(Alcohol.alcPerKey, PersistentDataType.DOUBLE);
         this.start = start;
     }
 

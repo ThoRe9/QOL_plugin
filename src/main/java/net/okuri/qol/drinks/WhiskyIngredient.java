@@ -2,6 +2,7 @@ package net.okuri.qol.drinks;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperCoal;
@@ -45,6 +46,7 @@ public class WhiskyIngredient extends SuperCraftable {
     private int distilled = 0;
     // rarityはmaxDurationからどれだけ離れているかを表す。1.0でmaxDurationと同じ、20.0でmaxDurationの2倍の効果時間。
     private double rarity = 0.0;
+    private double alcPer = 0.10;
     // maxDurationは効果全ての効果時間の総和の基準値。超えたり超えなかったりする。
     private final int maxDuration = 6000;
 
@@ -180,6 +182,7 @@ public class WhiskyIngredient extends SuperCraftable {
         meta.getPersistentDataContainer().set(qualityKey, PersistentDataType.DOUBLE, this.quality);
         meta.getPersistentDataContainer().set(rarityKey, PersistentDataType.DOUBLE, this.rarity);
         meta.getPersistentDataContainer().set(distilledKey, PersistentDataType.INTEGER, this.distilled);
+        meta.getPersistentDataContainer().set(Alcohol.alcPerKey, PersistentDataType.DOUBLE, this.alcPer);
 
         meta.displayName(Component.text("Whisky Ingredient").color(NamedTextColor.GOLD));
         LoreGenerator lore = new LoreGenerator();
@@ -189,6 +192,7 @@ public class WhiskyIngredient extends SuperCraftable {
         lore.addParametersLore("Z", this.z*10);
         lore.addParametersLore("D", this.divLine*10);
         lore.addParametersLore("Distilled", this.distilled);
+        lore.addParametersLore("AlcoholLevel", this.alcPer, true);
         if (this.distilled == 0){
             lore.addImportantLore("You need to distill this!");
         }
@@ -215,6 +219,18 @@ public class WhiskyIngredient extends SuperCraftable {
         this.y = this.y * 0.90;
         this.z = this.z * 0.90;
         this.durationAmplifier = this.distilled * this.distilled;
+        // distilledの値に応じてalcPerを変更
+        switch (this.distilled){
+            case 1:
+                this.alcPer = 0.40;
+                break;
+            case 2:
+                this.alcPer = 0.50;
+                break;
+            case 3:
+                this.alcPer = 0.60;
+                break;
+        }
 
         return true;
     }

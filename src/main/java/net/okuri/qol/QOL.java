@@ -35,6 +35,10 @@ public final class QOL extends JavaPlugin {
         getCommand("getenv").setExecutor(new Commands());
         getCommand("matsign").setExecutor(new Commands());
 
+        // bukkitRunnableを起動
+        Alcohol alc = new Alcohol();
+        alc.runTaskTimer(this, 0, 1200);
+
         FurnaceRecipe distillationRecipe = new FurnaceRecipe(new NamespacedKey("qol","distillation"), new ItemStack(Material.POTION, 1), Material.POTION, 0.0f, 200);
         Bukkit.addRecipe(distillationRecipe);
         getLogger().info("QOL Plugin Enabled");
