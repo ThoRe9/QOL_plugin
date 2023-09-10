@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 
 public class ChatGenerator {
+    // ChatGenerator: playerにメッセージを送信するためのクラス
+    // このクラスを使うときは、インスタンスをそれぞれ生成し、最後にsendMessage(player)を呼び出す。
     private enum ChatType {
         INFO,
         ERROR,

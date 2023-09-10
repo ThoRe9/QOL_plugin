@@ -26,6 +26,8 @@ import java.util.Arrays;
 
 public class SignFunction implements Listener {
     // 看板に[~~~]と書いている場合、特別な処理を行う。
+
+    // 看板の内容を変更したときのイベント
     @EventHandler
     public void onSign(SignChangeEvent event){
         Player player = event.getPlayer();
@@ -47,15 +49,14 @@ public class SignFunction implements Listener {
         }
     }
 
+    // 看板がMaturationのときの処理
     public boolean MaturationEvent(SignChangeEvent event){
         // この看板が向いている方向を取得する
         if (event.getBlock().getBlockData() instanceof Directional) {
-            //event.getPlayer().sendMessage(((Directional) event.getBlock().getBlockData()).getFacing().toString());
             Block sign = event.getBlock();
             // この看板が向いている方向の逆のブロックを取得する
             Block barrel = sign.getRelative(((Directional) sign.getBlockData()).getFacing().getOppositeFace());
             Player player = event.getPlayer();
-            //event.getPlayer().sendMessage(barrel.getType().toString());
             // そのブロックが樽であるかどうかを確認する
             if (barrel.getType() == Material.BARREL){
                 Barrel barrelData = (Barrel)barrel.getState();
@@ -66,7 +67,6 @@ public class SignFunction implements Listener {
                         count++;
                     }
                 }
-                //player.sendMessage(String.valueOf(barrelData.getInventory().getSize()));
                 if (count == 1){
                     // そのアイテムが熟成可能なアイテムであるかどうかを確認する
                     ItemStack item = barrelData.getInventory().getContents()[0];
@@ -100,6 +100,7 @@ public class SignFunction implements Listener {
         return false;
     }
 
+    // 看板がDistillationのときの処理
     public boolean DistillationEvent(SignChangeEvent event){
         // この看板が向いている方向を取得する
         if (event.getBlock().getBlockData() instanceof Directional){

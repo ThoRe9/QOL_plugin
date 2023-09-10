@@ -39,6 +39,7 @@ public final class QOL extends JavaPlugin {
         Alcohol alc = new Alcohol();
         alc.runTaskTimer(this, 0, 1200);
 
+        // distillationのレシピを登録
         FurnaceRecipe distillationRecipe = new FurnaceRecipe(new NamespacedKey("qol","distillation"), new ItemStack(Material.POTION, 1), Material.POTION, 0.0f, 200);
         Bukkit.addRecipe(distillationRecipe);
         getLogger().info("QOL Plugin Enabled");
