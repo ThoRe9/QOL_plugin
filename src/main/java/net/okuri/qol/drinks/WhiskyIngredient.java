@@ -207,6 +207,23 @@ public class WhiskyIngredient extends SuperCraftable {
 
         return this.itemStack;
     }
+    @Override
+    public ItemStack getDebugItem(int[] args){
+        this.x = 0.33;
+        this.y = 0.33;
+        this.z = 0.33;
+        this.distilled = args[0];
+        this.divLine = 10.0;
+        this.quality = 1.0;
+        this.rarity = 0.0;
+        this.hasteLevel = 1;
+        this.hasteDuration = 100;
+        this.speedLevel = 1;
+        this.speedDuration = 100;
+        this.nightVisionLevel = 1;
+        this.nightVisionDuration = 100;
+        return this.getSuperItem();
+    }
 
 
 

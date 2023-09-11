@@ -1,6 +1,7 @@
 package net.okuri.qol;
 
 import net.kyori.adventure.text.Component;
+import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.command.Command;
@@ -50,7 +51,22 @@ public class Commands implements CommandExecutor {
                         return true;
                     }
                 }
+            } else if(command.getName().equalsIgnoreCase("givesuperitem")){
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    String typeStr = args[0];
+                    //type が SuperItemType に存在するか確認する
+                    try {
+                        SuperItemType.valueOf(typeStr);
+                    } catch (IllegalArgumentException e) {
+                        new ChatGenerator().addWarning("Invalid type!").sendMessage(player);
+                        return true;
+                    }
+                    //type が SuperItemType に存在するなら、そのtypeのSuperItemを作成してプレイヤーに渡す
+                    SuperItemType type = SuperItemType.valueOf(typeStr);
 
+                    return true;
+                }
             }
         }
 
