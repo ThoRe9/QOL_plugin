@@ -15,3 +15,9 @@ commands:
     permission: qol.command.maturation
     permission-message: Permission denied
     usage: /<command> <x> <y> <z> <date>
+  givesuperitem:
+    aliases: [ gsi ]
+    description: You can get super item.
+    permission: qol.command.givesuperitem
+    permission-message: Permission denied
+    usage: /<command> <superItemType>

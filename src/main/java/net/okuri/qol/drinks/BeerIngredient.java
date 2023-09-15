@@ -52,6 +52,13 @@ public class BeerIngredient extends SuperCraftable {
         result.setItemMeta(resultMeta);
         return result;
     }
+    @Override
+    public ItemStack getDebugItem(int... args) {
+        this.x = 0.33;
+        this.y = 0.33;
+        this.z = 0.33;
+        return this.getSuperItem();
+    }
 
     private void setting(ItemStack barley){
         this.x = barley.getItemMeta().getPersistentDataContainer().get(SuperWheat.xkey, PersistentDataType.DOUBLE);

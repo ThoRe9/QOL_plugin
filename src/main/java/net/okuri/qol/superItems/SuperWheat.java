@@ -92,7 +92,7 @@ public class SuperWheat extends SuperItem{
     }
 
     @Override
-    public ItemStack getDebugItem(int[] args){
+    public ItemStack getDebugItem(int... args){
         int type = args[0];
         switch (type){
             case 0:

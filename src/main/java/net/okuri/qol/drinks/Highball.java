@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.drinks.maturation.Whisky;
 import net.okuri.qol.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
@@ -51,6 +52,14 @@ public class Highball extends SuperCraftable {
         meta.lore(lore.generateLore());
         highball.setItemMeta(meta);
         return highball;
+    }
+    @Override
+    public ItemStack getDebugItem(int... args) {
+        ItemStack whisky = new Whisky().getDebugItem();
+        this.whisky = whisky;
+        this.strength = 1.0;
+        this.alcoholPer = 0.1;
+        return getSuperItem();
     }
 
     public Highball(ItemStack[] matrix) {

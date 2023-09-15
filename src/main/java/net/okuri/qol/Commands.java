@@ -2,12 +2,14 @@ package net.okuri.qol;
 
 import net.kyori.adventure.text.Component;
 import net.okuri.qol.superItems.SuperItemType;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.time.LocalDateTime;
 
@@ -51,25 +53,46 @@ public class Commands implements CommandExecutor {
                         return true;
                     }
                 }
-            } else if(command.getName().equalsIgnoreCase("givesuperitem")){
+            }
+        } else if(command.getName().equalsIgnoreCase("givesuperitem")) {
+                Bukkit.getServer().getLogger().info("gsi sended");
                 if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    String typeStr = args[0];
-                    //type が SuperItemType に存在するか確認する
-                    try {
-                        SuperItemType.valueOf(typeStr);
-                    } catch (IllegalArgumentException e) {
-                        new ChatGenerator().addWarning("Invalid type!").sendMessage(player);
+                    if (args.length == 1) {
+                        Player player = (Player) sender;
+                        String typeStr = args[0];
+                        //type が SuperItemType に存在するか確認する
+                        try {
+                            SuperItemType.valueOf(typeStr);
+                        } catch (IllegalArgumentException e) {
+                            new ChatGenerator().addWarning("Invalid type!").sendMessage(player);
+                            return true;
+                        }
+                        ItemStack item;
+                        // 例外パターン
+                        switch (typeStr) {
+                            case "RYE":
+                                item = SuperItemType.RYE.getSuperItemClass().getDebugItem(0);
+                                break;
+                            case "BARLEY":
+                                item = SuperItemType.BARLEY.getSuperItemClass().getDebugItem(1);
+                                break;
+                            case "WHEAT":
+                                item = SuperItemType.WHEAT.getSuperItemClass().getDebugItem(2);
+                                break;
+                            case "RICE":
+                                item = SuperItemType.RICE.getSuperItemClass().getDebugItem(3);
+                                break;
+                            default:
+                                //type が SuperItemType に存在するなら、そのtypeのSuperItemを作成してプレイヤーに渡す
+                                item = SuperItemType.valueOf(typeStr).getSuperItemClass().getDebugItem();
+                        }
+                        player.getInventory().addItem(item);
+                        new ChatGenerator().addInfo("Successfully gave the item!").sendMessage(player);
+
                         return true;
                     }
-                    //type が SuperItemType に存在するなら、そのtypeのSuperItemを作成してプレイヤーに渡す
-                    SuperItemType type = SuperItemType.valueOf(typeStr);
-
-                    return true;
                 }
             }
-        }
-
         return false;
     }
 }

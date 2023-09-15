@@ -56,7 +56,7 @@ public class SuperCoal extends SuperItem {
 
     }
     @Override
-    public ItemStack getDebugItem(int[] args) {
+    public ItemStack getDebugItem(int... args) {
         this.y = 90;
         this.quality = 1.0;
         return this.getSuperItem();

@@ -34,6 +34,7 @@ public final class QOL extends JavaPlugin {
         registerRecipes(superCraft);
         getCommand("getenv").setExecutor(new Commands());
         getCommand("matsign").setExecutor(new Commands());
+        getCommand("givesuperitem").setExecutor(new Commands());
 
         // bukkitRunnableを起動
         Alcohol alc = new Alcohol();

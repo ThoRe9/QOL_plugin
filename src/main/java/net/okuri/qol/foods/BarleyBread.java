@@ -11,4 +11,9 @@ public class BarleyBread extends Bread{
         super.display = Component.text("Barley Bread").color(NamedTextColor.DARK_GREEN);
         super.wheatkey = SuperWheat.zkey;
     }
+
+    @Override
+    public ItemStack getDebugItem(int... args){
+        return super.getDebugItem();
+    }
 }

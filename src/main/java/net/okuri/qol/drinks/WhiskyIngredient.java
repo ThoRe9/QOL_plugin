@@ -208,7 +208,7 @@ public class WhiskyIngredient extends SuperCraftable {
         return this.itemStack;
     }
     @Override
-    public ItemStack getDebugItem(int[] args){
+    public ItemStack getDebugItem(int... args){
         this.x = 0.33;
         this.y = 0.33;
         this.z = 0.33;

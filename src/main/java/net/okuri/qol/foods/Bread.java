@@ -67,4 +67,8 @@ public class Bread extends SuperCraftable {
         bread.setItemMeta(meta);
         return bread;
     }
+    @Override
+    public ItemStack getDebugItem(int... args){
+        return getSuperItem();
+    }
 }
