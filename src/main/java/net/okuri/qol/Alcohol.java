@@ -52,7 +52,7 @@ public class Alcohol extends BukkitRunnable {
                 player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.CONFUSION, 400, 0));
                 player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.BLINDNESS, 200, 0));
             } else if (alcLv >= 0.40) {
-                player.damage(1000);
+                player.setHealth(0.00);
                 alcLv = 0.00;
             }
 
