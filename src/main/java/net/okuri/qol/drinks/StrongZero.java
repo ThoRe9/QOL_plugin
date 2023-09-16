@@ -48,4 +48,8 @@ public class StrongZero extends SuperCraftable {
 
         return strongZero;
     }
+    @Override
+    public ItemStack getDebugItem(int... args){
+        return getSuperItem();
+    }
 }

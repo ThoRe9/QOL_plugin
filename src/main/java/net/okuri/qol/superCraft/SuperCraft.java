@@ -19,7 +19,7 @@ public class SuperCraft implements Listener {
 
     private final ArrayList<SuperCraftRecipe> superCraftRecipes = new ArrayList<>();
 
-    public void addSuperCraftRecipe(SuperCraftRecipe superCraftRecipe) {
+    public void addSuperstopCraftRecipe(SuperCraftRecipe superCraftRecipe) {
         superCraftRecipes.add(superCraftRecipe);
     }
 

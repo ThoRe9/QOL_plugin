@@ -23,6 +23,8 @@ public class SuperCoal extends SuperItem {
     private double rarity;
     public static final NamespacedKey raritykey = new NamespacedKey("qol", "super_coal_rarity");
     public static final NamespacedKey qualitykey = new NamespacedKey("qol", "super_coal_quality");
+    public SuperCoal(){
+    }
 
     public SuperCoal(int y, double quality) {
         this.y = y;
@@ -52,6 +54,12 @@ public class SuperCoal extends SuperItem {
         this.itemStack.setItemMeta(meta);
         return this.itemStack;
 
+    }
+    @Override
+    public ItemStack getDebugItem(int... args) {
+        this.y = 90;
+        this.quality = 1.0;
+        return this.getSuperItem();
     }
 
     private void calcRarity(){

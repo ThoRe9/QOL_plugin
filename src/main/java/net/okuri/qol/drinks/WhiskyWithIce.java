@@ -5,6 +5,7 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
 
+import net.okuri.qol.drinks.maturation.Whisky;
 import net.okuri.qol.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
@@ -43,6 +44,11 @@ public class WhiskyWithIce extends SuperCraftable {
         WWI.setItemMeta(WWImeta);
 
         return WWI;
+    }
+    @Override
+    public ItemStack getDebugItem(int... args) {
+        this.whisky = new Whisky().getDebugItem();
+        return getSuperItem();
     }
     public WhiskyWithIce(ItemStack[] matrix) {
         setting(matrix[4]);

@@ -1,12 +1,15 @@
 package net.okuri.qol;
 
 import net.kyori.adventure.text.Component;
+import net.okuri.qol.superItems.SuperItemType;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import java.time.LocalDateTime;
 
@@ -50,10 +53,27 @@ public class Commands implements CommandExecutor {
                         return true;
                     }
                 }
-
             }
-        }
+        } else if(command.getName().equalsIgnoreCase("givesuperitem")) {
+                Bukkit.getServer().getLogger().info("gsi sended");
+                if (sender instanceof Player) {
+                    if (args.length == 1) {
+                        Player player = (Player) sender;
+                        String typeStr = args[0];
+                        //type が SuperItemType に存在するか確認する
+                        try {
+                            ItemStack item = SuperItemType.getSuperItemClass(SuperItemType.valueOf(typeStr)).getDebugItem();
+                            player.getInventory().addItem(item);
+                            new ChatGenerator().addInfo("Successfully gave the item!").sendMessage(player);
 
+                            return true;
+                        } catch (IllegalArgumentException e) {
+                            new ChatGenerator().addWarning("Invalid type!").sendMessage(player);
+                            return true;
+                        }
+                    }
+                }
+            }
         return false;
     }
 }

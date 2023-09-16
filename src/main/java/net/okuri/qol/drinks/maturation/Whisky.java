@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class Whisky extends SuperItem {
-    private SuperItemType superItemType = SuperItemType.WHISKY;
+    private final SuperItemType superItemType = SuperItemType.WHISKY;
     private ItemStack[] matrix;
     private LocalDateTime start;
     private int days;
@@ -77,6 +77,20 @@ public class Whisky extends SuperItem {
         return whisky;
     }
 
+    @Override
+    public ItemStack getDebugItem(int... args) {
+        this.start = LocalDateTime.now().minusDays(10);
+        this.temperature = 1.0;
+        this.humidity = 1.0;
+        this.hasteLevel = 1.0;
+        this.hasteDuration = 100.0;
+        this.speedLevel = 1.0;
+        this.speedDuration = 100.0;
+        this.nightVisionLevel = 1.0;
+        this.nightVisionDuration = 100.0;
+        return this.getSuperItem();
+    }
+
     private double getMaturationLevel(LocalDateTime start, LocalDateTime end) {
         Duration duration = Duration.between(start, end);
         double days = duration.toDays();
@@ -87,6 +101,7 @@ public class Whisky extends SuperItem {
     private void setAmplifier(){
         this.amplifier = this.getMaturationLevel(this.start, LocalDateTime.now());
     }
+    public Whisky() {}
 
     public Whisky(double hasteLevel, double hasteDuration, double speedLevel, double speedDuration, double nightVisionLevel, double nightVisionDuration) {
         this.hasteLevel = hasteLevel;

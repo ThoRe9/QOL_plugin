@@ -14,6 +14,7 @@ public abstract class SuperItem {
 
     private SuperItemType superItemType;
     public abstract ItemStack getSuperItem();
+    public abstract ItemStack getDebugItem(int... args);
 
 
 }

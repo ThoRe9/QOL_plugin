@@ -12,14 +12,14 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class SuperWheat extends SuperItem{
     private final ItemStack wheat = new ItemStack(Material.WHEAT);
-    private final int x;
-    private final int y;
-    private final int z;
-    private final String name;
-    private final double temp;
-    private final int biomeID;
-    private final double quality;
-    private final SuperItemType superItemType;
+    private int x;
+    private int y;
+    private int z;
+    private String name;
+    private double temp;
+    private int biomeID;
+    private double quality;
+    private SuperItemType superItemType;
     private double px;
     private double py;
     private double pz;
@@ -27,6 +27,15 @@ public class SuperWheat extends SuperItem{
     public static NamespacedKey ykey = new NamespacedKey("qol", "super_wheat_data_y");
     public static NamespacedKey zkey = new NamespacedKey("qol", "super_wheat_data_z");
     public static NamespacedKey namekey = new NamespacedKey("qol", "super_wheat_name");
+    public SuperWheat(){}
+    public SuperWheat(SuperItemType type){
+        if (type == SuperItemType.RYE || type == SuperItemType.BARLEY || type == SuperItemType.WHEAT || type == SuperItemType.RICE) {
+            this.superItemType = type;
+        } else {
+            this.superItemType = SuperItemType.WHEAT;
+        }
+    }
+
     
     public SuperWheat(int x, int y, int z, String name, double temp, int biomeID, double quality) {
         this.x = x;
@@ -88,6 +97,45 @@ public class SuperWheat extends SuperItem{
         Bukkit.getServer().getLogger().info("SuperWheat: " + px + ", " + py + ", " + pz);
         
         return wheat;
+    }
+
+    @Override
+    public ItemStack getDebugItem(int... args){
+        if (args.length == 1) {
+            int type = args[0];
+            switch (type) {
+                case 0:
+                    this.superItemType = SuperItemType.RYE;
+                    break;
+                case 1:
+                    this.superItemType = SuperItemType.BARLEY;
+                    break;
+                case 2:
+                    this.superItemType = SuperItemType.WHEAT;
+                    break;
+                case 3:
+                    this.superItemType = SuperItemType.RICE;
+                    break;
+                default:
+                    this.superItemType = SuperItemType.WHEAT;
+                    break;
+            }
+        } else{
+            this.superItemType = SuperItemType.WHEAT;
+        }
+
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+        this.temp = 0.5;
+        this.biomeID = 1;
+        this.px = 0.33;
+        this.py = 0.33;
+        this.pz = 0.33;
+        this.quality = 1.0;
+        this.name = "debug";
+        return this.getSuperItem();
+
     }
     
     private void calcPs() {

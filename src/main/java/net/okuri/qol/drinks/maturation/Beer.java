@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.superItems.SuperItem;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.SuperWheat;
 import org.bukkit.Material;
@@ -18,7 +19,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class Beer {
+public class Beer extends SuperItem {
     private LocalDateTime start;
     private ItemStack ingredient;
     private double temperature;
@@ -48,6 +49,7 @@ public class Beer {
         this.start = start;
     }
 
+    @Override
     public ItemStack getSuperItem(){
         ItemStack result = new ItemStack(Material.POTION, 3);
         PotionMeta meta =(PotionMeta) result.getItemMeta();
@@ -87,6 +89,25 @@ public class Beer {
         meta.getPersistentDataContainer().set(Alcohol.alcKey, PersistentDataType.BOOLEAN, true);
         result.setItemMeta(meta);
         return result;
+    }
+    @Override
+    public ItemStack getDebugItem(int... args) {
+        this.x = 0.0;
+        this.y = 0.0;
+        this.z = 0.0;
+        this.divLine = 1.0;
+        this.durationAmp = 1.0;
+        this.timeParam = 0.0;
+        this.tempParam = 0.0;
+        if (args[0] == 0){
+            // Ale Beer
+            this.temperature = 0.25;
+        } else{
+            // Lager Beer
+            this.temperature = 0.75;
+        }
+        this.start = LocalDateTime.now();
+        return this.getSuperItem();
     }
 
     private void calcParam(){

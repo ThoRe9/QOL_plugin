@@ -55,4 +55,9 @@ public class Soda extends SuperCraftable {
         soda.setItemMeta(meta);
         return soda;
     }
+    @Override
+    public ItemStack getDebugItem(int... args) {
+        this.strength = 1.0;
+        return getSuperItem();
+    }
 }
