@@ -11,7 +11,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class StrongZero extends SuperCraftable {
+public class StrongZero implements SuperCraftable {
     private ItemStack[] matrix = null;
     private ItemStack rice = null;
     private ItemStack soda = null;

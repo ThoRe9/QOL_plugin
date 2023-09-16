@@ -21,7 +21,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Whisky extends SuperItem {
+public class Whisky implements SuperItem {
     private final SuperItemType superItemType = SuperItemType.WHISKY;
     private ItemStack[] matrix;
     private LocalDateTime start;

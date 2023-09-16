@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-public class BeerIngredient extends SuperCraftable {
+public class BeerIngredient implements SuperCraftable {
     protected ItemStack[] matrix;
     private double x;
     private double y;

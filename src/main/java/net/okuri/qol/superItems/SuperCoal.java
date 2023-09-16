@@ -13,7 +13,7 @@ import javax.naming.Name;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SuperCoal extends SuperItem {
+public class SuperCoal implements SuperItem {
     private SuperItemType superItemType = SuperItemType.COAL;
     private ItemStack itemStack = new ItemStack(Material.COAL, 1);
     private int y;

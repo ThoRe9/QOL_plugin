@@ -19,7 +19,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.Objects;
 
 // WhiskyIngredientは、Whiskyの材料となるアイテムです。これをMaturingBarrelに入れることで、Whiskyを作ることができます。
-public class WhiskyIngredient extends SuperCraftable {
+public class WhiskyIngredient implements SuperCraftable {
 
     public static NamespacedKey xKey = new NamespacedKey("qol", "qol_x");
     public static NamespacedKey yKey = new NamespacedKey("qol", "qol_y");

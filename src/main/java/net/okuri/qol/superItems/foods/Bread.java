@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-public class Bread extends SuperCraftable {
+public class Bread implements SuperCraftable {
     private ItemStack[] matrix = null;
     private ItemStack result = null;
     private SuperItemType superItemType = SuperItemType.BREAD;

@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 
-public class Highball extends SuperCraftable {
+public class Highball implements SuperCraftable {
     private ItemStack whisky = null;
     private final SuperItemType superItemType = SuperItemType.HIGHBALL;
     private ItemStack[] matrix = null;

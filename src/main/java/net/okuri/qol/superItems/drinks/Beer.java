@@ -18,7 +18,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-public class Beer extends SuperItem {
+public class Beer implements SuperItem {
     private LocalDateTime start;
     private ItemStack ingredient;
     private double temperature;

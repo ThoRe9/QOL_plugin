@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-public class Soda extends SuperCraftable {
+public class Soda implements SuperCraftable {
     public static final NamespacedKey strengthkey = new NamespacedKey("qol", "qol_strength");
     private ItemStack[] matrix = null;
     private ItemStack result = null;

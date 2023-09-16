@@ -2,7 +2,7 @@ package net.okuri.qol.superItems;
 
 import org.bukkit.inventory.ItemStack;
 
-public abstract class SuperItem {
+public interface SuperItem {
     /*
     SuperItemは、SuperItemの基底クラスです。
     これを継承して、SuperItemを作成します。
@@ -10,11 +10,8 @@ public abstract class SuperItem {
     このメソッドでsuperItemTypeが設定されたItemStackを返すようにしてください。
      */
 
-    private ItemStack itemStack;
-
-    private SuperItemType superItemType;
-    public abstract ItemStack getSuperItem();
-    public abstract ItemStack getDebugItem(int... args);
+    ItemStack getSuperItem();
+    ItemStack getDebugItem(int... args);
 
 
 }

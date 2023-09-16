@@ -13,7 +13,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-public class WhiskyWithIce extends SuperCraftable {
+public class WhiskyWithIce implements SuperCraftable {
     private ItemStack whisky = null;
     private SuperItemType superItemType = SuperItemType.WHISKY_WITH_ICE;
     private ItemStack[] matrix = null;
