@@ -52,6 +52,10 @@ public class WhiskyIngredient extends SuperCraftable {
 
     public WhiskyIngredient(){
     }
+    public WhiskyIngredient(int distilled){
+        this.superItemType = SuperItemType.UNDISTILLED_WHISKY_INGREDIENT;
+        this.distilled = distilled;
+    }
 
     public WhiskyIngredient(ItemStack whisky_ingredient){
         this.superItemType = SuperItemType.WHISKY_INGREDIENT;

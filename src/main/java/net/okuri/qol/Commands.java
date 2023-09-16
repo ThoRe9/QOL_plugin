@@ -62,34 +62,15 @@ public class Commands implements CommandExecutor {
                         String typeStr = args[0];
                         //type が SuperItemType に存在するか確認する
                         try {
-                            SuperItemType.valueOf(typeStr);
+                            ItemStack item = SuperItemType.getSuperItemClass(SuperItemType.valueOf(typeStr)).getDebugItem();
+                            player.getInventory().addItem(item);
+                            new ChatGenerator().addInfo("Successfully gave the item!").sendMessage(player);
+
+                            return true;
                         } catch (IllegalArgumentException e) {
                             new ChatGenerator().addWarning("Invalid type!").sendMessage(player);
                             return true;
                         }
-                        ItemStack item;
-                        // 例外パターン
-                        switch (typeStr) {
-                            case "RYE":
-                                item = SuperItemType.RYE.getDebugItem(0);
-                                break;
-                            case "BARLEY":
-                                item = SuperItemType.BARLEY.getSuperItemClass().getDebugItem(1);
-                                break;
-                            case "WHEAT":
-                                item = SuperItemType.WHEAT.getSuperItemClass().getDebugItem(2);
-                                break;
-                            case "RICE":
-                                item = SuperItemType.RICE.getSuperItemClass().getDebugItem(3);
-                                break;
-                            default:
-                                //type が SuperItemType に存在するなら、そのtypeのSuperItemを作成してプレイヤーに渡す
-                                item = SuperItemType.valueOf(typeStr).getSuperItemClass().getDebugItem();
-                        }
-                        player.getInventory().addItem(item);
-                        new ChatGenerator().addInfo("Successfully gave the item!").sendMessage(player);
-
-                        return true;
                     }
                 }
             }

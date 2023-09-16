@@ -100,8 +100,10 @@ public class Beer extends SuperItem {
         this.timeParam = 0.0;
         this.tempParam = 0.0;
         if (args[0] == 0){
+            // Ale Beer
             this.temperature = 0.25;
         } else{
+            // Lager Beer
             this.temperature = 0.75;
         }
         this.start = LocalDateTime.now();

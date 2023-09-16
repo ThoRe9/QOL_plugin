@@ -4,7 +4,9 @@ package net.okuri.qol.superItems;
 
 
 import net.okuri.qol.drinks.*;
+import net.okuri.qol.drinks.maturation.AleBeer;
 import net.okuri.qol.drinks.maturation.Beer;
+import net.okuri.qol.drinks.maturation.LagerBeer;
 import net.okuri.qol.drinks.maturation.Whisky;
 import net.okuri.qol.foods.Bread;
 import org.bukkit.NamespacedKey;
@@ -21,9 +23,7 @@ public enum SuperItemType {
     UNDISTILLED_WHISKY_INGREDIENT("UNDISTILLED_WHISKY_INGREDIENT", 0),
     WHISKY("WHISKY", 1),
     WHISKY_WITH_ICE("WHISKY_WITH_ICE", 2),
-    STRAIGHT_WHISKY("STRAIGHT_WHISKY", 0),
     HIGHBALL("HIGHBALL", 3),
-    WHISKY_WITH_WATER("WHISKY_WITH_WATER", 0),
     BREAD("BREAD", 0),
     BEER_INGREDIENT("BEER_INGREDIENT", 0),
     ALE_BEER("ALE_BEER", 4),
@@ -53,28 +53,34 @@ public enum SuperItemType {
         switch(type){
             case COAL:
                 return new SuperCoal();
-                break;
             case WHEAT:
-                return new SuperWheat();
-                break;
+                return new Wheat();
+            case RYE:
+                return new Rye();
+            case BARLEY:
+                return new Barley();
+            case RICE:
+                return new Rice();
+            case WHISKY_INGREDIENT:
+                return new WhiskyIngredient(1);
+            case UNDISTILLED_WHISKY_INGREDIENT:
+                return new WhiskyIngredient(0);
             case WHISKY:
                 return new Whisky();
-                break;
+            case WHISKY_WITH_ICE:
+                return new WhiskyWithIce();
             case HIGHBALL:
                 return new Highball();
-                break;
             case BREAD:
                 return new Bread();
-                break;
+            case BEER_INGREDIENT:
+                return new BeerIngredient();
             case ALE_BEER:
                 return new AleBeer();
-                break;
             case LAGER_BEER:
                 return new LagerBeer();
-                break;
             case SODA:
                 return new Soda();
-                break;
             default:
                 return null;
         }
