@@ -1,6 +1,6 @@
-package net.okuri.qol.superCraft;
+package net.okuri.qol.qolCraft.superCraft;
 
-import net.okuri.qol.drinks.distillation.Distillation;
+import net.okuri.qol.qolCraft.distillation.Distillation;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Furnace;
@@ -19,7 +19,7 @@ public class SuperCraft implements Listener {
 
     private final ArrayList<SuperCraftRecipe> superCraftRecipes = new ArrayList<>();
 
-    public void addSuperstopCraftRecipe(SuperCraftRecipe superCraftRecipe) {
+    public void addSuperCraftRecipe(SuperCraftRecipe superCraftRecipe) {
         superCraftRecipes.add(superCraftRecipe);
     }
 

@@ -1,4 +1,4 @@
-package net.okuri.qol.superCraft;
+package net.okuri.qol.qolCraft.superCraft;
 
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Material;

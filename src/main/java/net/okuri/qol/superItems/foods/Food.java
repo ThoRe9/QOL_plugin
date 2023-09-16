@@ -1,4 +1,4 @@
-package net.okuri.qol.foods;
+package net.okuri.qol.superItems.foods;
 
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;

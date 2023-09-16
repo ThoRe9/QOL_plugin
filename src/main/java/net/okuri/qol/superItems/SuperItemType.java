@@ -3,14 +3,12 @@ package net.okuri.qol.superItems;
 
 
 
-import net.okuri.qol.drinks.*;
-import net.okuri.qol.drinks.maturation.AleBeer;
-import net.okuri.qol.drinks.maturation.Beer;
-import net.okuri.qol.drinks.maturation.LagerBeer;
-import net.okuri.qol.drinks.maturation.Whisky;
-import net.okuri.qol.foods.Bread;
+import net.okuri.qol.superItems.drinks.*;
+import net.okuri.qol.superItems.drinks.AleBeer;
+import net.okuri.qol.superItems.drinks.LagerBeer;
+import net.okuri.qol.superItems.drinks.Whisky;
+import net.okuri.qol.superItems.foods.Bread;
 import org.bukkit.NamespacedKey;
-import org.bukkit.entity.Bee;
 import org.bukkit.persistence.PersistentDataType;
 
 public enum SuperItemType {

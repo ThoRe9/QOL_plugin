@@ -1,4 +1,4 @@
-package net.okuri.qol.drinks.maturation;
+package net.okuri.qol.superItems.drinks;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

@@ -1,5 +1,7 @@
-package net.okuri.qol.drinks.maturation;
+package net.okuri.qol.qolCraft.maturation;
 
+import net.okuri.qol.superItems.drinks.Beer;
+import net.okuri.qol.superItems.drinks.Whisky;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Barrel;

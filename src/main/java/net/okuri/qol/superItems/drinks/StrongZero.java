@@ -1,8 +1,8 @@
-package net.okuri.qol.drinks;
+package net.okuri.qol.superItems.drinks;
 
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
-import net.okuri.qol.superCraft.SuperCraftable;
+import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;

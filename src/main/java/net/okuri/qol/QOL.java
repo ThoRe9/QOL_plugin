@@ -2,12 +2,12 @@ package net.okuri.qol;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.okuri.qol.drinks.*;
-import net.okuri.qol.foods.BarleyBread;
-import net.okuri.qol.foods.Bread;
-import net.okuri.qol.foods.RyeBread;
-import net.okuri.qol.superCraft.SuperCraft;
-import net.okuri.qol.superCraft.SuperCraftRecipe;
+import net.okuri.qol.superItems.drinks.*;
+import net.okuri.qol.superItems.foods.BarleyBread;
+import net.okuri.qol.superItems.foods.Bread;
+import net.okuri.qol.superItems.foods.RyeBread;
+import net.okuri.qol.qolCraft.superCraft.SuperCraft;
+import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;

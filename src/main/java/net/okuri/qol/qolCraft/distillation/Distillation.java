@@ -1,6 +1,6 @@
-package net.okuri.qol.drinks.distillation;
+package net.okuri.qol.qolCraft.distillation;
 
-import net.okuri.qol.drinks.WhiskyIngredient;
+import net.okuri.qol.superItems.drinks.WhiskyIngredient;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Block;

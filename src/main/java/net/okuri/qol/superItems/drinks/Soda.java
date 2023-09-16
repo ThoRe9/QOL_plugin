@@ -1,9 +1,9 @@
-package net.okuri.qol.drinks;
+package net.okuri.qol.superItems.drinks;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
-import net.okuri.qol.superCraft.SuperCraftable;
+import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperCoal;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;

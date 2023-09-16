@@ -1,28 +1,21 @@
 package net.okuri.qol;
 
 import net.kyori.adventure.text.Component;
-import net.okuri.qol.drinks.WhiskyIngredient;
-import net.okuri.qol.drinks.maturation.Maturation;
+import net.okuri.qol.qolCraft.maturation.Maturation;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.block.Barrel;
 import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
 import org.bukkit.block.data.Directional;
-import org.bukkit.block.sign.Side;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockEvent;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.time.LocalDateTime;
-import java.util.Arrays;
 
 public class SignFunction implements Listener {
     // 看板に[~~~]と書いている場合、特別な処理を行う。
