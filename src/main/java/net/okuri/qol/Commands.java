@@ -71,7 +71,7 @@ public class Commands implements CommandExecutor {
                         // 例外パターン
                         switch (typeStr) {
                             case "RYE":
-                                item = SuperItemType.RYE.getSuperItemClass().getDebugItem(0);
+                                item = SuperItemType.RYE.getDebugItem(0);
                                 break;
                             case "BARLEY":
                                 item = SuperItemType.BARLEY.getSuperItemClass().getDebugItem(1);

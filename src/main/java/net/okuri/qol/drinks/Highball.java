@@ -17,7 +17,7 @@ import org.bukkit.potion.PotionEffect;
 
 public class Highball extends SuperCraftable {
     private ItemStack whisky = null;
-    private SuperItemType superItemType = SuperItemType.HIGHBALL;
+    private final SuperItemType superItemType = SuperItemType.HIGHBALL;
     private ItemStack[] matrix = null;
     private double strength = 1.0;
     private double alcoholPer = 0.0;

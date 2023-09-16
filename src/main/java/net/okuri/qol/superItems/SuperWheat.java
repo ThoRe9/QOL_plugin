@@ -28,6 +28,14 @@ public class SuperWheat extends SuperItem{
     public static NamespacedKey zkey = new NamespacedKey("qol", "super_wheat_data_z");
     public static NamespacedKey namekey = new NamespacedKey("qol", "super_wheat_name");
     public SuperWheat(){}
+    public SuperWheat(SuperItemType type){
+        if (type == SuperItemType.RYE || type == SuperItemType.BARLEY || type == SuperItemType.WHEAT || type == SuperItemType.RICE) {
+            this.superItemType = type;
+        } else {
+            this.superItemType = SuperItemType.WHEAT;
+        }
+    }
+
     
     public SuperWheat(int x, int y, int z, String name, double temp, int biomeID, double quality) {
         this.x = x;
@@ -93,24 +101,29 @@ public class SuperWheat extends SuperItem{
 
     @Override
     public ItemStack getDebugItem(int... args){
-        int type = args[0];
-        switch (type){
-            case 0:
-                this.superItemType = SuperItemType.RYE;
-                break;
-            case 1:
-                this.superItemType = SuperItemType.BARLEY;
-                break;
-            case 2:
-                this.superItemType = SuperItemType.WHEAT;
-                break;
-            case 3:
-                this.superItemType = SuperItemType.RICE;
-                break;
-            default:
-                this.superItemType = SuperItemType.WHEAT;
-                break;
+        if (args.length == 1) {
+            int type = args[0];
+            switch (type) {
+                case 0:
+                    this.superItemType = SuperItemType.RYE;
+                    break;
+                case 1:
+                    this.superItemType = SuperItemType.BARLEY;
+                    break;
+                case 2:
+                    this.superItemType = SuperItemType.WHEAT;
+                    break;
+                case 3:
+                    this.superItemType = SuperItemType.RICE;
+                    break;
+                default:
+                    this.superItemType = SuperItemType.WHEAT;
+                    break;
+            }
+        } else{
+            this.superItemType = SuperItemType.WHEAT;
         }
+
         this.x = 0;
         this.y = 0;
         this.z = 0;

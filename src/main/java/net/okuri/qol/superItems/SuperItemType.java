@@ -12,35 +12,33 @@ import org.bukkit.entity.Bee;
 import org.bukkit.persistence.PersistentDataType;
 
 public enum SuperItemType {
-    COAL("COAL", new SuperCoal(), 0),
-    WHEAT("WHEAT", new SuperWheat(), 0),
-    RYE("RYE", new SuperWheat(), 0),
-    BARLEY("BARLEY", new SuperWheat(), 0),
-    RICE("RICE", new SuperWheat(), 0),
-    WHISKY_INGREDIENT("WHISKY_INGREDIENT", new WhiskyIngredient(), 0),
-    UNDISTILLED_WHISKY_INGREDIENT("UNDISTILLED_WHISKY_INGREDIENT", new WhiskyIngredient(), 0),
-    WHISKY("WHISKY", new Whisky(), 1),
-    WHISKY_WITH_ICE("WHISKY_WITH_ICE", new WhiskyWithIce(), 2),
-    STRAIGHT_WHISKY("STRAIGHT_WHISKY", new SuperCoal(), 0),
-    HIGHBALL("HIGHBALL", new Highball(), 3),
-    WHISKY_WITH_WATER("WHISKY_WITH_WATER", new SuperCoal(), 0),
-    BREAD("BREAD", new Bread(), 0),
-    BEER_INGREDIENT("BEER_INGREDIENT", new BeerIngredient(), 0),
-    ALE_BEER("ALE_BEER", new Beer(), 4),
-    LAGER_BEER("LAGER_BEER", new Beer(), 5),
-    SODA("SODA", new Soda(), 0);
+    COAL("COAL", 0),
+    WHEAT("WHEAT", 0),
+    RYE("RYE", 0),
+    BARLEY("BARLEY", 0),
+    RICE("RICE", 0),
+    WHISKY_INGREDIENT("WHISKY_INGREDIENT", 0),
+    UNDISTILLED_WHISKY_INGREDIENT("UNDISTILLED_WHISKY_INGREDIENT", 0),
+    WHISKY("WHISKY", 1),
+    WHISKY_WITH_ICE("WHISKY_WITH_ICE", 2),
+    STRAIGHT_WHISKY("STRAIGHT_WHISKY", 0),
+    HIGHBALL("HIGHBALL", 3),
+    WHISKY_WITH_WATER("WHISKY_WITH_WATER", 0),
+    BREAD("BREAD", 0),
+    BEER_INGREDIENT("BEER_INGREDIENT", 0),
+    ALE_BEER("ALE_BEER", 4),
+    LAGER_BEER("LAGER_BEER", 5),
+    SODA("SODA", 0);
 
     private final String type;
-    private final SuperItem superItemClass;
     private final int customModelData;
 
     public static final NamespacedKey typeKey = new NamespacedKey("qol", "super_item_type");
 
     public static final PersistentDataType typeDataType = PersistentDataType.STRING;
 
-    SuperItemType(String type, SuperItem superItemClass, int customModelData) {
+    SuperItemType(String type, int customModelData) {
         this.type = type;
-        this.superItemClass = superItemClass;
         this.customModelData = customModelData;
     }
 
@@ -50,8 +48,36 @@ public enum SuperItemType {
     public int getCustomModelData() {
         return this.customModelData;
     }
-    public SuperItem getSuperItemClass() {
-        return this.superItemClass;
+
+    public static SuperItem getSuperItemClass (SuperItemType type){
+        switch(type){
+            case COAL:
+                return new SuperCoal();
+                break;
+            case WHEAT:
+                return new SuperWheat();
+                break;
+            case WHISKY:
+                return new Whisky();
+                break;
+            case HIGHBALL:
+                return new Highball();
+                break;
+            case BREAD:
+                return new Bread();
+                break;
+            case ALE_BEER:
+                return new AleBeer();
+                break;
+            case LAGER_BEER:
+                return new LagerBeer();
+                break;
+            case SODA:
+                return new Soda();
+                break;
+            default:
+                return null;
+        }
     }
 
     public static SuperItemType getTypeFromString(String type) {
