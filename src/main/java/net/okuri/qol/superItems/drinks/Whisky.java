@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.qolCraft.maturation.Maturationable;
 import net.okuri.qol.superItems.SuperItem;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
@@ -19,11 +20,11 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
-public class Whisky implements SuperItem {
+public class Whisky implements Maturationable {
     private final SuperItemType superItemType = SuperItemType.WHISKY;
-    private ItemStack[] matrix;
     private LocalDateTime start;
     private int days;
     private double temperature;
@@ -39,6 +40,15 @@ public class Whisky implements SuperItem {
     private double amplifier;
     private double alcoholPer = 0.40;
     public static NamespacedKey daysKey = new NamespacedKey("qol", "qol_days");
+
+    @Override
+    public void setMaturationVariable(ArrayList<ItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {
+        this.setFromWhiskyIngredient(ingredients.get(0));
+        this.start = start;
+        this.temperature = temp;
+        this.humidity = humid;
+        this.amplifier = this.getMaturationLevel(start, end);
+    }
     @Override
     public ItemStack getSuperItem() {
         // パラメータ計算
@@ -115,6 +125,10 @@ public class Whisky implements SuperItem {
         this.temperature = 0.0;
     }
     public Whisky(ItemStack whiskyIngredient, LocalDateTime start) {
+        this.setFromWhiskyIngredient(whiskyIngredient);
+        this.start = start;
+    }
+    private void setFromWhiskyIngredient(ItemStack whiskyIngredient){
         PotionMeta whiskyMeta = (PotionMeta) whiskyIngredient.getItemMeta();
         PersistentDataContainer pdc = whiskyMeta.getPersistentDataContainer();
         List<PotionEffect> effects = whiskyMeta.getCustomEffects();
@@ -133,8 +147,8 @@ public class Whisky implements SuperItem {
         }
         // PersistentDataContainerからalcohol_percentを取得
         this.alcoholPer = pdc.get(Alcohol.alcPerKey, PersistentDataType.DOUBLE);
-        this.start = start;
     }
+
 
     public void setTemperature(double temperature) {
         this.temperature = temperature;

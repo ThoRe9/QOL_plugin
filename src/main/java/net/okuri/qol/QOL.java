@@ -2,6 +2,10 @@ package net.okuri.qol;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.okuri.qol.listener.*;
+import net.okuri.qol.qolCraft.distillation.Distillation;
+import net.okuri.qol.qolCraft.maturation.Maturation;
+import net.okuri.qol.qolCraft.maturation.MaturationRecipe;
 import net.okuri.qol.superItems.drinks.*;
 import net.okuri.qol.superItems.foods.BarleyBread;
 import net.okuri.qol.superItems.foods.Bread;
@@ -28,10 +32,20 @@ public final class QOL extends JavaPlugin {
 
         // drinkCraftsには特殊レシピを登録する
         SuperCraft superCraft = new SuperCraft();
+        Maturation maturation = new Maturation();
+        Distillation distillation = new Distillation();
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
+        getServer().getPluginManager().registerEvents(new ConsumeListener(), this);
+        getServer().getPluginManager().registerEvents(new GetSuperItemListener(), this);
+        getServer().getPluginManager().registerEvents(new InteractListener(), this);
+        getServer().getPluginManager().registerEvents(new ProtectListener(), this);
+        getServer().getPluginManager().registerEvents(new QOLSignListener(this), this);
         getServer().getPluginManager().registerEvents(superCraft, this);
-        getServer().getPluginManager().registerEvents(new SignFunction(), this);
+        getServer().getPluginManager().registerEvents(maturation, this);
+        getServer().getPluginManager().registerEvents(distillation, this);
+
         registerRecipes(superCraft);
+        registerMaturationRecipes(maturation);
         getCommand("getenv").setExecutor(new Commands());
         getCommand("matsign").setExecutor(new Commands());
         getCommand("givesuperitem").setExecutor(new Commands());
@@ -215,9 +229,21 @@ public final class QOL extends JavaPlugin {
         SZR.setIngredient('R', Material.WHEAT);
         SZR.setIngredient('W', Material.POTION);
         Bukkit.addRecipe(SZR);
+    }
 
+    // Maturationのレシピを登録する
+    private void registerMaturationRecipes(Maturation maturation){
+        // ここにMaturationのレシピを登録する
 
+        // Whisky
+        MaturationRecipe whiskyRecipe = new MaturationRecipe("Whisky", new Whisky());
+        whiskyRecipe.addingredient(SuperItemType.WHISKY_INGREDIENT);
+        maturation.addMaturationRecipe(whiskyRecipe);
 
+        // Beer
+        MaturationRecipe beerRecipe = new MaturationRecipe("Beer", new Beer());
+        beerRecipe.addingredient(SuperItemType.BEER_INGREDIENT);
+        maturation.addMaturationRecipe(beerRecipe);
     }
 
     public JavaPlugin getPlugin() {

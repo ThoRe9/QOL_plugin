@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.qolCraft.maturation.Maturationable;
 import net.okuri.qol.superItems.SuperItem;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.SuperWheat;
@@ -17,8 +18,9 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
-public class Beer implements SuperItem {
+public class Beer implements Maturationable {
     private LocalDateTime start;
     private ItemStack ingredient;
     private double temperature;
@@ -46,6 +48,16 @@ public class Beer implements SuperItem {
         this.y = ingredient.getItemMeta().getPersistentDataContainer().get(SuperWheat.ykey, PersistentDataType.DOUBLE);
         this.z = ingredient.getItemMeta().getPersistentDataContainer().get(SuperWheat.zkey, PersistentDataType.DOUBLE);
         this.start = start;
+    }
+
+    @Override
+    public void setMaturationVariable(ArrayList<ItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {
+        this.ingredient = ingredients.get(0);
+        this.x = ingredient.getItemMeta().getPersistentDataContainer().get(SuperWheat.xkey, PersistentDataType.DOUBLE);
+        this.y = ingredient.getItemMeta().getPersistentDataContainer().get(SuperWheat.ykey, PersistentDataType.DOUBLE);
+        this.z = ingredient.getItemMeta().getPersistentDataContainer().get(SuperWheat.zkey, PersistentDataType.DOUBLE);
+        this.start = start;
+        this.temperature = temp;
     }
 
     @Override

@@ -9,16 +9,18 @@ import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 
 public class ProtectedBlock {
+
+    // protectedBlockを設定するには、setProtectedBlockを呼び出す。
     public static NamespacedKey protectKey = new NamespacedKey("qol", "qol_protected");
 
-    private PersistentDataContainer getContainer(BlockState blockState){
+    private static PersistentDataContainer getContainer(BlockState blockState){
         if (blockState instanceof PersistentDataHolder){
             return ((PersistentDataHolder) blockState).getPersistentDataContainer();
         }
         return null;
     }
 
-    private void applyLockedChest(Container chest){
+    private static void applyLockedChest(Container chest){
         if (chest.getPersistentDataContainer().has(protectKey, PersistentDataType.BOOLEAN)) {
             if (chest.getPersistentDataContainer().get(protectKey, PersistentDataType.BOOLEAN)) {
                 chest.setLock("qol");
@@ -31,7 +33,7 @@ public class ProtectedBlock {
         chest.update();
     }
 
-    public boolean isProtectedBlock(Block block) {
+    public static boolean isProtectedBlock(Block block) {
         BlockState blockState = block.getState();
         PersistentDataContainer container = getContainer(blockState);
         if (container == null) {
@@ -42,19 +44,19 @@ public class ProtectedBlock {
         }
         return false;
     }
-    public boolean isProtectedBlock(Sign sign){
+    public static boolean isProtectedBlock(Sign sign){
         if (sign.getPersistentDataContainer().has(protectKey, PersistentDataType.BOOLEAN)) {
             return sign.getPersistentDataContainer().get(protectKey, PersistentDataType.BOOLEAN);
         }
         return false;
     }
 
-    public void setProtectedBlock(Block block, boolean isProtected) {
+    public static void setProtectedBlock(Block block, boolean isProtected) {
         BlockState blockState = block.getState();
-        this.setProtectedBlock(blockState, isProtected);
+        setProtectedBlock(blockState, isProtected);
     }
 
-    public void setProtectedBlock(BlockState blockState, boolean isProtected){
+    public static void setProtectedBlock(BlockState blockState, boolean isProtected){
         PersistentDataContainer container = getContainer(blockState);
         if (container == null) {
             Bukkit.getServer().getLogger().info("Container is null");

@@ -29,7 +29,7 @@ public class WhiskyIngredient implements SuperCraftable {
     public static NamespacedKey rarityKey = new NamespacedKey("qol", "qol_rarity");
     public static NamespacedKey distilledKey = new NamespacedKey("qol", "qol_distilled");
     private SuperItemType superItemType = SuperItemType.WHISKY_INGREDIENT;
-    private ItemStack itemStack = null;
+    private ItemStack itemStack = new ItemStack(Material.POTION, 1);
     protected ItemStack[] matrix = null;
     private double x = 0.0;
     private double y = 0.0;
@@ -175,7 +175,7 @@ public class WhiskyIngredient implements SuperCraftable {
         setType();
         NamespacedKey typeKey = SuperItemType.typeKey;
         NamespacedKey drinkableKey = new NamespacedKey("qol", "qol_consumable");
-        PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
+        PotionMeta meta = (PotionMeta) this.itemStack.getItemMeta();
         meta.setColor(org.bukkit.Color.fromRGB(255, 255, 255));
 
         meta.getPersistentDataContainer().set(drinkableKey, PersistentDataType.BOOLEAN, false);
@@ -216,7 +216,6 @@ public class WhiskyIngredient implements SuperCraftable {
         this.x = 0.33;
         this.y = 0.33;
         this.z = 0.33;
-        this.distilled = args[0];
         this.divLine = 10.0;
         this.quality = 1.0;
         this.rarity = 0.0;
