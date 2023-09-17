@@ -1,61 +1,41 @@
 package net.okuri.qol.qolCraft.distillation;
 
-import net.okuri.qol.superItems.drinks.WhiskyIngredient;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.NamespacedKey;
-import org.bukkit.block.Block;
 import org.bukkit.block.Furnace;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 
 public class Distillation implements Listener {
-    public static NamespacedKey distillationKey = new NamespacedKey("qol", "qol_distillation");
-    private ArrayList<SuperItemType> distillationableItems = new ArrayList<>();
-    private ItemStack ingredient;
-    private Block furnace;
-    public Distillation(ItemStack ingredient, Block furnace){
-        this.ingredient = ingredient;
-        this.furnace = furnace;
-        // ここにDistillation可能なアイテムを追加
-        this.distillationableItems.add(SuperItemType.WHISKY_INGREDIENT);
-        this.distillationableItems.add(SuperItemType.UNDISTILLED_WHISKY_INGREDIENT);
-    }
-    public Distillation(){}
-
-    public boolean isDistillationable(){
-        PersistentDataContainer pdc = this.ingredient.getItemMeta().getPersistentDataContainer();
-        if (!pdc.has(new NamespacedKey("qol","super_item_type"), PersistentDataType.STRING)){
-            return false;
-        }
-        return this.distillationableItems.contains(SuperItemType.valueOf(pdc.get(new NamespacedKey("qol","super_item_type"), PersistentDataType.STRING)));
-    }
-    public void distillationEvent(){
-        // TODO Distillationの処理
-        Furnace fData = (Furnace) this.furnace.getState();
-        //
-    }
-
-    public ItemStack getDistillationResult(){
-        // TODO Distillationの結果を返す
-        if (!this.isDistillationable()){
-            return null;
-        }
-        switch (SuperItemType.valueOf(this.ingredient.getItemMeta().getPersistentDataContainer().get(new NamespacedKey("qol","super_item_type"), PersistentDataType.STRING))){
-            //ここに蒸留アイテムの処理を追加していく!
-            case WHISKY_INGREDIENT:
-            case UNDISTILLED_WHISKY_INGREDIENT:
-                WhiskyIngredient wi = new WhiskyIngredient(this.ingredient);
-                if (wi.distilled()){
-                    return wi.getSuperItem();
-                } else{
-                    return this.ingredient;
+    public static NamespacedKey distillationRecipeKey = new NamespacedKey("qol", "distillation_recipe");
+    private ArrayList<DistillationRecipe> distillationRecipes = new ArrayList<>();
+    @EventHandler
+    // Distillationのレシピを登録する
+    public void FurnaceSmeltEvent(FurnaceSmeltEvent event) {
+        if (event.getRecipe().getKey().equals(distillationRecipeKey)) {
+            ItemStack ingredient = ((Furnace)event.getBlock().getState()).getInventory().getSmelting();
+            if (ingredient.getItemMeta().getPersistentDataContainer().has(SuperItemType.typeKey, PersistentDataType.STRING)){
+                SuperItemType ingredientType = SuperItemType.valueOf(ingredient.getItemMeta().getPersistentDataContainer().get(SuperItemType.typeKey, PersistentDataType.STRING));
+                // ingredientTypeがDistillation可能なアイテムならば、処理を実行
+                for (DistillationRecipe distillationRecipe : distillationRecipes) {
+                    if (distillationRecipe.getIngredients().contains(ingredientType)) {
+                        Distillable resultClass = distillationRecipe.getResultClass();
+                        resultClass.setDistillationVariable(ingredient, event.getBlock().getLocation().getBlock().getTemperature(), event.getBlock().getLocation().getBlock().getHumidity());
+                        event.setResult(resultClass.getSuperItem());
+                        return;
+                    }
                 }
-            default:
-                return null;
+            }
         }
     }
+
+    public void addDistillationRecipe(DistillationRecipe distillationRecipe){
+        this.distillationRecipes.add(distillationRecipe);
+    }
+
 }

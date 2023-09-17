@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.qolCraft.distillation.Distillable;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperCoal;
 import net.okuri.qol.superItems.SuperItemType;
@@ -19,7 +20,7 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.Objects;
 
 // WhiskyIngredientは、Whiskyの材料となるアイテムです。これをMaturingBarrelに入れることで、Whiskyを作ることができます。
-public class WhiskyIngredient implements SuperCraftable {
+public class WhiskyIngredient implements SuperCraftable, Distillable {
 
     public static NamespacedKey xKey = new NamespacedKey("qol", "qol_x");
     public static NamespacedKey yKey = new NamespacedKey("qol", "qol_y");
@@ -56,31 +57,12 @@ public class WhiskyIngredient implements SuperCraftable {
         this.superItemType = SuperItemType.UNDISTILLED_WHISKY_INGREDIENT;
         this.distilled = distilled;
     }
-
     public WhiskyIngredient(ItemStack whisky_ingredient){
-        this.superItemType = SuperItemType.WHISKY_INGREDIENT;
-        this.itemStack = whisky_ingredient;
-        ItemMeta meta = whisky_ingredient.getItemMeta();
-        PotionMeta potionMeta = (PotionMeta) meta;
-        this.hasteLevel = potionMeta.getCustomEffects().get(0).getAmplifier();
-        this.hasteDuration = potionMeta.getCustomEffects().get(0).getDuration();
-        this.speedLevel = potionMeta.getCustomEffects().get(1).getAmplifier();
-        this.speedDuration = potionMeta.getCustomEffects().get(1).getDuration();
-        this.nightVisionLevel = potionMeta.getCustomEffects().get(2).getAmplifier();
-        this.nightVisionDuration = potionMeta.getCustomEffects().get(2).getDuration();
-        this.x = potionMeta.getPersistentDataContainer().get(xKey, PersistentDataType.DOUBLE);
-        this.y = potionMeta.getPersistentDataContainer().get(yKey, PersistentDataType.DOUBLE);
-        this.z = potionMeta.getPersistentDataContainer().get(zKey, PersistentDataType.DOUBLE);
-        this.divLine = potionMeta.getPersistentDataContainer().get(divLineKey, PersistentDataType.DOUBLE);
-        this.quality = potionMeta.getPersistentDataContainer().get(qualityKey, PersistentDataType.DOUBLE);
-        this.rarity = potionMeta.getPersistentDataContainer().get(rarityKey, PersistentDataType.DOUBLE);
-        this.distilled = potionMeta.getPersistentDataContainer().get(distilledKey, PersistentDataType.INTEGER);
-        setType();
+        setting(whisky_ingredient);
     }
     public WhiskyIngredient(ItemStack[] matrix){
         setting(matrix[1],matrix[7]);
     }
-
     public WhiskyIngredient(ItemStack barley, ItemStack coal){
         setting(barley, coal);
     }
@@ -102,13 +84,92 @@ public class WhiskyIngredient implements SuperCraftable {
         this.rarity = calcRarity(x,y,z, quality);
         setType();
     }
-
     @Override
     public void setMatrix(ItemStack[] matrix){
         this.matrix = matrix;
         setting(matrix[1], matrix[7]);
     }
+    @Override
+    public ItemStack getSuperItem() {
+        setType();
+        NamespacedKey typeKey = SuperItemType.typeKey;
+        NamespacedKey drinkableKey = new NamespacedKey("qol", "qol_consumable");
+        PotionMeta meta = (PotionMeta) this.itemStack.getItemMeta();
+        meta.setColor(org.bukkit.Color.fromRGB(255, 255, 255));
 
+        meta.getPersistentDataContainer().set(drinkableKey, PersistentDataType.BOOLEAN, false);
+        meta.getPersistentDataContainer().set(xKey, PersistentDataType.DOUBLE, this.x);
+        meta.getPersistentDataContainer().set(yKey, PersistentDataType.DOUBLE, this.y);
+        meta.getPersistentDataContainer().set(zKey, PersistentDataType.DOUBLE, this.z);
+        meta.getPersistentDataContainer().set(divLineKey, PersistentDataType.DOUBLE, this.divLine);
+        meta.getPersistentDataContainer().set(qualityKey, PersistentDataType.DOUBLE, this.quality);
+        meta.getPersistentDataContainer().set(rarityKey, PersistentDataType.DOUBLE, this.rarity);
+        meta.getPersistentDataContainer().set(distilledKey, PersistentDataType.INTEGER, this.distilled);
+        meta.getPersistentDataContainer().set(Alcohol.alcPerKey, PersistentDataType.DOUBLE, this.alcPer);
+
+        meta.displayName(Component.text("Whisky Ingredient").color(NamedTextColor.GOLD));
+        LoreGenerator lore = new LoreGenerator();
+        lore.addImportantLore("You cannot drink this!");
+        lore.addParametersLore("X", this.x*10);
+        lore.addParametersLore("Y", this.y*10);
+        lore.addParametersLore("Z", this.z*10);
+        lore.addParametersLore("D", this.divLine*10);
+        lore.addParametersLore("Distilled", this.distilled);
+        lore.addParametersLore("AlcoholLevel", this.alcPer, true);
+        if (this.distilled == 0){
+            lore.addImportantLore("You need to distill this!");
+        }
+        lore.addRarityLore((int)(this.rarity));
+        meta.lore(lore.generateLore());
+
+        meta.getPersistentDataContainer().set(typeKey, PersistentDataType.STRING, this.superItemType.getStringType());
+        meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.FAST_DIGGING, (int)Math.floor(this.hasteDuration / this.durationAmplifier), this.hasteLevel + this.distilled - 1), true);
+        meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.SPEED, (int)Math.floor(this.speedDuration / this.durationAmplifier), this.speedLevel + this.distilled -1), true);
+        meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.NIGHT_VISION, (int)Math.floor(this.nightVisionDuration / this.durationAmplifier), this.nightVisionLevel + this.distilled-1), true);
+        this.itemStack.setItemMeta(meta);
+
+        return this.itemStack;
+    }
+    @Override
+    public ItemStack getDebugItem(int... args){
+        this.x = 0.33;
+        this.y = 0.33;
+        this.z = 0.33;
+        this.divLine = 10.0;
+        this.quality = 1.0;
+        this.rarity = 0.0;
+        this.hasteLevel = 1;
+        this.hasteDuration = 100;
+        this.speedLevel = 1;
+        this.speedDuration = 100;
+        this.nightVisionLevel = 1;
+        this.nightVisionDuration = 100;
+        return this.getSuperItem();
+    }
+    @Override
+    public void setDistillationVariable(ItemStack item, double temp, double humid){
+        setting(item);
+        if (this.distilled >= 3){
+            return;
+        }
+        this.distilled += 1;
+        this.x = this.x * 0.90;
+        this.y = this.y * 0.90;
+        this.z = this.z * 0.90;
+        this.durationAmplifier = this.distilled * this.distilled;
+        // distilledの値に応じてalcPerを変更
+        switch (this.distilled){
+            case 1:
+                this.alcPer = 0.40;
+                break;
+            case 2:
+                this.alcPer = 0.50;
+                break;
+            case 3:
+                this.alcPer = 0.60;
+                break;
+        }
+    }
     private void setting(ItemStack barley, ItemStack coal){
         this.superItemType = SuperItemType.UNDISTILLED_WHISKY_INGREDIENT;
         this.itemStack = new ItemStack(Material.POTION);
@@ -169,110 +230,40 @@ public class WhiskyIngredient implements SuperCraftable {
         } else{throw new IllegalArgumentException("barley is not super");}
         setType();
     }
-
-    @Override
-    public ItemStack getSuperItem() {
+    private void setting(ItemStack whisky_ingredient){
+        this.superItemType = SuperItemType.WHISKY_INGREDIENT;
+        this.itemStack = whisky_ingredient;
+        ItemMeta meta = whisky_ingredient.getItemMeta();
+        PotionMeta potionMeta = (PotionMeta) meta;
+        this.hasteLevel = potionMeta.getCustomEffects().get(0).getAmplifier();
+        this.hasteDuration = potionMeta.getCustomEffects().get(0).getDuration();
+        this.speedLevel = potionMeta.getCustomEffects().get(1).getAmplifier();
+        this.speedDuration = potionMeta.getCustomEffects().get(1).getDuration();
+        this.nightVisionLevel = potionMeta.getCustomEffects().get(2).getAmplifier();
+        this.nightVisionDuration = potionMeta.getCustomEffects().get(2).getDuration();
+        this.x = potionMeta.getPersistentDataContainer().get(xKey, PersistentDataType.DOUBLE);
+        this.y = potionMeta.getPersistentDataContainer().get(yKey, PersistentDataType.DOUBLE);
+        this.z = potionMeta.getPersistentDataContainer().get(zKey, PersistentDataType.DOUBLE);
+        this.divLine = potionMeta.getPersistentDataContainer().get(divLineKey, PersistentDataType.DOUBLE);
+        this.quality = potionMeta.getPersistentDataContainer().get(qualityKey, PersistentDataType.DOUBLE);
+        this.rarity = potionMeta.getPersistentDataContainer().get(rarityKey, PersistentDataType.DOUBLE);
+        this.distilled = potionMeta.getPersistentDataContainer().get(distilledKey, PersistentDataType.INTEGER);
         setType();
-        NamespacedKey typeKey = SuperItemType.typeKey;
-        NamespacedKey drinkableKey = new NamespacedKey("qol", "qol_consumable");
-        PotionMeta meta = (PotionMeta) this.itemStack.getItemMeta();
-        meta.setColor(org.bukkit.Color.fromRGB(255, 255, 255));
-
-        meta.getPersistentDataContainer().set(drinkableKey, PersistentDataType.BOOLEAN, false);
-        meta.getPersistentDataContainer().set(xKey, PersistentDataType.DOUBLE, this.x);
-        meta.getPersistentDataContainer().set(yKey, PersistentDataType.DOUBLE, this.y);
-        meta.getPersistentDataContainer().set(zKey, PersistentDataType.DOUBLE, this.z);
-        meta.getPersistentDataContainer().set(divLineKey, PersistentDataType.DOUBLE, this.divLine);
-        meta.getPersistentDataContainer().set(qualityKey, PersistentDataType.DOUBLE, this.quality);
-        meta.getPersistentDataContainer().set(rarityKey, PersistentDataType.DOUBLE, this.rarity);
-        meta.getPersistentDataContainer().set(distilledKey, PersistentDataType.INTEGER, this.distilled);
-        meta.getPersistentDataContainer().set(Alcohol.alcPerKey, PersistentDataType.DOUBLE, this.alcPer);
-
-        meta.displayName(Component.text("Whisky Ingredient").color(NamedTextColor.GOLD));
-        LoreGenerator lore = new LoreGenerator();
-        lore.addImportantLore("You cannot drink this!");
-        lore.addParametersLore("X", this.x*10);
-        lore.addParametersLore("Y", this.y*10);
-        lore.addParametersLore("Z", this.z*10);
-        lore.addParametersLore("D", this.divLine*10);
-        lore.addParametersLore("Distilled", this.distilled);
-        lore.addParametersLore("AlcoholLevel", this.alcPer, true);
-        if (this.distilled == 0){
-            lore.addImportantLore("You need to distill this!");
-        }
-        lore.addRarityLore((int)(this.rarity));
-        meta.lore(lore.generateLore());
-
-        meta.getPersistentDataContainer().set(typeKey, PersistentDataType.STRING, this.superItemType.getStringType());
-        meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.FAST_DIGGING, (int)Math.floor(this.hasteDuration / this.durationAmplifier), this.hasteLevel + this.distilled - 1), true);
-        meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.SPEED, (int)Math.floor(this.speedDuration / this.durationAmplifier), this.speedLevel + this.distilled -1), true);
-        meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.NIGHT_VISION, (int)Math.floor(this.nightVisionDuration / this.durationAmplifier), this.nightVisionLevel + this.distilled-1), true);
-        this.itemStack.setItemMeta(meta);
-
-        return this.itemStack;
     }
-    @Override
-    public ItemStack getDebugItem(int... args){
-        this.x = 0.33;
-        this.y = 0.33;
-        this.z = 0.33;
-        this.divLine = 10.0;
-        this.quality = 1.0;
-        this.rarity = 0.0;
-        this.hasteLevel = 1;
-        this.hasteDuration = 100;
-        this.speedLevel = 1;
-        this.speedDuration = 100;
-        this.nightVisionLevel = 1;
-        this.nightVisionDuration = 100;
-        return this.getSuperItem();
-    }
-
-
-
-    public boolean distilled(){
-        if (this.distilled >= 3){
-            return false;
-        }
-        this.distilled += 1;
-        this.x = this.x * 0.90;
-        this.y = this.y * 0.90;
-        this.z = this.z * 0.90;
-        this.durationAmplifier = this.distilled * this.distilled;
-        // distilledの値に応じてalcPerを変更
-        switch (this.distilled){
-            case 1:
-                this.alcPer = 0.40;
-                break;
-            case 2:
-                this.alcPer = 0.50;
-                break;
-            case 3:
-                this.alcPer = 0.60;
-                break;
-        }
-
-        return true;
-    }
-
     private int calcLevel(double barley){
         return (int) Math.floor(barley / this.divLine + 1);
     }
     private int calcDuration(double barley){
         return (int) Math.floor((barley % this.divLine) * this.maxDuration * quality);
-
     }
-
     private double calcRarity(double x, double y, double z, double quality){
         return ((x+y+z)*quality - 1.0) * 10.0;
     }
-
     private void setType(){
         if (this.distilled > 0){
             this.superItemType = SuperItemType.WHISKY_INGREDIENT;
         } else{
             this.superItemType = SuperItemType.UNDISTILLED_WHISKY_INGREDIENT;
         }
-
     }
 }

@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.listener.*;
 import net.okuri.qol.qolCraft.distillation.Distillation;
+import net.okuri.qol.qolCraft.distillation.DistillationRecipe;
 import net.okuri.qol.qolCraft.maturation.Maturation;
 import net.okuri.qol.qolCraft.maturation.MaturationRecipe;
 import net.okuri.qol.superItems.drinks.*;
@@ -46,6 +47,8 @@ public final class QOL extends JavaPlugin {
 
         registerRecipes(superCraft);
         registerMaturationRecipes(maturation);
+        registerDistillationRecipes(distillation);
+
         getCommand("getenv").setExecutor(new Commands());
         getCommand("matsign").setExecutor(new Commands());
         getCommand("givesuperitem").setExecutor(new Commands());
@@ -55,7 +58,7 @@ public final class QOL extends JavaPlugin {
         alc.runTaskTimer(this, 0, 1200);
 
         // distillationのレシピを登録
-        FurnaceRecipe distillationRecipe = new FurnaceRecipe(new NamespacedKey("qol","distillation"), new ItemStack(Material.POTION, 1), Material.POTION, 0.0f, 200);
+        FurnaceRecipe distillationRecipe = new FurnaceRecipe(new NamespacedKey("qol","distillation_recipe"), new ItemStack(Material.POTION, 1), Material.POTION, 0.0f, 200);
         Bukkit.addRecipe(distillationRecipe);
         getLogger().info("QOL Plugin Enabled");
 
@@ -244,6 +247,18 @@ public final class QOL extends JavaPlugin {
         MaturationRecipe beerRecipe = new MaturationRecipe("Beer", new Beer());
         beerRecipe.addingredient(SuperItemType.BEER_INGREDIENT);
         maturation.addMaturationRecipe(beerRecipe);
+    }
+
+    // Distillationのレシピを登録する
+    private void registerDistillationRecipes(Distillation distillation){
+        // ここにDistillationのレシピを登録する
+
+        // Whisky Ingredient
+        DistillationRecipe whiskyIngredientRecipe = new DistillationRecipe("Whisky Ingredient", new WhiskyIngredient());
+        whiskyIngredientRecipe.addingredient(SuperItemType.WHISKY_INGREDIENT);
+        whiskyIngredientRecipe.addingredient(SuperItemType.UNDISTILLED_WHISKY_INGREDIENT);
+        distillation.addDistillationRecipe(whiskyIngredientRecipe);
+
     }
 
     public JavaPlugin getPlugin() {

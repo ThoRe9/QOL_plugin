@@ -8,7 +8,7 @@ net\okuri\qol\superItems\SuperItem.class
 net\okuri\qol\superItems\foods\RyeBread.class
 net\okuri\qol\QOL.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftable.class
-net\okuri\qol\qolCraft\distillation\Distillation$1.class
+net\okuri\qol\qolCraft\distillation\Distillable.class
 net\okuri\qol\qolCraft\maturation\Maturation.class
 net\okuri\qol\Commands.class
 net\okuri\qol\ProtectedBlock.class
@@ -43,6 +43,7 @@ net\okuri\qol\superItems\Wheat.class
 net\okuri\qol\event\MaturationPrepareEvent.class
 net\okuri\qol\superItems\SuperItemType.class
 net\okuri\qol\listener\GetSuperItemListener.class
+net\okuri\qol\qolCraft\distillation\DistillationRecipe.class
 net\okuri\qol\listener\ProtectListener.class
 net\okuri\qol\Alcohol.class
 net\okuri\qol\ChatGenerator.class
