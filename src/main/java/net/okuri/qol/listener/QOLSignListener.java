@@ -59,6 +59,12 @@ public class QOLSignListener implements Listener {
             Barrel barrel = (Barrel)sign.getBlock().getRelative(((Directional) sign.getBlock().getBlockData()).getFacing().getOppositeFace()).getState();
             // そのブロックが樽であるかどうかを確認する
             if (barrel.getType() == Material.BARREL){
+                // その樽が保護されているかどうかを確認する
+                if (barrel.isLocked()){
+                    new ChatGenerator().addWarning("This barrel is locked!").sendMessage(player);
+                    event.setCancelled(true);
+                    return;
+                }
                 MaturationPrepareEvent maturationPrepareEvent = new MaturationPrepareEvent(sign, barrel, player);
                 maturationPrepareEvent.callEvent();
             } else{
