@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-public class SuperWheat extends SuperItem{
+public class SuperWheat implements SuperItem{
     private final ItemStack wheat = new ItemStack(Material.WHEAT);
     private int x;
     private int y;

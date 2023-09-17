@@ -2,12 +2,17 @@ package net.okuri.qol;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.okuri.qol.drinks.*;
-import net.okuri.qol.foods.BarleyBread;
-import net.okuri.qol.foods.Bread;
-import net.okuri.qol.foods.RyeBread;
-import net.okuri.qol.superCraft.SuperCraft;
-import net.okuri.qol.superCraft.SuperCraftRecipe;
+import net.okuri.qol.listener.*;
+import net.okuri.qol.qolCraft.distillation.Distillation;
+import net.okuri.qol.qolCraft.distillation.DistillationRecipe;
+import net.okuri.qol.qolCraft.maturation.Maturation;
+import net.okuri.qol.qolCraft.maturation.MaturationRecipe;
+import net.okuri.qol.superItems.drinks.*;
+import net.okuri.qol.superItems.foods.BarleyBread;
+import net.okuri.qol.superItems.foods.Bread;
+import net.okuri.qol.superItems.foods.RyeBread;
+import net.okuri.qol.qolCraft.superCraft.SuperCraft;
+import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -28,10 +33,22 @@ public final class QOL extends JavaPlugin {
 
         // drinkCraftsには特殊レシピを登録する
         SuperCraft superCraft = new SuperCraft();
+        Maturation maturation = new Maturation();
+        Distillation distillation = new Distillation();
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
+        getServer().getPluginManager().registerEvents(new ConsumeListener(), this);
+        getServer().getPluginManager().registerEvents(new GetSuperItemListener(), this);
+        getServer().getPluginManager().registerEvents(new InteractListener(), this);
+        getServer().getPluginManager().registerEvents(new ProtectListener(), this);
+        getServer().getPluginManager().registerEvents(new QOLSignListener(this), this);
         getServer().getPluginManager().registerEvents(superCraft, this);
-        getServer().getPluginManager().registerEvents(new SignFunction(), this);
+        getServer().getPluginManager().registerEvents(maturation, this);
+        getServer().getPluginManager().registerEvents(distillation, this);
+
         registerRecipes(superCraft);
+        registerMaturationRecipes(maturation);
+        registerDistillationRecipes(distillation);
+
         getCommand("getenv").setExecutor(new Commands());
         getCommand("matsign").setExecutor(new Commands());
         getCommand("givesuperitem").setExecutor(new Commands());
@@ -41,7 +58,7 @@ public final class QOL extends JavaPlugin {
         alc.runTaskTimer(this, 0, 1200);
 
         // distillationのレシピを登録
-        FurnaceRecipe distillationRecipe = new FurnaceRecipe(new NamespacedKey("qol","distillation"), new ItemStack(Material.POTION, 1), Material.POTION, 0.0f, 200);
+        FurnaceRecipe distillationRecipe = new FurnaceRecipe(new NamespacedKey("qol","distillation_recipe"), new ItemStack(Material.POTION, 1), Material.POTION, 0.0f, 200);
         Bukkit.addRecipe(distillationRecipe);
         getLogger().info("QOL Plugin Enabled");
 
@@ -215,8 +232,32 @@ public final class QOL extends JavaPlugin {
         SZR.setIngredient('R', Material.WHEAT);
         SZR.setIngredient('W', Material.POTION);
         Bukkit.addRecipe(SZR);
+    }
 
+    // Maturationのレシピを登録する
+    private void registerMaturationRecipes(Maturation maturation){
+        // ここにMaturationのレシピを登録する
 
+        // Whisky
+        MaturationRecipe whiskyRecipe = new MaturationRecipe("Whisky", new Whisky());
+        whiskyRecipe.addingredient(SuperItemType.WHISKY_INGREDIENT);
+        maturation.addMaturationRecipe(whiskyRecipe);
+
+        // Beer
+        MaturationRecipe beerRecipe = new MaturationRecipe("Beer", new Beer());
+        beerRecipe.addingredient(SuperItemType.BEER_INGREDIENT);
+        maturation.addMaturationRecipe(beerRecipe);
+    }
+
+    // Distillationのレシピを登録する
+    private void registerDistillationRecipes(Distillation distillation){
+        // ここにDistillationのレシピを登録する
+
+        // Whisky Ingredient
+        DistillationRecipe whiskyIngredientRecipe = new DistillationRecipe("Whisky Ingredient", new WhiskyIngredient());
+        whiskyIngredientRecipe.addingredient(SuperItemType.WHISKY_INGREDIENT);
+        whiskyIngredientRecipe.addingredient(SuperItemType.UNDISTILLED_WHISKY_INGREDIENT);
+        distillation.addDistillationRecipe(whiskyIngredientRecipe);
 
     }
 
