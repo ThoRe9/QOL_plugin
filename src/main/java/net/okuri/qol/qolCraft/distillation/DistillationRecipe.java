@@ -27,5 +27,4 @@ public class DistillationRecipe {
     public ArrayList<SuperItemType> getIngredients(){
         return ingredients;
     }
-
 }

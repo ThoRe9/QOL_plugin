@@ -1,6 +1,8 @@
 package net.okuri.qol.qolCraft.distillation;
 
+import net.okuri.qol.event.DistillationEvent;
 import net.okuri.qol.superItems.SuperItemType;
+import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Furnace;
 import org.bukkit.event.EventHandler;
@@ -26,8 +28,8 @@ public class Distillation implements Listener {
                     if (distillationRecipe.getIngredients().contains(ingredientType)) {
                         Distillable resultClass = distillationRecipe.getResultClass();
                         resultClass.setDistillationVariable(ingredient, event.getBlock().getLocation().getBlock().getTemperature(), event.getBlock().getLocation().getBlock().getHumidity());
-                        event.setResult(resultClass.getSuperItem());
-                        return;
+                        DistillationEvent distillationEvent = new DistillationEvent(event, resultClass);
+                        Bukkit.getServer().getPluginManager().callEvent(distillationEvent);
                     }
                 }
             }

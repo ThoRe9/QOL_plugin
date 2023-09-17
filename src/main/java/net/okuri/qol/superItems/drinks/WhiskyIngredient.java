@@ -135,7 +135,7 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         this.x = 0.33;
         this.y = 0.33;
         this.z = 0.33;
-        this.divLine = 10.0;
+        this.divLine = 1.0;
         this.quality = 1.0;
         this.rarity = 0.0;
         this.hasteLevel = 1;
@@ -235,11 +235,12 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         this.itemStack = whisky_ingredient;
         ItemMeta meta = whisky_ingredient.getItemMeta();
         PotionMeta potionMeta = (PotionMeta) meta;
-        this.hasteLevel = potionMeta.getCustomEffects().get(0).getAmplifier();
+        this.distilled = potionMeta.getPersistentDataContainer().get(distilledKey, PersistentDataType.INTEGER);
+        this.hasteLevel = potionMeta.getCustomEffects().get(0).getAmplifier() - this.distilled + 1;
         this.hasteDuration = potionMeta.getCustomEffects().get(0).getDuration();
-        this.speedLevel = potionMeta.getCustomEffects().get(1).getAmplifier();
+        this.speedLevel = potionMeta.getCustomEffects().get(1).getAmplifier() - this.distilled + 1;
         this.speedDuration = potionMeta.getCustomEffects().get(1).getDuration();
-        this.nightVisionLevel = potionMeta.getCustomEffects().get(2).getAmplifier();
+        this.nightVisionLevel = potionMeta.getCustomEffects().get(2).getAmplifier() - this.distilled + 1;
         this.nightVisionDuration = potionMeta.getCustomEffects().get(2).getDuration();
         this.x = potionMeta.getPersistentDataContainer().get(xKey, PersistentDataType.DOUBLE);
         this.y = potionMeta.getPersistentDataContainer().get(yKey, PersistentDataType.DOUBLE);
@@ -247,7 +248,6 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         this.divLine = potionMeta.getPersistentDataContainer().get(divLineKey, PersistentDataType.DOUBLE);
         this.quality = potionMeta.getPersistentDataContainer().get(qualityKey, PersistentDataType.DOUBLE);
         this.rarity = potionMeta.getPersistentDataContainer().get(rarityKey, PersistentDataType.DOUBLE);
-        this.distilled = potionMeta.getPersistentDataContainer().get(distilledKey, PersistentDataType.INTEGER);
         setType();
     }
     private int calcLevel(double barley){
