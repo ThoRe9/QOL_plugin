@@ -4,8 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
-import net.okuri.qol.qolCraft.maturation.Maturationable;
-import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.qolCraft.maturation.Maturable;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -23,7 +22,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Whisky implements Maturationable {
+public class Whisky implements Maturable {
     private final SuperItemType superItemType = SuperItemType.WHISKY;
     private LocalDateTime start;
     private int days;

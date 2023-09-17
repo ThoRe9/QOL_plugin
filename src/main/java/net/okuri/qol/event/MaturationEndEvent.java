@@ -1,6 +1,6 @@
 package net.okuri.qol.event;
 
-import net.okuri.qol.qolCraft.maturation.Maturationable;
+import net.okuri.qol.qolCraft.maturation.Maturable;
 
 import org.bukkit.block.Barrel;
 import org.bukkit.block.Sign;
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class MaturationEndEvent extends Event {
     private static final HandlerList HANDLERS = new HandlerList();
     private final Player player;
-    private final Maturationable result;
+    private final Maturable result;
     private final ArrayList<ItemStack> inputItems;
     private final Barrel barrel;
     private final Sign sign;
@@ -32,7 +32,7 @@ public class MaturationEndEvent extends Event {
 
 
 
-    public MaturationEndEvent(Player player, Maturationable result, ArrayList<ItemStack> inputItems, Barrel barrel, Sign sign, LocalDateTime start, LocalDateTime end, double temp, double humid) {
+    public MaturationEndEvent(Player player, Maturable result, ArrayList<ItemStack> inputItems, Barrel barrel, Sign sign, LocalDateTime start, LocalDateTime end, double temp, double humid) {
         this.player = player;
         this.result = result;
         this.inputItems = inputItems;
@@ -71,7 +71,7 @@ public class MaturationEndEvent extends Event {
     public Duration getDuration(){
         return Duration.between(start, end);
     }
-    public Maturationable getResult() {
+    public Maturable getResult() {
         return result;
     }
     public double getTemp() {

@@ -15,7 +15,6 @@ import org.bukkit.block.Barrel;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.Directional;
 import org.bukkit.block.sign.Side;
-import org.bukkit.block.sign.SignSide;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -86,7 +85,7 @@ public class Maturation implements Listener{
             if (Objects.equals(lines[0], "[QOL]") && Objects.equals(lines[1], "[Maturation]") && ProtectedBlock.isProtectedBlock(sign)){
                 // Maturationの処理
                 Barrel barrel = (Barrel) sign.getBlock().getRelative(((Directional) sign.getBlockData()).getFacing().getOppositeFace()).getState();
-                Maturationable result = getRecipe(barrel).getResultClass();
+                Maturable result = getRecipe(barrel).getResultClass();
                 ArrayList<ItemStack> ingredients = new ArrayList<>();
                 Collections.addAll(ingredients, barrel.getInventory().getContents());
                 LocalDateTime start = LocalDateTime.parse(lines[2]);
@@ -104,7 +103,7 @@ public class Maturation implements Listener{
     }
     @EventHandler
     public void finishMaturation(MaturationEndEvent event){
-        Maturationable result = event.getResult();
+        Maturable result = event.getResult();
         Sign sign = event.getSign();
         Barrel barrel = event.getBarrel();
         Player player = event.getPlayer();
