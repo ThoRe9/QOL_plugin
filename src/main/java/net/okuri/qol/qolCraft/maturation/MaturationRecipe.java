@@ -8,10 +8,10 @@ import java.util.ArrayList;
 public class MaturationRecipe {
     private final ArrayList<SuperItemType> ingredients = new ArrayList<>();
 
-    private final Maturationable resultClass;
+    private final Maturable resultClass;
     private final String recipeName;
 
-    public MaturationRecipe(String name, Maturationable resultClass) {
+    public MaturationRecipe(String name, Maturable resultClass) {
         this.resultClass = resultClass;
         this.recipeName = name;
     }
@@ -27,7 +27,7 @@ public class MaturationRecipe {
     public String getRecipeName(){
         return recipeName;
     }
-    public Maturationable getResultClass(){
+    public Maturable getResultClass(){
         return resultClass;
     }
 }

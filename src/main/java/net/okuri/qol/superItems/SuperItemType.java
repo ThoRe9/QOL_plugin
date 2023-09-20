@@ -17,6 +17,7 @@ public enum SuperItemType {
     RYE("RYE", 0),
     BARLEY("BARLEY", 0),
     RICE("RICE", 0),
+    POTATO("POTATO", 0),
     WHISKY_INGREDIENT("WHISKY_INGREDIENT", 0),
     UNDISTILLED_WHISKY_INGREDIENT("UNDISTILLED_WHISKY_INGREDIENT", 0),
     WHISKY("WHISKY", 1),
@@ -59,6 +60,8 @@ public enum SuperItemType {
                 return new Barley();
             case RICE:
                 return new Rice();
+            case POTATO:
+                return new SuperPotato();
             case WHISKY_INGREDIENT:
                 return new WhiskyIngredient(1);
             case UNDISTILLED_WHISKY_INGREDIENT:

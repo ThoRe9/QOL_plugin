@@ -31,6 +31,8 @@ public class GetSuperItemListener implements Listener {
             this.superWheatEvent(event);
         } else if (blockType == Material.COAL_ORE){
             this.superCoalEvent(event);
+        } else if (blockType == Material.POTATO) {
+            this.superPotatoEvent(event);
         }
     }
 
@@ -69,12 +71,28 @@ public class GetSuperItemListener implements Listener {
         new ChatGenerator().addDebug(String.valueOf(n)).sendMessage(player);
         // CoalOre(Block)が自然生成されたものか確認する。もしそうでないなら何も起きない。
 
-        if (n < 2){
+        if (n < 1){
             // SuperCoal を与える
             player.sendMessage("You got a SuperCoal!");
             // TODO qualityはJOBのレベルによって変える
             ItemStack superCoal = new SuperCoal(block.getY(), 1.0).getSuperItem();
             player.getInventory().addItem(superCoal);
+        }
+    }
+
+    private void superPotatoEvent(BlockBreakEvent e){
+        Player player = e.getPlayer();
+        Block block = e.getBlock();
+        Random rand = new Random();
+        int n = rand.nextInt(100);
+        new ChatGenerator().addDebug(String.valueOf(n)).sendMessage(player);
+        // Potatoが成熟しているかどうか
+        if (block.getBlockData().getAsString().contains("age=7")){
+            if (n < 1){
+                // SuperPotato を与える
+                player.sendMessage("You got a SuperPotato!");
+                // TODO SuperPotatoの実装
+            }
         }
     }
 }

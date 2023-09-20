@@ -3,12 +3,17 @@ package net.okuri.qol.superItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.qolCraft.calcuration.CirculeDistribution;
+import net.okuri.qol.qolCraft.calcuration.DiscontinuityDurationCalcuration;
+import net.okuri.qol.qolCraft.calcuration.RandFromXYZ;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
+
+import java.util.ArrayList;
 
 public class SuperWheat implements SuperItem{
     private final ItemStack wheat = new ItemStack(Material.WHEAT);
@@ -59,8 +64,21 @@ public class SuperWheat implements SuperItem{
     }
     
     public ItemStack getSuperItem() {
+        // パラメータ計算
+        RandFromXYZ rand = new RandFromXYZ();
+        rand.setVariable(this.x, this.y, this.z, this.biomeID, 0.05);
+        rand.calcuration();
+        ArrayList<Double> correction = rand.getAns();
+        CirculeDistribution calc = new CirculeDistribution();
+        calc.setVariable(this.temp + 0.75, 1, 3);
+        calc.setCorrection(correction);
+        calc.calcuration();
+        ArrayList<Double> ans = calc.getAns();
+        this.px = ans.get(0);
+        this.py = ans.get(1);
+        this.pz = ans.get(2);
+
         // PersistentDataContainer にデータを保存
-        this.calcPs();
         NamespacedKey typekey = SuperItemType.typeKey;
         ItemMeta meta = wheat.getItemMeta();
 
@@ -124,11 +142,11 @@ public class SuperWheat implements SuperItem{
             this.superItemType = SuperItemType.WHEAT;
         }
 
-        this.x = 0;
-        this.y = 0;
-        this.z = 0;
+        this.x = 10;
+        this.y = 10;
+        this.z = 10;
         this.temp = 0.5;
-        this.biomeID = 1;
+        this.biomeID = 100;
         this.px = 0.33;
         this.py = 0.33;
         this.pz = 0.33;
@@ -137,13 +155,14 @@ public class SuperWheat implements SuperItem{
         return this.getSuperItem();
 
     }
-    
+    @Deprecated
     private void calcPs() {
         this.px = calcTemp('x');
         this.py = calcTemp('y');
         this.pz = calcTemp('z');
     }
 
+    @Deprecated
     private double calcTemp(char param){
         // wheatのパラメータを計算。要バランス調整。
         int initValue;
