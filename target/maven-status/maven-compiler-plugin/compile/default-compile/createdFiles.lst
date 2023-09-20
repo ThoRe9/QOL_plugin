@@ -7,6 +7,7 @@ net\okuri\qol\superItems\Rice.class
 net\okuri\qol\listener\ConsumeListener.class
 net\okuri\qol\superItems\SuperItem.class
 net\okuri\qol\superItems\foods\RyeBread.class
+net\okuri\qol\PDCKey.class
 net\okuri\qol\QOL.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftable.class
 net\okuri\qol\qolCraft\distillation\Distillable.class
@@ -36,6 +37,7 @@ net\okuri\qol\superItems\drinks\WhiskyIngredient.class
 net\okuri\qol\superItems\drinks\BeerIngredient.class
 net\okuri\qol\listener\EventListener.class
 net\okuri\qol\LoreGenerator.class
+net\okuri\qol\PDCKey$ApplyType.class
 net\okuri\qol\qolCraft\distillation\Distillation.class
 net\okuri\qol\superItems\foods\BarleyBread.class
 net\okuri\qol\superItems\Barley.class

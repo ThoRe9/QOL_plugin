@@ -9,7 +9,6 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 
-
 public enum PDCKey {
     // ここにPDCのキーを列挙する
 
@@ -21,8 +20,8 @@ public enum PDCKey {
     // ALCOHOL_LEVEL: プレイヤーの血中アルコール濃度を記憶する
     ALCOHOL_AMOUNT("alcohol_amount", PersistentDataType.DOUBLE, ApplyType.ITEM),
     // ALCOHOL_AMOUNT: アルコール飲料の量を記憶する
-    ALCOHOL_PERCENT("alcohol_percent", PersistentDataType.DOUBLE, ApplyType.ITEM),
-    // ALCOHOL_PERCENT: アルコール飲料のアルコール度数を記憶する
+    ALCOHOL_PERCENTAGE("alcohol_percentage", PersistentDataType.DOUBLE, ApplyType.ITEM),
+    // ALCOHOL_PERCENTAGE: アルコール飲料のアルコール度数を記憶する
     ALCOHOL("alcohol", PersistentDataType.BOOLEAN, ApplyType.ITEM),
     // ALCOHOL: アルコール飲料かどうかを記憶する
     FOOD_LEVEL("food_level", PersistentDataType.INTEGER, ApplyType.ITEM),
@@ -65,17 +64,22 @@ public enum PDCKey {
     private final NamespacedKey key;
     private final PersistentDataType type;
     private final ApplyType apply;
+    private final Class<?> primitiveType;
 
     PDCKey(String key, PersistentDataType type, ApplyType apply) {
         this.key = new NamespacedKey("qol", key);
         this.type = type;
         this.apply = apply;
+        this.primitiveType = type.getPrimitiveType();
     }
 
-    public NamespacedKey getKey() {
+    public NamespacedKey key() {
         return key;
     }
-    public void setPDC(ItemStack item, Object value) {
+    public PersistentDataType type() {
+        return type;
+    }
+    public void set(ItemStack item, Object value) {
         if (apply == ApplyType.ALL || apply == ApplyType.ITEM) {
             if (isSettable(value)) {
                 ItemMeta meta = item.getItemMeta();
@@ -85,7 +89,7 @@ public enum PDCKey {
             }
         }
     }
-    public void setPDC(BlockState state, Object value){
+    public void set(BlockState state, Object value){
         if (state instanceof PersistentDataHolder){
             if (apply == ApplyType.ALL || apply == ApplyType.BLOCK) {
                 if (isSettable(value)) {
@@ -96,7 +100,7 @@ public enum PDCKey {
             }
         }
     }
-    public void setPDC(Player player, Object value){
+    public void set(Player player, Object value){
         if (apply == ApplyType.ALL || apply == ApplyType.PLAYER) {
             if (isSettable(value)) {
                 PersistentDataContainer pdc = player.getPersistentDataContainer();
@@ -105,7 +109,7 @@ public enum PDCKey {
         }
     }
 
-    public Object getPDC(ItemStack item){
+    public Object get(ItemStack item){
         if (apply == ApplyType.ALL || apply == ApplyType.ITEM) {
             ItemMeta meta = item.getItemMeta();
             PersistentDataContainer pdc = meta.getPersistentDataContainer();
@@ -115,7 +119,7 @@ public enum PDCKey {
         }
         return null;
     }
-    public Object getPDC(BlockState state){
+    public Object get(BlockState state){
         if (state instanceof PersistentDataHolder){
             if (apply == ApplyType.ALL || apply == ApplyType.BLOCK) {
                 PersistentDataContainer pdc = ((PersistentDataHolder) state).getPersistentDataContainer();
@@ -126,7 +130,7 @@ public enum PDCKey {
         }
         return null;
     }
-    public Object getPDC(Player player){
+    public Object get(Player player){
         if (apply == ApplyType.ALL || apply == ApplyType.PLAYER) {
             PersistentDataContainer pdc = player.getPersistentDataContainer();
             if (pdc.has(key, type)) {
@@ -136,7 +140,7 @@ public enum PDCKey {
         return null;
     }
 
-    public boolean hasPDC(ItemStack item){
+    public boolean has(ItemStack item){
         if (apply == ApplyType.ALL || apply == ApplyType.ITEM) {
             ItemMeta meta = item.getItemMeta();
             PersistentDataContainer pdc = meta.getPersistentDataContainer();
@@ -144,7 +148,7 @@ public enum PDCKey {
         }
         return false;
     }
-    public boolean hasPDC(BlockState state){
+    public boolean has(BlockState state){
         if (state instanceof PersistentDataHolder){
             if (apply == ApplyType.ALL || apply == ApplyType.BLOCK) {
                 PersistentDataContainer pdc = ((PersistentDataHolder) state).getPersistentDataContainer();
@@ -153,7 +157,7 @@ public enum PDCKey {
         }
         return false;
     }
-    public boolean hasPDC(Player player){
+    public boolean has(Player player){
         if (apply == ApplyType.ALL || apply == ApplyType.PLAYER) {
             PersistentDataContainer pdc = player.getPersistentDataContainer();
             return pdc.has(key, type);
