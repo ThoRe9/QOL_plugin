@@ -62,15 +62,15 @@ public class Commands implements CommandExecutor {
                         String typeStr = args[0];
                         //type が SuperItemType に存在するか確認する
                         try {
-                            ItemStack item = SuperItemType.getSuperItemClass(SuperItemType.valueOf(typeStr)).getDebugItem();
-                            player.getInventory().addItem(item);
-                            new ChatGenerator().addInfo("Successfully gave the item!").sendMessage(player);
-
-                            return true;
+                            SuperItemType.valueOf(typeStr);
                         } catch (IllegalArgumentException e) {
                             new ChatGenerator().addWarning("Invalid type!").sendMessage(player);
                             return true;
                         }
+                        ItemStack item = SuperItemType.getSuperItemClass(SuperItemType.valueOf(typeStr)).getDebugItem();
+                        player.getInventory().addItem(item);
+                        new ChatGenerator().addInfo("Successfully gave the item!").sendMessage(player);
+                        return true;
                     }
                 }
             }

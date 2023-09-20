@@ -3,6 +3,9 @@ package net.okuri.qol.superItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
@@ -34,11 +37,11 @@ public class SuperCoal implements SuperItem {
         this.calcRarity();
         // PersistentDataContainer にデータを保存
         NamespacedKey typekey = SuperItemType.typeKey;
-
         ItemMeta meta = itemStack.getItemMeta();
-        meta.getPersistentDataContainer().set(typekey, PersistentDataType.STRING, this.superItemType.getStringType());
-        meta.getPersistentDataContainer().set(raritykey, PersistentDataType.DOUBLE, this.rarity);
-        meta.getPersistentDataContainer().set(qualitykey, PersistentDataType.DOUBLE, this.quality);
+
+        PDCC.set(meta, PDCKey.TYPE, this.superItemType.getStringType());
+        PDCC.set(meta, PDCKey.RARITY, this.rarity);
+        PDCC.set(meta, PDCKey.QUALITY, this.quality);
 
         //名前を変更
         Component display;
@@ -52,6 +55,7 @@ public class SuperCoal implements SuperItem {
         meta.lore(loreGenerator.generateLore());
 
         this.itemStack.setItemMeta(meta);
+        Bukkit.getLogger().info((String)PDCC.get(this.itemStack, PDCKey.TYPE));
         return this.itemStack;
 
     }
