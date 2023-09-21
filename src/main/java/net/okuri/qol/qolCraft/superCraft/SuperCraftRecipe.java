@@ -1,5 +1,7 @@
 package net.okuri.qol.qolCraft.superCraft;
 
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -62,11 +64,11 @@ public class SuperCraftRecipe {
                        // Bukkit.getServer().getLogger().info("nullSlotDetected");
                         return false;
                     }
-                    if (!matrix[checkIndex].getItemMeta().getPersistentDataContainer().has(SuperItemType.typeKey, PersistentDataType.STRING)) {
+                    if (!PDCC.has(matrix[checkIndex].getItemMeta(),PDCKey.TYPE)) {
                         //Bukkit.getServer().getLogger().info("noTypeDetected");
                         return false;
                     }
-                    if (!Objects.equals(matrix[checkIndex].getItemMeta().getPersistentDataContainer().get(SuperItemType.typeKey, PersistentDataType.STRING), superIngredients.get(ingredient).toString())) {
+                    if (!Objects.equals(PDCC.get(matrix[checkIndex].getItemMeta(),PDCKey.TYPE), superIngredients.get(ingredient).toString())) {
                         //Bukkit.getServer().getLogger().info("differentTypeDetected");
                         return false;
                     }

@@ -24,8 +24,6 @@ public class SuperCoal implements SuperItem {
     private double quality;
     // rarityは掘ったy座標に依存している。(マイクラの生成確立に反比例する)
     private double rarity;
-    public static final NamespacedKey raritykey = new NamespacedKey("qol", "super_coal_rarity");
-    public static final NamespacedKey qualitykey = new NamespacedKey("qol", "super_coal_quality");
     public SuperCoal(){
     }
 
@@ -36,7 +34,6 @@ public class SuperCoal implements SuperItem {
     public ItemStack getSuperItem() {
         this.calcRarity();
         // PersistentDataContainer にデータを保存
-        NamespacedKey typekey = SuperItemType.typeKey;
         ItemMeta meta = itemStack.getItemMeta();
 
         PDCC.set(meta, PDCKey.TYPE, this.superItemType.getStringType());

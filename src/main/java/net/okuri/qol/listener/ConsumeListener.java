@@ -2,6 +2,8 @@ package net.okuri.qol.listener;
 
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.ChatGenerator;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,30 +29,29 @@ public class ConsumeListener implements Listener {
     }
     private void alcoholEvent(Player player, ItemMeta meta){
         // metaのPersistentDataContainerにalcoholKeyがあるか確認
-        if (!meta.getPersistentDataContainer().has(Alcohol.alcKey, PersistentDataType.BOOLEAN)){
+        if (!PDCC.has(meta, PDCKey.ALCOHOL)){
             return;
         }
-        if (!meta.getPersistentDataContainer().get(Alcohol.alcKey, PersistentDataType.BOOLEAN)){
+        if (!(boolean)PDCC.get(meta, PDCKey.ALCOHOL)){
             return;
         }
         // プレイヤーのAlcoholLevelを取得
         // ない場合は作成
-        if (!player.getPersistentDataContainer().has(Alcohol.alcLvKey, PersistentDataType.DOUBLE)){
-            player.getPersistentDataContainer().set(Alcohol.alcLvKey, PersistentDataType.DOUBLE, 0.00);
+        if (!PDCC.has(player, PDCKey.ALCOHOL_LEVEL)){
+            PDCC.set(player, PDCKey.ALCOHOL_LEVEL, 0.0);
         }
-        double alcLv = player.getPersistentDataContainer().get(Alcohol.alcLvKey, PersistentDataType.DOUBLE);
+        double alcLv = PDCC.get(player, PDCKey.ALCOHOL_LEVEL);
         // itemのalcAmount * alcPerをalcLvに加算
-        double alcAmount = meta.getPersistentDataContainer().get(Alcohol.alcAmountKey, PersistentDataType.DOUBLE);
-        double alcPer = meta.getPersistentDataContainer().get(Alcohol.alcPerKey, PersistentDataType.DOUBLE);
+        double alcAmount = PDCC.get(meta, PDCKey.ALCOHOL_AMOUNT);
+        double alcPer = PDCC.get(meta, PDCKey.ALCOHOL_PERCENTAGE);
         alcLv += alcAmount * alcPer / 350;
-        player.getPersistentDataContainer().set(Alcohol.alcLvKey, PersistentDataType.DOUBLE, alcLv);
+        PDCC.set(player, PDCKey.ALCOHOL_LEVEL, alcLv);
         // alcoholの効果を与える
         new Alcohol().run();
     }
     private void unconsumableEvent(PlayerItemConsumeEvent event, Player player, ItemMeta meta){
-        NamespacedKey key = new NamespacedKey("qol", "qol_consumable");
-        if (meta.getPersistentDataContainer().has(key, PersistentDataType.BOOLEAN)){
-            if (!meta.getPersistentDataContainer().get(key, PersistentDataType.BOOLEAN)){
+        if (PDCC.has(meta, PDCKey.CONSUMABLE)){
+            if (!(boolean)PDCC.get(meta, PDCKey.CONSUMABLE)){
                 new ChatGenerator().addWarning("You cannot use it!").sendMessage(player);
                 event.setCancelled(true);
             }

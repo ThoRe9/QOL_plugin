@@ -31,11 +31,6 @@ public enum SuperItemType {
 
     private final String type;
     private final int customModelData;
-
-    public static final NamespacedKey typeKey = new NamespacedKey("qol", "super_item_type");
-
-    public static final PersistentDataType typeDataType = PersistentDataType.STRING;
-
     SuperItemType(String type, int customModelData) {
         this.type = type;
         this.customModelData = customModelData;

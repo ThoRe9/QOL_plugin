@@ -3,6 +3,8 @@ package net.okuri.qol.superItems.foods;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.SuperWheat;
@@ -22,7 +24,7 @@ public class Bread implements SuperCraftable {
     private float foodSaturation = 6.0f;
     private Sound sound = Sound.ENTITY_GENERIC_EAT;
     protected Component display ;
-    protected NamespacedKey wheatkey ;
+    protected PDCKey wheatkey;
     public static NamespacedKey parkey = new NamespacedKey("qol", "bread_par");
 
     @Override
@@ -35,7 +37,8 @@ public class Bread implements SuperCraftable {
         // wheatのyパラメータの平均値を引き継ぐ。
         double sum = 0;
         for (ItemStack wheat : wheats) {
-            sum += wheat.getItemMeta().getPersistentDataContainer().get(wheatkey, PersistentDataType.DOUBLE);
+            double p = PDCC.get(wheat, wheatkey);
+            sum += p;
         }
         this.par = sum / wheats.length;
         this.foodLevel = (int) Math.floor(this.foodLevel * (1 + this.par));
@@ -43,7 +46,7 @@ public class Bread implements SuperCraftable {
     }
     public Bread(){
         this.display = Component.text("Bread").color(NamedTextColor.DARK_GREEN);
-        this.wheatkey = SuperWheat.ykey;
+        this.wheatkey = PDCKey.Y;
     }
 
     @Override
@@ -57,12 +60,12 @@ public class Bread implements SuperCraftable {
         lore.addFoodSaturationLore(foodSaturation);
         lore.addParametersLore("Parameter", par*10);
         meta.lore(lore.generateLore());
-        meta.getPersistentDataContainer().set(parkey, PersistentDataType.DOUBLE, this.par);
-        meta.getPersistentDataContainer().set(SuperItemType.typeKey, PersistentDataType.STRING, this.superItemType.getStringType());
-        meta.getPersistentDataContainer().set(Food.foodLevelKey, PersistentDataType.INTEGER, this.foodLevel);
-        meta.getPersistentDataContainer().set(Food.foodSaturationKey, PersistentDataType.FLOAT, this.foodSaturation);
-        meta.getPersistentDataContainer().set(Food.FoodSoundKey, PersistentDataType.STRING, this.sound.toString());
-        meta.getPersistentDataContainer().set(Food.eatableKey, PersistentDataType.BOOLEAN, true);
+        PDCC.set(meta, PDCKey.X, this.par);
+        PDCC.set(meta, PDCKey.TYPE, this.superItemType.toString());
+        PDCC.set(meta, PDCKey.FOOD_LEVEL, this.foodLevel);
+        PDCC.set(meta, PDCKey.FOOD_SATURATION, this.foodSaturation);
+        PDCC.set(meta, PDCKey.FOOD_SOUND, this.sound.toString());
+        PDCC.set(meta, PDCKey.EATABLE, true);
         bread.setItemMeta(meta);
         return bread;
     }

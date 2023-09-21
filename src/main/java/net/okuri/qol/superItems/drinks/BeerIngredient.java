@@ -3,6 +3,8 @@ package net.okuri.qol.superItems.drinks;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.SuperWheat;
@@ -18,8 +20,10 @@ public class BeerIngredient implements SuperCraftable {
     private double x;
     private double y;
     private double z;
-
-
+    private double quality;
+    private double rarity;
+    private double temp;
+    private double humid;
 
     @Override
     public void setMatrix(ItemStack[] matrix) {
@@ -28,8 +32,6 @@ public class BeerIngredient implements SuperCraftable {
     }
     @Override
     public ItemStack getSuperItem() {
-        NamespacedKey drinkableKey = new NamespacedKey("qol", "qol_consumable");
-
         ItemStack result = new ItemStack(Material.POTION, 1);
         PotionMeta resultMeta = (PotionMeta) result.getItemMeta();
         resultMeta.displayName(Component.text("Beer Ingredient").color(NamedTextColor.GOLD));
@@ -43,12 +45,9 @@ public class BeerIngredient implements SuperCraftable {
         lore.addParametersLore("z", this.z*10);
         resultMeta.lore(lore.generateLore());
 
-        resultMeta.getPersistentDataContainer().set(SuperWheat.xkey, PersistentDataType.DOUBLE, this.x);
-        resultMeta.getPersistentDataContainer().set(SuperWheat.ykey, PersistentDataType.DOUBLE, this.y);
-        resultMeta.getPersistentDataContainer().set(SuperWheat.zkey, PersistentDataType.DOUBLE, this.z);
-        resultMeta.getPersistentDataContainer().set(SuperItemType.typeKey, PersistentDataType.STRING, SuperItemType.BEER_INGREDIENT.toString());
+        PDCC.setSuperItem(resultMeta, SuperItemType.BEER_INGREDIENT, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
         // consumable = false
-        resultMeta.getPersistentDataContainer().set(drinkableKey, PersistentDataType.BOOLEAN, false);
+        PDCC.set(resultMeta, PDCKey.CONSUMABLE, false);
         result.setItemMeta(resultMeta);
         return result;
     }
@@ -61,9 +60,14 @@ public class BeerIngredient implements SuperCraftable {
     }
 
     private void setting(ItemStack barley){
-        this.x = barley.getItemMeta().getPersistentDataContainer().get(SuperWheat.xkey, PersistentDataType.DOUBLE);
-        this.y = barley.getItemMeta().getPersistentDataContainer().get(SuperWheat.ykey, PersistentDataType.DOUBLE);
-        this.z = barley.getItemMeta().getPersistentDataContainer().get(SuperWheat.zkey, PersistentDataType.DOUBLE);
+        this.x = PDCC.get(barley, PDCKey.X);
+        this.y = PDCC.get(barley, PDCKey.Y);
+        this.z = PDCC.get(barley, PDCKey.Z);
+        this.quality = PDCC.get(barley, PDCKey.QUALITY);
+        this.rarity = PDCC.get(barley, PDCKey.RARITY);
+        this.temp = PDCC.get(barley, PDCKey.TEMP);
+        this.humid = PDCC.get(barley, PDCKey.HUMID);
+
     }
 
 }

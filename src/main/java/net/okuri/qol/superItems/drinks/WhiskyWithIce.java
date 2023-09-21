@@ -5,11 +5,14 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
 
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -17,6 +20,15 @@ public class WhiskyWithIce implements SuperCraftable {
     private ItemStack whisky = null;
     private SuperItemType superItemType = SuperItemType.WHISKY_WITH_ICE;
     private ItemStack[] matrix = null;
+    private double x;
+    private double y;
+    private double z;
+    private double divLine;
+    private double quality;
+    private double rarity;
+    private double temp;
+    private double humid;
+    private int days;
     private double alcoholAmount = 30.0;
     private double alcoholPer = 0.40;
 
@@ -26,10 +38,9 @@ public class WhiskyWithIce implements SuperCraftable {
         PotionMeta WWImeta = (PotionMeta) WWI.getItemMeta();
         PotionMeta Wmeta = (PotionMeta) this.whisky.getItemMeta();
         WWImeta.setCustomModelData(this.superItemType.getCustomModelData());
-        WWImeta.getPersistentDataContainer().set(SuperItemType.typeKey, PersistentDataType.STRING, this.superItemType.toString());
-        WWImeta.getPersistentDataContainer().set(Alcohol.alcKey, PersistentDataType.BOOLEAN, true);
-        WWImeta.getPersistentDataContainer().set(Alcohol.alcPerKey, PersistentDataType.DOUBLE, this.alcoholPer);
-        WWImeta.getPersistentDataContainer().set(Alcohol.alcAmountKey, PersistentDataType.DOUBLE, this.alcoholAmount);
+
+        PDCC.setLiquor(WWImeta, this.superItemType, this.alcoholAmount, this.alcoholPer, this.x, this.y, this.z, this.divLine, this.quality, this.rarity, this.temp, this.humid, this.days);
+
         WWImeta.displayName(Component.text("Whisky with Ice").color(NamedTextColor.GOLD));
         LoreGenerator loreGenerator = new LoreGenerator();
         loreGenerator.addInfoLore("Whisky on the rocks!");
@@ -66,6 +77,17 @@ public class WhiskyWithIce implements SuperCraftable {
 
     private void setting(ItemStack whisky) {
         this.whisky = whisky;
-        this.alcoholPer = whisky.getItemMeta().getPersistentDataContainer().get(Alcohol.alcPerKey, PersistentDataType.DOUBLE);
+        this.alcoholPer = PDCC.get(whisky, PDCKey.ALCOHOL_PERCENTAGE);
+        ItemMeta meta = whisky.getItemMeta();
+        this.x = PDCC.get(meta, PDCKey.X);
+        this.y = PDCC.get(meta, PDCKey.Y);
+        this.z = PDCC.get(meta, PDCKey.Z);
+        this.divLine = PDCC.get(meta, PDCKey.DIVLINE);
+        this.quality = PDCC.get(meta, PDCKey.QUALITY);
+        this.rarity = PDCC.get(meta, PDCKey.RARITY);
+        this.temp = PDCC.get(meta, PDCKey.TEMP);
+        this.humid = PDCC.get(meta, PDCKey.HUMID);
+        this.days = PDCC.get(meta, PDCKey.MATURATION);
+
     }
 }

@@ -4,6 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.maturation.Maturable;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.SuperWheat;
@@ -23,10 +25,12 @@ public class Beer implements Maturable {
     private LocalDateTime start;
     private ItemStack ingredient;
     private double temperature;
+    private double humid;
     private SuperItemType superItemType;
     private double x;
     private double y;
     private double z;
+    private int days;
     private int hasteLV;
     private int hasteDuration;
     private int speedLV;
@@ -43,20 +47,21 @@ public class Beer implements Maturable {
     }
     public Beer(ItemStack ingredient, LocalDateTime start){
         this.ingredient = ingredient;
-        this.x = ingredient.getItemMeta().getPersistentDataContainer().get(SuperWheat.xkey, PersistentDataType.DOUBLE);
-        this.y = ingredient.getItemMeta().getPersistentDataContainer().get(SuperWheat.ykey, PersistentDataType.DOUBLE);
-        this.z = ingredient.getItemMeta().getPersistentDataContainer().get(SuperWheat.zkey, PersistentDataType.DOUBLE);
+        this.x = PDCC.get(ingredient.getItemMeta(), PDCKey.X);
+        this.y = PDCC.get(ingredient.getItemMeta(), PDCKey.Y);
+        this.z = PDCC.get(ingredient.getItemMeta(), PDCKey.Z);
         this.start = start;
     }
 
     @Override
     public void setMaturationVariable(ArrayList<ItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {
         this.ingredient = ingredients.get(0);
-        this.x = ingredient.getItemMeta().getPersistentDataContainer().get(SuperWheat.xkey, PersistentDataType.DOUBLE);
-        this.y = ingredient.getItemMeta().getPersistentDataContainer().get(SuperWheat.ykey, PersistentDataType.DOUBLE);
-        this.z = ingredient.getItemMeta().getPersistentDataContainer().get(SuperWheat.zkey, PersistentDataType.DOUBLE);
+        this.x = PDCC.get(ingredient.getItemMeta(), PDCKey.X);
+        this.y = PDCC.get(ingredient.getItemMeta(), PDCKey.Y);
+        this.z = PDCC.get(ingredient.getItemMeta(), PDCKey.Z);
         this.start = start;
         this.temperature = temp;
+        this.humid = humid;
     }
 
     @Override
@@ -85,18 +90,7 @@ public class Beer implements Maturable {
         lore.addParametersLore("Amount: ", 300.0, true);
         meta.lore(lore.generateLore());
         // PersistentDataContainerにデータを保存
-        meta.getPersistentDataContainer().set(SuperItemType.typeKey, PersistentDataType.STRING, this.superItemType.toString());
-        // debug
-        meta.getPersistentDataContainer().set(SuperWheat.xkey, PersistentDataType.DOUBLE, this.x);
-        meta.getPersistentDataContainer().set(SuperWheat.ykey, PersistentDataType.DOUBLE, this.y);
-        meta.getPersistentDataContainer().set(SuperWheat.zkey, PersistentDataType.DOUBLE, this.z);
-        meta.getPersistentDataContainer().set(new NamespacedKey("qol", "divline"), PersistentDataType.DOUBLE, this.divLine);
-        meta.getPersistentDataContainer().set(new NamespacedKey("qol", "durationamp"), PersistentDataType.DOUBLE, this.durationAmp);
-        meta.getPersistentDataContainer().set(new NamespacedKey("qol", "timeparam"), PersistentDataType.DOUBLE, this.timeParam);
-        meta.getPersistentDataContainer().set(new NamespacedKey("qol", "tempparam"), PersistentDataType.DOUBLE, this.tempParam);
-        meta.getPersistentDataContainer().set(Alcohol.alcPerKey, PersistentDataType.DOUBLE, 0.05);
-        meta.getPersistentDataContainer().set(Alcohol.alcAmountKey, PersistentDataType.DOUBLE, 300.0);
-        meta.getPersistentDataContainer().set(Alcohol.alcKey, PersistentDataType.BOOLEAN, true);
+        PDCC.setLiquor(meta, this.superItemType, 300.0, 0.05, this.x, this.y, this.z, this.divLine, 1.0, 1.0, this.temperature, this.humid , this.days);
         result.setItemMeta(meta);
         return result;
     }
@@ -141,6 +135,7 @@ public class Beer implements Maturable {
         LocalDateTime now = LocalDateTime.now();
         Duration duration = Duration.between(this.start, now);
         double days = duration.toDays();
+        this.days = (int)days;
         this.timeParam = days/dayLine;
         this.durationAmp = 1.0/(1.0+Math.exp(-10*(this.timeParam-0.5)));
         this.divLine = Math.pow(2,0.5*(1-this.timeParam));

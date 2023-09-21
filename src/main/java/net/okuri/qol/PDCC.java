@@ -1,5 +1,6 @@
 package net.okuri.qol;
 
+import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
@@ -18,7 +19,7 @@ public class PDCC {
         return item.getItemMeta().getPersistentDataContainer().get(key.key, type);
     }
     public static <T> T get(ItemMeta meta, PDCKey key){
-        PersistentDataType<?,T> type = key.type;
+        PersistentDataType<?, T> type = key.type;
         if (key.apply != PDCKey.ApplyType.ITEM) throw new IllegalArgumentException("PDCKey is not for ItemStack");
         if (!has(meta, key)) throw new IllegalArgumentException("ItemMeta does not have the key");
         return meta.getPersistentDataContainer().get(key.key, type);
@@ -107,4 +108,50 @@ public class PDCC {
         player.getPersistentDataContainer().remove(key.key);
     }
 
+    public static <T> void setAll(ItemStack item, Map<PDCKey, T> map){
+        ItemMeta meta = item.getItemMeta();
+        for (Map.Entry<PDCKey, T> entry : map.entrySet()){
+            meta.getPersistentDataContainer().set(entry.getKey().key, entry.getKey().type, entry.getValue());
+        }
+        item.setItemMeta(meta);
+    }
+
+    public static <T> void setAll(TileState tile, Map<PDCKey, T> map){
+        for (Map.Entry<PDCKey, T> entry : map.entrySet()){
+            tile.getPersistentDataContainer().set(entry.getKey().key, entry.getKey().type, entry.getValue());
+        }
+        tile.update();
+    }
+
+    public static <T> void setAll(Player player, Map<PDCKey, T> map){
+        for (Map.Entry<PDCKey, T> entry : map.entrySet()){
+            player.getPersistentDataContainer().set(entry.getKey().key, entry.getKey().type, entry.getValue());
+        }
+    }
+
+    public static <T> void setLiquor(ItemMeta meta, SuperItemType type, double alcoholAmount, double alcoholPer, double x, double y, double z, double divLine, double quality, double rarity, double temp, double humid, int maturation){
+        meta.getPersistentDataContainer().set(PDCKey.TYPE.key, PDCKey.TYPE.type, type.toString());
+        meta.getPersistentDataContainer().set(PDCKey.ALCOHOL.key, PDCKey.ALCOHOL.type, true);
+        meta.getPersistentDataContainer().set(PDCKey.ALCOHOL_AMOUNT.key, PDCKey.ALCOHOL_AMOUNT.type, alcoholAmount);
+        meta.getPersistentDataContainer().set(PDCKey.ALCOHOL_PERCENTAGE.key, PDCKey.ALCOHOL_PERCENTAGE.type, alcoholPer);
+        meta.getPersistentDataContainer().set(PDCKey.X.key, PDCKey.X.type, x);
+        meta.getPersistentDataContainer().set(PDCKey.Y.key, PDCKey.Y.type, y);
+        meta.getPersistentDataContainer().set(PDCKey.Z.key, PDCKey.Z.type, z);
+        meta.getPersistentDataContainer().set(PDCKey.DIVLINE.key, PDCKey.DIVLINE.type, divLine);
+        meta.getPersistentDataContainer().set(PDCKey.QUALITY.key, PDCKey.QUALITY.type, quality);
+        meta.getPersistentDataContainer().set(PDCKey.RARITY.key, PDCKey.RARITY.type, rarity);
+        meta.getPersistentDataContainer().set(PDCKey.TEMP.key, PDCKey.TEMP.type, temp);
+        meta.getPersistentDataContainer().set(PDCKey.HUMID.key, PDCKey.HUMID.type, humid);
+        meta.getPersistentDataContainer().set(PDCKey.MATURATION.key, PDCKey.MATURATION.type, maturation);
+    }
+
+    public static <T> void setSuperItem(ItemMeta meta, SuperItemType type, double x, double y, double z, double quality, double rarity, double temp, double humid){
+        meta.getPersistentDataContainer().set(PDCKey.TYPE.key, PDCKey.TYPE.type, type.toString());
+        meta.getPersistentDataContainer().set(PDCKey.X.key, PDCKey.X.type, x);
+        meta.getPersistentDataContainer().set(PDCKey.Y.key, PDCKey.Y.type, y);
+        meta.getPersistentDataContainer().set(PDCKey.Z.key, PDCKey.Z.type, z);
+        meta.getPersistentDataContainer().set(PDCKey.QUALITY.key, PDCKey.QUALITY.type, quality);
+        meta.getPersistentDataContainer().set(PDCKey.RARITY.key, PDCKey.RARITY.type, rarity);
+        meta.getPersistentDataContainer().set(PDCKey.TEMP.key, PDCKey.TEMP.type, temp);
+        meta.getPersistentDataContainer().set(PDCKey.HUMID.key, PDCKey.HUMID.type, humid);}
 }
