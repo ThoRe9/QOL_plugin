@@ -26,7 +26,7 @@ public class Highball implements SuperCraftable {
     private double z;
     private double divline;
     private double quality;
-    private double rarity;
+    private int rarity;
     private double temp;
     private double humid;
     private int maturation;
@@ -71,7 +71,7 @@ public class Highball implements SuperCraftable {
         this.z = 0.33;
         this.divline = 0.33;
         this.quality = 0.33;
-        this.rarity = 0.33;
+        this.rarity = 1;
         this.temp = 0.33;
         this.humid = 0.33;
         this.maturation = 0;

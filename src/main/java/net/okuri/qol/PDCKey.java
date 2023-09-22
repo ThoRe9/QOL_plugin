@@ -48,7 +48,7 @@ public enum PDCKey {
     // BIOME_ID: 生産地のバイオームIDを記憶する
     QUALITY("quality", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
     // QUALITY: 品質。生産者の技量によって決まる
-    RARITY("rarity", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
+    RARITY("rarity", PersistentDataType.INTEGER, PDCKey.ApplyType.ITEM),
     // RARITY: 希少性。乱数によって決まる
     DISTILLATION("distillation", PersistentDataType.INTEGER, PDCKey.ApplyType.ITEM),
     // DISTILLATION: 蒸留の回数。蒸留酒の場合のみ記憶する

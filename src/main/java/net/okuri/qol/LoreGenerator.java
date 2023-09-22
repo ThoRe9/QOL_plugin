@@ -89,4 +89,17 @@ public class LoreGenerator {
         this.parameters.add("Food Saturation: " + StringUtils.repeat('|', (int)(foodSaturation * 10)));
         return this;
     }
+
+    public LoreGenerator setSuperItemLore(double x, double y, double z, double quarity, int rarity, String... args){
+        this.addParametersLore("x", x);
+        this.addParametersLore("y", y);
+        this.addParametersLore("z", z);
+        this.addParametersLore("quality", quarity);
+        this.addRarityLore(rarity);
+        for (String s : args) {
+            this.addInfoLore(s);
+        }
+        return this;
+
+    }
 }

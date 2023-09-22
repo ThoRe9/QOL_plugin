@@ -25,7 +25,7 @@ public class WhiskyWithIce implements SuperCraftable {
     private double z;
     private double divLine;
     private double quality;
-    private double rarity;
+    private int rarity;
     private double temp;
     private double humid;
     private int days;

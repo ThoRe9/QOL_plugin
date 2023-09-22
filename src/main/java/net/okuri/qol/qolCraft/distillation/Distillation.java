@@ -25,7 +25,7 @@ public class Distillation implements Listener {
         if (event.getRecipe().getKey().equals(distillationRecipeKey)) {
             ItemStack ingredient = ((Furnace)event.getBlock().getState()).getInventory().getSmelting();
             ItemMeta ingredientMeta = ingredient.getItemMeta();
-            if (!(boolean) PDCC.has(ingredientMeta, PDCKey.TYPE)){
+            if (PDCC.has(ingredientMeta, PDCKey.TYPE)){
                 SuperItemType ingredientType = SuperItemType.valueOf(PDCC.get(ingredientMeta, PDCKey.TYPE));
                 // ingredientTypeがDistillation可能なアイテムならば、処理を実行
                 for (DistillationRecipe distillationRecipe : distillationRecipes) {
@@ -33,6 +33,7 @@ public class Distillation implements Listener {
                         Distillable resultClass = distillationRecipe.getResultClass();
                         resultClass.setDistillationVariable(ingredient, event.getBlock().getLocation().getBlock().getTemperature(), event.getBlock().getLocation().getBlock().getHumidity());
                         DistillationEvent distillationEvent = new DistillationEvent(event, resultClass);
+                        Bukkit.getLogger().info("DistillationEvent called");
                         Bukkit.getServer().getPluginManager().callEvent(distillationEvent);
                     }
                 }

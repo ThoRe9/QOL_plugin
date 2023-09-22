@@ -30,7 +30,7 @@ public class Soda implements SuperCraftable {
         // coalのrarity * qualityの平均値をstrengthにする
         double sum = 0;
         for (ItemStack coal : coals) {
-            double r = PDCC.get(coal, PDCKey.RARITY);
+            double r = PDCC.get(coal, PDCKey.X);
             double q = PDCC.get(coal, PDCKey.QUALITY);
             sum += (1+ r) * q;
         }

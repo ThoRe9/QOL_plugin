@@ -21,7 +21,7 @@ public class BeerIngredient implements SuperCraftable {
     private double y;
     private double z;
     private double quality;
-    private double rarity;
+    private int rarity;
     private double temp;
     private double humid;
 

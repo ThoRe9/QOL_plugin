@@ -14,7 +14,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class SuperWheat implements SuperItem{
+public class SuperWheat extends SuperResource{
     private final ItemStack wheat = new ItemStack(Material.WHEAT);
     private int x;
     private int y;
@@ -24,7 +24,7 @@ public class SuperWheat implements SuperItem{
     private double humid;
     private int biomeID;
     private double quality;
-    private double rarity;
+    private int rarity;
     private SuperItemType superItemType;
     private double px;
     private double py;
@@ -68,13 +68,14 @@ public class SuperWheat implements SuperItem{
         rand.calcuration();
         ArrayList<Double> correction = rand.getAns();
         CirculeDistribution calc = new CirculeDistribution();
-        calc.setVariable(this.temp + 0.75, 1, 3);
+        calc.setVariable(this.temp + 0.75, 1, 1, 3);
         calc.setCorrection(correction);
         calc.calcuration();
         ArrayList<Double> ans = calc.getAns();
         this.px = ans.get(0);
         this.py = ans.get(1);
         this.pz = ans.get(2);
+        this.rarity = SuperItem.getRarity(px,py,pz);
 
         // PersistentDataContainer にデータを保存
         ItemMeta meta = wheat.getItemMeta();
@@ -120,6 +121,17 @@ public class SuperWheat implements SuperItem{
     }
 
     @Override
+    public void setResValiables(int x, int y, int z, double temp, double humid, int biomeId, double quality) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.temp = temp;
+        this.humid = humid;
+        this.biomeID = biomeId;
+        this.quality = quality;
+    }
+
+    @Override
     public ItemStack getDebugItem(int... args){
         if (args.length == 1) {
             int type = args[0];
@@ -154,7 +166,7 @@ public class SuperWheat implements SuperItem{
         this.py = 0.33;
         this.pz = 0.33;
         this.quality = 1.0;
-        this.rarity = 1.0;
+        this.rarity = 1;
         this.name = "debug";
         return this.getSuperItem();
 

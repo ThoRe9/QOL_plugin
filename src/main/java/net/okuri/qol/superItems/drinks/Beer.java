@@ -90,7 +90,7 @@ public class Beer implements Maturable {
         lore.addParametersLore("Amount: ", 300.0, true);
         meta.lore(lore.generateLore());
         // PersistentDataContainerにデータを保存
-        PDCC.setLiquor(meta, this.superItemType, 300.0, 0.05, this.x, this.y, this.z, this.divLine, 1.0, 1.0, this.temperature, this.humid , this.days);
+        PDCC.setLiquor(meta, this.superItemType, 300.0, 0.05, this.x, this.y, this.z, this.divLine, 1.0, 2, this.temperature, this.humid , this.days);
         result.setItemMeta(meta);
         return result;
     }

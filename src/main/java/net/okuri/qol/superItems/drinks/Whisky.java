@@ -34,7 +34,7 @@ public class Whisky implements Maturable {
     private int days;
     private double temperature;
     private double humidity;
-    private double rarity;
+    private int rarity;
     private double quality;
     private double hasteLevel;
     private double hasteDuration;
@@ -99,7 +99,7 @@ public class Whisky implements Maturable {
         this.y = 0.0;
         this.z = 0.0;
         this.divLine = 0.0;
-        this.rarity = 1.0;
+        this.rarity = 1;
         this.quality = 1.0;
         this.temperature = 1.0;
         this.humidity = 1.0;
@@ -157,7 +157,7 @@ public class Whisky implements Maturable {
             }
         }
         // PersistentDataContainerからいろいろ取得
-        this.alcoholPer = PDCC.get(whiskyIngredient.getItemMeta(), PDCKey.ALCOHOL_LEVEL);
+        this.alcoholPer = PDCC.get(whiskyIngredient.getItemMeta(), PDCKey.ALCOHOL_PERCENTAGE);
         this.x = PDCC.get(whiskyIngredient.getItemMeta(), PDCKey.X);
         this.y = PDCC.get(whiskyIngredient.getItemMeta(), PDCKey.Y);
         this.z = PDCC.get(whiskyIngredient.getItemMeta(), PDCKey.Z);

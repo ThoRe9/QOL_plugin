@@ -24,7 +24,7 @@ public class Alcohol extends BukkitRunnable {
             new ChatGenerator().addDebug("alc CHECKing...").sendMessage(player);
             // プレイヤーのAlcoholLevelを取得
             // ない場合は無視
-            if (!(boolean) PDCC.get(player, PDCKey.ALCOHOL_LEVEL)) continue;
+            if (!PDCC.has(player, PDCKey.ALCOHOL_LEVEL)) continue;
             double alcLv = PDCC.get(player, PDCKey.ALCOHOL_LEVEL);
             new ChatGenerator().addDebug("alcLv: "+alcLv).sendMessage(player);
             // 一旦効果をリセット
@@ -49,6 +49,8 @@ public class Alcohol extends BukkitRunnable {
                 player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.BLINDNESS, 200, 0));
             } else if (alcLv >= 0.40) {
                 player.setHealth(0.00);
+                // 急性アルコール中毒で死亡というログを出す
+                new ChatGenerator().addWarning("You died from acute alcohol poisoning").sendMessage(player);
                 alcLv = 0.00;
             }
 

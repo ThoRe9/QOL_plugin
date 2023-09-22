@@ -76,8 +76,10 @@ public class GetSuperItemListener implements Listener {
             // SuperCoal を与える
             player.sendMessage("You got a SuperCoal!");
             // TODO qualityはJOBのレベルによって変える
-            ItemStack superCoal = new SuperCoal(block.getY(), 1.0).getSuperItem();
-            player.getInventory().addItem(superCoal);
+            SuperCoal superCoal = new SuperCoal();
+            superCoal.setResValiables(block.getX(), block.getY(), block.getZ(), player.getLocation().getBlock().getTemperature(), player.getLocation().getBlock().getHumidity(), player.getLocation().getBlock().getBiome().ordinal(), 1.0 + n/30.0);
+            ItemStack coal = superCoal.getSuperItem();
+            player.getInventory().addItem(coal);
         }
     }
 

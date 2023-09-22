@@ -9,6 +9,7 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.distillation.Distillable;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperCoal;
+import net.okuri.qol.superItems.SuperItem;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.SuperWheat;
 import org.bukkit.Material;
@@ -41,7 +42,7 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
     private double quality = 0.0;
     private int distilled = 0;
     // rarityはmaxDurationからどれだけ離れているかを表す。1.0でmaxDurationと同じ、20.0でmaxDurationの2倍の効果時間。
-    private double rarity = 0.0;
+    private int rarity = 0;
     private double temp = 0.0;
     private double humid = 0.0;
     private double alcPer = 0.10;
@@ -79,7 +80,7 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         this.speedDuration = this.calcDuration(y);
         this.nightVisionLevel = this.calcLevel(z);
         this.nightVisionDuration = this.calcDuration(z);
-        this.rarity = calcRarity(x,y,z, quality);
+        this.rarity = SuperItem.getRarity(x,y,z);
         setType();
     }
     @Override
@@ -126,7 +127,7 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         this.z = 0.33;
         this.divLine = 1.0;
         this.quality = 1.0;
-        this.rarity = 0.0;
+        this.rarity = 0;
         this.hasteLevel = 1;
         this.hasteDuration = 100;
         this.speedLevel = 1;
@@ -167,9 +168,9 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         ItemMeta barleyMeta = barley.getItemMeta();
         ItemMeta coalMeta = coal.getItemMeta();
 
-        SuperItemType barleyType = PDCC.get(barleyMeta, PDCKey.TYPE);
-        SuperItemType coalType = PDCC.get(coalMeta, PDCKey.TYPE);
-        Double coalRarity = PDCC.get(coalMeta, PDCKey.RARITY);
+        SuperItemType barleyType = SuperItemType.valueOf(PDCC.get(barleyMeta, PDCKey.TYPE));
+        SuperItemType coalType = SuperItemType.valueOf(PDCC.get(coalMeta, PDCKey.TYPE));
+        Double coalRarity = PDCC.get(coalMeta, PDCKey.X);
         Double coalQuality = PDCC.get(coalMeta, PDCKey.QUALITY);
         Double barleyX = PDCC.get(barleyMeta, PDCKey.X);
         Double barleyY = PDCC.get(barleyMeta, PDCKey.Y);
@@ -207,7 +208,7 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         this.speedDuration = this.calcDuration(barleyY);
         this.nightVisionLevel = this.calcLevel(barleyZ);
         this.nightVisionDuration = this.calcDuration(barleyZ);
-        this.rarity = calcRarity(barleyX,barleyY,barleyZ, coalQuality);
+        this.rarity = SuperItem.getRarity(barleyX,barleyY,barleyZ);
         setType();
     }
     private void setting(ItemStack whisky_ingredient){
@@ -235,9 +236,6 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
     }
     private int calcDuration(double barley){
         return (int) Math.floor((barley % this.divLine) * this.maxDuration * quality);
-    }
-    private double calcRarity(double x, double y, double z, double quality){
-        return ((x+y+z)*quality - 1.0) * 10.0;
     }
     private void setType(){
         if (this.distilled > 0){

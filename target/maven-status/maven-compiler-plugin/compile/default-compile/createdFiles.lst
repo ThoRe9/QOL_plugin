@@ -26,6 +26,7 @@ net\okuri\qol\qolCraft\calcuration\CirculeDistribution.class
 net\okuri\qol\superItems\drinks\StrongZero.class
 net\okuri\qol\superItems\Rye.class
 net\okuri\qol\qolCraft\calcuration\DiscontinuityDurationCalcuration.class
+net\okuri\qol\superItems\SuperResource.class
 net\okuri\qol\event\DistillationEvent.class
 net\okuri\qol\qolCraft\calcuration\Calcuration.class
 net\okuri\qol\listener\InteractListener.class

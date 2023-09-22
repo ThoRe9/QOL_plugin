@@ -129,7 +129,7 @@ public class PDCC {
         }
     }
 
-    public static <T> void setLiquor(ItemMeta meta, SuperItemType type, double alcoholAmount, double alcoholPer, double x, double y, double z, double divLine, double quality, double rarity, double temp, double humid, int maturation){
+    public static <T> void setLiquor(ItemMeta meta, SuperItemType type, double alcoholAmount, double alcoholPer, double x, double y, double z, double divLine, double quality, int rarity, double temp, double humid, int maturation){
         meta.getPersistentDataContainer().set(PDCKey.TYPE.key, PDCKey.TYPE.type, type.toString());
         meta.getPersistentDataContainer().set(PDCKey.ALCOHOL.key, PDCKey.ALCOHOL.type, true);
         meta.getPersistentDataContainer().set(PDCKey.ALCOHOL_AMOUNT.key, PDCKey.ALCOHOL_AMOUNT.type, alcoholAmount);
@@ -145,7 +145,7 @@ public class PDCC {
         meta.getPersistentDataContainer().set(PDCKey.MATURATION.key, PDCKey.MATURATION.type, maturation);
     }
 
-    public static <T> void setSuperItem(ItemMeta meta, SuperItemType type, double x, double y, double z, double quality, double rarity, double temp, double humid){
+    public static <T> void setSuperItem(ItemMeta meta, SuperItemType type, double x, double y, double z, double quality, int rarity, double temp, double humid){
         meta.getPersistentDataContainer().set(PDCKey.TYPE.key, PDCKey.TYPE.type, type.toString());
         meta.getPersistentDataContainer().set(PDCKey.X.key, PDCKey.X.type, x);
         meta.getPersistentDataContainer().set(PDCKey.Y.key, PDCKey.Y.type, y);
