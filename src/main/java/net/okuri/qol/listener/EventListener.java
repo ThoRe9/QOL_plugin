@@ -1,6 +1,8 @@
 package net.okuri.qol.listener;
 
 import net.okuri.qol.Alcohol;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.event.EventHandler;
@@ -17,7 +19,7 @@ public class EventListener implements Listener {
     @EventHandler
     public void onPlayerDeath(org.bukkit.event.entity.PlayerDeathEvent event){
         Player player = event.getEntity();
-        player.getPersistentDataContainer().remove(Alcohol.alcLvKey);
+        PDCC.remove(player, PDCKey.ALCOHOL_LEVEL);
     }
 
 

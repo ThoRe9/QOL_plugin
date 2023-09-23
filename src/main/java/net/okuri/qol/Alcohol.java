@@ -7,10 +7,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Alcohol extends BukkitRunnable {
-    public static NamespacedKey alcLvKey = new NamespacedKey("qol", "alcohol_level");
-    public static NamespacedKey alcAmountKey = new NamespacedKey("qol", "alcohol_amount");
-    public static NamespacedKey alcPerKey = new NamespacedKey("qol", "alcohol_percent");
-    public static NamespacedKey alcKey = new NamespacedKey("qol", "alcohol");
     // PlayerのPersistentDataContainerのAlcoholLevelの値によってプレイや―に毎分効果を与える
     // 0.00~0.02 効果なし
     // 0.02~0.05 プレイヤーの移動速度が5%上昇
@@ -28,8 +24,8 @@ public class Alcohol extends BukkitRunnable {
             new ChatGenerator().addDebug("alc CHECKing...").sendMessage(player);
             // プレイヤーのAlcoholLevelを取得
             // ない場合は無視
-            if (!player.getPersistentDataContainer().has(alcLvKey, PersistentDataType.DOUBLE)) continue;
-            double alcLv = player.getPersistentDataContainer().get(alcLvKey, PersistentDataType.DOUBLE);
+            if (!PDCC.has(player, PDCKey.ALCOHOL_LEVEL)) continue;
+            double alcLv = PDCC.get(player, PDCKey.ALCOHOL_LEVEL);
             new ChatGenerator().addDebug("alcLv: "+alcLv).sendMessage(player);
             // 一旦効果をリセット
             player.setWalkSpeed(0.200f);
@@ -53,6 +49,8 @@ public class Alcohol extends BukkitRunnable {
                 player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.BLINDNESS, 200, 0));
             } else if (alcLv >= 0.40) {
                 player.setHealth(0.00);
+                // 急性アルコール中毒で死亡というログを出す
+                new ChatGenerator().addWarning("You died from acute alcohol poisoning").sendMessage(player);
                 alcLv = 0.00;
             }
 
@@ -60,10 +58,10 @@ public class Alcohol extends BukkitRunnable {
             alcLv -= 0.01;
             // 0.00以下ならalcohol_levelを削除
             if (alcLv <= 0.00) {
-                player.getPersistentDataContainer().remove(alcLvKey);
+                PDCC.remove(player, PDCKey.ALCOHOL_LEVEL);
                 continue;
             }
-            player.getPersistentDataContainer().set(alcLvKey, PersistentDataType.DOUBLE, alcLv);
+            PDCC.set(player, PDCKey.ALCOHOL_LEVEL, alcLv);
         }
 
     }

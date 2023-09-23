@@ -7,7 +7,7 @@ public class Wheat extends SuperWheat{
         super(SuperItemType.WHEAT);
     }
     public Wheat(int x, int y, int z, String name, double temp, int biomeID, double quality) {
-        super(x, y, z, name, 0.75, biomeID, quality);
+        super(x, y, z, name, 0.75, 1.0, biomeID, quality);
     }
 
     @Override

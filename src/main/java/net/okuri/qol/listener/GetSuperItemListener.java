@@ -53,11 +53,12 @@ public class GetSuperItemListener implements Listener {
                 new ChatGenerator().addSuccess("You got a SuperWheat!").sendMessage(player);
 
                 double temp =  player.getLocation().getBlock().getTemperature();
+                double humid = player.getLocation().getBlock().getHumidity();
                 Bukkit.getServer().getLogger().info("temp: " + temp);
                 Biome biome = player.getLocation().getBlock().getBiome();
                 int biomeID = biome.ordinal();
                 // TODO qualityはJOBのレベルによって変える
-                ItemStack superWheat = new SuperWheat(block.getX(), block.getY(), block.getZ(), player.getName(), temp, biomeID, 1.0 + n/30.0).getSuperItem();
+                ItemStack superWheat = new SuperWheat(block.getX(), block.getY(), block.getZ(), player.getName(), temp, humid, biomeID, 1.0 + n/30.0).getSuperItem();
                 player.getInventory().addItem(superWheat);
             }
         }
@@ -75,8 +76,10 @@ public class GetSuperItemListener implements Listener {
             // SuperCoal を与える
             player.sendMessage("You got a SuperCoal!");
             // TODO qualityはJOBのレベルによって変える
-            ItemStack superCoal = new SuperCoal(block.getY(), 1.0).getSuperItem();
-            player.getInventory().addItem(superCoal);
+            SuperCoal superCoal = new SuperCoal();
+            superCoal.setResValiables(block.getX(), block.getY(), block.getZ(), player.getLocation().getBlock().getTemperature(), player.getLocation().getBlock().getHumidity(), player.getLocation().getBlock().getBiome().ordinal(), 1.0 + n/30.0);
+            ItemStack coal = superCoal.getSuperItem();
+            player.getInventory().addItem(coal);
         }
     }
 

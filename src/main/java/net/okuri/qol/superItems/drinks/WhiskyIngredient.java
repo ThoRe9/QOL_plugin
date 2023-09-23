@@ -4,9 +4,12 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.distillation.Distillable;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperCoal;
+import net.okuri.qol.superItems.SuperItem;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.SuperWheat;
 import org.bukkit.Material;
@@ -22,13 +25,6 @@ import java.util.Objects;
 // WhiskyIngredientは、Whiskyの材料となるアイテムです。これをMaturingBarrelに入れることで、Whiskyを作ることができます。
 public class WhiskyIngredient implements SuperCraftable, Distillable {
 
-    public static NamespacedKey xKey = new NamespacedKey("qol", "qol_x");
-    public static NamespacedKey yKey = new NamespacedKey("qol", "qol_y");
-    public static NamespacedKey zKey = new NamespacedKey("qol", "qol_z");
-    public static NamespacedKey divLineKey = new NamespacedKey("qol", "qol_divline");
-    public static NamespacedKey qualityKey = new NamespacedKey("qol", "qol_quality");
-    public static NamespacedKey rarityKey = new NamespacedKey("qol", "qol_rarity");
-    public static NamespacedKey distilledKey = new NamespacedKey("qol", "qol_distilled");
     private SuperItemType superItemType = SuperItemType.WHISKY_INGREDIENT;
     private ItemStack itemStack = new ItemStack(Material.POTION, 1);
     protected ItemStack[] matrix = null;
@@ -46,8 +42,11 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
     private double quality = 0.0;
     private int distilled = 0;
     // rarityはmaxDurationからどれだけ離れているかを表す。1.0でmaxDurationと同じ、20.0でmaxDurationの2倍の効果時間。
-    private double rarity = 0.0;
+    private int rarity = 0;
+    private double temp = 0.0;
+    private double humid = 0.0;
     private double alcPer = 0.10;
+    private double alcAmount = 5000.0;
     // maxDurationは効果全ての効果時間の総和の基準値。超えたり超えなかったりする。
     private final int maxDuration = 6000;
 
@@ -81,7 +80,7 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         this.speedDuration = this.calcDuration(y);
         this.nightVisionLevel = this.calcLevel(z);
         this.nightVisionDuration = this.calcDuration(z);
-        this.rarity = calcRarity(x,y,z, quality);
+        this.rarity = SuperItem.getRarity(x,y,z);
         setType();
     }
     @Override
@@ -92,20 +91,12 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
     @Override
     public ItemStack getSuperItem() {
         setType();
-        NamespacedKey typeKey = SuperItemType.typeKey;
-        NamespacedKey drinkableKey = new NamespacedKey("qol", "qol_consumable");
         PotionMeta meta = (PotionMeta) this.itemStack.getItemMeta();
         meta.setColor(org.bukkit.Color.fromRGB(255, 255, 255));
 
-        meta.getPersistentDataContainer().set(drinkableKey, PersistentDataType.BOOLEAN, false);
-        meta.getPersistentDataContainer().set(xKey, PersistentDataType.DOUBLE, this.x);
-        meta.getPersistentDataContainer().set(yKey, PersistentDataType.DOUBLE, this.y);
-        meta.getPersistentDataContainer().set(zKey, PersistentDataType.DOUBLE, this.z);
-        meta.getPersistentDataContainer().set(divLineKey, PersistentDataType.DOUBLE, this.divLine);
-        meta.getPersistentDataContainer().set(qualityKey, PersistentDataType.DOUBLE, this.quality);
-        meta.getPersistentDataContainer().set(rarityKey, PersistentDataType.DOUBLE, this.rarity);
-        meta.getPersistentDataContainer().set(distilledKey, PersistentDataType.INTEGER, this.distilled);
-        meta.getPersistentDataContainer().set(Alcohol.alcPerKey, PersistentDataType.DOUBLE, this.alcPer);
+        PDCC.set(meta, PDCKey.CONSUMABLE, false);
+        PDCC.setLiquor(meta, this.superItemType, this.alcAmount, this.alcPer, this.x, this.y, this.z, this.divLine, this.quality, this.rarity, this.temp, this.humid, 0);
+        PDCC.set(meta, PDCKey.DISTILLATION, this.distilled);
 
         meta.displayName(Component.text("Whisky Ingredient").color(NamedTextColor.GOLD));
         LoreGenerator lore = new LoreGenerator();
@@ -122,7 +113,6 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         lore.addRarityLore((int)(this.rarity));
         meta.lore(lore.generateLore());
 
-        meta.getPersistentDataContainer().set(typeKey, PersistentDataType.STRING, this.superItemType.getStringType());
         meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.FAST_DIGGING, (int)Math.floor(this.hasteDuration / this.durationAmplifier), this.hasteLevel + this.distilled - 1), true);
         meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.SPEED, (int)Math.floor(this.speedDuration / this.durationAmplifier), this.speedLevel + this.distilled -1), true);
         meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.NIGHT_VISION, (int)Math.floor(this.nightVisionDuration / this.durationAmplifier), this.nightVisionLevel + this.distilled-1), true);
@@ -137,7 +127,7 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         this.z = 0.33;
         this.divLine = 1.0;
         this.quality = 1.0;
-        this.rarity = 0.0;
+        this.rarity = 0;
         this.hasteLevel = 1;
         this.hasteDuration = 100;
         this.speedLevel = 1;
@@ -177,57 +167,48 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         //barleyかチェック
         ItemMeta barleyMeta = barley.getItemMeta();
         ItemMeta coalMeta = coal.getItemMeta();
-        PersistentDataContainer barleypdc = barleyMeta.getPersistentDataContainer();
-        PersistentDataContainer coalpdc = coalMeta.getPersistentDataContainer();
 
-        //以下フィールドに値をセット
-        if (barleypdc.has(SuperItemType.typeKey, PersistentDataType.STRING)){
-            if (!Objects.equals(barleypdc.get(SuperItemType.typeKey, PersistentDataType.STRING), SuperItemType.BARLEY.getStringType())){
-                throw new IllegalArgumentException("barley is not barley");
-            }
+        SuperItemType barleyType = SuperItemType.valueOf(PDCC.get(barleyMeta, PDCKey.TYPE));
+        SuperItemType coalType = SuperItemType.valueOf(PDCC.get(coalMeta, PDCKey.TYPE));
+        Double coalRarity = PDCC.get(coalMeta, PDCKey.X);
+        Double coalQuality = PDCC.get(coalMeta, PDCKey.QUALITY);
+        Double barleyX = PDCC.get(barleyMeta, PDCKey.X);
+        Double barleyY = PDCC.get(barleyMeta, PDCKey.Y);
+        Double barleyZ = PDCC.get(barleyMeta, PDCKey.Z);
 
-        } else{throw new IllegalArgumentException("barley is not barley");}
-        if (coalpdc.has(SuperItemType.typeKey, PersistentDataType.STRING)){
-            if (!Objects.equals(coalpdc.get(SuperItemType.typeKey, PersistentDataType.STRING), SuperItemType.COAL.getStringType())){
-                throw new IllegalArgumentException("coal is not coal");
-            }
-        } else{throw new IllegalArgumentException("coal is not coal");}
-
-        if (coalpdc.has(SuperCoal.raritykey, PersistentDataType.DOUBLE)){
-            double rarity = coalpdc.get(SuperCoal.raritykey, PersistentDataType.DOUBLE);
-            this.divLine = 1.25 - rarity;
-        } else{throw new IllegalArgumentException("coal is not super");}
-
-        if (coalpdc.has(SuperCoal.qualitykey, PersistentDataType.DOUBLE)){
-            this.quality = coalpdc.get(SuperCoal.qualitykey, PersistentDataType.DOUBLE);
-        } else{throw new IllegalArgumentException("coal is not super");}
-
-        if (barleypdc.has(SuperWheat.xkey, PersistentDataType.DOUBLE)){
-            double x = barleypdc.get(SuperWheat.xkey, PersistentDataType.DOUBLE);
-            this.x = x;
-            this.hasteLevel = this.calcLevel(x);
-            this.hasteDuration = this.calcDuration(x);
-
-            if (barleypdc.has(SuperWheat.ykey, PersistentDataType.DOUBLE)){
-                double y = barleypdc.get(SuperWheat.ykey, PersistentDataType.DOUBLE);
-                this.y = y;
-                this.speedLevel = this.calcLevel(y);
-                this.speedDuration = this.calcDuration(y);
-
-                if (barleypdc.has(SuperWheat.zkey, PersistentDataType.DOUBLE)){
-                    double z = barleypdc.get(SuperWheat.zkey, PersistentDataType.DOUBLE);
-                    this.z = z;
-                    this.nightVisionLevel = this.calcLevel(z);
-                    this.nightVisionDuration = this.calcDuration(z);
-
-                    this.rarity = calcRarity(x,y,z, this.quality);
-                } else{throw new IllegalArgumentException("barley is not super");}
-
-            } else{throw new IllegalArgumentException("barley is not super");}
-
-
-
-        } else{throw new IllegalArgumentException("barley is not super");}
+        if (barleyType != SuperItemType.BARLEY){
+            throw new IllegalArgumentException("barley is not barley");
+        }
+        if (coalType != SuperItemType.COAL){
+            throw new IllegalArgumentException("coal is not coal");
+        }
+        if (coalRarity == null){
+            throw new IllegalArgumentException("coal is not super");
+        }
+        if (coalQuality == null){
+            throw new IllegalArgumentException("coal is not super");
+        }
+        if (barleyX == null){
+            throw new IllegalArgumentException("barley is not super");
+        }
+        if (barleyY == null){
+            throw new IllegalArgumentException("barley is not super");
+        }
+        if (barleyZ == null){
+            throw new IllegalArgumentException("barley is not super");
+        }
+        this.divLine = 1.25 - coalRarity;
+        this.quality = coalQuality;
+        this.x = barleyX;
+        this.y = barleyY;
+        this.z = barleyZ;
+        this.hasteLevel = this.calcLevel(barleyX);
+        this.hasteDuration = this.calcDuration(barleyX);
+        this.speedLevel = this.calcLevel(barleyY);
+        this.speedDuration = this.calcDuration(barleyY);
+        this.nightVisionLevel = this.calcLevel(barleyZ);
+        this.nightVisionDuration = this.calcDuration(barleyZ);
+        this.rarity = SuperItem.getRarity(barleyX,barleyY,barleyZ);
         setType();
     }
     private void setting(ItemStack whisky_ingredient){
@@ -235,19 +216,19 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         this.itemStack = whisky_ingredient;
         ItemMeta meta = whisky_ingredient.getItemMeta();
         PotionMeta potionMeta = (PotionMeta) meta;
-        this.distilled = potionMeta.getPersistentDataContainer().get(distilledKey, PersistentDataType.INTEGER);
+        this.distilled = PDCC.get(potionMeta, PDCKey.DISTILLATION);
         this.hasteLevel = potionMeta.getCustomEffects().get(0).getAmplifier() - this.distilled + 1;
         this.hasteDuration = potionMeta.getCustomEffects().get(0).getDuration();
         this.speedLevel = potionMeta.getCustomEffects().get(1).getAmplifier() - this.distilled + 1;
         this.speedDuration = potionMeta.getCustomEffects().get(1).getDuration();
         this.nightVisionLevel = potionMeta.getCustomEffects().get(2).getAmplifier() - this.distilled + 1;
         this.nightVisionDuration = potionMeta.getCustomEffects().get(2).getDuration();
-        this.x = potionMeta.getPersistentDataContainer().get(xKey, PersistentDataType.DOUBLE);
-        this.y = potionMeta.getPersistentDataContainer().get(yKey, PersistentDataType.DOUBLE);
-        this.z = potionMeta.getPersistentDataContainer().get(zKey, PersistentDataType.DOUBLE);
-        this.divLine = potionMeta.getPersistentDataContainer().get(divLineKey, PersistentDataType.DOUBLE);
-        this.quality = potionMeta.getPersistentDataContainer().get(qualityKey, PersistentDataType.DOUBLE);
-        this.rarity = potionMeta.getPersistentDataContainer().get(rarityKey, PersistentDataType.DOUBLE);
+        this.x = PDCC.get(potionMeta, PDCKey.X);
+        this.y = PDCC.get(potionMeta, PDCKey.Y);
+        this.z = PDCC.get(potionMeta, PDCKey.Z);
+        this.divLine = PDCC.get(potionMeta, PDCKey.DIVLINE);
+        this.quality = PDCC.get(potionMeta, PDCKey.QUALITY);
+        this.rarity = PDCC.get(potionMeta, PDCKey.RARITY);
         setType();
     }
     private int calcLevel(double barley){
@@ -255,9 +236,6 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
     }
     private int calcDuration(double barley){
         return (int) Math.floor((barley % this.divLine) * this.maxDuration * quality);
-    }
-    private double calcRarity(double x, double y, double z, double quality){
-        return ((x+y+z)*quality - 1.0) * 10.0;
     }
     private void setType(){
         if (this.distilled > 0){

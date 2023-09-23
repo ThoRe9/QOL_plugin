@@ -3,35 +3,32 @@ package net.okuri.qol.superItems;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.calcuration.CirculeDistribution;
-import net.okuri.qol.qolCraft.calcuration.DiscontinuityDurationCalcuration;
 import net.okuri.qol.qolCraft.calcuration.RandFromXYZ;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 
-public class SuperWheat implements SuperItem{
+public class SuperWheat extends SuperResource{
     private final ItemStack wheat = new ItemStack(Material.WHEAT);
     private int x;
     private int y;
     private int z;
     private String name;
     private double temp;
+    private double humid;
     private int biomeID;
     private double quality;
+    private int rarity;
     private SuperItemType superItemType;
     private double px;
     private double py;
     private double pz;
-    public static NamespacedKey xkey = new NamespacedKey("qol", "super_wheat_data_x");
-    public static NamespacedKey ykey = new NamespacedKey("qol", "super_wheat_data_y");
-    public static NamespacedKey zkey = new NamespacedKey("qol", "super_wheat_data_z");
-    public static NamespacedKey namekey = new NamespacedKey("qol", "super_wheat_name");
     public SuperWheat(){}
     public SuperWheat(SuperItemType type){
         if (type == SuperItemType.RYE || type == SuperItemType.BARLEY || type == SuperItemType.WHEAT || type == SuperItemType.RICE) {
@@ -42,12 +39,13 @@ public class SuperWheat implements SuperItem{
     }
 
     
-    public SuperWheat(int x, int y, int z, String name, double temp, int biomeID, double quality) {
+    public SuperWheat(int x, int y, int z, String name, double temp, double humid, int biomeID, double quality) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.name = name;
         this.temp = temp;
+        this.humid = humid;
         this.biomeID = biomeID;
         this.quality = quality;
 
@@ -70,23 +68,28 @@ public class SuperWheat implements SuperItem{
         rand.calcuration();
         ArrayList<Double> correction = rand.getAns();
         CirculeDistribution calc = new CirculeDistribution();
-        calc.setVariable(this.temp + 0.75, 1, 3);
+        calc.setVariable(this.temp + 0.75, 1, 1, 3);
         calc.setCorrection(correction);
         calc.calcuration();
         ArrayList<Double> ans = calc.getAns();
         this.px = ans.get(0);
         this.py = ans.get(1);
         this.pz = ans.get(2);
+        this.rarity = SuperItem.getRarity(px,py,pz);
 
         // PersistentDataContainer にデータを保存
-        NamespacedKey typekey = SuperItemType.typeKey;
         ItemMeta meta = wheat.getItemMeta();
 
-        meta.getPersistentDataContainer().set(typekey, PersistentDataType.STRING, this.superItemType.getStringType());
-        meta.getPersistentDataContainer().set(xkey, PersistentDataType.DOUBLE, this.px);
-        meta.getPersistentDataContainer().set(ykey, PersistentDataType.DOUBLE, this.py);
-        meta.getPersistentDataContainer().set(zkey, PersistentDataType.DOUBLE, this.pz);
-        meta.getPersistentDataContainer().set(namekey, PersistentDataType.STRING, this.name);
+        PDCC.set(meta, PDCKey.TYPE, this.superItemType.toString());
+        PDCC.set(meta, PDCKey.X, this.px);
+        PDCC.set(meta, PDCKey.Y, this.py);
+        PDCC.set(meta, PDCKey.Z, this.pz);
+        PDCC.set(meta, PDCKey.NAME, this.name);
+        PDCC.set(meta, PDCKey.TEMP, this.temp);
+        PDCC.set(meta, PDCKey.BIOME_ID, this.biomeID);
+        PDCC.set(meta, PDCKey.QUALITY, this.quality);
+        PDCC.set(meta, PDCKey.RARITY, this.rarity);
+        PDCC.set(meta, PDCKey.HUMID, this.humid);
 
         // 名前を設定
         Component display;
@@ -118,6 +121,17 @@ public class SuperWheat implements SuperItem{
     }
 
     @Override
+    public void setResValiables(int x, int y, int z, double temp, double humid, int biomeId, double quality) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.temp = temp;
+        this.humid = humid;
+        this.biomeID = biomeId;
+        this.quality = quality;
+    }
+
+    @Override
     public ItemStack getDebugItem(int... args){
         if (args.length == 1) {
             int type = args[0];
@@ -146,11 +160,13 @@ public class SuperWheat implements SuperItem{
         this.y = 10;
         this.z = 10;
         this.temp = 0.5;
+        this.humid = 0.5;
         this.biomeID = 100;
         this.px = 0.33;
         this.py = 0.33;
         this.pz = 0.33;
         this.quality = 1.0;
+        this.rarity = 1;
         this.name = "debug";
         return this.getSuperItem();
 

@@ -4,6 +4,8 @@ import io.papermc.paper.event.player.PlayerOpenSignEvent;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.okuri.qol.ChatGenerator;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.ProtectedBlock;
 import net.okuri.qol.event.MaturationEndEvent;
 import net.okuri.qol.event.MaturationPrepareEvent;
@@ -158,9 +160,8 @@ public class Maturation implements Listener{
                 System.out.println("ingredient == null");
                 return false;
             }
-            if (ingredient.hasItemMeta() && ingredient.getItemMeta().getPersistentDataContainer().has(SuperItemType.typeKey, PersistentDataType.STRING)){
-                System.out.println("ingredient has SuperItemType");
-                superItemTypes.add(SuperItemType.valueOf(ingredient.getItemMeta().getPersistentDataContainer().get(SuperItemType.typeKey, PersistentDataType.STRING)));
+            if (ingredient.hasItemMeta() && PDCC.has(ingredient, PDCKey.TYPE)){
+                superItemTypes.add(SuperItemType.valueOf(PDCC.get(ingredient, PDCKey.TYPE)));
             } else{
                 return false;
             }

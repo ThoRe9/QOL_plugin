@@ -4,6 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.maturation.Maturable;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
@@ -25,9 +27,15 @@ import java.util.List;
 public class Whisky implements Maturable {
     private final SuperItemType superItemType = SuperItemType.WHISKY;
     private LocalDateTime start;
+    private double x;
+    private double y;
+    private double z;
+    private double divLine;
     private int days;
     private double temperature;
     private double humidity;
+    private int rarity;
+    private double quality;
     private double hasteLevel;
     private double hasteDuration;
     private double speedLevel;
@@ -38,7 +46,7 @@ public class Whisky implements Maturable {
     private double alcoholLevel;
     private double amplifier;
     private double alcoholPer = 0.40;
-    public static NamespacedKey daysKey = new NamespacedKey("qol", "qol_days");
+    private double alcoholAmount = 5000.0;
 
     @Override
     public void setMaturationVariable(ArrayList<ItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {
@@ -77,11 +85,9 @@ public class Whisky implements Maturable {
         whiskyMeta.addCustomEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, (int) this.nightVisionDuration, (int) this.nightVisionLevel), true);
 
         // PersistentDataContainerにデータを保存
-        PersistentDataContainer pdc = whiskyMeta.getPersistentDataContainer();
-        pdc.set(SuperItemType.typeKey, PersistentDataType.STRING, this.superItemType.getStringType());
-        pdc.set(daysKey, PersistentDataType.INTEGER, this.days);
-        pdc.set(new NamespacedKey("qol", "qol_consumable"), PersistentDataType.BOOLEAN, false);
-        pdc.set(Alcohol.alcPerKey, PersistentDataType.DOUBLE, this.alcoholPer);
+        // 仮で飲めるようにしておいた
+        PDCC.set(whiskyMeta, PDCKey.CONSUMABLE, true);
+        PDCC.setLiquor(whiskyMeta, this.superItemType, this.alcoholAmount, this.alcoholPer, this.x, this.y, this.z, this.divLine, this.quality, this.rarity, this.temperature, this.humidity, this.days);
         whisky.setItemMeta(whiskyMeta);
         return whisky;
     }
@@ -89,6 +95,12 @@ public class Whisky implements Maturable {
     @Override
     public ItemStack getDebugItem(int... args) {
         this.start = LocalDateTime.now().minusDays(10);
+        this.x = 0.0;
+        this.y = 0.0;
+        this.z = 0.0;
+        this.divLine = 0.0;
+        this.rarity = 1;
+        this.quality = 1.0;
         this.temperature = 1.0;
         this.humidity = 1.0;
         this.hasteLevel = 1.0;
@@ -144,8 +156,15 @@ public class Whisky implements Maturable {
                 this.nightVisionDuration = effect.getDuration();
             }
         }
-        // PersistentDataContainerからalcohol_percentを取得
-        this.alcoholPer = pdc.get(Alcohol.alcPerKey, PersistentDataType.DOUBLE);
+        // PersistentDataContainerからいろいろ取得
+        this.alcoholPer = PDCC.get(whiskyIngredient.getItemMeta(), PDCKey.ALCOHOL_PERCENTAGE);
+        this.x = PDCC.get(whiskyIngredient.getItemMeta(), PDCKey.X);
+        this.y = PDCC.get(whiskyIngredient.getItemMeta(), PDCKey.Y);
+        this.z = PDCC.get(whiskyIngredient.getItemMeta(), PDCKey.Z);
+        this.divLine = PDCC.get(whiskyIngredient.getItemMeta(), PDCKey.DIVLINE);
+        this.rarity = PDCC.get(whiskyIngredient.getItemMeta(), PDCKey.RARITY);
+        this.quality = PDCC.get(whiskyIngredient.getItemMeta(), PDCKey.QUALITY);
+
     }
 
 

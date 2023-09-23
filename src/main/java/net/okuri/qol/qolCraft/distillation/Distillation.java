@@ -1,5 +1,7 @@
 package net.okuri.qol.qolCraft.distillation;
 
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.event.DistillationEvent;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Bukkit;
@@ -9,6 +11,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
@@ -21,14 +24,16 @@ public class Distillation implements Listener {
     public void FurnaceSmeltEvent(FurnaceSmeltEvent event) {
         if (event.getRecipe().getKey().equals(distillationRecipeKey)) {
             ItemStack ingredient = ((Furnace)event.getBlock().getState()).getInventory().getSmelting();
-            if (ingredient.getItemMeta().getPersistentDataContainer().has(SuperItemType.typeKey, PersistentDataType.STRING)){
-                SuperItemType ingredientType = SuperItemType.valueOf(ingredient.getItemMeta().getPersistentDataContainer().get(SuperItemType.typeKey, PersistentDataType.STRING));
+            ItemMeta ingredientMeta = ingredient.getItemMeta();
+            if (PDCC.has(ingredientMeta, PDCKey.TYPE)){
+                SuperItemType ingredientType = SuperItemType.valueOf(PDCC.get(ingredientMeta, PDCKey.TYPE));
                 // ingredientTypeがDistillation可能なアイテムならば、処理を実行
                 for (DistillationRecipe distillationRecipe : distillationRecipes) {
                     if (distillationRecipe.getIngredients().contains(ingredientType)) {
                         Distillable resultClass = distillationRecipe.getResultClass();
                         resultClass.setDistillationVariable(ingredient, event.getBlock().getLocation().getBlock().getTemperature(), event.getBlock().getLocation().getBlock().getHumidity());
                         DistillationEvent distillationEvent = new DistillationEvent(event, resultClass);
+                        Bukkit.getLogger().info("DistillationEvent called");
                         Bukkit.getServer().getPluginManager().callEvent(distillationEvent);
                     }
                 }

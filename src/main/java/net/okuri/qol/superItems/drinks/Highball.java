@@ -4,6 +4,8 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
@@ -19,6 +21,15 @@ public class Highball implements SuperCraftable {
     private final SuperItemType superItemType = SuperItemType.HIGHBALL;
     private ItemStack[] matrix = null;
     private double strength = 1.0;
+    private double x;
+    private double y;
+    private double z;
+    private double divline;
+    private double quality;
+    private int rarity;
+    private double temp;
+    private double humid;
+    private int maturation;
     private double alcoholPer = 0.0;
     private double alcoholAmount = 150.0;
 
@@ -29,10 +40,7 @@ public class Highball implements SuperCraftable {
         PotionMeta meta = (PotionMeta)highball.getItemMeta();
         PotionMeta whiskyMeta = (PotionMeta) this.whisky.getItemMeta();
         meta.setCustomModelData(this.superItemType.getCustomModelData());
-        meta.getPersistentDataContainer().set(SuperItemType.typeKey, PersistentDataType.STRING, this.superItemType.toString());
-        meta.getPersistentDataContainer().set(Alcohol.alcKey, PersistentDataType.BOOLEAN, true);
-        meta.getPersistentDataContainer().set(Alcohol.alcPerKey, PersistentDataType.DOUBLE, this.alcoholPer);
-        meta.getPersistentDataContainer().set(Alcohol.alcAmountKey, PersistentDataType.DOUBLE, this.alcoholAmount);
+        PDCC.setLiquor(meta, this.superItemType, this.alcoholAmount, this.alcoholPer, this.x, this.y, this.z, this.divline, this.quality, this.rarity, this.temp, this.humid, this.maturation);
         for (PotionEffect effect : whiskyMeta.getCustomEffects()) {
             PotionEffect newEffect = new PotionEffect(effect.getType(), (int)Math.round(effect.getDuration() * this.strength), effect.getAmplifier(), effect.isAmbient(), effect.hasParticles(), effect.hasIcon());
             meta.addCustomEffect(newEffect, true);
@@ -58,6 +66,15 @@ public class Highball implements SuperCraftable {
         this.whisky = whisky;
         this.strength = 1.0;
         this.alcoholPer = 0.1;
+        this.x = 0.33;
+        this.y = 0.33;
+        this.z = 0.33;
+        this.divline = 0.33;
+        this.quality = 0.33;
+        this.rarity = 1;
+        this.temp = 0.33;
+        this.humid = 0.33;
+        this.maturation = 0;
         return getSuperItem();
     }
 
@@ -82,10 +99,19 @@ public class Highball implements SuperCraftable {
         // sodaのstrengthの平均値をstrengthにする
         double sum = 0.0;
         for (ItemStack soda : sodas) {
-            sum += soda.getItemMeta().getPersistentDataContainer().get(Soda.strengthkey, PersistentDataType.DOUBLE);
+            sum += (double) PDCC.get(soda, PDCKey.SODA_STRENGTH);
         }
         this.strength = (sum / 3.0);
-        this.alcoholPer = whiskyMeta.getPersistentDataContainer().get(Alcohol.alcPerKey, PersistentDataType.DOUBLE) / 5;
+        this.alcoholPer = (double) PDCC.get(whiskyMeta, PDCKey.ALCOHOL_PERCENTAGE) / 5;
+        this.x = PDCC.get(whiskyMeta, PDCKey.X);
+        this.y = PDCC.get(whiskyMeta, PDCKey.Y);
+        this.z = PDCC.get(whiskyMeta, PDCKey.Z);
+        this.divline = PDCC.get(whiskyMeta, PDCKey.DIVLINE);
+        this.quality = PDCC.get(whiskyMeta, PDCKey.QUALITY);
+        this.rarity = PDCC.get(whiskyMeta, PDCKey.RARITY);
+        this.temp = PDCC.get(whiskyMeta, PDCKey.TEMP);
+        this.humid = PDCC.get(whiskyMeta, PDCKey.HUMID);
+        this.maturation = PDCC.get(whiskyMeta, PDCKey.MATURATION);
 
     }
 }

@@ -1,6 +1,8 @@
 package net.okuri.qol.listener;
 
 import net.okuri.qol.ChatGenerator;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.superItems.foods.Food;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -29,8 +31,8 @@ public class InteractListener implements Listener {
         ItemMeta meta = item.getItemMeta();
         // 手に持ったitemがeatableなら処理をする
         // metaのPersistentDataContainerにeatableKeyがあるか確認
-        if (meta.getPersistentDataContainer().has(Food.eatableKey, PersistentDataType.BOOLEAN)){
-            if (meta.getPersistentDataContainer().get(Food.eatableKey, PersistentDataType.BOOLEAN)){
+        if (PDCC.has(meta, PDCKey.EATABLE)){
+            if (!(boolean) PDCC.get(meta, PDCKey.EATABLE)){
                 // playerが満腹なら食べない
                 if (player.getFoodLevel() <= 20){
                     new ChatGenerator().addWarning("You are full!").sendMessage(player);

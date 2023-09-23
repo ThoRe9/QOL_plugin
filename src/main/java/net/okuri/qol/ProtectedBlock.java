@@ -11,18 +11,9 @@ import org.bukkit.persistence.PersistentDataType;
 public class ProtectedBlock {
 
     // protectedBlockを設定するには、setProtectedBlockを呼び出す。
-    public static NamespacedKey protectKey = new NamespacedKey("qol", "qol_protected");
-
-    private static PersistentDataContainer getContainer(BlockState blockState){
-        if (blockState instanceof PersistentDataHolder){
-            return ((PersistentDataHolder) blockState).getPersistentDataContainer();
-        }
-        return null;
-    }
-
     private static void applyLockedChest(Container chest){
-        if (chest.getPersistentDataContainer().has(protectKey, PersistentDataType.BOOLEAN)) {
-            if (chest.getPersistentDataContainer().get(protectKey, PersistentDataType.BOOLEAN)) {
+        if (PDCC.has(chest, PDCKey.PROTECTED)) {
+            if (PDCC.get(chest, PDCKey.PROTECTED)) {
                 chest.setLock("qol");
             } else {
                 chest.setLock("");
@@ -35,38 +26,30 @@ public class ProtectedBlock {
 
     public static boolean isProtectedBlock(Block block) {
         BlockState blockState = block.getState();
-        PersistentDataContainer container = getContainer(blockState);
-        if (container == null) {
-            return false;
-        }
-        if (container.has(protectKey, PersistentDataType.BOOLEAN)) {
-            return container.get(protectKey, PersistentDataType.BOOLEAN);
+        if (! (blockState instanceof TileState)) return false;
+        TileState tileState = (TileState) blockState;
+        if (PDCC.has(tileState, PDCKey.PROTECTED)) {
+            return PDCC.get(tileState, PDCKey.PROTECTED);
         }
         return false;
     }
     public static boolean isProtectedBlock(Sign sign){
-        if (sign.getPersistentDataContainer().has(protectKey, PersistentDataType.BOOLEAN)) {
-            return sign.getPersistentDataContainer().get(protectKey, PersistentDataType.BOOLEAN);
+        if (PDCC.has(sign, PDCKey.PROTECTED)) {
+            return PDCC.get(sign, PDCKey.PROTECTED);
         }
         return false;
     }
 
     public static void setProtectedBlock(Block block, boolean isProtected) {
         BlockState blockState = block.getState();
-        setProtectedBlock(blockState, isProtected);
+        if (! (blockState instanceof TileState)) throw new IllegalArgumentException("Block is not TileState");
+        setProtectedBlock((TileState) blockState, isProtected);
     }
 
-    public static void setProtectedBlock(BlockState blockState, boolean isProtected){
-        PersistentDataContainer container = getContainer(blockState);
-        if (container == null) {
-            Bukkit.getServer().getLogger().info("Container is null");
-            return;
-        }
-
-        container.set(protectKey, PersistentDataType.BOOLEAN, isProtected);
-        blockState.update();
-        if (blockState.getType() == Material.CHEST || blockState.getType() == Material.TRAPPED_CHEST || blockState.getType() == Material.BARREL) {
-            applyLockedChest((Container) blockState);
+    public static void setProtectedBlock(TileState state, boolean isProtected){
+        PDCC.set(state, PDCKey.PROTECTED, isProtected);
+        if (state.getType() == Material.CHEST || state.getType() == Material.TRAPPED_CHEST || state.getType() == Material.BARREL) {
+            applyLockedChest((Container) state);
         }
     }
 

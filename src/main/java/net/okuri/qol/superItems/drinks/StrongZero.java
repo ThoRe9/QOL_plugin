@@ -2,6 +2,8 @@ package net.okuri.qol.superItems.drinks;
 
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -16,6 +18,8 @@ public class StrongZero implements SuperCraftable {
     private ItemStack rice = null;
     private ItemStack soda = null;
     public static NamespacedKey st0key = new NamespacedKey("qol", "strongzero");
+    private double alcPer = 0.09;
+    private double alcAmount = 300.0;
 
     @Override
     public void setMatrix(ItemStack[] matrix){
@@ -35,8 +39,9 @@ public class StrongZero implements SuperCraftable {
         meta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 1000, 1), true);
         meta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 1000, 1), true);
         meta.getPersistentDataContainer().set(st0key, PersistentDataType.STRING, "strongzero");
-        meta.getPersistentDataContainer().set(Alcohol.alcPerKey,PersistentDataType.DOUBLE, 0.9);
-        meta.getPersistentDataContainer().set(Alcohol.alcAmountKey,PersistentDataType.DOUBLE, 300.0);
+        PDCC.set(meta, PDCKey.ALCOHOL, true);
+        PDCC.set(meta, PDCKey.ALCOHOL_LEVEL, alcPer);
+        PDCC.set(meta, PDCKey.ALCOHOL_AMOUNT, alcAmount);
         meta.setDisplayName("Strong Zero");
         LoreGenerator lore = new LoreGenerator();
         lore.addInfoLore("This is japanese culture!!!!!");
