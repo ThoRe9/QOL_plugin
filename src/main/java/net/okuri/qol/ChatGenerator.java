@@ -11,6 +11,7 @@ public class ChatGenerator {
     // ChatGenerator: playerにメッセージを送信するためのクラス
     // このクラスを使うときは、インスタンスをそれぞれ生成し、最後にsendMessage(player)を呼び出す。
     private enum ChatType {
+        TITLE,
         INFO,
         ERROR,
         WARNING,
@@ -56,6 +57,10 @@ public class ChatGenerator {
     }
     public ChatGenerator addDebug(String message){
         debugComponents.add(Component.text(message).color(NamedTextColor.WHITE));
+        return this;
+    }
+    public ChatGenerator addTitle(String message){
+        components.add(Component.text(message).color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD));
         return this;
     }
 

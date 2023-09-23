@@ -14,6 +14,7 @@ import net.okuri.qol.superItems.foods.RyeBread;
 import net.okuri.qol.qolCraft.superCraft.SuperCraft;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
 import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.tools.EnvGetter;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -21,6 +22,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -232,6 +234,27 @@ public final class QOL extends JavaPlugin {
         SZR.setIngredient('R', Material.WHEAT);
         SZR.setIngredient('W', Material.POTION);
         Bukkit.addRecipe(SZR);
+
+        // envGetter
+        ItemStack envGetter = new ItemStack(Material.PAPER, 1);
+        ItemMeta envGetterMeta = envGetter.getItemMeta();
+        envGetterMeta.displayName(Component.text("Environment Getter").color(NamedTextColor.GREEN));
+        envGetterMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE").generateLore());
+        envGetter.setItemMeta(envGetterMeta);
+        SuperCraftRecipe envGetterRecipe = new SuperCraftRecipe(envGetter);
+        envGetterRecipe.setShape(new String[]{"IOI", "IRI", "III"});
+        envGetterRecipe.addIngredient('I', Material.IRON_INGOT);
+        envGetterRecipe.addIngredient('R', Material.COMPARATOR);
+        envGetterRecipe.addIngredient('O', Material.OBSERVER);
+        envGetterRecipe.setResultClass(new EnvGetter());
+        superCraft.addSuperCraftRecipe(envGetterRecipe);
+
+        ShapedRecipe EGR = new ShapedRecipe(new NamespacedKey("qol","env_getter"), envGetter);
+        EGR.shape("IOI", "IRI", "III");
+        EGR.setIngredient('I', Material.IRON_INGOT);
+        EGR.setIngredient('R', Material.COMPARATOR);
+        EGR.setIngredient('O', Material.OBSERVER);
+        Bukkit.addRecipe(EGR);
     }
 
     // Maturationのレシピを登録する

@@ -1,10 +1,13 @@
 package net.okuri.qol.listener;
 
 import net.okuri.qol.ChatGenerator;
+import net.okuri.qol.Commands;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
+import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.foods.Food;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -46,6 +49,28 @@ public class InteractListener implements Listener {
                 item.setAmount(item.getAmount() - 1);
                 event.setCancelled(true);
             }
+        }
+
+        //以下ツールの処理
+        // metaのPersistentDataContainerにtypeKeyがあるか確認
+        if (!PDCC.has(meta, PDCKey.TYPE)) return;
+        SuperItemType type = SuperItemType.valueOf(PDCC.get(meta, PDCKey.TYPE));
+        switch (type){
+            case ENV_TOOL:
+                // ブロックを右クリックしたとき
+                if (event.getClickedBlock() != null){
+                    // ブロックの座標を取得
+                    int x = event.getClickedBlock().getX();
+                    int y = event.getClickedBlock().getY();
+                    int z = event.getClickedBlock().getZ();
+                    World world = event.getClickedBlock().getWorld();
+                    ChatGenerator chat = Commands.getEnv(x, y, z, world);
+                    chat.sendMessage(player);
+                    event.setCancelled(true);
+                }
+                break;
+            default:
+                break;
         }
     }
 }

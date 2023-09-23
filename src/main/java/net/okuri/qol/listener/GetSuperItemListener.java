@@ -17,7 +17,6 @@ import org.joml.Random;
 public class GetSuperItemListener implements Listener {
     @EventHandler
     public void BlockBreakEvent(BlockBreakEvent event) {
-        Player player = event.getPlayer();
         Block block = event.getBlock();
         Material blockType = block.getType();
 

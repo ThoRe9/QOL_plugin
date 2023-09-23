@@ -3,6 +3,8 @@ package net.okuri.qol;
 import net.kyori.adventure.text.Component;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Sign;
 import org.bukkit.block.sign.Side;
 import org.bukkit.command.Command;
@@ -19,13 +21,8 @@ public class Commands implements CommandExecutor {
         if (command.getName().equalsIgnoreCase("getenv")) { //親コマンドの判定
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                ChatGenerator chat = new ChatGenerator();
-                chat.addInfo("temperature: " + player.getLocation().getBlock().getTemperature());
-                chat.addInfo("humidity: " + player.getLocation().getBlock().getHumidity());
-                chat.addInfo("biome: " + player.getLocation().getBlock().getBiome());
-                chat.addInfo("Blocklight: " + player.getLocation().getBlock().getLightFromBlocks());
-                chat.addInfo("Skylight: " + player.getLocation().getBlock().getLightFromSky());
-                chat.addInfo("LightLevel: " + player.getLocation().getBlock().getLightLevel());
+                // プレイヤーの座標を取得
+                ChatGenerator chat = getEnv(player.getLocation().getBlockX(), player.getLocation().getBlockY(), player.getLocation().getBlockZ(), player.getWorld());
                 chat.sendMessage(player);
                 return true;
             }
@@ -75,5 +72,21 @@ public class Commands implements CommandExecutor {
                 }
             }
         return false;
+    }
+
+    public static ChatGenerator getEnv(int x, int y, int z, World world){
+        ChatGenerator chat = new ChatGenerator();
+        Location location = new Location(world, x, y, z);
+        chat.addTitle("**Environment Getter**");
+        chat.addInfo("x: " + x);
+        chat.addInfo("y: " + y);
+        chat.addInfo("z: " + z);
+        chat.addInfo("temperature: " + location.getBlock().getTemperature());
+        chat.addInfo("humidity: " + location.getBlock().getHumidity());
+        chat.addInfo("biome: " + location.getBlock().getBiome());
+        chat.addInfo("Blocklight: " + location.getBlock().getLightFromBlocks());
+        chat.addInfo("Skylight: " + location.getBlock().getLightFromSky());
+        chat.addInfo("LightLevel: " + location.getBlock().getLightLevel());
+        return chat;
     }
 }

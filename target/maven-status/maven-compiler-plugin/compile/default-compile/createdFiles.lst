@@ -7,6 +7,7 @@ net\okuri\qol\superItems\Rice.class
 net\okuri\qol\listener\ConsumeListener.class
 net\okuri\qol\superItems\SuperItem.class
 net\okuri\qol\superItems\foods\RyeBread.class
+net\okuri\qol\listener\InteractListener$1.class
 net\okuri\qol\PDCKey.class
 net\okuri\qol\QOL.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftable.class
@@ -19,6 +20,7 @@ net\okuri\qol\superItems\SuperItemType$1.class
 net\okuri\qol\qolCraft\superCraft\SuperCraft.class
 net\okuri\qol\superItems\SuperWheat.class
 net\okuri\qol\listener\QOLSignListener.class
+net\okuri\qol\superItems\tools\EnvGetter.class
 net\okuri\qol\qolCraft\calcuration\RandFromXYZ.class
 net\okuri\qol\event\QOLSignCreateEvent.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftRecipe.class

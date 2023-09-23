@@ -8,6 +8,7 @@ import net.okuri.qol.superItems.drinks.AleBeer;
 import net.okuri.qol.superItems.drinks.LagerBeer;
 import net.okuri.qol.superItems.drinks.Whisky;
 import net.okuri.qol.superItems.foods.Bread;
+import net.okuri.qol.superItems.tools.EnvGetter;
 import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataType;
 
@@ -27,7 +28,8 @@ public enum SuperItemType {
     BEER_INGREDIENT("BEER_INGREDIENT", 0),
     ALE_BEER("ALE_BEER", 4),
     LAGER_BEER("LAGER_BEER", 5),
-    SODA("SODA", 0);
+    SODA("SODA", 0),
+    ENV_TOOL("ENV_TOOL", 0);
 
     private final String type;
     private final int customModelData;
@@ -77,6 +79,8 @@ public enum SuperItemType {
                 return new LagerBeer();
             case SODA:
                 return new Soda();
+            case ENV_TOOL:
+                return new EnvGetter();
             default:
                 return null;
         }
