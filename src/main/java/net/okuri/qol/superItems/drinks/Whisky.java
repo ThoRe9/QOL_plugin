@@ -64,6 +64,17 @@ public class Whisky implements Maturable {
         this.speedDuration = this.speedDuration*this.amplifier*(1+Math.sin(2*Math.PI*(this.temperature+0.67)));
         this.nightVisionDuration = this.nightVisionDuration*this.amplifier*(1+Math.sin(2*Math.PI*(this.temperature+1.33)));
 
+        //　各Durationが負のとき、バグ予防
+        if (this.hasteDuration < 0){
+            this.hasteDuration = 0;
+        }
+        if (this.speedDuration < 0){
+            this.speedDuration = 0;
+        }
+        if (this.nightVisionDuration < 0){
+            this.nightVisionDuration = 0;
+        }
+
         // アイテム生成
         ItemStack whisky = new ItemStack(Material.POTION, 1);
         PotionMeta whiskyMeta = (PotionMeta) whisky.getItemMeta();

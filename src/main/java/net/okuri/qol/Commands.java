@@ -52,7 +52,6 @@ public class Commands implements CommandExecutor {
                 }
             }
         } else if(command.getName().equalsIgnoreCase("givesuperitem")) {
-                Bukkit.getServer().getLogger().info("gsi sended");
                 if (sender instanceof Player) {
                     if (args.length == 1) {
                         Player player = (Player) sender;
@@ -70,7 +69,19 @@ public class Commands implements CommandExecutor {
                         return true;
                     }
                 }
+            } else if(command.getName().equalsIgnoreCase("superwheat")) {
+            if(sender instanceof Player) {
+                if (args.length == 2) {
+                    Player player = (Player) sender;
+                    int type = Integer.parseInt(args[0]);
+                    int temp = Integer.parseInt(args[1]);
+                    ItemStack item = SuperItemType.getSuperItemClass(SuperItemType.WHEAT).getDebugItem(type, temp);
+                    player.getInventory().addItem(item);
+                    new ChatGenerator().addInfo("Successfully gave the item!").sendMessage(player);
+                    return true;
+                }
             }
+        }
         return false;
     }
 

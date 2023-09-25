@@ -72,6 +72,17 @@ public class Beer implements Maturable {
         // パラメータ計算
         calcParam();
         meta.setCustomModelData(this.superItemType.getCustomModelData());
+        //　各Durationが負のとき、バグ予防
+        if (this.hasteDuration < 0){
+            this.hasteDuration = 0;
+        }
+        if (this.speedDuration < 0){
+            this.speedDuration = 0;
+        }
+        if (this.nightVisionDuration < 0){
+            this.nightVisionDuration = 0;
+        }
+
         // Ale Beer or Lager Beer
         if (this.superItemType == SuperItemType.ALE_BEER){
             meta.displayName(Component.text("Ale Beer").color(NamedTextColor.GOLD));

@@ -68,7 +68,7 @@ public class SuperWheat extends SuperResource{
         rand.calcuration();
         ArrayList<Double> correction = rand.getAns();
         CirculeDistribution calc = new CirculeDistribution();
-        calc.setVariable(this.temp + 0.75, 1, 1, 3);
+        calc.setVariable(this.temp + 0.75, 0.5, 1, 3);
         calc.setCorrection(correction);
         calc.calcuration();
         ArrayList<Double> ans = calc.getAns();
@@ -132,7 +132,8 @@ public class SuperWheat extends SuperResource{
     }
 
     @Override
-    public ItemStack getDebugItem(int... args){
+    public ItemStack getDebugItem(int... args) {
+        double ttemp = 0.5;
         if (args.length == 1) {
             int type = args[0];
             switch (type) {
@@ -152,14 +153,35 @@ public class SuperWheat extends SuperResource{
                     this.superItemType = SuperItemType.WHEAT;
                     break;
             }
-        } else{
+        } else if( args.length == 2){
+            int type = args[0];
+            switch (type) {
+                case 0:
+                    this.superItemType = SuperItemType.RYE;
+                    break;
+                case 1:
+                    this.superItemType = SuperItemType.BARLEY;
+                    break;
+                case 2:
+                    this.superItemType = SuperItemType.WHEAT;
+                    break;
+                case 3:
+                    this.superItemType = SuperItemType.RICE;
+                    break;
+                default:
+                    this.superItemType = SuperItemType.WHEAT;
+                    break;
+            }
+            ttemp = (double) args[1]/10.0;
+
+        }else{
             this.superItemType = SuperItemType.WHEAT;
         }
 
         this.x = 10;
         this.y = 10;
         this.z = 10;
-        this.temp = 0.5;
+        this.temp = ttemp;
         this.humid = 0.5;
         this.biomeID = 100;
         this.px = 0.33;

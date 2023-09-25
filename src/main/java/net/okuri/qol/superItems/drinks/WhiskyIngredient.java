@@ -48,7 +48,7 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
     private double alcPer = 0.10;
     private double alcAmount = 5000.0;
     // maxDurationは効果全ての効果時間の総和の基準値。超えたり超えなかったりする。
-    private final int maxDuration = 6000;
+    private final int maxDuration = 24000;
 
     public WhiskyIngredient(){
     }
@@ -97,6 +97,17 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         PDCC.set(meta, PDCKey.CONSUMABLE, false);
         PDCC.setLiquor(meta, this.superItemType, this.alcAmount, this.alcPer, this.x, this.y, this.z, this.divLine, this.quality, this.rarity, this.temp, this.humid, 0);
         PDCC.set(meta, PDCKey.DISTILLATION, this.distilled);
+
+        //　各Durationが負のとき、バグ予防
+        if (this.hasteDuration < 0){
+            this.hasteDuration = 0;
+        }
+        if (this.speedDuration < 0){
+            this.speedDuration = 0;
+        }
+        if (this.nightVisionDuration < 0){
+            this.nightVisionDuration = 0;
+        }
 
         meta.displayName(Component.text("Whisky Ingredient").color(NamedTextColor.GOLD));
         LoreGenerator lore = new LoreGenerator();
@@ -232,7 +243,7 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         setType();
     }
     private int calcLevel(double barley){
-        return (int) Math.floor(barley / this.divLine + 1);
+        return (int) Math.floor(barley / this.divLine + (this.distilled == 0 ? 1 : distilled) - 1);
     }
     private int calcDuration(double barley){
         return (int) Math.floor((barley % this.divLine) * this.maxDuration * quality);

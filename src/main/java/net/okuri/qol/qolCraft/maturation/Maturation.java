@@ -150,14 +150,12 @@ public class Maturation implements Listener{
         }
 
         if (ingredients.size() != recipe.getIngredientSize()){
-            System.out.println("ingredients.length != recipe.getIngredientSize()");
             return false;
         }
         // barrelの中身が全てSuperItemかどうかを確認する。もしそうなら、SuperItemTypeの配列を作成する
         ArrayList<SuperItemType> superItemTypes = new ArrayList<>();
         for (ItemStack ingredient : ingredients){
             if (ingredient == null){
-                System.out.println("ingredient == null");
                 return false;
             }
             if (ingredient.hasItemMeta() && PDCC.has(ingredient, PDCKey.TYPE)){
@@ -170,7 +168,6 @@ public class Maturation implements Listener{
         ArrayList<SuperItemType> recipeIngredients = recipe.getIngredients();
         for (int i = 0; i < recipeIngredients.size(); i++){
             if (recipeIngredients.get(i) != superItemTypes.get(i)){
-                System.out.println("recipeIngredients.get(i) != superItemTypes.get(i)");
                 return false;
             }
         }

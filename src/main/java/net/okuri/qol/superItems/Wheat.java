@@ -12,6 +12,9 @@ public class Wheat extends SuperWheat{
 
     @Override
     public ItemStack getDebugItem(int... args){
+        if (args.length == 2) {
+            return super.getDebugItem(args[0], args[1]);
+        }
         return super.getDebugItem(2);
     }
 }

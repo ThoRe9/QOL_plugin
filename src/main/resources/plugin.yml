@@ -21,3 +21,9 @@ commands:
     permission: qol.command.givesuperitem
     permission-message: Permission denied
     usage: /<command> <superItemType>
+  superwheat:
+    aliases: [ sw ]
+    description: You can get super wheat.
+    permission: qol.command.superwheat
+    permission-message: Permission denied
+    usage: /<command> <typeInt> <temperature>

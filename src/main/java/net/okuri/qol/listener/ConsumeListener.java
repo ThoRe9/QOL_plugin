@@ -21,8 +21,9 @@ public class ConsumeListener implements Listener {
         ItemStack item = event.getItem();
         ItemMeta meta = item.getItemMeta();
         // 材料ポーションなど使用できないアイテムを使用したときの処理
-        this.unconsumableEvent(event, player, meta);
-
+        if (this.unconsumableEvent(event, player, meta)){
+            return;
+        }
         // alcoholを使用したとき
         this.alcoholEvent(player, meta);
 
@@ -49,13 +50,15 @@ public class ConsumeListener implements Listener {
         // alcoholの効果を与える
         new Alcohol().run();
     }
-    private void unconsumableEvent(PlayerItemConsumeEvent event, Player player, ItemMeta meta){
+    private boolean unconsumableEvent(PlayerItemConsumeEvent event, Player player, ItemMeta meta){
         if (PDCC.has(meta, PDCKey.CONSUMABLE)){
             if (!(boolean)PDCC.get(meta, PDCKey.CONSUMABLE)){
                 new ChatGenerator().addWarning("You cannot use it!").sendMessage(player);
                 event.setCancelled(true);
+                return true;
             }
         }
+        return false;
     }
 
 }
