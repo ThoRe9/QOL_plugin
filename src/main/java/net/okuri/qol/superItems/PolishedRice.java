@@ -44,10 +44,15 @@ public class PolishedRice implements SuperCraftable {
     @Override
     public void setMatrix(ItemStack[] matrix) {
         ItemStack rice = matrix[0];
-        if (PDCC.get(rice.getItemMeta(), PDCKey.TYPE) == SuperItemType.RICE.toString()){
+        SuperItemType type = SuperItemType.valueOf(PDCC.get(rice.getItemMeta(), PDCKey.TYPE));
+        if (type == SuperItemType.RICE){
             this.rice = rice;
-        } else {
+            this.polishedRice = null;
+        } else if(type == SuperItemType.POLISHED_RICE){
             this.polishedRice = rice;
+            this.rice = null;
+        } else {
+            throw new IllegalArgumentException("typeがPolishedRiceやRiceじゃない");
         }
         setting();
     }
@@ -73,6 +78,7 @@ public class PolishedRice implements SuperCraftable {
     @Override
     public ItemStack getDebugItem(int... args) {
         this.rice = new Rice().getDebugItem();
+        this.polishedRice = null;
         setting();
         return getSuperItem();
     }
@@ -116,22 +122,24 @@ public class PolishedRice implements SuperCraftable {
             // x,y,zのうち、maxとminを求める
             double max = Math.max(Math.max(this.x, this.y), this.z);
             double min = Math.min(Math.min(this.x, this.y), this.z);
-            // maxのパラメータを　-0.05する
-            // minのパラメータを +0.10する
+            // maxのパラメータを　-|temp-1|*0.07する
+            // minのパラメータを +temp*(humid+0.2)*0.2する
             // 以下処理
+            double a = Math.abs(this.temp - 1)*0.07;
+            double b = this.temp*(this.humid+0.2)*0.2;
             if(max == this.x){
-                this.x -= 0.05;
+                this.x -= a;
             }else if(max == this.y){
-                this.y -= 0.05;
+                this.y -= a;
             }else if(max == this.z){
-                this.z -= 0.05;
+                this.z -= a;
             }
             if(min == this.x){
-                this.x += 0.1;
+                this.x += b;
             }else if(min == this.y){
-                this.y += 0.1;
+                this.y += b;
             }else if(min == this.z){
-                this.z += 0.1;
+                this.z += b;
             }
 
         }

@@ -52,12 +52,14 @@ public class SuperWheat extends SuperResource{
 
         if (temp <= 0){
             this.superItemType = SuperItemType.RYE;
-        } else if (temp <= 0.5) {
+        } else if (temp <= 0.70) {
             this.superItemType = SuperItemType.BARLEY;
-        } else if (temp <= 1.0) {
-            this.superItemType = SuperItemType.WHEAT;
-        } else{
-            this.superItemType = SuperItemType.RICE;
+        } else {
+            if (humid <= 0.70) {
+                this.superItemType = SuperItemType.WHEAT;
+            } else{
+                this.superItemType = SuperItemType.RICE;
+            }
         }
     }
     

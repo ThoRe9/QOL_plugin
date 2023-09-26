@@ -40,6 +40,7 @@ net\okuri\qol\superItems\drinks\WhiskyIngredient.class
 net\okuri\qol\superItems\drinks\BeerIngredient.class
 net\okuri\qol\listener\EventListener.class
 net\okuri\qol\LoreGenerator.class
+net\okuri\qol\qolCraft\calcuration\StatisticalCalcuration.class
 net\okuri\qol\PDCKey$ApplyType.class
 net\okuri\qol\qolCraft\distillation\Distillation.class
 net\okuri\qol\superItems\SuperPotato.class
@@ -53,6 +54,7 @@ net\okuri\qol\superItems\drinks\AleBeer.class
 net\okuri\qol\superItems\Wheat.class
 net\okuri\qol\event\MaturationPrepareEvent.class
 net\okuri\qol\PDCC.class
+net\okuri\qol\superItems\Koji.class
 net\okuri\qol\superItems\SuperItemType.class
 net\okuri\qol\listener\GetSuperItemListener.class
 net\okuri\qol\qolCraft\distillation\DistillationRecipe.class

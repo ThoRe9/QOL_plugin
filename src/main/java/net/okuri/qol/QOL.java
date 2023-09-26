@@ -8,6 +8,7 @@ import net.okuri.qol.qolCraft.distillation.DistillationRecipe;
 import net.okuri.qol.qolCraft.maturation.Maturation;
 import net.okuri.qol.qolCraft.maturation.MaturationRecipe;
 import net.okuri.qol.qolCraft.superCraft.ShapelessSuperCraftRecipe;
+import net.okuri.qol.superItems.Koji;
 import net.okuri.qol.superItems.PolishedRice;
 import net.okuri.qol.superItems.drinks.*;
 import net.okuri.qol.superItems.foods.BarleyBread;
@@ -284,6 +285,25 @@ public final class QOL extends JavaPlugin {
         ShapelessRecipe PR2 = new ShapelessRecipe(new NamespacedKey("qol","polished_rice2"), polishedRice);
         PR2.addIngredient(Material.WHEAT);
         Bukkit.addRecipe(PR2);
+
+        // Koji
+        ItemStack koji = new ItemStack(Material.POTION, 1);
+        PotionMeta kojiMeta = (PotionMeta) koji.getItemMeta();
+        kojiMeta.displayName(Component.text("Koji").color(NamedTextColor.GOLD));
+        kojiMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE").generateLore());
+        koji.setItemMeta(kojiMeta);
+        SuperCraftRecipe kojiRecipe = new SuperCraftRecipe(koji);
+        kojiRecipe.setShape(new String[]{" R ", " W ", "   "});
+        kojiRecipe.addSuperIngredient('R', SuperItemType.POLISHED_RICE);
+        kojiRecipe.addIngredient('W', Material.WATER_BUCKET);
+        kojiRecipe.setResultClass(new Koji());
+        superCraft.addSuperCraftRecipe(kojiRecipe);
+
+        ShapedRecipe KR = new ShapedRecipe(new NamespacedKey("qol","koji"), koji);
+        KR.shape(" R ", " W ", "   ");
+        KR.setIngredient('R', Material.PUMPKIN_SEEDS);
+        KR.setIngredient('W', Material.WATER_BUCKET);
+        Bukkit.addRecipe(KR);
 
     }
 
