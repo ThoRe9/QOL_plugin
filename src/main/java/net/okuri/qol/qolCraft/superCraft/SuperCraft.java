@@ -13,6 +13,7 @@ import java.util.ArrayList;
 public class SuperCraft implements Listener {
 
     private final ArrayList<SuperCraftRecipe> superCraftRecipes = new ArrayList<>();
+    private final ArrayList<ShapelessSuperCraftRecipe> shapelessSuperCraftRecipes = new ArrayList<>();
 
     public void addSuperCraftRecipe(SuperCraftRecipe superCraftRecipe) {
         superCraftRecipes.add(superCraftRecipe);
@@ -32,6 +33,15 @@ public class SuperCraft implements Listener {
                 Bukkit.getLogger().info("SuperCraftRecipe matched!");
                 SuperCraftable result = superCraftRecipe.getResultClass();
                 result.setMatrix(matrix);
+                inventory.setResult(result.getSuperItem());
+                return;
+            }
+        }
+        // 不定形レシピの判定
+        for (ShapelessSuperCraftRecipe shapelessSuperCraftRecipe : shapelessSuperCraftRecipes) {
+            if (shapelessSuperCraftRecipe.checkSuperRecipe(matrix)) {
+                Bukkit.getLogger().info("ShapelessSuperCraftRecipe matched!");
+                SuperCraftable result = shapelessSuperCraftRecipe.getResultClass();
                 inventory.setResult(result.getSuperItem());
                 return;
             }

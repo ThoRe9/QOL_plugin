@@ -44,6 +44,7 @@ net\okuri\qol\PDCKey$ApplyType.class
 net\okuri\qol\qolCraft\distillation\Distillation.class
 net\okuri\qol\superItems\SuperPotato.class
 net\okuri\qol\superItems\foods\BarleyBread.class
+net\okuri\qol\superItems\PolishedRice.class
 net\okuri\qol\superItems\Barley.class
 net\okuri\qol\event\MaturationEndEvent.class
 net\okuri\qol\superItems\drinks\Whisky.class
@@ -56,6 +57,7 @@ net\okuri\qol\superItems\SuperItemType.class
 net\okuri\qol\listener\GetSuperItemListener.class
 net\okuri\qol\qolCraft\distillation\DistillationRecipe.class
 net\okuri\qol\listener\ProtectListener.class
+net\okuri\qol\qolCraft\superCraft\ShapelessSuperCraftRecipe.class
 net\okuri\qol\qolCraft\maturation\Maturable.class
 net\okuri\qol\Alcohol.class
 net\okuri\qol\ChatGenerator.class

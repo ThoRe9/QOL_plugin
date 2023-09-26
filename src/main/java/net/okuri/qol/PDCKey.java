@@ -52,8 +52,10 @@ public enum PDCKey {
     // RARITY: 希少性。乱数によって決まる
     DISTILLATION("distillation", PersistentDataType.INTEGER, PDCKey.ApplyType.ITEM),
     // DISTILLATION: 蒸留の回数。蒸留酒の場合のみ記憶する
-    MATURATION("maturation", PersistentDataType.INTEGER, PDCKey.ApplyType.ITEM);
+    MATURATION("maturation", PersistentDataType.INTEGER, PDCKey.ApplyType.ITEM),
     // MATURATION: 熟成の日数。熟成酒の場合のみ記憶する
+    RICE_POLISHING_RATIO("rice_polishing_ratio", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM);
+    // RICE_POLISHING_RATIO: 精米歩合。
 
     public final NamespacedKey key;
     public final PersistentDataType type;
