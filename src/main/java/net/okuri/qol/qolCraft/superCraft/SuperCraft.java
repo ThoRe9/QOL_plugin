@@ -18,6 +18,9 @@ public class SuperCraft implements Listener {
     public void addSuperCraftRecipe(SuperCraftRecipe superCraftRecipe) {
         superCraftRecipes.add(superCraftRecipe);
     }
+    public void addShapelessSuperCraftRecipe(ShapelessSuperCraftRecipe shapelessSuperCraftRecipe) {
+        shapelessSuperCraftRecipes.add(shapelessSuperCraftRecipe);
+    }
 
     @EventHandler
     public void PrepareItemCraftEvent(PrepareItemCraftEvent event) {

@@ -3,6 +3,7 @@ package net.okuri.qol.qolCraft.superCraft;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.superItems.SuperItemType;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,30 +22,51 @@ public class ShapelessSuperCraftRecipe extends SuperCraftRecipe{
     }
     @Override
     public boolean checkSuperRecipe(ItemStack[] matrix) {
+        boolean flag = false;
         superIngredientItems = new ItemStack[superIngredients.size()];
-        for(ItemStack i : matrix){
-            if(i != null){
-                if(ingredients.contains(i.getType())){
-                    continue;
-                } else if (PDCC.has(i.getItemMeta(), PDCKey.TYPE)){
-                    if(superIngredients.contains(SuperItemType.valueOf(PDCC.get(i.getItemMeta(), PDCKey.TYPE)))){
-                        superIngredientItems[superIngredients.indexOf(SuperItemType.valueOf(PDCC.get(i.getItemMeta(), PDCKey.TYPE)))] = i;
-                        continue;
-                    } else{
-                        return false;
+        for (int i = 0; i < superIngredients.size(); i++) {
+            SuperItemType searchType = superIngredients.get(i);
+            for (int j = 0; j < matrix.length; j++) {
+                ItemStack itemStack = matrix[j];
+                if (itemStack != null) {
+                    if (PDCC.has(itemStack.getItemMeta(), PDCKey.TYPE)) {
+                        SuperItemType type = SuperItemType.valueOf(PDCC.get(itemStack.getItemMeta(), PDCKey.TYPE));
+                        if (type == searchType) {
+                            superIngredientItems[i] = itemStack;
+                            matrix[j] = null;
+                            flag = true;
+                            break;
+                        }
                     }
-                } else{
-                    return false;
                 }
             }
         }
-        return true;
+        // matrixの中身をingredientsと比較
+        for (Material ingredient : ingredients) {
+            for (int j = 0; j < matrix.length; j++) {
+                ItemStack itemStack = matrix[j];
+                if (itemStack != null) {
+                    if (itemStack.getType() == ingredient) {
+                        matrix[j] = null;
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+        }
+        // matrixが空になっているかチェック
+        for (ItemStack itemStack : matrix) {
+            if (itemStack != null) {
+                return false;
+            }
+        }
+        return flag;
     }
 
     public void addIngredient(Material ingredient){
         this.ingredients.add(ingredient);
     }
-    public void addIngredient(SuperItemType ingredient){
+    public void addSuperIngredient(SuperItemType ingredient){
         this.superIngredients.add(ingredient);
     }
     @Override

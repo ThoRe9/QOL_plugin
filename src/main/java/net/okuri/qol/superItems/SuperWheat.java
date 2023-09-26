@@ -108,9 +108,9 @@ public class SuperWheat extends SuperResource{
         LoreGenerator loreGenerator = new LoreGenerator();
         loreGenerator.addInfoLore("This is a super wheat!");
         loreGenerator.addInfoLore("This is made by " + this.name);
-        loreGenerator.addParametersLore("x", this.px*10);
-        loreGenerator.addParametersLore("y", this.py*10);
-        loreGenerator.addParametersLore("z", this.pz*10);
+        loreGenerator.addParametersLore("x", this.px);
+        loreGenerator.addParametersLore("y", this.py);
+        loreGenerator.addParametersLore("z", this.pz);
         loreGenerator.addParametersLore("quality", this.quality);
         meta.lore(loreGenerator.generateLore());
 

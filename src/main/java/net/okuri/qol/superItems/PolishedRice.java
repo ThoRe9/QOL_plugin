@@ -7,6 +7,7 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -42,7 +43,12 @@ public class PolishedRice implements SuperCraftable {
     }
     @Override
     public void setMatrix(ItemStack[] matrix) {
-        this.rice = matrix[0];
+        ItemStack rice = matrix[0];
+        if (PDCC.get(rice.getItemMeta(), PDCKey.TYPE) == SuperItemType.RICE.toString()){
+            this.rice = rice;
+        } else {
+            this.polishedRice = rice;
+        }
         setting();
     }
 
@@ -66,7 +72,7 @@ public class PolishedRice implements SuperCraftable {
 
     @Override
     public ItemStack getDebugItem(int... args) {
-        this.polishedRice = new Rice().getDebugItem();
+        this.rice = new Rice().getDebugItem();
         setting();
         return getSuperItem();
     }
@@ -81,6 +87,7 @@ public class PolishedRice implements SuperCraftable {
             this.quality = PDCC.get(meta, PDCKey.QUALITY);
             this.temp = PDCC.get(meta, PDCKey.TEMP);
             this.humid = PDCC.get(meta, PDCKey.HUMID);
+            this.ricePolishingRatio = 0.7;
         }
         //polishedRiceが設定されている場合、上記に加えてricePolishingRatioを設定する
         if(this.polishedRice != null) {

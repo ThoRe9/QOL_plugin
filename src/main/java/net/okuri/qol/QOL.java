@@ -7,6 +7,8 @@ import net.okuri.qol.qolCraft.distillation.Distillation;
 import net.okuri.qol.qolCraft.distillation.DistillationRecipe;
 import net.okuri.qol.qolCraft.maturation.Maturation;
 import net.okuri.qol.qolCraft.maturation.MaturationRecipe;
+import net.okuri.qol.qolCraft.superCraft.ShapelessSuperCraftRecipe;
+import net.okuri.qol.superItems.PolishedRice;
 import net.okuri.qol.superItems.drinks.*;
 import net.okuri.qol.superItems.foods.BarleyBread;
 import net.okuri.qol.superItems.foods.Bread;
@@ -22,6 +24,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -256,6 +259,32 @@ public final class QOL extends JavaPlugin {
         EGR.setIngredient('R', Material.COMPARATOR);
         EGR.setIngredient('O', Material.OBSERVER);
         Bukkit.addRecipe(EGR);
+
+        // polished rice
+        ItemStack polishedRice = new ItemStack(Material.PUMPKIN_SEEDS, 1);
+        ItemMeta polishedRiceMeta = polishedRice.getItemMeta();
+        polishedRiceMeta.displayName(Component.text("Polished Rice").color(NamedTextColor.GOLD));
+        polishedRiceMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE").generateLore());
+        polishedRice.setItemMeta(polishedRiceMeta);
+        ShapelessSuperCraftRecipe polishedRiceRecipe = new ShapelessSuperCraftRecipe(polishedRice);
+        polishedRiceRecipe.addSuperIngredient(SuperItemType.POLISHED_RICE);
+        polishedRiceRecipe.setResultClass(new PolishedRice());
+        superCraft.addShapelessSuperCraftRecipe(polishedRiceRecipe);
+
+        ShapelessRecipe PR = new ShapelessRecipe(new NamespacedKey("qol","polished_rice"), polishedRice);
+        PR.addIngredient(Material.PUMPKIN_SEEDS);
+        Bukkit.addRecipe(PR);
+
+        // polished rice(initial)
+        ShapelessSuperCraftRecipe polishedRiceRecipe2 = new ShapelessSuperCraftRecipe(polishedRice);
+        polishedRiceRecipe2.addSuperIngredient(SuperItemType.RICE);
+        polishedRiceRecipe2.setResultClass(new PolishedRice());
+        superCraft.addShapelessSuperCraftRecipe(polishedRiceRecipe2);
+
+        ShapelessRecipe PR2 = new ShapelessRecipe(new NamespacedKey("qol","polished_rice2"), polishedRice);
+        PR2.addIngredient(Material.WHEAT);
+        Bukkit.addRecipe(PR2);
+
     }
 
     // Maturationのレシピを登録する
