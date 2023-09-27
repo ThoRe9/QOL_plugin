@@ -10,6 +10,7 @@ import net.okuri.qol.qolCraft.maturation.MaturationRecipe;
 import net.okuri.qol.qolCraft.superCraft.ShapelessSuperCraftRecipe;
 import net.okuri.qol.superItems.Koji;
 import net.okuri.qol.superItems.PolishedRice;
+import net.okuri.qol.superItems.SakeIngredient;
 import net.okuri.qol.superItems.drinks.*;
 import net.okuri.qol.superItems.foods.BarleyBread;
 import net.okuri.qol.superItems.foods.Bread;
@@ -305,6 +306,26 @@ public final class QOL extends JavaPlugin {
         KR.setIngredient('W', Material.WATER_BUCKET);
         Bukkit.addRecipe(KR);
 
+        // SakeIngredient
+        ItemStack sake = new ItemStack(Material.POTION, 1);
+        PotionMeta sakeMeta = (PotionMeta) sake.getItemMeta();
+        sakeMeta.displayName(Component.text("Sake Ingredient").color(NamedTextColor.GOLD));
+        sakeMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE").generateLore());
+        sake.setItemMeta(sakeMeta);
+        SuperCraftRecipe sakeRecipe = new SuperCraftRecipe(sake);
+        sakeRecipe.setShape(new String[]{" R ", " K ", " W "});
+        sakeRecipe.addSuperIngredient('R', SuperItemType.POLISHED_RICE);
+        sakeRecipe.addSuperIngredient('K', SuperItemType.KOJI);
+        sakeRecipe.addIngredient('W', Material.WATER_BUCKET);
+        sakeRecipe.setResultClass(new SakeIngredient());
+        superCraft.addSuperCraftRecipe(sakeRecipe);
+
+        ShapedRecipe SIR = new ShapedRecipe(new NamespacedKey("qol","sake_ingredient"), sake);
+        SIR.shape(" R ", " K ", " W ");
+        SIR.setIngredient('R', Material.PUMPKIN_SEEDS);
+        SIR.setIngredient('K', Material.POTION);
+        SIR.setIngredient('W', Material.WATER_BUCKET);
+        Bukkit.addRecipe(SIR);
     }
 
     // Maturationのレシピを登録する

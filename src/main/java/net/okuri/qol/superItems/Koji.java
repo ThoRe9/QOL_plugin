@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
 public class Koji implements SuperCraftable {
+    private SuperItemType SuperItemType = net.okuri.qol.superItems.SuperItemType.KOJI;
     private ItemStack rice;
     private double riceX;
     private double riceY;
@@ -39,7 +40,7 @@ public class Koji implements SuperCraftable {
         ItemStack result = new ItemStack(Material.POTION);
         PotionMeta meta = (PotionMeta) result.getItemMeta();
 
-        PDCC.setSuperItem(meta, SuperItemType.KOJI, this.smell, this.taste, this.compatibility, this.quality, this.rarity, this.temp, this.humid);
+        PDCC.setSuperItem(meta, this.SuperItemType, this.smell, this.taste, this.compatibility, this.quality, this.rarity, this.temp, this.humid);
         PDCC.set(meta, PDCKey.RICE_POLISHING_RATIO, this.ricePolishingRatio);
         PDCC.set(meta, PDCKey.CONSUMABLE, false);
 
@@ -53,8 +54,9 @@ public class Koji implements SuperCraftable {
         lg.addParametersLore("Peculiarity", this.compatibility);
         lg.addParametersLore("Quality", this.quality);
         lg.addRarityLore(this.rarity);
-        lg.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio);
+        lg.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio, true);
         meta.lore(lg.generateLore());
+        meta.setCustomModelData(this.SuperItemType.getCustomModelData());
 
         result.setItemMeta(meta);
         return result;

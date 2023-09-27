@@ -23,6 +23,7 @@ net\okuri\qol\listener\QOLSignListener.class
 net\okuri\qol\superItems\tools\EnvGetter.class
 net\okuri\qol\qolCraft\calcuration\RandFromXYZ.class
 net\okuri\qol\event\QOLSignCreateEvent.class
+net\okuri\qol\superItems\SakeIngredient.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftRecipe.class
 net\okuri\qol\qolCraft\calcuration\CirculeDistribution.class
 net\okuri\qol\superItems\drinks\StrongZero.class

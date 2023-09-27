@@ -70,6 +70,7 @@ public class PolishedRice implements SuperCraftable {
         lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
         lore.addParametersLore("Rice Polishing Ratio" , this.ricePolishingRatio, true);
         meta.lore(lore.generateLore());
+        meta.setCustomModelData(this.type.getCustomModelData());
 
         result.setItemMeta(meta);
         return result;

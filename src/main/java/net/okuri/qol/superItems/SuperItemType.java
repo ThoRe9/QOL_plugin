@@ -20,6 +20,7 @@ public enum SuperItemType {
     RICE("RICE", 0),
     POLISHED_RICE("POLISHED_RICE", 0),
     KOJI("KOJI", 0),
+    SAKE_INGREDIENT("SAKE_INGREDIENT", 0),
     POTATO("POTATO", 0),
     WHISKY_INGREDIENT("WHISKY_INGREDIENT", 0),
     UNDISTILLED_WHISKY_INGREDIENT("UNDISTILLED_WHISKY_INGREDIENT", 0),
@@ -63,6 +64,8 @@ public enum SuperItemType {
                 return new PolishedRice();
             case KOJI:
                 return new Koji();
+            case SAKE_INGREDIENT:
+                return new SakeIngredient();
             case POTATO:
                 return new SuperPotato();
             case WHISKY_INGREDIENT:
