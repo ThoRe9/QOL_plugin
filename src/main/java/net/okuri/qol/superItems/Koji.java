@@ -37,14 +37,21 @@ public class Koji implements SuperCraftable {
 
     @Override
     public ItemStack getSuperItem() {
-        ItemStack result = new ItemStack(Material.POTION);
+        ItemStack result = new ItemStack(Material.POTION, getAmount());
         PotionMeta meta = (PotionMeta) result.getItemMeta();
 
-        PDCC.setSuperItem(meta, this.SuperItemType, this.smell, this.taste, this.compatibility, this.quality, this.rarity, this.temp, this.humid);
+        PDCC.set(meta, PDCKey.TYPE, this.SuperItemType.toString());
+        PDCC.set(meta, PDCKey.SMELL_RICHNESS, this.smell);
+        PDCC.set(meta, PDCKey.TASTE_RICHNESS, this.taste);
+        PDCC.set(meta, PDCKey.COMPATIBILITY, this.compatibility);
+        PDCC.set(meta, PDCKey.QUALITY, this.quality);
+        PDCC.set(meta, PDCKey.RARITY, this.rarity);
+        PDCC.set(meta, PDCKey.TEMP, this.temp);
+        PDCC.set(meta, PDCKey.HUMID, this.humid);
         PDCC.set(meta, PDCKey.RICE_POLISHING_RATIO, this.ricePolishingRatio);
         PDCC.set(meta, PDCKey.CONSUMABLE, false);
 
-        meta.displayName(Component.text("麹").color(net.kyori.adventure.text.format.NamedTextColor.GOLD));
+        meta.displayName(Component.text("Koji").color(net.kyori.adventure.text.format.NamedTextColor.GOLD));
         meta.setColor(Color.WHITE);
 
         LoreGenerator lg = new LoreGenerator();
@@ -91,5 +98,8 @@ public class Koji implements SuperCraftable {
         this.taste = (0.1+max-mean)/(1-max);
         this.compatibility = ((this.max - this.min)%this.min)/this.min;
 
+    }
+    private int getAmount(){
+        return (int) (this.ricePolishingRatio*10 -3);
     }
 }

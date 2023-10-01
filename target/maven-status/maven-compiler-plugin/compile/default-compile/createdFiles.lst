@@ -18,6 +18,7 @@ net\okuri\qol\ProtectedBlock.class
 net\okuri\qol\superItems\drinks\WhiskyWithIce.class
 net\okuri\qol\superItems\SuperItemType$1.class
 net\okuri\qol\qolCraft\superCraft\SuperCraft.class
+net\okuri\qol\superItems\Sake$AlcType.class
 net\okuri\qol\superItems\SuperWheat.class
 net\okuri\qol\listener\QOLSignListener.class
 net\okuri\qol\superItems\tools\EnvGetter.class
@@ -37,6 +38,7 @@ net\okuri\qol\superItems\foods\Food.class
 net\okuri\qol\qolCraft\maturation\MaturationRecipe.class
 net\okuri\qol\superItems\drinks\LagerBeer.class
 net\okuri\qol\superItems\foods\Bread.class
+net\okuri\qol\superItems\Sake$TasteType.class
 net\okuri\qol\superItems\drinks\WhiskyIngredient.class
 net\okuri\qol\superItems\drinks\BeerIngredient.class
 net\okuri\qol\listener\EventListener.class
@@ -46,12 +48,14 @@ net\okuri\qol\PDCKey$ApplyType.class
 net\okuri\qol\qolCraft\distillation\Distillation.class
 net\okuri\qol\superItems\SuperPotato.class
 net\okuri\qol\superItems\foods\BarleyBread.class
+net\okuri\qol\superItems\Sake$SakeType.class
 net\okuri\qol\superItems\PolishedRice.class
 net\okuri\qol\superItems\Barley.class
 net\okuri\qol\event\MaturationEndEvent.class
 net\okuri\qol\superItems\drinks\Whisky.class
 net\okuri\qol\superItems\drinks\Highball.class
 net\okuri\qol\superItems\drinks\AleBeer.class
+net\okuri\qol\superItems\Sake.class
 net\okuri\qol\superItems\Wheat.class
 net\okuri\qol\event\MaturationPrepareEvent.class
 net\okuri\qol\PDCC.class

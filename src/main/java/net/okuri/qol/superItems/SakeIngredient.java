@@ -33,7 +33,7 @@ public class SakeIngredient implements SuperCraftable {
     private double z;
     private double smellRichness;
     private double tasteRichness;
-    private double picularity;
+    private double compatibility;
     private double quality;
     private int rarity;
     private double temp;
@@ -61,8 +61,12 @@ public class SakeIngredient implements SuperCraftable {
         PotionMeta meta = (PotionMeta) result.getItemMeta();
 
         PDCC.setSuperItem(meta, this.type, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
+        PDCC.set(meta, PDCKey.TASTE_RICHNESS, this.tasteRichness);
+        PDCC.set(meta, PDCKey.SMELL_RICHNESS, this.smellRichness);
+        PDCC.set(meta, PDCKey.COMPATIBILITY, this.compatibility);
         PDCC.set(meta, PDCKey.INGREDIENT_TYPE, this.ingredientType.toString());
         PDCC.set(meta, PDCKey.CONSUMABLE, false);
+        PDCC.set(meta, PDCKey.RICE_POLISHING_RATIO, this.ricePolishingRatio);
 
         meta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, this.registanceDuration, this.registanceAmp), true);
         meta.addCustomEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, this.fireResistDuration, this.fireResistAmp), true);
@@ -75,7 +79,7 @@ public class SakeIngredient implements SuperCraftable {
         lore.addParametersLore("X", this.x);
         lore.addParametersLore("Y", this.y);
         lore.addParametersLore("Z", this.z);
-        lore.addParametersLore("Picularity", this.picularity);
+        lore.addParametersLore("Compatibility", this.compatibility);
         lore.addParametersLore("Quality", this.quality );
         lore.addRarityLore(this.rarity);
         if (ingredientType == SuperItemType.POLISHED_RICE){
@@ -101,32 +105,32 @@ public class SakeIngredient implements SuperCraftable {
         ItemMeta kojiMeta = koji.getItemMeta();
         if (ingredientType == SuperItemType.POLISHED_RICE){
             meta = rice.getItemMeta();
-            double p = PDCC.get(kojiMeta, PDCKey.Z);
-            this.picularity = -Math.pow(p, 2) + 2*p;
+            double p = PDCC.get(kojiMeta, PDCKey.COMPATIBILITY);
+            this.compatibility = -Math.pow(p, 2) + 2*p;
             this.ricePolishingRatio = ((double)PDCC.get(kojiMeta, PDCKey.RICE_POLISHING_RATIO) + (double)PDCC.get(meta, PDCKey.RICE_POLISHING_RATIO))/2.0;
         } else if(ingredientType == SuperItemType.BARLEY){
             meta = barley.getItemMeta();
-            double p = PDCC.get(kojiMeta, PDCKey.Z);
-            this.picularity = 4*(-Math.pow(p, 2) + p);
+            double p = PDCC.get(kojiMeta, PDCKey.COMPATIBILITY);
+            this.compatibility = 4*(-Math.pow(p, 2) + p);
         } else if(ingredientType == SuperItemType.POTATO){
             meta = potato.getItemMeta();
-            double p = PDCC.get(kojiMeta, PDCKey.Z);
-            this.picularity = -Math.pow(p, 2) + 1;
+            double p = PDCC.get(kojiMeta, PDCKey.COMPATIBILITY);
+            this.compatibility = -Math.pow(p, 2) + 1;
         } else {
             return;
         }
 
-        this.smellRichness = PDCC.get(kojiMeta, PDCKey.X);
-        this.tasteRichness = PDCC.get(kojiMeta, PDCKey.Y);
-        this.picularity = PDCC.get(kojiMeta, PDCKey.Z);
+        this.smellRichness = PDCC.get(kojiMeta, PDCKey.COMPATIBILITY);
+        this.tasteRichness = PDCC.get(kojiMeta, PDCKey.TASTE_RICHNESS);
+        this.compatibility = PDCC.get(kojiMeta, PDCKey.COMPATIBILITY);
         this.quality = (double)PDCC.get(kojiMeta, PDCKey.QUALITY) * (double)PDCC.get(meta, PDCKey.QUALITY);
 
         this.temp = PDCC.get(meta, PDCKey.TEMP);
         this.humid = PDCC.get(meta, PDCKey.HUMID);
 
-        this.x = (double)PDCC.get(meta, PDCKey.X) * this.picularity * this.quality;
-        this.y = (double)PDCC.get(meta, PDCKey.Y) * this.picularity * this.quality;
-        this.z = (double)PDCC.get(meta, PDCKey.Z) * this.picularity * this.quality;
+        this.x = (double)PDCC.get(meta, PDCKey.X) * this.compatibility * this.quality;
+        this.y = (double)PDCC.get(meta, PDCKey.Y) * this.compatibility * this.quality;
+        this.z = (double)PDCC.get(meta, PDCKey.Z) * this.compatibility * this.quality;
         this.rarity = SuperItem.getRarity(this.x, this.y, this.z);
 
         this.registanceAmp = (int)(this.x * this.tasteRichness * 2.5);
@@ -137,3 +141,4 @@ public class SakeIngredient implements SuperCraftable {
         this.regenDuration = (int)(this.z * this.smellRichness * this.maxDuration);
     }
 }
+

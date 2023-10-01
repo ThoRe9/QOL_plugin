@@ -21,6 +21,8 @@ public enum SuperItemType {
     POLISHED_RICE("POLISHED_RICE", 0),
     KOJI("KOJI", 0),
     SAKE_INGREDIENT("SAKE_INGREDIENT", 0),
+    UNREFINED_SAKE("UNREFINED_SAKE", 0),
+    SAKE("SAKE", 0),
     POTATO("POTATO", 0),
     WHISKY_INGREDIENT("WHISKY_INGREDIENT", 0),
     UNDISTILLED_WHISKY_INGREDIENT("UNDISTILLED_WHISKY_INGREDIENT", 0),
@@ -66,6 +68,8 @@ public enum SuperItemType {
                 return new Koji();
             case SAKE_INGREDIENT:
                 return new SakeIngredient();
+            case SAKE:
+                return new Sake();
             case POTATO:
                 return new SuperPotato();
             case WHISKY_INGREDIENT:
@@ -91,7 +95,7 @@ public enum SuperItemType {
             case ENV_TOOL:
                 return new EnvGetter();
             default:
-                return null;
+                throw new IllegalStateException("Unexpected value: " + type);
         }
     }
 

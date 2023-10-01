@@ -8,16 +8,13 @@ import net.okuri.qol.qolCraft.distillation.DistillationRecipe;
 import net.okuri.qol.qolCraft.maturation.Maturation;
 import net.okuri.qol.qolCraft.maturation.MaturationRecipe;
 import net.okuri.qol.qolCraft.superCraft.ShapelessSuperCraftRecipe;
-import net.okuri.qol.superItems.Koji;
-import net.okuri.qol.superItems.PolishedRice;
-import net.okuri.qol.superItems.SakeIngredient;
+import net.okuri.qol.superItems.*;
 import net.okuri.qol.superItems.drinks.*;
 import net.okuri.qol.superItems.foods.BarleyBread;
 import net.okuri.qol.superItems.foods.Bread;
 import net.okuri.qol.superItems.foods.RyeBread;
 import net.okuri.qol.qolCraft.superCraft.SuperCraft;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
-import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.tools.EnvGetter;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -341,6 +338,11 @@ public final class QOL extends JavaPlugin {
         MaturationRecipe beerRecipe = new MaturationRecipe("Beer", new Beer());
         beerRecipe.addingredient(SuperItemType.BEER_INGREDIENT);
         maturation.addMaturationRecipe(beerRecipe);
+
+        // Sake
+        MaturationRecipe sakeRecipe = new MaturationRecipe("Sake", new Sake());
+        sakeRecipe.addingredient(SuperItemType.SAKE_INGREDIENT);
+        maturation.addMaturationRecipe(sakeRecipe);
     }
 
     // Distillationのレシピを登録する

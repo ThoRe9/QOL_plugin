@@ -56,8 +56,14 @@ public enum PDCKey {
     // MATURATION: 熟成の日数。熟成酒の場合のみ記憶する
     RICE_POLISHING_RATIO("rice_polishing_ratio", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
     // RICE_POLISHING_RATIO: 精米歩合。
-    INGREDIENT_TYPE("ingredient_type", PersistentDataType.STRING, PDCKey.ApplyType.ITEM);
+    INGREDIENT_TYPE("ingredient_type", PersistentDataType.STRING, PDCKey.ApplyType.ITEM),
     // INGREDIENT_TYPE: 醸造原料の種類を記憶する
+    TASTE_RICHNESS("taste_richness",PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
+    // TASTE_RICHNESS: 味のパラメータ
+    SMELL_RICHNESS("smell_richness", PersistentDataType.DOUBLE, ApplyType.ITEM),
+    // SMELL_RICHNESS: 香のパラメータ
+    COMPATIBILITY("compatibillity", PersistentDataType.DOUBLE, ApplyType.ITEM);
+    // COMPATIBILITY: 相性のパラメータ
 
     public final NamespacedKey key;
     public final PersistentDataType type;

@@ -22,7 +22,16 @@ public class LoreGenerator {
             NamedTextColor.GREEN,
             NamedTextColor.AQUA,
             NamedTextColor.BLUE,
-            NamedTextColor.LIGHT_PURPLE
+            NamedTextColor.LIGHT_PURPLE,
+            NamedTextColor.WHITE,
+            NamedTextColor.GRAY,
+            NamedTextColor.DARK_RED,
+            NamedTextColor.GOLD,
+            NamedTextColor.DARK_GREEN,
+            NamedTextColor.DARK_AQUA,
+            NamedTextColor.DARK_BLUE,
+            NamedTextColor.DARK_PURPLE,
+            NamedTextColor.DARK_GRAY
     ));
 
 
