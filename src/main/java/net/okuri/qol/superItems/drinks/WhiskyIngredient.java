@@ -112,10 +112,10 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         meta.displayName(Component.text("Whisky Ingredient").color(NamedTextColor.GOLD));
         LoreGenerator lore = new LoreGenerator();
         lore.addImportantLore("You cannot drink this!");
-        lore.addParametersLore("X", this.x*10);
-        lore.addParametersLore("Y", this.y*10);
-        lore.addParametersLore("Z", this.z*10);
-        lore.addParametersLore("D", this.divLine*10);
+        lore.addParametersLore("X", this.x);
+        lore.addParametersLore("Y", this.y);
+        lore.addParametersLore("Z", this.z);
+        lore.addParametersLore("D", this.divLine);
         lore.addParametersLore("Distilled", this.distilled);
         lore.addParametersLore("AlcoholLevel", this.alcPer, true);
         if (this.distilled == 0){

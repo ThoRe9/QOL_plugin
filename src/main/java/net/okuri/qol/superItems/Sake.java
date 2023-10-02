@@ -61,6 +61,7 @@ public class Sake implements Maturable {
     public ItemStack getSuperItem() {
         ItemStack result = new ItemStack(Material.POTION);
         PotionMeta meta = (PotionMeta)result.getItemMeta();
+        meta.setColor(Color.WHITE);
 
         meta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, this.registanceDuration, this.registanceAmp), true);
         meta.addCustomEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, this.fireResistDuration, this.fireResistAmp), true);
@@ -112,7 +113,6 @@ public class Sake implements Maturable {
     private void setting(){
         ItemStack item = this.ingredient;
         PotionMeta meta = (PotionMeta)this.ingredient.getItemMeta();
-        meta.setColor(Color.WHITE);
         this.x = PDCC.get(meta, PDCKey.X);
         this.y = PDCC.get(meta, PDCKey.Y);
         this.z = PDCC.get(meta, PDCKey.Z);
