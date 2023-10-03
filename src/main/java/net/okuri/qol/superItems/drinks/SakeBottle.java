@@ -32,6 +32,7 @@ public class SakeBottle extends Sake implements DistributionReceiver {
         ItemStack bigBottle = matrix[0];
         super.initialize(bigBottle);
         super.amount = 170.0;
+        super.setting();
     }
 
     @Override

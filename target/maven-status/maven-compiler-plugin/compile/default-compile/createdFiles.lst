@@ -5,7 +5,9 @@ net\okuri\qol\superItems\drinks\Beer.class
 net\okuri\qol\superItems\SuperCoal.class
 net\okuri\qol\superItems\Rice.class
 net\okuri\qol\listener\ConsumeListener.class
+net\okuri\qol\qolCraft\superCraft\SuperRecipe.class
 net\okuri\qol\superItems\SuperItem.class
+net\okuri\qol\event\DistributionEvent.class
 net\okuri\qol\superItems\foods\RyeBread.class
 net\okuri\qol\listener\InteractListener$1.class
 net\okuri\qol\PDCKey.class
@@ -68,7 +70,6 @@ net\okuri\qol\superItems\SuperItemType.class
 net\okuri\qol\listener\GetSuperItemListener.class
 net\okuri\qol\qolCraft\distillation\DistillationRecipe.class
 net\okuri\qol\listener\ProtectListener.class
-net\okuri\qol\qolCraft\superCraft\Recipe.class
 net\okuri\qol\superItems\drinks\SakeBottle.class
 net\okuri\qol\qolCraft\superCraft\ShapelessSuperCraftRecipe.class
 net\okuri\qol\qolCraft\maturation\Maturable.class

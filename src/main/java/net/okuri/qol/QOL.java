@@ -98,13 +98,6 @@ public final class QOL extends JavaPlugin {
         whiskyRecipe.setResultClass(new WhiskyIngredient());
         superCraft.addSuperCraftRecipe(whiskyRecipe);
 
-        ShapedRecipe WVR = new ShapedRecipe(new NamespacedKey("qol","whisky_ingredient"), whisky);
-        WVR.shape(" W ", " B ", " C ");
-        WVR.setIngredient('W', Material.WHEAT);
-        WVR.setIngredient('B', Material.WATER_BUCKET);
-        WVR.setIngredient('C', Material.COAL);
-        Bukkit.addRecipe(WVR);
-
         // WhiskyWithIce
         ItemStack whiskyWithIce = new ItemStack(Material.POTION, 1);
         PotionMeta wwim = (PotionMeta)whiskyWithIce.getItemMeta();
@@ -119,13 +112,6 @@ public final class QOL extends JavaPlugin {
         whiskyWithIceRecipe.addIngredient('B', Material.GLASS_BOTTLE);
         whiskyWithIceRecipe.setResultClass(new WhiskyWithIce());
         superCraft.addSuperCraftRecipe(whiskyWithIceRecipe);
-
-        ShapedRecipe WWIR = new ShapedRecipe(new NamespacedKey("qol","whisky_with_ice"), whiskyWithIce);
-        WWIR.shape(" I ", " W ", "BBB");
-        WWIR.setIngredient('I', Material.ICE);
-        WWIR.setIngredient('W', Material.POTION);
-        WWIR.setIngredient('B', Material.GLASS_BOTTLE);
-        Bukkit.addRecipe(WWIR);
 
         // Soda
         ItemStack soda = new ItemStack(Material.POTION, 1);
@@ -142,13 +128,6 @@ public final class QOL extends JavaPlugin {
         sodaRecipe.setResultClass(new Soda());
         superCraft.addSuperCraftRecipe(sodaRecipe);
 
-        ShapedRecipe SR = new ShapedRecipe(new NamespacedKey("qol","soda"), soda);
-        SR.shape("CCC", " W ", "BBB");
-        SR.setIngredient('C', Material.COAL);
-        SR.setIngredient('W', Material.WATER_BUCKET);
-        SR.setIngredient('B', Material.GLASS_BOTTLE);
-        Bukkit.addRecipe(SR);
-
         //Highball
         ItemStack highball = new ItemStack(Material.POTION, 1);
         PotionMeta highballMeta = (PotionMeta)highball.getItemMeta();
@@ -163,13 +142,6 @@ public final class QOL extends JavaPlugin {
         highballRecipe.addSuperIngredient('S', SuperItemType.SODA);
         highballRecipe.setResultClass(new Highball());
         superCraft.addSuperCraftRecipe(highballRecipe);
-
-        ShapedRecipe HR = new ShapedRecipe(new NamespacedKey("qol","highball"), highball);
-        HR.shape(" I ", " W ", "SSS");
-        HR.setIngredient('I', Material.ICE);
-        HR.setIngredient('W', Material.POTION);
-        HR.setIngredient('S', Material.POTION);
-        Bukkit.addRecipe(HR);
 
         // Bread
         ItemStack superBread = new ItemStack(Material.BREAD, 1);
@@ -211,13 +183,6 @@ public final class QOL extends JavaPlugin {
         beerRecipe.setResultClass(new BeerIngredient());
         superCraft.addSuperCraftRecipe(beerRecipe);
 
-        ShapedRecipe BIR = new ShapedRecipe(new NamespacedKey("qol","beer_ingredient"), beer);
-        BIR.shape(" W ", " B ", " V ");
-        BIR.setIngredient('W', Material.WHEAT);
-        BIR.setIngredient('B', Material.WATER_BUCKET);
-        BIR.setIngredient('V', Material.VINE);
-        Bukkit.addRecipe(BIR);
-
         // ストゼロ
         ItemStack st0 = new ItemStack(Material.POTION, 1);
         PotionMeta st0meta = (PotionMeta) st0.getItemMeta();
@@ -231,13 +196,6 @@ public final class QOL extends JavaPlugin {
         st0Recipe.addIngredient('W', Material.POTION);
         st0Recipe.setResultClass(new StrongZero());
         superCraft.addSuperCraftRecipe(st0Recipe);
-
-        ShapedRecipe SZR = new ShapedRecipe(new NamespacedKey("qol","strong_zero"), st0);
-        SZR.shape(" B "," R "," W ");
-        SZR.setIngredient('B', Material.SWEET_BERRIES);
-        SZR.setIngredient('R', Material.WHEAT);
-        SZR.setIngredient('W', Material.POTION);
-        Bukkit.addRecipe(SZR);
 
         // envGetter
         ItemStack envGetter = new ItemStack(Material.PAPER, 1);
@@ -253,13 +211,6 @@ public final class QOL extends JavaPlugin {
         envGetterRecipe.setResultClass(new EnvGetter());
         superCraft.addSuperCraftRecipe(envGetterRecipe);
 
-        ShapedRecipe EGR = new ShapedRecipe(new NamespacedKey("qol","env_getter"), envGetter);
-        EGR.shape("IOI", "IRI", "III");
-        EGR.setIngredient('I', Material.IRON_INGOT);
-        EGR.setIngredient('R', Material.COMPARATOR);
-        EGR.setIngredient('O', Material.OBSERVER);
-        Bukkit.addRecipe(EGR);
-
         // polished rice
         ItemStack polishedRice = new ItemStack(Material.PUMPKIN_SEEDS, 1);
         ItemMeta polishedRiceMeta = polishedRice.getItemMeta();
@@ -271,19 +222,11 @@ public final class QOL extends JavaPlugin {
         polishedRiceRecipe.setResultClass(new PolishedRice());
         superCraft.addShapelessSuperCraftRecipe(polishedRiceRecipe);
 
-        ShapelessRecipe PR = new ShapelessRecipe(new NamespacedKey("qol","polished_rice"), polishedRice);
-        PR.addIngredient(Material.PUMPKIN_SEEDS);
-        Bukkit.addRecipe(PR);
-
         // polished rice(initial)
         ShapelessSuperCraftRecipe polishedRiceRecipe2 = new ShapelessSuperCraftRecipe(polishedRice, "polished_rice2");
         polishedRiceRecipe2.addSuperIngredient(SuperItemType.RICE);
         polishedRiceRecipe2.setResultClass(new PolishedRice());
         superCraft.addShapelessSuperCraftRecipe(polishedRiceRecipe2);
-
-        ShapelessRecipe PR2 = new ShapelessRecipe(new NamespacedKey("qol","polished_rice2"), polishedRice);
-        PR2.addIngredient(Material.WHEAT);
-        Bukkit.addRecipe(PR2);
 
         // Koji
         ItemStack koji = new ItemStack(Material.POTION, 1);
@@ -298,12 +241,6 @@ public final class QOL extends JavaPlugin {
         kojiRecipe.setResultClass(new Koji());
         superCraft.addSuperCraftRecipe(kojiRecipe);
 
-        ShapedRecipe KR = new ShapedRecipe(new NamespacedKey("qol","koji"), koji);
-        KR.shape(" R ", " W ", "   ");
-        KR.setIngredient('R', Material.PUMPKIN_SEEDS);
-        KR.setIngredient('W', Material.WATER_BUCKET);
-        Bukkit.addRecipe(KR);
-
         // SakeIngredient
         ItemStack sake = new ItemStack(Material.POTION, 1);
         PotionMeta sakeMeta = (PotionMeta) sake.getItemMeta();
@@ -317,13 +254,6 @@ public final class QOL extends JavaPlugin {
         sakeRecipe.addIngredient('W', Material.WATER_BUCKET);
         sakeRecipe.setResultClass(new SakeIngredient());
         superCraft.addSuperCraftRecipe(sakeRecipe);
-
-        ShapedRecipe SIR = new ShapedRecipe(new NamespacedKey("qol","sake_ingredient"), sake);
-        SIR.shape(" R ", " K ", " W ");
-        SIR.setIngredient('R', Material.PUMPKIN_SEEDS);
-        SIR.setIngredient('K', Material.POTION);
-        SIR.setIngredient('W', Material.WATER_BUCKET);
-        Bukkit.addRecipe(SIR);
 
         // Sake(1合)(distribution)
         DistributionCraftRecipe sake1goRecipe = new DistributionCraftRecipe("sake_1go");

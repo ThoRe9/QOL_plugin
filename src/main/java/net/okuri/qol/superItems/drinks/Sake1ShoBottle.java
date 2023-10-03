@@ -103,8 +103,9 @@ public class Sake1ShoBottle extends Sake implements Maturable, Distributable {
         super.amount = amount - decline;
         super.setting();
     }
+
     @Override
     public SuperItemType getType() {
-        return super.type;
+        return this.type;
     }
 }
