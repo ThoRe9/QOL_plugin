@@ -1,4 +1,4 @@
-package net.okuri.qol.superItems;
+package net.okuri.qol.superItems.drinks;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -6,6 +6,10 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
+import net.okuri.qol.superItems.Koji;
+import net.okuri.qol.superItems.PolishedRice;
+import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
