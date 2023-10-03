@@ -71,6 +71,7 @@ public enum PDCKey {
     SAKE_ALC_TYPE("sake_alc_type", PersistentDataType.STRING, ApplyType.ITEM);
     // SAKE_ALC_TYPE: 日本酒のアルコールのタイプ(甘口、辛口)
 
+
     public final NamespacedKey key;
     public final PersistentDataType type;
     public final PDCKey.ApplyType apply;

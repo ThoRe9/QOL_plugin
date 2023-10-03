@@ -6,5 +6,4 @@ public interface DistributionReceiver extends SuperCraftable{
     // 最後にgetSuperItemが呼び出される。
 
     void receive(int count);
-    double getAmount();
 }
