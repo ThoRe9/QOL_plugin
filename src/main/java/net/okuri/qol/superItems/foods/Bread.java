@@ -35,6 +35,8 @@ public class Bread implements SuperCraftable {
     }
     private void setting(ItemStack[] wheats) {
         // wheatのyパラメータの平均値を引き継ぐ。
+        this.foodLevel = 5;
+        this.foodSaturation = 6.0f;
         double sum = 0;
         for (ItemStack wheat : wheats) {
             double p = PDCC.get(wheat, wheatkey);
@@ -58,7 +60,7 @@ public class Bread implements SuperCraftable {
         lore.addInfoLore("Bread!");
         lore.addFoodLevelLore(foodLevel);
         lore.addFoodSaturationLore(foodSaturation);
-        lore.addParametersLore("Parameter", par*10);
+        lore.addParametersLore("Parameter", par);
         meta.lore(lore.generateLore());
         PDCC.set(meta, PDCKey.X, this.par);
         PDCC.set(meta, PDCKey.TYPE, this.superItemType.toString());
