@@ -86,8 +86,8 @@ public class Highball implements SuperCraftable {
     public Highball(){
 
     }
-
-    public void setMatrix(ItemStack[] matrix) {
+    @Override
+    public void setMatrix(ItemStack[] matrix, String id) {
         this.matrix = matrix;
         // 4にはwhisky 6,7,8にはsodaがある
         setting(matrix[4], new ItemStack[]{matrix[6], matrix[7], matrix[8]});

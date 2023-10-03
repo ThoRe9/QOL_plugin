@@ -34,6 +34,6 @@ public class EnvGetter implements SuperCraftable {
     }
 
     @Override
-    public void setMatrix(ItemStack[] matrix) {
+    public void setMatrix(ItemStack[] matrix, String id) {
     }
 }

@@ -3,22 +3,23 @@ package net.okuri.qol.qolCraft.superCraft;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
-public class ShapelessSuperCraftRecipe extends SuperCraftRecipe{
+public class ShapelessSuperCraftRecipe implements SuperRecipe {
     //不定形レシピはsetMatrixに登録した順にSuperItem のItemStackがわたされるので注意!!
 
     private final ItemStack result;
+    private final String id;
     private SuperCraftable resultClass;
     private final ArrayList<Material> ingredients = new ArrayList<>();
     private final ArrayList<SuperItemType> superIngredients = new ArrayList<>();
     private ItemStack[] superIngredientItems;
-    public ShapelessSuperCraftRecipe(ItemStack result) {
+    public ShapelessSuperCraftRecipe(ItemStack result, String id) {
         this.result = result;
+        this.id = id;
     }
     @Override
     public boolean checkSuperRecipe(ItemStack[] matrix) {
@@ -69,13 +70,20 @@ public class ShapelessSuperCraftRecipe extends SuperCraftRecipe{
     public void addSuperIngredient(SuperItemType ingredient){
         this.superIngredients.add(ingredient);
     }
-    @Override
+
     public void setResultClass(SuperCraftable resultClass) {
         this.resultClass = resultClass;
     }
-    @Override
     public SuperCraftable getResultClass(){
-        resultClass.setMatrix(superIngredientItems);
+        resultClass.setMatrix(superIngredientItems,id);
         return resultClass;
+    }
+    @Override
+    public String getId(){
+        return id;
+    }
+    @Override
+    public ItemStack getResult() {
+        return result;
     }
 }

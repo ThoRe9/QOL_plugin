@@ -12,6 +12,8 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.Objects;
+
 public class PolishedRice implements SuperCraftable {
     private ItemStack polishedRice;
     private ItemStack rice;
@@ -42,17 +44,17 @@ public class PolishedRice implements SuperCraftable {
         setting();
     }
     @Override
-    public void setMatrix(ItemStack[] matrix) {
+    public void setMatrix(ItemStack[] matrix, String id) {
         ItemStack rice = matrix[0];
         SuperItemType type = SuperItemType.valueOf(PDCC.get(rice.getItemMeta(), PDCKey.TYPE));
-        if (type == SuperItemType.RICE){
+        if (Objects.equals(id, "polished_rice")){
             this.rice = rice;
             this.polishedRice = null;
-        } else if(type == SuperItemType.POLISHED_RICE){
+        } else if (Objects.equals(id, "polished_rice2")){
             this.polishedRice = rice;
             this.rice = null;
-        } else {
-            throw new IllegalArgumentException("typeがPolishedRiceやRiceじゃない");
+        } else{
+            throw new IllegalArgumentException("無効なレシピID");
         }
         setting();
     }

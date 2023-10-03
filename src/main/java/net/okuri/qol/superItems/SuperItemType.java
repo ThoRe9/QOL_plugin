@@ -9,8 +9,6 @@ import net.okuri.qol.superItems.drinks.LagerBeer;
 import net.okuri.qol.superItems.drinks.Whisky;
 import net.okuri.qol.superItems.foods.Bread;
 import net.okuri.qol.superItems.tools.EnvGetter;
-import org.bukkit.NamespacedKey;
-import org.bukkit.persistence.PersistentDataType;
 
 public enum SuperItemType {
     COAL("COAL", 0),
@@ -22,7 +20,8 @@ public enum SuperItemType {
     KOJI("KOJI", 0),
     SAKE_INGREDIENT("SAKE_INGREDIENT", 0),
     UNREFINED_SAKE("UNREFINED_SAKE", 0),
-    SAKE("SAKE", 0),
+    SAKE_1SHO("SAKE_1SHO", 0),
+    SAKE_1GO("SAKE_1GO", 0),
     POTATO("POTATO", 0),
     WHISKY_INGREDIENT("WHISKY_INGREDIENT", 0),
     UNDISTILLED_WHISKY_INGREDIENT("UNDISTILLED_WHISKY_INGREDIENT", 0),
@@ -68,8 +67,8 @@ public enum SuperItemType {
                 return new Koji();
             case SAKE_INGREDIENT:
                 return new SakeIngredient();
-            case SAKE:
-                return new Sake();
+            case SAKE_1SHO:
+                return new Sake1ShoBottle();
             case POTATO:
                 return new SuperPotato();
             case WHISKY_INGREDIENT:

@@ -5,36 +5,31 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class SuperCraftRecipe {
+public class SuperCraftRecipe implements SuperRecipe {
     // 特殊レシピの判定ができる
     // Materialだけでなく、SuperItemTypeも判定できる
-
+    private String id;
+    private ItemStack[] matrix = new ItemStack[9];
     public ItemStack result = null;
     public String[] shape = new String[3];
     public Map<Character, Material> ingredients = new HashMap<Character, Material>();
     public Map<Character, SuperItemType> superIngredients = new HashMap<Character, SuperItemType>();
     private SuperCraftable resultClass = null;
 
-    public SuperCraftRecipe(ItemStack result, String[] shape, Map<Character, Material> ingredients, Map<Character, SuperItemType> superIngredients) {
+    public SuperCraftRecipe(ItemStack result, String id){
         this.result = result;
-        this.shape = shape;
-        this.ingredients = ingredients;
-        this.superIngredients = superIngredients;
-    }
-
-    public SuperCraftRecipe(ItemStack result){
-        this.result = result;
+        this.id = id;
     }
 
     // レシピの判定
+    @Override
     public boolean checkSuperRecipe(ItemStack[] matrix){
-
+        this.matrix = matrix;
         //Bukkit.getServer().getLogger().info("checkSuperRecipe");
 
         for (int i = 0; i < 3; i++) {
@@ -80,13 +75,12 @@ public class SuperCraftRecipe {
         return true;
     }
 
-    public SuperCraftRecipe(String[] shape) {
-        this.shape = shape;
+    public void setId(String id) {
+        this.id = id;
     }
-
-    public SuperCraftRecipe() {
+    public String getId() {
+        return this.id;
     }
-
     public void setShape(String[] shape) {
         this.shape = shape;
     }
@@ -114,9 +108,13 @@ public class SuperCraftRecipe {
         this.resultClass = resultClass;
     }
     public SuperCraftable getResultClass() {
+        this.resultClass.setMatrix(this.matrix,id);
         return this.resultClass;
     }
-
+    @Override
+    public ItemStack getResult() {
+        return this.resultClass.getSuperItem();
+    }
 
 
 }

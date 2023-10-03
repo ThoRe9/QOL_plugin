@@ -28,7 +28,7 @@ public class Bread implements SuperCraftable {
     public static NamespacedKey parkey = new NamespacedKey("qol", "bread_par");
 
     @Override
-    public void setMatrix(ItemStack[] matrix) {
+    public void setMatrix(ItemStack[] matrix, String id) {
         this.matrix = matrix;
         // settingにmatrixの0~2をわたす
         setting(new ItemStack[]{matrix[3], matrix[4], matrix[5]});

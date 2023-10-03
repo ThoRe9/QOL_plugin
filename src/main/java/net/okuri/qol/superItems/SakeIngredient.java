@@ -40,7 +40,7 @@ public class SakeIngredient implements SuperCraftable {
     private double humid;
     private SuperItemType ingredientType;
     @Override
-    public void setMatrix(ItemStack[] matrix) {
+    public void setMatrix(ItemStack[] matrix, String id) {
         this.koji = matrix[4];
         ItemStack ingredient = matrix[1];
         SuperItemType type = SuperItemType.valueOf(PDCC.get(ingredient.getItemMeta(), PDCKey.TYPE));

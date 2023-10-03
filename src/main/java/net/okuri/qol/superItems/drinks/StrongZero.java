@@ -22,7 +22,7 @@ public class StrongZero implements SuperCraftable {
     private double alcAmount = 300.0;
 
     @Override
-    public void setMatrix(ItemStack[] matrix){
+    public void setMatrix(ItemStack[] matrix, String id){
         this.matrix = matrix;
         setting(matrix[4], matrix[7]);
     }

@@ -21,7 +21,7 @@ public class Soda implements SuperCraftable {
     private double strength = 1.0;
     private SuperItemType superItemType = SuperItemType.SODA;
     @Override
-    public void setMatrix(ItemStack[] matrix) {
+    public void setMatrix(ItemStack[] matrix, String id) {
         this.matrix = matrix;
         // settingにmatrixの0~2をわたす
         setting(new ItemStack[]{matrix[0], matrix[1], matrix[2]});

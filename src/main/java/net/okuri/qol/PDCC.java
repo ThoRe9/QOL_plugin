@@ -129,7 +129,7 @@ public class PDCC {
         }
     }
 
-    public static <T> void setLiquor(ItemMeta meta, SuperItemType type, double alcoholAmount, double alcoholPer, double x, double y, double z, double divLine, double quality, int rarity, double temp, double humid, int maturation){
+    public static <T> void setLiquor(ItemMeta meta, SuperItemType type, double alcoholAmount, double alcoholPer, double x, double y, double z, double divLine, double quality, int rarity, double temp, double humid, double maturation){
         meta.getPersistentDataContainer().set(PDCKey.TYPE.key, PDCKey.TYPE.type, type.toString());
         meta.getPersistentDataContainer().set(PDCKey.ALCOHOL.key, PDCKey.ALCOHOL.type, true);
         meta.getPersistentDataContainer().set(PDCKey.ALCOHOL_AMOUNT.key, PDCKey.ALCOHOL_AMOUNT.type, alcoholAmount);

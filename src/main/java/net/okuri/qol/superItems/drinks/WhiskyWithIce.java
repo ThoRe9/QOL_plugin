@@ -70,7 +70,7 @@ public class WhiskyWithIce implements SuperCraftable {
     public WhiskyWithIce() {
     }
     @Override
-    public void setMatrix(ItemStack[] matrix) {
+    public void setMatrix(ItemStack[] matrix, String id) {
         this.matrix = matrix;
         setting(matrix[4]);
     }

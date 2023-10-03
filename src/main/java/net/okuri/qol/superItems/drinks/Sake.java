@@ -1,65 +1,57 @@
-package net.okuri.qol.superItems;
+package net.okuri.qol.superItems.drinks;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
-import net.okuri.qol.qolCraft.maturation.Maturable;
+import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+public abstract class Sake implements SuperItem{
 
-public class Sake implements Maturable {
-    private SuperItemType type = SuperItemType.SAKE;
-    private ItemStack ingredient;
-    private double ricePolishingRatio;
-    private double days;
-    private int registanceAmp;
-    private int registanceDuration;
-    private int fireResistAmp;
-    private int fireResistDuration;
-    private int regenAmp;
-    private int regenDuration;
-    private double x;
-    private double y;
-    private double z;
-    private double smellRichness;
-    private double tasteRichness;
-    private double compatibilty;
-    private double quality;
-    private int rarity;
-    private double temp;
-    private double humid;
-    private double amount;
-    private double alcPer;
-    private SakeType sakeType;
-    private TasteType tasteType;
-    private AlcType alcType;
-    private final double maxAmount = 3000.0;
-    private final int maxDuration = 72000;
-    private SuperItemType ingredientType = SuperItemType.POLISHED_RICE;
-
-    @Override
-    public void setMaturationVariable(ArrayList<ItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {
-        this.ingredient = ingredients.get(0);
-        Duration dur = Duration.between(start,end);
-        this.days = dur.toDays();
-        this.temp = temp;
-        this.humid = humid;
-        setting();
-    }
+    protected SuperItemType type;
+    protected int count = 1;
+    protected ItemStack ingredient;
+    protected double ricePolishingRatio;
+    protected double days;
+    protected int registanceAmp;
+    protected int registanceDuration;
+    protected int fireResistAmp;
+    protected int fireResistDuration;
+    protected int regenAmp;
+    protected int regenDuration;
+    protected double x;
+    protected double y;
+    protected double z;
+    protected double smellRichness;
+    protected double tasteRichness;
+    protected double compatibilty;
+    protected double quality;
+    protected int rarity;
+    protected double temp;
+    protected double humid;
+    protected double amount;
+    protected double alcPer;
+    protected SakeType sakeType;
+    protected TasteType tasteType;
+    protected AlcType alcType;
+    protected double maxAmount;
+    // 1mlあたりの持続時間(100mlあたり45minと計算)
+    protected final int baseDuration = 20 * 60 * 45 / 100;
+    protected double sumDuration;
+    protected SuperItemType ingredientType;
 
     @Override
     public ItemStack getSuperItem() {
-        ItemStack result = new ItemStack(Material.POTION);
+        ItemStack result = new ItemStack(Material.POTION, this.count);
         PotionMeta meta = (PotionMeta)result.getItemMeta();
         meta.setColor(Color.WHITE);
 
@@ -79,12 +71,17 @@ public class Sake implements Maturable {
         PDCC.set(meta, PDCKey.RARITY, this.rarity);
         PDCC.set(meta, PDCKey.INGREDIENT_TYPE, this.ingredientType.toString());
         PDCC.set(meta, PDCKey.CONSUMABLE, false);
+        PDCC.set(meta, PDCKey.MATURATION, this.days);
+        PDCC.set(meta, PDCKey.SAKE_TYPE, this.sakeType.name);
+        PDCC.set(meta, PDCKey.SAKE_TASTE_TYPE, this.tasteType.name);
+        PDCC.set(meta, PDCKey.SAKE_ALC_TYPE, this.alcType.name);
+
 
         meta.displayName(Component.text(this.sakeType.kanji + AlcType.getStringType(this.alcPer, this.tasteRichness) +"Sake").color(NamedTextColor.GOLD));
         meta.setCustomModelData(this.type.getCustomModelData());
 
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("JAPANESE Sake!! BIG BOTTLE!!");
+        lore.addInfoLore("JAPANESE Sake!!");
         lore.addInfoLore(this.sakeType.kanji + " " + this.tasteType.kanji + " " + this.alcType.name);
         lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
         lore.addParametersLore("Taste Richness", this.tasteRichness);
@@ -99,18 +96,30 @@ public class Sake implements Maturable {
         result.setItemMeta(meta);
         return result;
     }
+    protected void initialize(ItemStack item){
+        ItemMeta meta = item.getItemMeta();
+        this.ricePolishingRatio = PDCC.get(meta, PDCKey.RICE_POLISHING_RATIO);
+        this.tasteRichness = PDCC.get(meta, PDCKey.TASTE_RICHNESS);
+        this.smellRichness = PDCC.get(meta, PDCKey.SMELL_RICHNESS);
+        this.compatibilty = PDCC.get(meta, PDCKey.COMPATIBILITY);
+        this.quality = PDCC.get(meta, PDCKey.QUALITY);
+        this.alcPer = PDCC.get(meta, PDCKey.ALCOHOL_PERCENTAGE);
+        this.amount = PDCC.get(meta, PDCKey.ALCOHOL_AMOUNT);
+        this.rarity = PDCC.get(meta, PDCKey.RARITY);
+        this.x = PDCC.get(meta, PDCKey.X);
+        this.y = PDCC.get(meta, PDCKey.Y);
+        this.z = PDCC.get(meta, PDCKey.Z);
+        this.temp = PDCC.get(meta, PDCKey.TEMP);
+        this.humid = PDCC.get(meta, PDCKey.HUMID);
+        this.days = PDCC.get(meta, PDCKey.MATURATION);
+        this.sakeType = SakeType.valueOf(PDCC.get(meta, PDCKey.SAKE_TYPE));
+        this.tasteType = TasteType.valueOf(PDCC.get(meta, PDCKey.SAKE_TASTE_TYPE));
+        this.alcType = AlcType.valueOf(PDCC.get(meta, PDCKey.SAKE_ALC_TYPE));
+        this.ingredientType = SuperItemType.valueOf(PDCC.get(meta, PDCKey.INGREDIENT_TYPE));
+        this.setting();
 
-    @Override
-    public ItemStack getDebugItem(int... args) {
-        this.ingredient = new SakeIngredient().getDebugItem(args);
-        this.days = 1.0;
-        this.temp = 0.0;
-        this.humid = 0.0;
-        setting();
-        return getSuperItem();
     }
-
-    private void setting(){
+    protected void initialize(){
         ItemStack item = this.ingredient;
         PotionMeta meta = (PotionMeta)this.ingredient.getItemMeta();
         this.x = PDCC.get(meta, PDCKey.X);
@@ -126,15 +135,21 @@ public class Sake implements Maturable {
         this.sakeType = SakeType.getType(this.ricePolishingRatio);
         this.tasteType = TasteType.getType(this.tasteRichness, this.smellRichness);
         this.alcType = AlcType.getType(this.alcPer);
-
-        this.registanceAmp = (int)(this.x * this.tasteRichness * 2.5);
-        this.registanceDuration = (int)(this.x * this.smellRichness  * this.maxDuration);
-        this.fireResistAmp = (int)(this.y * this.tasteRichness  * 2.5);
-        this.fireResistDuration = (int)(this.y * this.smellRichness  * this.maxDuration);
-        this.regenAmp = (int)(this.z * this.tasteRichness  * 2.5);
-        this.regenDuration = (int)(this.z * this.smellRichness  * this.maxDuration);
-
+        this.ingredientType = SuperItemType.valueOf(PDCC.get(meta, PDCKey.TYPE));
+        setting();
         this.rarity = SuperItem.getRarity(this.x, this.y, this.z);
+    }
+
+    protected void setting(){
+        this.sumDuration = this.amount * this.baseDuration;
+        this.registanceAmp = (int)(this.x * this.tasteRichness * 2.5);
+        this.registanceDuration = (int)(this.x * this.smellRichness  * this.sumDuration);
+        this.fireResistAmp = (int)(this.y * this.tasteRichness  * 2.5);
+        this.fireResistDuration = (int)(this.y * this.smellRichness  * this.sumDuration);
+        this.regenAmp = (int)(this.z * this.tasteRichness  * 2.5);
+        this.regenDuration = (int)(this.z * this.smellRichness  * this.sumDuration);
+
+
     }
     private double calcAlcPer(double days){
         return 0.22 - 0.1/(days+0.5);
@@ -233,5 +248,4 @@ public class Sake implements Maturable {
             return ans;
         }
     }
-
 }

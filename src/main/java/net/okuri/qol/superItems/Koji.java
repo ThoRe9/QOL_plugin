@@ -30,7 +30,7 @@ public class Koji implements SuperCraftable {
     private double temp;
     private double humid;
     @Override
-    public void setMatrix(ItemStack[] matrix) {
+    public void setMatrix(ItemStack[] matrix, String id) {
         this.rice = matrix[1];
         setting();
     }

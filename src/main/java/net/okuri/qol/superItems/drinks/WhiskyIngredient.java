@@ -84,7 +84,7 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         setType();
     }
     @Override
-    public void setMatrix(ItemStack[] matrix){
+    public void setMatrix(ItemStack[] matrix, String id){
         this.matrix = matrix;
         setting(matrix[1], matrix[7]);
     }

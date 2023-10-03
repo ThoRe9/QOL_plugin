@@ -26,7 +26,7 @@ public class BeerIngredient implements SuperCraftable {
     private double humid;
 
     @Override
-    public void setMatrix(ItemStack[] matrix) {
+    public void setMatrix(ItemStack[] matrix, String id) {
         this.matrix = matrix;
         setting(matrix[1]);
     }
