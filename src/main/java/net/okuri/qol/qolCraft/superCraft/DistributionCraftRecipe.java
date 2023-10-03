@@ -50,7 +50,7 @@ public class DistributionCraftRecipe implements SuperRecipe {
         for (ItemStack itemStack : matrix) {
             // bigBottleの処理
             if (itemStack == null) {
-                Bukkit.getLogger().info("null");
+                //Bukkit.getLogger().info("null");
                 continue;
             }
             ItemMeta meta = itemStack.getItemMeta();

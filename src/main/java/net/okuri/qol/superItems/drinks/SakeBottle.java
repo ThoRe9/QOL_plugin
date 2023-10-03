@@ -15,7 +15,7 @@ public class SakeBottle extends Sake implements DistributionReceiver {
 
     public SakeBottle(){
         super.amount = 170.0;
-        super.type = SuperItemType.SAKE_1SHO;
+        super.type = SuperItemType.SAKE_1GO;
     }
     @Override
     public void receive(int count) {
@@ -46,7 +46,7 @@ public class SakeBottle extends Sake implements DistributionReceiver {
     public ItemStack getSuperItem() {
         ItemStack result = super.getSuperItem();
         PotionMeta meta = (PotionMeta)result.getItemMeta();
-        meta.displayName(Component.text("一徳"));
+        meta.displayName(Component.text("徳利"));
         PDCC.set(meta, PDCKey.CONSUMABLE, true);
 
         LoreGenerator lore = new LoreGenerator();

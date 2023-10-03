@@ -47,10 +47,11 @@ public class PolishedRice implements SuperCraftable {
     public void setMatrix(ItemStack[] matrix, String id) {
         ItemStack rice = matrix[0];
         SuperItemType type = SuperItemType.valueOf(PDCC.get(rice.getItemMeta(), PDCKey.TYPE));
-        if (Objects.equals(id, "polished_rice")){
+        if (Objects.equals(id, "polished_rice2")){
             this.rice = rice;
             this.polishedRice = null;
-        } else if (Objects.equals(id, "polished_rice2")){
+            this.ricePolishingRatio = 1.0;
+        } else if (Objects.equals(id, "polished_rice")){
             this.polishedRice = rice;
             this.rice = null;
         } else{

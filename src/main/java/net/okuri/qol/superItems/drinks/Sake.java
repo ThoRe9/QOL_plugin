@@ -44,8 +44,8 @@ public abstract class Sake implements SuperItem{
     protected TasteType tasteType;
     protected AlcType alcType;
     protected double maxAmount;
-    // 1mlあたりの持続時間(100mlあたり45minと計算)
-    protected final int baseDuration = 20 * 60 * 45 / 100;
+    // 1mlあたりの持続時間(100mlあたり20minと計算)
+    protected final int baseDuration = 20 * 60 * 10 / 100;
     protected double sumDuration;
     protected SuperItemType ingredientType;
 

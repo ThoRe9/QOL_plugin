@@ -70,6 +70,10 @@ public enum SuperItemType {
                 return new SakeIngredient();
             case SAKE_1SHO:
                 return new Sake1ShoBottle();
+            case SAKE_1GO:
+                return new SakeBottle();
+            case HOT_SAKE:
+                return new HotSake();
             case POTATO:
                 return new SuperPotato();
             case WHISKY_INGREDIENT:

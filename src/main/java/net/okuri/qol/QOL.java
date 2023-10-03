@@ -261,6 +261,7 @@ public final class QOL extends JavaPlugin {
         sake1goRecipe.setReciver(new SakeBottle());
         sake1goRecipe.setBottle(Material.GLASS_BOTTLE);
         superCraft.addDistributionCraftRecipe(sake1goRecipe);
+
     }
 
     // Maturationのレシピを登録する
@@ -292,6 +293,11 @@ public final class QOL extends JavaPlugin {
         whiskyIngredientRecipe.addingredient(SuperItemType.WHISKY_INGREDIENT);
         whiskyIngredientRecipe.addingredient(SuperItemType.UNDISTILLED_WHISKY_INGREDIENT);
         distillation.addDistillationRecipe(whiskyIngredientRecipe);
+
+        // hot sake
+        DistillationRecipe hotSakeRecipe = new DistillationRecipe("Hot Sake", new HotSake());
+        hotSakeRecipe.addingredient(SuperItemType.SAKE_1GO);
+        distillation.addDistillationRecipe(hotSakeRecipe);
 
     }
 

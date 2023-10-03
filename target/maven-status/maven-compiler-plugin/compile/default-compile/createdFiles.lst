@@ -16,6 +16,7 @@ net\okuri\qol\QOL.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftable.class
 net\okuri\qol\qolCraft\distillation\Distillable.class
 net\okuri\qol\superItems\drinks\Sake.class
+net\okuri\qol\superItems\drinks\SakeIngredient.class
 net\okuri\qol\qolCraft\maturation\Maturation.class
 net\okuri\qol\Commands.class
 net\okuri\qol\ProtectedBlock.class
@@ -31,7 +32,6 @@ net\okuri\qol\qolCraft\superCraft\Distributable.class
 net\okuri\qol\superItems\drinks\Sake$TasteType.class
 net\okuri\qol\event\QOLSignCreateEvent.class
 net\okuri\qol\qolCraft\superCraft\DistributionCraftRecipe.class
-net\okuri\qol\superItems\SakeIngredient.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftRecipe.class
 net\okuri\qol\qolCraft\calcuration\CirculeDistribution.class
 net\okuri\qol\superItems\drinks\StrongZero.class
@@ -58,6 +58,7 @@ net\okuri\qol\superItems\foods\BarleyBread.class
 net\okuri\qol\superItems\drinks\Sake$AlcType.class
 net\okuri\qol\superItems\PolishedRice.class
 net\okuri\qol\superItems\Barley.class
+net\okuri\qol\superItems\drinks\HotSake.class
 net\okuri\qol\event\MaturationEndEvent.class
 net\okuri\qol\superItems\drinks\Whisky.class
 net\okuri\qol\superItems\drinks\Highball.class

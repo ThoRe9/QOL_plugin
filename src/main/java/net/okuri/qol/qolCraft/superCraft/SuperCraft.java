@@ -43,7 +43,7 @@ public class SuperCraft implements Listener {
 
     @EventHandler
     public void PrepareItemCraftEvent(PrepareItemCraftEvent event) {
-        Bukkit.getLogger().info("Prepare called");
+        //Bukkit.getLogger().info("Prepare called");
         // superCraftRecipes に登録されているレシピをチェック
         // レシピが一致したら、logに出力
         //Bukkit.getServer().getLogger().info("PrepareItemCraftEvent");
@@ -61,7 +61,7 @@ public class SuperCraft implements Listener {
         // レシピの判定
         for (SuperCraftRecipe superCraftRecipe : superCraftRecipes) {
             if (superCraftRecipe.checkSuperRecipe(matrix)) {
-                Bukkit.getLogger().info("SuperCraftRecipe matched!");
+                //Bukkit.getLogger().info("SuperCraftRecipe matched!");
                 SuperCraftable result = superCraftRecipe.getResultClass();
                 ItemStack resultItem = result.getSuperItem();
 
@@ -73,7 +73,7 @@ public class SuperCraft implements Listener {
         // 不定形レシピの判定
         for (ShapelessSuperCraftRecipe shapelessSuperCraftRecipe : shapelessSuperCraftRecipes) {
             if (shapelessSuperCraftRecipe.checkSuperRecipe(matrix)) {
-                Bukkit.getLogger().info("ShapelessSuperCraftRecipe matched!");
+                //Bukkit.getLogger().info("ShapelessSuperCraftRecipe matched!");
                 SuperCraftable result = shapelessSuperCraftRecipe.getResultClass();
                 ItemStack resultItem = result.getSuperItem();
 
@@ -85,7 +85,7 @@ public class SuperCraft implements Listener {
         // Distributionの判定
         for (DistributionCraftRecipe d : distributionCraftRecipes){
             if (d.checkSuperRecipe(matrix)){
-                Bukkit.getLogger().info("DistributionCraftRecipe matched!");
+                //Bukkit.getLogger().info("DistributionCraftRecipe matched!");
                 d.process();
                 Distributable distribution = d.getDistribution();
                 DistributionReceiver receiver = d.getReceiver();
@@ -103,11 +103,11 @@ public class SuperCraft implements Listener {
 
 
     private void CraftItemEvent(InventoryClickEvent event){
-        Bukkit.getLogger().info("Craft called");
+        //Bukkit.getLogger().info("Craft called");
         // distributionの場合は先に容量を減らした瓶をプレイヤーに渡す
 
         if (this.distributionFlag){
-            Bukkit.getLogger().info("Flag is true");
+            //Bukkit.getLogger().info("Flag is true");
 
             if (this.distributableItem != null){
                 Player player = (Player) event.getWhoClicked();
@@ -131,6 +131,7 @@ public class SuperCraft implements Listener {
     }
     @EventHandler
     public void InventoryClickEvent(InventoryClickEvent event){
+        // TODO バケツなどの返却処理と、shift時の処理
         if (event.getInventory() instanceof CraftingInventory){
             if (event.getSlotType() == InventoryType.SlotType.RESULT){
                 ItemStack result = event.getCurrentItem();
@@ -140,8 +141,8 @@ public class SuperCraft implements Listener {
                             event.setCancelled(true);
                             return;
                         }
-                        Bukkit.getLogger().info(event.getCurrentItem().toString());
-                        Bukkit.getLogger().info(event.getCursor().toString());
+                        //Bukkit.getLogger().info(event.getCurrentItem().toString());
+                        //Bukkit.getLogger().info(event.getCursor().toString());
                         CraftItemEvent(event);
                         event.setCursor(event.getCurrentItem());
                         event.setCancelled(true);
