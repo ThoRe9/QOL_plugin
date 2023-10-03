@@ -20,11 +20,13 @@ public class DistributionCraftRecipe implements SuperRecipe {
     // 6. addRecipeを用いて、レシピを登録
 
     private final String id;
-    private Material bottle = Material.GLASS_BOTTLE;
     private SuperItemType bigBottleType;
     private ArrayList<Material> otherIngredients = new ArrayList<>();
     private double smallBottleAmount;
     private int smallBottleCount;
+    private Material bottle = Material.GLASS_BOTTLE;
+    private SuperItemType superSmallBottleType;
+    private boolean isSuperSmallBottle = false;
     private Distributable distribution;
     private DistributionReceiver receiver;
     private ItemStack[] matrix = new ItemStack[9];
@@ -40,6 +42,7 @@ public class DistributionCraftRecipe implements SuperRecipe {
         // 上記のどれでもない場合、OtherIngredientの物があるか確認。もしあったら、それを返す。
 
         ArrayList<Material> lastOtherIngredients = new ArrayList<>();
+        ArrayList<ItemStack> superBottles = new ArrayList<>();
         lastOtherIngredients.addAll(otherIngredients);
         int smallBottleCount = 0;
         int bigBottleCount = 0;
@@ -54,11 +57,11 @@ public class DistributionCraftRecipe implements SuperRecipe {
             if (PDCC.has(meta,PDCKey.TYPE)){
                 SuperItemType type = SuperItemType.valueOf(PDCC.get(meta,PDCKey.TYPE));
                 if (type == bigBottleType){
-                    Bukkit.getLogger().info("bigBottle");
+                    //Bukkit.getLogger().info("bigBottle");
                     bigBottleCount++;
                     distributionItem = itemStack;
                     if (bigBottleCount >= 2){
-                        Bukkit.getLogger().info("bigBottleCount >= 2");
+                        //Bukkit.getLogger().info("bigBottleCount >= 2");
                         return false;
                     }
                     continue;
@@ -66,25 +69,36 @@ public class DistributionCraftRecipe implements SuperRecipe {
             }
 
             // bottleの処理
-            if (itemStack.getType() == bottle){
-                Bukkit.getLogger().info("bottle");
-                smallBottleCount++;
-                continue;
+            if (isSuperSmallBottle){
+                if (PDCC.has(meta, PDCKey.TYPE)){
+                    SuperItemType type = SuperItemType.valueOf(PDCC.get(meta,PDCKey.TYPE));
+                    if(type == this.superSmallBottleType){
+                        smallBottleCount++;
+                        superBottles.add(itemStack);
+                        continue;
+                    }
+                }
+            } else{
+                if (itemStack.getType() == bottle){
+                    //Bukkit.getLogger().info("bottle");
+                    smallBottleCount++;
+                    continue;
+                }
             }
             // otherIngredientの処理
             if (lastOtherIngredients.contains(itemStack.getType())){
                 lastOtherIngredients.remove(itemStack.getType());
-                Bukkit.getLogger().info("otherIngredient");
+                //Bukkit.getLogger().info("otherIngredient");
             } else{
-                Bukkit.getLogger().info("anything not found");
+                //Bukkit.getLogger().info("anything not found");
                 return false;
             }
         }
         if (bigBottleCount == 0 || smallBottleCount == 0 || !lastOtherIngredients.isEmpty()){
-            Bukkit.getLogger().info("anything wrong");
-            Bukkit.getLogger().info("bigBottleCount: " + bigBottleCount);
-            Bukkit.getLogger().info("smallBottleCount: " + smallBottleCount);
-            Bukkit.getLogger().info("lastOtherIngredients: " + lastOtherIngredients.isEmpty());
+            //Bukkit.getLogger().info("anything wrong");
+            //Bukkit.getLogger().info("bigBottleCount: " + bigBottleCount);
+            //Bukkit.getLogger().info("smallBottleCount: " + smallBottleCount);
+            //Bukkit.getLogger().info("lastOtherIngredients: " + lastOtherIngredients.isEmpty());
             return false;
         }
         this.smallBottleCount = smallBottleCount;
@@ -92,12 +106,19 @@ public class DistributionCraftRecipe implements SuperRecipe {
         // あとは、isDistributionがtrueを返すかどうかを確認する
         this.matrix = new ItemStack[9];
         this.matrix[0] = distributionItem;
+        if (isSuperSmallBottle){
+            // matrixの余っている枠にsuperBottleを追加
+            for (int i=0 ; i < superBottles.size() ; i++){
+                this.matrix[i+1] = superBottles.get(i);
+            }
+        }
+
         distribution.setMatrix(this.matrix,id);
         if (distribution.isDistributable(smallBottleAmount,smallBottleCount)){
-            Bukkit.getLogger().info("isDistributable");
+            //Bukkit.getLogger().info("isDistributable");
             return true;
         }
-        Bukkit.getLogger().info("is not Distributable");
+        //Bukkit.getLogger().info("is not Distributable");
         return false;
     }
     public Distributable getDistribution(){
@@ -128,6 +149,13 @@ public class DistributionCraftRecipe implements SuperRecipe {
     }
     public void setBottle(Material bottle){
         this.bottle = bottle;
+        this.superSmallBottleType = null;
+        this.isSuperSmallBottle = false;
+    }
+    public void setBottle(SuperItemType bottle){
+        this.bottle = null;
+        this.superSmallBottleType = bottle;
+        this.isSuperSmallBottle = true;
     }
     public void addOtherIngredient(Material material){
         otherIngredients.add(material);

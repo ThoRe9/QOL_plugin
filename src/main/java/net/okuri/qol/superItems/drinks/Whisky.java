@@ -2,19 +2,17 @@ package net.okuri.qol.superItems.drinks;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.maturation.Maturable;
+import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -24,7 +22,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Whisky implements Maturable {
+public class Whisky implements Maturable, Distributable {
     private final SuperItemType superItemType = SuperItemType.WHISKY;
     private LocalDateTime start;
     private double x;
@@ -46,7 +44,7 @@ public class Whisky implements Maturable {
     private double alcoholLevel;
     private double amplifier;
     private double alcoholPer = 0.40;
-    private double alcoholAmount = 5000.0;
+    private double amount = 750.0;
 
     @Override
     public void setMaturationVariable(ArrayList<ItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {
@@ -98,7 +96,7 @@ public class Whisky implements Maturable {
         // PersistentDataContainerにデータを保存
         // 仮で飲めるようにしておいた
         PDCC.set(whiskyMeta, PDCKey.CONSUMABLE, true);
-        PDCC.setLiquor(whiskyMeta, this.superItemType, this.alcoholAmount, this.alcoholPer, this.x, this.y, this.z, this.divLine, this.quality, this.rarity, this.temperature, this.humidity, this.days);
+        PDCC.setLiquor(whiskyMeta, this.superItemType, this.amount, this.alcoholPer, this.x, this.y, this.z, this.divLine, this.quality, this.rarity, this.temperature, this.humidity, this.days);
         whisky.setItemMeta(whiskyMeta);
         return whisky;
     }
@@ -184,5 +182,25 @@ public class Whisky implements Maturable {
     }
     public void setHumidity(double humidity) {
         this.humidity = humidity;
+    }
+
+    @Override
+    public boolean isDistributable(double smallBottleAmount, int smallBottleCount) {
+        return false;
+    }
+
+    @Override
+    public void distribute(double smallBottleAmount, int smallBottleCounts) {
+
+    }
+
+    @Override
+    public SuperItemType getType() {
+        return null;
+    }
+
+    @Override
+    public void setMatrix(ItemStack[] matrix, String id) {
+
     }
 }
