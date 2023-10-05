@@ -88,8 +88,6 @@ public class Sake1ShoBottle extends Sake implements Maturable, Distributable {
     public boolean isDistributable(double smallBottleAmount, int smallBottleCount) {
         double amount = super.amount;
         double decline = smallBottleAmount * smallBottleCount;
-        Bukkit.getLogger().info("amount: " + amount);
-        Bukkit.getLogger().info("decline: " + decline);
         if (amount - decline < 0){
             return false;
         }

@@ -4,24 +4,21 @@ import net.kyori.adventure.text.Component;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
-import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.qolCraft.superCraft.DistributionReceiver;
-import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
-public class SakeBottle extends Sake implements DistributionReceiver, Distributable {
+public class Ochoko extends SakeBottle implements DistributionReceiver {
     private int count;
 
-    public SakeBottle(){
-        super.amount = 170.0;
-        super.type = SuperItemType.SAKE_1GO;
+    public Ochoko(){
+        super.amount = 35.0;
+        super.type = SuperItemType.SAKE_OCHOKO;
     }
     @Override
     public void receive(int count) {
-        super.count = count;
+        this.count = count;
     }
 
     @Override
@@ -33,7 +30,7 @@ public class SakeBottle extends Sake implements DistributionReceiver, Distributa
     public void setMatrix(ItemStack[] matrix, String id) {
         ItemStack bigBottle = matrix[0];
         super.initialize(bigBottle);
-        super.amount = 170.0;
+        super.amount = 35.0;
         super.setting();
     }
 
@@ -41,7 +38,7 @@ public class SakeBottle extends Sake implements DistributionReceiver, Distributa
     public ItemStack getDebugItem(int... args) {
         ItemStack bigBottle = new Sake1ShoBottle().getDebugItem(args);
         super.initialize(bigBottle);
-        super.amount = 170.0;
+        super.amount = 35.0;
         super.setting();
         return this.getSuperItem();
     }
@@ -49,12 +46,12 @@ public class SakeBottle extends Sake implements DistributionReceiver, Distributa
     public ItemStack getSuperItem() {
         ItemStack result = super.getSuperItem();
         PotionMeta meta = (PotionMeta)result.getItemMeta();
-        meta.displayName(Component.text("徳利"));
+        meta.displayName(Component.text("お猪口"));
         PDCC.set(meta, PDCKey.CONSUMABLE, true);
 
         LoreGenerator lore = new LoreGenerator();
         lore.addInfoLore("JAPANESE Sake!!");
-        lore.addInfoLore("in a bottle!!");
+        lore.addInfoLore("in a cup!!");
         lore.addInfoLore(this.sakeType.kanji + " " + this.tasteType.kanji + " " + this.alcType.name);
         lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
         lore.addParametersLore("Taste Richness", this.tasteRichness);
@@ -70,26 +67,4 @@ public class SakeBottle extends Sake implements DistributionReceiver, Distributa
         return result;
     }
 
-    @Override
-    public boolean isDistributable(double smallBottleAmount, int smallBottleCount) {
-        double amount = super.amount;
-        double decline = smallBottleAmount * smallBottleCount;
-        if (amount - decline < 0){
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public void distribute(double smallBottleAmount, int smallBottleCounts) {
-        double amount = super.amount;
-        double decline = smallBottleAmount * smallBottleCounts;
-        super.amount = amount - decline;
-        super.setting();
-    }
-
-    @Override
-    public SuperItemType getType() {
-        return this.type;
-    }
 }

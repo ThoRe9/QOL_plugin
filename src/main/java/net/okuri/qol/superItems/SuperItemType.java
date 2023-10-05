@@ -23,6 +23,7 @@ public enum SuperItemType {
     SAKE_1SHO("SAKE_1SHO", 0),
     SAKE_1GO("SAKE_1GO", 0),
     HOT_SAKE("HOT_SAKE", 0),
+    SAKE_OCHOKO("SAKE_OCHOKO", 0),
     POTATO("POTATO", 0),
     WHISKY_INGREDIENT("WHISKY_INGREDIENT", 0),
     UNDISTILLED_WHISKY_INGREDIENT("UNDISTILLED_WHISKY_INGREDIENT", 0),
@@ -74,6 +75,8 @@ public enum SuperItemType {
                 return new SakeBottle();
             case HOT_SAKE:
                 return new HotSake();
+            case SAKE_OCHOKO:
+                return new Ochoko();
             case POTATO:
                 return new SuperPotato();
             case WHISKY_INGREDIENT:

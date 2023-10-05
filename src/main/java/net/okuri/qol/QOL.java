@@ -262,6 +262,12 @@ public final class QOL extends JavaPlugin {
         sake1goRecipe.setBottle(Material.GLASS_BOTTLE);
         superCraft.addDistributionCraftRecipe(sake1goRecipe);
 
+        // Sake(お猪口)(distribution)
+        DistributionCraftRecipe sakeOchokoRecipe = new DistributionCraftRecipe("sake_ochoko");
+        sakeOchokoRecipe.setDistribution(new SakeBottle());
+        sakeOchokoRecipe.setReciver(new Ochoko());
+        sakeOchokoRecipe.setBottle(Material.GLASS_BOTTLE);
+        superCraft.addDistributionCraftRecipe(sakeOchokoRecipe);
     }
 
     // Maturationのレシピを登録する

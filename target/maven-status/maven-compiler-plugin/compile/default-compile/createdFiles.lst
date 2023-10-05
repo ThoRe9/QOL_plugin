@@ -52,6 +52,7 @@ net\okuri\qol\LoreGenerator.class
 net\okuri\qol\qolCraft\calcuration\StatisticalCalcuration.class
 net\okuri\qol\PDCKey$ApplyType.class
 net\okuri\qol\qolCraft\distillation\Distillation.class
+net\okuri\qol\superItems\drinks\Ochoko.class
 net\okuri\qol\superItems\SuperPotato.class
 net\okuri\qol\superItems\drinks\Sake$SakeType.class
 net\okuri\qol\superItems\foods\BarleyBread.class
@@ -77,3 +78,4 @@ net\okuri\qol\qolCraft\maturation\Maturable.class
 net\okuri\qol\Alcohol.class
 net\okuri\qol\ChatGenerator.class
 net\okuri\qol\superItems\drinks\Soda.class
+net\okuri\qol\event\SuperCraftEvent.class
