@@ -12,6 +12,7 @@ net\okuri\qol\superItems\foods\RyeBread.class
 net\okuri\qol\listener\InteractListener$1.class
 net\okuri\qol\PDCKey.class
 net\okuri\qol\superItems\drinks\Sake1ShoBottle.class
+net\okuri\qol\superItems\drinks\Shochu.class
 net\okuri\qol\QOL.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftable.class
 net\okuri\qol\qolCraft\distillation\Distillable.class

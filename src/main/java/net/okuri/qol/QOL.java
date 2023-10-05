@@ -305,6 +305,10 @@ public final class QOL extends JavaPlugin {
         hotSakeRecipe.addingredient(SuperItemType.SAKE_1GO);
         distillation.addDistillationRecipe(hotSakeRecipe);
 
+        // shochu
+        DistillationRecipe shochuRecipe = new DistillationRecipe("Shochu", new Shochu());
+        shochuRecipe.addingredient(SuperItemType.SAKE_INGREDIENT);
+        distillation.addDistillationRecipe(shochuRecipe);
     }
 
     public JavaPlugin getPlugin() {

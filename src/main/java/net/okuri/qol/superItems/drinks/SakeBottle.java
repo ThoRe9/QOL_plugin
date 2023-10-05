@@ -13,7 +13,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
 public class SakeBottle extends Sake implements DistributionReceiver, Distributable {
-    private int count;
 
     public SakeBottle(){
         super.amount = 170.0;

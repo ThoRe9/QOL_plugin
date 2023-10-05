@@ -20,7 +20,7 @@ public abstract class Sake implements SuperItem{
     protected SuperItemType type;
     protected int count = 1;
     protected ItemStack ingredient;
-    protected double ricePolishingRatio;
+    protected double ricePolishingRatio = 1.0;
     protected double days;
     protected int registanceAmp;
     protected int registanceDuration;
@@ -116,6 +116,11 @@ public abstract class Sake implements SuperItem{
         this.tasteType = TasteType.valueOf(PDCC.get(meta, PDCKey.SAKE_TASTE_TYPE));
         this.alcType = AlcType.valueOf(PDCC.get(meta, PDCKey.SAKE_ALC_TYPE));
         this.ingredientType = SuperItemType.valueOf(PDCC.get(meta, PDCKey.INGREDIENT_TYPE));
+        if (this.ingredientType != SuperItemType.POLISHED_RICE){
+            this.x = this.x * 0.01;
+            this.y = this.y * 0.01;
+            this.z = this.z * 0.01;
+        }
         this.setting();
 
     }
@@ -135,7 +140,12 @@ public abstract class Sake implements SuperItem{
         this.sakeType = SakeType.getType(this.ricePolishingRatio);
         this.tasteType = TasteType.getType(this.tasteRichness, this.smellRichness);
         this.alcType = AlcType.getType(this.alcPer);
-        this.ingredientType = SuperItemType.valueOf(PDCC.get(meta, PDCKey.TYPE));
+        this.ingredientType = SuperItemType.valueOf(PDCC.get(meta, PDCKey.INGREDIENT_TYPE));
+        if (this.ingredientType != SuperItemType.POLISHED_RICE){
+            this.x = this.x * 0.01;
+            this.y = this.y * 0.01;
+            this.z = this.z * 0.01;
+        }
         setting();
         this.rarity = SuperItem.getRarity(this.x, this.y, this.z);
     }

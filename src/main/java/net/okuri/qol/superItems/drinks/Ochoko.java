@@ -9,8 +9,7 @@ import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
-public class Ochoko extends SakeBottle implements DistributionReceiver {
-    private int count;
+public class Ochoko extends Sake implements DistributionReceiver {
 
     public Ochoko(){
         super.amount = 35.0;
@@ -18,7 +17,7 @@ public class Ochoko extends SakeBottle implements DistributionReceiver {
     }
     @Override
     public void receive(int count) {
-        this.count = count;
+        super.count = count;
     }
 
     @Override
