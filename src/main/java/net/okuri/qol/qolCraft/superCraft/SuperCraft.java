@@ -3,6 +3,7 @@ package net.okuri.qol.qolCraft.superCraft;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.event.DistributionEvent;
+import net.okuri.qol.event.SuperCraftEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -30,6 +31,7 @@ public class SuperCraft implements Listener {
     private boolean shapelessCraftFlag = false;
     private boolean distributionFlag = false;
     private ItemStack distributableItem;
+    private SuperRecipe recipe;
 
     public void addSuperCraftRecipe(SuperCraftRecipe superCraftRecipe) {
         superCraftRecipes.add(superCraftRecipe);
@@ -53,6 +55,7 @@ public class SuperCraft implements Listener {
         this.shapelessCraftFlag = false;
         this.distributionFlag = false;
         this.distributableItem = null;
+        this.recipe = null;
 
         Player player = (Player) event.getView().getPlayer();
         CraftingInventory inventory = event.getInventory();
@@ -67,6 +70,7 @@ public class SuperCraft implements Listener {
 
                 inventory.setResult(resultItem);
                 this.superCraftFlag = true;
+                this.recipe = superCraftRecipe;
                 return;
             }
         }
@@ -79,6 +83,7 @@ public class SuperCraft implements Listener {
 
                 inventory.setResult(resultItem);
                 this.shapelessCraftFlag = true;
+                this.recipe = shapelessSuperCraftRecipe;
                 return;
             }
         }
@@ -95,14 +100,15 @@ public class SuperCraft implements Listener {
                 inventory.setResult(receiverItem);
                 this.distributionFlag = true;
                 this.distributableItem = distribution.getSuperItem();
+                this.recipe = d;
 
                 return;
             }
         }
     }
 
-
-    private void CraftItemEvent(InventoryClickEvent event){
+    @EventHandler
+    private void CraftItemEvent(SuperCraftEvent event){
         //Bukkit.getLogger().info("Craft called");
         // distributionの場合は先に容量を減らした瓶をプレイヤーに渡す
 
@@ -143,7 +149,9 @@ public class SuperCraft implements Listener {
                         }
                         //Bukkit.getLogger().info(event.getCurrentItem().toString());
                         //Bukkit.getLogger().info(event.getCursor().toString());
-                        CraftItemEvent(event);
+                        SuperCraftEvent craftEvent = new SuperCraftEvent(this.recipe, event.getView(), InventoryType.SlotType.RESULT, event.getRawSlot(), event.getClick(), event.getAction());
+                        Bukkit.getPluginManager().callEvent(craftEvent);
+
                         event.setCursor(event.getCurrentItem());
                         event.setCancelled(true);
                         CraftingInventory inv =(CraftingInventory) event.getInventory();
