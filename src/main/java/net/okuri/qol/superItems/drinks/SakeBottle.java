@@ -1,6 +1,7 @@
 package net.okuri.qol.superItems.drinks;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
@@ -9,6 +10,8 @@ import net.okuri.qol.qolCraft.superCraft.DistributionReceiver;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
+
+import java.util.Objects;
 
 public class SakeBottle extends Sake implements DistributionReceiver, Distributable {
 
@@ -31,7 +34,9 @@ public class SakeBottle extends Sake implements DistributionReceiver, Distributa
     public void setMatrix(ItemStack[] matrix, String id) {
         ItemStack bigBottle = matrix[0];
         super.initialize(bigBottle);
-        super.amount = 170.0;
+        if (Objects.equals(id, "sake_1go")){
+            super.amount = 170.0;
+        }
         super.setting();
     }
 
@@ -48,7 +53,7 @@ public class SakeBottle extends Sake implements DistributionReceiver, Distributa
     public ItemStack getSuperItem() {
         ItemStack result = super.getSuperItem();
         PotionMeta meta = (PotionMeta) result.getItemMeta();
-        meta.displayName(Component.text("徳利"));
+        meta.displayName(Component.text("徳利").color(NamedTextColor.GOLD));
         PDCC.set(meta, PDCKey.CONSUMABLE, true);
 
         LoreGenerator lore = new LoreGenerator();

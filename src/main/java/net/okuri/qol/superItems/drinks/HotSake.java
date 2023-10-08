@@ -6,12 +6,13 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.distillation.Distillable;
+import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.superItems.SuperItem;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
-public class HotSake extends SakeBottle implements Distillable {
+public class HotSake extends SakeBottle implements Distillable, Distributable {
     public HotSake(){
         super.amount = 170.0;
         super.type = SuperItemType.HOT_SAKE;
@@ -57,6 +58,7 @@ public class HotSake extends SakeBottle implements Distillable {
 
     @Override
     public ItemStack getDebugItem(int... args) {
+        this.setDistillationVariable(new SakeBottle().getDebugItem(args), 0.0, 0.0);
         return this.getSuperItem();
     }
 }

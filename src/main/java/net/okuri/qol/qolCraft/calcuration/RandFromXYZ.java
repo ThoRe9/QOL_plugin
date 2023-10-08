@@ -33,7 +33,6 @@ public class RandFromXYZ implements Calcuration {
         answer.add(dx - dz);
         answer.add(dy - dx);
         answer.add(dz - dy);
-        Bukkit.getLogger().info("dx: " + dx + " dy: " + dy + " dz: " + dz);
     }
 
     @Override

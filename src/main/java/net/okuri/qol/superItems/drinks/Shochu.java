@@ -1,12 +1,14 @@
 package net.okuri.qol.superItems.drinks;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.distillation.Distillable;
 import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.superItems.SuperItemType;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -72,7 +74,7 @@ public class Shochu extends Sake implements Distillable, Distributable {
         meta.setColor(Color.WHITE);
         String superName = "";
         if (super.compatibility >= 0.9) superName = "本格";
-        meta.displayName(Component.text(superName + this.getIngredientName() + "焼酎"));
+        meta.displayName(Component.text(superName + this.getIngredientName() + "焼酎").color(NamedTextColor.GOLD));
 
         if (this.resistanceDuration > 0) {
             meta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, this.resistanceDuration, this.resistanceAmp), true);

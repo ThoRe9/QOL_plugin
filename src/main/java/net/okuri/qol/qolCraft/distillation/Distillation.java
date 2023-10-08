@@ -32,7 +32,7 @@ public class Distillation implements Listener {
                         Distillable resultClass = distillationRecipe.getResultClass();
                         resultClass.setDistillationVariable(ingredient, event.getBlock().getLocation().getBlock().getTemperature(), event.getBlock().getLocation().getBlock().getHumidity());
                         DistillationEvent distillationEvent = new DistillationEvent(event, resultClass);
-                        Bukkit.getLogger().info("DistillationEvent called");
+                        //Bukkit.getLogger().info("DistillationEvent called");
                         Bukkit.getServer().getPluginManager().callEvent(distillationEvent);
                     }
                 }

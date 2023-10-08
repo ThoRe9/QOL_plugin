@@ -282,6 +282,13 @@ public final class QOL extends JavaPlugin {
         shochuOchokoRecipe.setReciver(new ShochuOchoko());
         shochuOchokoRecipe.setBottle(Material.GLASS_BOTTLE);
         superCraft.addDistributionCraftRecipe(shochuOchokoRecipe);
+
+        // hotsakeなochoko
+        DistributionCraftRecipe hotSakeOchokoRecipe = new DistributionCraftRecipe("hot_sake_ochoko");
+        hotSakeOchokoRecipe.setDistribution(new HotSake());
+        hotSakeOchokoRecipe.setReciver(new Ochoko());
+        hotSakeOchokoRecipe.setBottle(Material.GLASS_BOTTLE);
+        superCraft.addDistributionCraftRecipe(hotSakeOchokoRecipe);
     }
 
     // Maturationのレシピを登録する

@@ -1,6 +1,7 @@
 package net.okuri.qol.superItems.drinks;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
@@ -9,7 +10,10 @@ import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
+import java.util.Objects;
+
 public class Ochoko extends Sake implements DistributionReceiver {
+    private Component display;
 
     public Ochoko() {
         super.amount = 35.0;
@@ -32,6 +36,11 @@ public class Ochoko extends Sake implements DistributionReceiver {
         super.initialize(bigBottle);
         super.amount = 35.0;
         super.setting();
+        if(Objects.equals(id, "hot_sake_ochoko")){
+            display = Component.text("お猪口(熱燗)").color(NamedTextColor.RED);
+        } else if(Objects.equals(id, "sake_ochoko")){
+            display = Component.text("お猪口").color(NamedTextColor.GOLD);
+        }
     }
 
     @Override
@@ -47,7 +56,7 @@ public class Ochoko extends Sake implements DistributionReceiver {
     public ItemStack getSuperItem() {
         ItemStack result = super.getSuperItem();
         PotionMeta meta = (PotionMeta) result.getItemMeta();
-        meta.displayName(Component.text("お猪口"));
+        meta.displayName(display);
         PDCC.set(meta, PDCKey.CONSUMABLE, true);
 
         LoreGenerator lore = new LoreGenerator();

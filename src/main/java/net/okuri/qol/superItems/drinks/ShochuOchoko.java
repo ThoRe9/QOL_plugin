@@ -1,6 +1,7 @@
 package net.okuri.qol.superItems.drinks;
 
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
@@ -47,7 +48,7 @@ public class ShochuOchoko extends Shochu implements DistributionReceiver {
         ItemStack result = super.getSuperItem();
         PotionMeta meta = (PotionMeta) result.getItemMeta();
         result.setAmount(super.count);
-        meta.displayName(Component.text("お猪口(焼酎)"));
+        meta.displayName(Component.text("お猪口(焼酎)").color(NamedTextColor.GOLD));
         PDCC.set(meta, PDCKey.CONSUMABLE, true);
 
         LoreGenerator lore = new LoreGenerator();

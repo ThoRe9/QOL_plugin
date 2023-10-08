@@ -29,9 +29,6 @@ public class SuperWheat extends SuperResource {
     private double py;
     private double pz;
 
-    public SuperWheat() {
-    }
-
     public SuperWheat(SuperItemType type) {
         if (type == SuperItemType.RYE || type == SuperItemType.BARLEY || type == SuperItemType.WHEAT || type == SuperItemType.RICE) {
             this.superItemType = type;

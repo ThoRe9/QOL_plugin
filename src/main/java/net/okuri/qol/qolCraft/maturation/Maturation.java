@@ -57,8 +57,8 @@ public class Maturation implements Listener {
                 sign.line(3, Component.text(maturationRecipe.getRecipeName()));
                 sign.update();
                 sign.update(true);
-                Bukkit.getLogger().info("Maturation started!");
-                Bukkit.getLogger().info(sign.toString());
+                //Bukkit.getLogger().info("Maturation started!");
+                //Bukkit.getLogger().info(sign.toString());
 
                 ProtectedBlock.setProtectedBlock(sign, true);
                 ProtectedBlock.setProtectedBlock(barrel, true);
