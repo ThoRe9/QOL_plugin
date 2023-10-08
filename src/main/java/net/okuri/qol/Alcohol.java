@@ -20,13 +20,13 @@ public class Alcohol extends BukkitRunnable {
 
     @Override
     public void run() {
-        for (Player player : Bukkit.getOnlinePlayers()){
+        for (Player player : Bukkit.getOnlinePlayers()) {
             new ChatGenerator().addDebug("alc CHECKing...").sendMessage(player);
             // プレイヤーのAlcoholLevelを取得
             // ない場合は無視
             if (!PDCC.has(player, PDCKey.ALCOHOL_LEVEL)) continue;
             double alcLv = PDCC.get(player, PDCKey.ALCOHOL_LEVEL);
-            new ChatGenerator().addDebug("alcLv: "+alcLv).sendMessage(player);
+            new ChatGenerator().addDebug("alcLv: " + alcLv).sendMessage(player);
             // 一旦効果をリセット
             player.setWalkSpeed(0.200f);
 

@@ -15,19 +15,24 @@ public class MaturationRecipe {
         this.resultClass = resultClass;
         this.recipeName = name;
     }
-    public void addingredient(SuperItemType superIngredient){
+
+    public void addingredient(SuperItemType superIngredient) {
         ingredients.add(superIngredient);
     }
-    public int getIngredientSize(){
+
+    public int getIngredientSize() {
         return ingredients.size();
     }
-    public ArrayList<SuperItemType> getIngredients(){
+
+    public ArrayList<SuperItemType> getIngredients() {
         return ingredients;
     }
-    public String getRecipeName(){
+
+    public String getRecipeName() {
         return recipeName;
     }
-    public Maturable getResultClass(){
+
+    public Maturable getResultClass() {
         return resultClass;
     }
 }

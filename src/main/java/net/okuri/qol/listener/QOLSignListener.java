@@ -6,7 +6,6 @@ import net.okuri.qol.event.QOLSignCreateEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Barrel;
-import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.block.data.Directional;
 import org.bukkit.entity.Player;
@@ -15,27 +14,25 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.Arrays;
-
 public class QOLSignListener implements Listener {
     private final JavaPlugin plugin;
     // 看板に[~~~]と書いている場合、特別な処理を行う。
 
-    public QOLSignListener(JavaPlugin plugin){
+    public QOLSignListener(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 
     // 看板の内容を変更したときのイベント
     @EventHandler
-    public void onSign(SignChangeEvent event){
+    public void onSign(SignChangeEvent event) {
         Player player = event.getPlayer();
         // 看板の内容を取得する
         String[] lines = event.getLines();
         // eventの座標にある看板を取得する
-        Sign sign =(Sign) event.getBlock().getState();
+        Sign sign = (Sign) event.getBlock().getState();
 
 
-        if (lines[0].equals("[QOL]")){
+        if (lines[0].equals("[QOL]")) {
             // QOLSignCreateEventをSyncで呼び出す
             QOLSignCreateEvent qolSignCreateEvent = new QOLSignCreateEvent(sign, lines, player);
             Bukkit.getPluginManager().callEvent(qolSignCreateEvent);
@@ -49,25 +46,25 @@ public class QOLSignListener implements Listener {
 
     // QOLSign の内容によって分岐
     @EventHandler
-    public void qolSign(QOLSignCreateEvent event){
+    public void qolSign(QOLSignCreateEvent event) {
         Player player = event.getPlayer();
         String[] lines = event.getLines();
         Sign sign = event.getSign();
 
-        if (lines[1].equals("[Maturation]")){
+        if (lines[1].equals("[Maturation]")) {
             // この看板が向いている方向と逆のブロックを取得する
-            Barrel barrel = (Barrel)sign.getBlock().getRelative(((Directional) sign.getBlock().getBlockData()).getFacing().getOppositeFace()).getState();
+            Barrel barrel = (Barrel) sign.getBlock().getRelative(((Directional) sign.getBlock().getBlockData()).getFacing().getOppositeFace()).getState();
             // そのブロックが樽であるかどうかを確認する
-            if (barrel.getType() == Material.BARREL){
+            if (barrel.getType() == Material.BARREL) {
                 // その樽が保護されているかどうかを確認する
-                if (barrel.isLocked()){
+                if (barrel.isLocked()) {
                     new ChatGenerator().addWarning("This barrel is locked!").sendMessage(player);
                     event.setCancelled(true);
                     return;
                 }
                 MaturationPrepareEvent maturationPrepareEvent = new MaturationPrepareEvent(sign, barrel, player);
                 maturationPrepareEvent.callEvent();
-            } else{
+            } else {
                 new ChatGenerator().addWarning("This block is not barrel!").sendMessage(player);
                 event.setCancelled(true);
             }

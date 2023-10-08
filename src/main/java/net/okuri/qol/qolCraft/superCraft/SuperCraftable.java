@@ -9,5 +9,5 @@ public interface SuperCraftable extends SuperItem {
     // DrinkCraftで呼び出さられるのはsetMatrix,ののちにgetSuperItemが呼び出される
     //
 
-    void setMatrix(ItemStack[] matrix);
+    void setMatrix(ItemStack[] matrix, String id);
 }

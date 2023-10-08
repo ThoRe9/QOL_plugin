@@ -1,16 +1,12 @@
 package net.okuri.qol.superItems;
 
 
-
-
 import net.okuri.qol.superItems.drinks.*;
 import net.okuri.qol.superItems.drinks.AleBeer;
 import net.okuri.qol.superItems.drinks.LagerBeer;
 import net.okuri.qol.superItems.drinks.Whisky;
 import net.okuri.qol.superItems.foods.Bread;
 import net.okuri.qol.superItems.tools.EnvGetter;
-import org.bukkit.NamespacedKey;
-import org.bukkit.persistence.PersistentDataType;
 
 public enum SuperItemType {
     COAL("COAL", 0),
@@ -18,6 +14,17 @@ public enum SuperItemType {
     RYE("RYE", 0),
     BARLEY("BARLEY", 0),
     RICE("RICE", 0),
+    POLISHED_RICE("POLISHED_RICE", 0),
+    KOJI("KOJI", 0),
+    SAKE_INGREDIENT("SAKE_INGREDIENT", 0),
+    UNREFINED_SAKE("UNREFINED_SAKE", 0),
+    SAKE_1SHO("SAKE_1SHO", 0),
+    SAKE_1GO("SAKE_1GO", 0),
+    HOT_SAKE("HOT_SAKE", 0),
+    SAKE_OCHOKO("SAKE_OCHOKO", 0),
+    SHOCHU("SHOCHU", 0),
+    SHOCHU_1GO("SHOCHU_1GO", 0),
+    SHOCHU_OCHOKO("SHOCHU_OCHOKO", 0),
     POTATO("POTATO", 0),
     WHISKY_INGREDIENT("WHISKY_INGREDIENT", 0),
     UNDISTILLED_WHISKY_INGREDIENT("UNDISTILLED_WHISKY_INGREDIENT", 0),
@@ -33,6 +40,7 @@ public enum SuperItemType {
 
     private final String type;
     private final int customModelData;
+
     SuperItemType(String type, int customModelData) {
         this.type = type;
         this.customModelData = customModelData;
@@ -41,12 +49,13 @@ public enum SuperItemType {
     public String getStringType() {
         return this.type;
     }
+
     public int getCustomModelData() {
         return this.customModelData;
     }
 
-    public static SuperItem getSuperItemClass (SuperItemType type){
-        switch(type){
+    public static SuperItem getSuperItemClass(SuperItemType type) {
+        switch (type) {
             case COAL:
                 return new SuperCoal();
             case WHEAT:
@@ -57,6 +66,26 @@ public enum SuperItemType {
                 return new Barley();
             case RICE:
                 return new Rice();
+            case POLISHED_RICE:
+                return new PolishedRice();
+            case KOJI:
+                return new Koji();
+            case SAKE_INGREDIENT:
+                return new SakeIngredient();
+            case SAKE_1SHO:
+                return new Sake1ShoBottle();
+            case SAKE_1GO:
+                return new SakeBottle();
+            case HOT_SAKE:
+                return new HotSake();
+            case SAKE_OCHOKO:
+                return new Ochoko();
+            case SHOCHU:
+                return new Shochu();
+            case SHOCHU_1GO:
+                return new ShochuBottle();
+            case SHOCHU_OCHOKO:
+                return new ShochuOchoko();
             case POTATO:
                 return new SuperPotato();
             case WHISKY_INGREDIENT:
@@ -82,7 +111,7 @@ public enum SuperItemType {
             case ENV_TOOL:
                 return new EnvGetter();
             default:
-                return null;
+                throw new IllegalStateException("Unexpected value: " + type);
         }
     }
 

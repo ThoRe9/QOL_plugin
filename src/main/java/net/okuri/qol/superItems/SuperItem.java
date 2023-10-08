@@ -11,9 +11,10 @@ public interface SuperItem {
      */
 
     ItemStack getSuperItem();
+
     ItemStack getDebugItem(int... args);
 
-    static int getRarity(double x, double y, double z){
+    static int getRarity(double x, double y, double z) {
         // x+y+z=1以下が☆ (Common)
         // x+y+z=1.2が☆☆ (Uncommon)
         // x+y+z=1.4が☆☆☆ (Rare)

@@ -18,8 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SuperCoal extends SuperResource {
-    private SuperItemType superItemType = SuperItemType.COAL;
-    private ItemStack itemStack = new ItemStack(Material.COAL, 1);
+    private final SuperItemType superItemType = SuperItemType.COAL;
+    private final ItemStack itemStack = new ItemStack(Material.COAL, 1);
     // Px Py Pz は座標情報を記憶する。
     private int Px;
     private int Py;

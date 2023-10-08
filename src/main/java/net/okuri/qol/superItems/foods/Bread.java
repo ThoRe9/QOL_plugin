@@ -17,24 +17,26 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class Bread implements SuperCraftable {
     private ItemStack[] matrix = null;
-    private ItemStack result = null;
-    private SuperItemType superItemType = SuperItemType.BREAD;
+    private final ItemStack result = null;
+    private final SuperItemType superItemType = SuperItemType.BREAD;
     private double par = 0.0;
     private int foodLevel = 5;
     private float foodSaturation = 6.0f;
-    private Sound sound = Sound.ENTITY_GENERIC_EAT;
+    private final Sound sound = Sound.ENTITY_GENERIC_EAT;
     protected Component display ;
     protected PDCKey wheatkey;
     public static NamespacedKey parkey = new NamespacedKey("qol", "bread_par");
 
     @Override
-    public void setMatrix(ItemStack[] matrix) {
+    public void setMatrix(ItemStack[] matrix, String id) {
         this.matrix = matrix;
         // settingにmatrixの0~2をわたす
         setting(new ItemStack[]{matrix[3], matrix[4], matrix[5]});
     }
     private void setting(ItemStack[] wheats) {
         // wheatのyパラメータの平均値を引き継ぐ。
+        this.foodLevel = 5;
+        this.foodSaturation = 6.0f;
         double sum = 0;
         for (ItemStack wheat : wheats) {
             double p = PDCC.get(wheat, wheatkey);
@@ -58,7 +60,7 @@ public class Bread implements SuperCraftable {
         lore.addInfoLore("Bread!");
         lore.addFoodLevelLore(foodLevel);
         lore.addFoodSaturationLore(foodSaturation);
-        lore.addParametersLore("Parameter", par*10);
+        lore.addParametersLore("Parameter", par);
         meta.lore(lore.generateLore());
         PDCC.set(meta, PDCKey.X, this.par);
         PDCC.set(meta, PDCKey.TYPE, this.superItemType.toString());
