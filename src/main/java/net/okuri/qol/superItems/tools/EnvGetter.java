@@ -6,7 +6,6 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
-import net.okuri.qol.superItems.SuperItem;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -14,6 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class EnvGetter implements SuperCraftable {
     private final SuperItemType type = SuperItemType.ENV_TOOL;
+
     @Override
     public ItemStack getSuperItem() {
         ItemStack item = new ItemStack(Material.PAPER);
@@ -23,7 +23,7 @@ public class EnvGetter implements SuperCraftable {
         lore.addInfoLore("This tool can be used to get the environment of a block.");
         lore.addInfoLore("Right click a block to get the environment.");
         meta.lore(lore.generateLore());
-        PDCC.set(meta, PDCKey.TYPE,this.type.toString());
+        PDCC.set(meta, PDCKey.TYPE, this.type.toString());
         item.setItemMeta(meta);
         return item;
     }
@@ -34,6 +34,6 @@ public class EnvGetter implements SuperCraftable {
     }
 
     @Override
-    public void setMatrix(ItemStack[] matrix) {
+    public void setMatrix(ItemStack[] matrix, String id) {
     }
 }

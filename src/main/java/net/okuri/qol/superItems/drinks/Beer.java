@@ -2,18 +2,14 @@ package net.okuri.qol.superItems.drinks;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.maturation.Maturable;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.SuperWheat;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -43,9 +39,10 @@ public class Beer implements Maturable {
     private double durationAmp = 0.0;
     private double divLine = 0.0;
 
-    public Beer(){
+    public Beer() {
     }
-    public Beer(ItemStack ingredient, LocalDateTime start){
+
+    public Beer(ItemStack ingredient, LocalDateTime start) {
         this.ingredient = ingredient;
         this.x = PDCC.get(ingredient.getItemMeta(), PDCKey.X);
         this.y = PDCC.get(ingredient.getItemMeta(), PDCKey.Y);
@@ -65,26 +62,26 @@ public class Beer implements Maturable {
     }
 
     @Override
-    public ItemStack getSuperItem(){
+    public ItemStack getSuperItem() {
         ItemStack result = new ItemStack(Material.POTION, 3);
-        PotionMeta meta =(PotionMeta) result.getItemMeta();
+        PotionMeta meta = (PotionMeta) result.getItemMeta();
         LoreGenerator lore = new LoreGenerator();
         // パラメータ計算
         calcParam();
         meta.setCustomModelData(this.superItemType.getCustomModelData());
         //　各Durationが負のとき、バグ予防
-        if (this.hasteDuration < 0){
+        if (this.hasteDuration < 0) {
             this.hasteDuration = 0;
         }
-        if (this.speedDuration < 0){
+        if (this.speedDuration < 0) {
             this.speedDuration = 0;
         }
-        if (this.nightVisionDuration < 0){
+        if (this.nightVisionDuration < 0) {
             this.nightVisionDuration = 0;
         }
 
         // Ale Beer or Lager Beer
-        if (this.superItemType == SuperItemType.ALE_BEER){
+        if (this.superItemType == SuperItemType.ALE_BEER) {
             meta.displayName(Component.text("Ale Beer").color(NamedTextColor.GOLD));
             meta.addCustomEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, this.hasteDuration, this.hasteLV), true);
             meta.setColor(org.bukkit.Color.fromRGB(246, 245, 19));
@@ -101,10 +98,11 @@ public class Beer implements Maturable {
         lore.addParametersLore("Amount: ", 300.0, true);
         meta.lore(lore.generateLore());
         // PersistentDataContainerにデータを保存
-        PDCC.setLiquor(meta, this.superItemType, 300.0, 0.05, this.x, this.y, this.z, this.divLine, 1.0, 2, this.temperature, this.humid , this.days);
+        PDCC.setLiquor(meta, this.superItemType, 300.0, 0.05, this.x, this.y, this.z, this.divLine, 1.0, 2, this.temperature, this.humid, this.days);
         result.setItemMeta(meta);
         return result;
     }
+
     @Override
     public ItemStack getDebugItem(int... args) {
         this.x = 0.0;
@@ -114,10 +112,10 @@ public class Beer implements Maturable {
         this.durationAmp = 1.0;
         this.timeParam = 0.0;
         this.tempParam = 0.0;
-        if (args[0] == 0){
+        if (args[0] == 0) {
             // Ale Beer
             this.temperature = 0.25;
-        } else{
+        } else {
             // Lager Beer
             this.temperature = 0.75;
         }
@@ -125,7 +123,7 @@ public class Beer implements Maturable {
         return this.getSuperItem();
     }
 
-    private void calcParam(){
+    private void calcParam() {
         // 温度によって種類を変える
         double tempLine = 0.0;
         double dayLine = 0.0;
@@ -141,15 +139,15 @@ public class Beer implements Maturable {
             this.maxDuration = 12000;
         }
         //temp系
-        this.tempParam = -10*Math.pow(this.temperature-tempLine,2) + 1.2;
+        this.tempParam = -10 * Math.pow(this.temperature - tempLine, 2) + 1.2;
         //time系
         LocalDateTime now = LocalDateTime.now();
         Duration duration = Duration.between(this.start, now);
         double days = duration.toDays();
-        this.days = (int)days;
-        this.timeParam = days/dayLine;
-        this.durationAmp = 1.0/(1.0+Math.exp(-10*(this.timeParam-0.5)));
-        this.divLine = Math.pow(2,0.5*(1-this.timeParam));
+        this.days = (int) days;
+        this.timeParam = days / dayLine;
+        this.durationAmp = 1.0 / (1.0 + Math.exp(-10 * (this.timeParam - 0.5)));
+        this.divLine = Math.pow(2, 0.5 * (1 - this.timeParam));
         // xyzに反映
         this.x = this.x * this.tempParam;
         this.y = this.y * this.tempParam;
@@ -157,17 +155,17 @@ public class Beer implements Maturable {
         calcEffect();
     }
 
-    private void calcEffect(){
+    private void calcEffect() {
         // ポーション効果を付与
         this.hasteLV = (int) (this.x / this.divLine);
-        this.hasteDuration = (int) ((this.x % this.divLine)*this.maxDuration*this.durationAmp);
+        this.hasteDuration = (int) ((this.x % this.divLine) * this.maxDuration * this.durationAmp);
         this.speedLV = (int) (this.y / this.divLine);
-        this.speedDuration = (int) ((this.y % this.divLine)*this.maxDuration*this.durationAmp);
+        this.speedDuration = (int) ((this.y % this.divLine) * this.maxDuration * this.durationAmp);
         this.nightVisionLV = (int) (this.z / this.divLine);
-        this.nightVisionDuration = (int) ((this.z % this.divLine)*this.maxDuration*this.durationAmp);
+        this.nightVisionDuration = (int) ((this.z % this.divLine) * this.maxDuration * this.durationAmp);
     }
 
-    public void setTemperature(double temperature){
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 

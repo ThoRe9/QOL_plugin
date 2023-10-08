@@ -1,6 +1,5 @@
 package net.okuri.qol.superItems.drinks;
 
-import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
@@ -18,16 +17,16 @@ public class StrongZero implements SuperCraftable {
     private ItemStack rice = null;
     private ItemStack soda = null;
     public static NamespacedKey st0key = new NamespacedKey("qol", "strongzero");
-    private double alcPer = 0.09;
-    private double alcAmount = 300.0;
+    private final double alcPer = 0.09;
+    private final double alcAmount = 300.0;
 
     @Override
-    public void setMatrix(ItemStack[] matrix){
+    public void setMatrix(ItemStack[] matrix, String id) {
         this.matrix = matrix;
         setting(matrix[4], matrix[7]);
     }
 
-    private void setting(ItemStack rice, ItemStack soda){
+    private void setting(ItemStack rice, ItemStack soda) {
         this.rice = rice;
         this.soda = soda;
     }
@@ -35,7 +34,7 @@ public class StrongZero implements SuperCraftable {
     @Override
     public ItemStack getSuperItem() {
         ItemStack strongZero = new ItemStack(Material.POTION, 1);
-        PotionMeta meta = (PotionMeta)strongZero.getItemMeta();
+        PotionMeta meta = (PotionMeta) strongZero.getItemMeta();
         meta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 1000, 1), true);
         meta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 1000, 1), true);
         meta.getPersistentDataContainer().set(st0key, PersistentDataType.STRING, "strongzero");
@@ -53,8 +52,9 @@ public class StrongZero implements SuperCraftable {
 
         return strongZero;
     }
+
     @Override
-    public ItemStack getDebugItem(int... args){
+    public ItemStack getDebugItem(int... args) {
         return getSuperItem();
     }
 }

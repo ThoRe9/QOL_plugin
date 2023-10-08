@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class EventListener implements Listener {
-    private JavaPlugin plugin;
+    private final JavaPlugin plugin;
     public EventListener(JavaPlugin plugin) {
         this.plugin = plugin;
     }

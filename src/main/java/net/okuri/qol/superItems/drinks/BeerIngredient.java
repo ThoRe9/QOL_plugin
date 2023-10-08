@@ -7,13 +7,10 @@ import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.SuperWheat;
 import org.bukkit.Color;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.persistence.PersistentDataType;
 
 public class BeerIngredient implements SuperCraftable {
     protected ItemStack[] matrix;
@@ -26,10 +23,11 @@ public class BeerIngredient implements SuperCraftable {
     private double humid;
 
     @Override
-    public void setMatrix(ItemStack[] matrix) {
+    public void setMatrix(ItemStack[] matrix, String id) {
         this.matrix = matrix;
         setting(matrix[1]);
     }
+
     @Override
     public ItemStack getSuperItem() {
         ItemStack result = new ItemStack(Material.POTION, 1);
@@ -40,9 +38,9 @@ public class BeerIngredient implements SuperCraftable {
         LoreGenerator lore = new LoreGenerator();
         lore.addInfoLore("Beer Ingredient");
         lore.addImportantLore("You can't drink this!");
-        lore.addParametersLore("x", this.x*10);
-        lore.addParametersLore("y", this.y*10);
-        lore.addParametersLore("z", this.z*10);
+        lore.addParametersLore("x", this.x * 10);
+        lore.addParametersLore("y", this.y * 10);
+        lore.addParametersLore("z", this.z * 10);
         resultMeta.lore(lore.generateLore());
 
         PDCC.setSuperItem(resultMeta, SuperItemType.BEER_INGREDIENT, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
@@ -51,6 +49,7 @@ public class BeerIngredient implements SuperCraftable {
         result.setItemMeta(resultMeta);
         return result;
     }
+
     @Override
     public ItemStack getDebugItem(int... args) {
         this.x = 0.33;
@@ -59,7 +58,7 @@ public class BeerIngredient implements SuperCraftable {
         return this.getSuperItem();
     }
 
-    private void setting(ItemStack barley){
+    private void setting(ItemStack barley) {
         this.x = PDCC.get(barley, PDCKey.X);
         this.y = PDCC.get(barley, PDCKey.Y);
         this.z = PDCC.get(barley, PDCKey.Z);

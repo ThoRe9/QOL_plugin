@@ -1,7 +1,6 @@
 package net.okuri.qol.qolCraft.distillation;
 
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 
@@ -15,16 +14,20 @@ public class DistillationRecipe {
         this.resultClass = resultClass;
         this.recipeName = name;
     }
-    public void addingredient(SuperItemType superIngredient){
+
+    public void addingredient(SuperItemType superIngredient) {
         ingredients.add(superIngredient);
     }
-    private String getRecipeName(){
+
+    private String getRecipeName() {
         return recipeName;
     }
-    public Distillable getResultClass(){
+
+    public Distillable getResultClass() {
         return resultClass;
     }
-    public ArrayList<SuperItemType> getIngredients(){
+
+    public ArrayList<SuperItemType> getIngredients() {
         return ingredients;
     }
 }

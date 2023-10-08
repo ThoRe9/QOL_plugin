@@ -2,7 +2,6 @@ package net.okuri.qol.superItems.drinks;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
@@ -13,7 +12,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 
 public class Highball implements SuperCraftable {
@@ -31,18 +29,18 @@ public class Highball implements SuperCraftable {
     private double humid;
     private int maturation;
     private double alcoholPer = 0.0;
-    private double alcoholAmount = 150.0;
+    private final double alcoholAmount = 150.0;
 
     @Override
     public ItemStack getSuperItem() {
         // HighballはWhiskyのFAST_DIGGING, SPEED, NIGHT_VISIONのdurationにstrengthをかけた効果を持つ
         ItemStack highball = new ItemStack(Material.POTION, 3);
-        PotionMeta meta = (PotionMeta)highball.getItemMeta();
+        PotionMeta meta = (PotionMeta) highball.getItemMeta();
         PotionMeta whiskyMeta = (PotionMeta) this.whisky.getItemMeta();
         meta.setCustomModelData(this.superItemType.getCustomModelData());
         PDCC.setLiquor(meta, this.superItemType, this.alcoholAmount, this.alcoholPer, this.x, this.y, this.z, this.divline, this.quality, this.rarity, this.temp, this.humid, this.maturation);
         for (PotionEffect effect : whiskyMeta.getCustomEffects()) {
-            PotionEffect newEffect = new PotionEffect(effect.getType(), (int)Math.round(effect.getDuration() * this.strength), effect.getAmplifier(), effect.isAmbient(), effect.hasParticles(), effect.hasIcon());
+            PotionEffect newEffect = new PotionEffect(effect.getType(), (int) Math.round(effect.getDuration() * this.strength), effect.getAmplifier(), effect.isAmbient(), effect.hasParticles(), effect.hasIcon());
             meta.addCustomEffect(newEffect, true);
         }
         meta.setColor(Color.fromRGB(220, 210, 150));
@@ -53,13 +51,14 @@ public class Highball implements SuperCraftable {
         // LOREの設定
         LoreGenerator lore = new LoreGenerator();
         lore.addInfoLore("Whisky with soda!");
-        lore.addParametersLore("Strength", (this.strength-1)*10);
+        lore.addParametersLore("Strength", (this.strength - 1) * 10);
         lore.addParametersLore("Alcohol: ", this.alcoholPer, true);
         lore.addParametersLore("Amount: ", this.alcoholAmount, true);
         meta.lore(lore.generateLore());
         highball.setItemMeta(meta);
         return highball;
     }
+
     @Override
     public ItemStack getDebugItem(int... args) {
         ItemStack whisky = new Whisky().getDebugItem();
@@ -83,11 +82,13 @@ public class Highball implements SuperCraftable {
         // 4にはwhisky 6,7,8にはsodaがある
         setting(matrix[4], new ItemStack[]{matrix[6], matrix[7], matrix[8]});
     }
-    public Highball(){
+
+    public Highball() {
 
     }
 
-    public void setMatrix(ItemStack[] matrix) {
+    @Override
+    public void setMatrix(ItemStack[] matrix, String id) {
         this.matrix = matrix;
         // 4にはwhisky 6,7,8にはsodaがある
         setting(matrix[4], new ItemStack[]{matrix[6], matrix[7], matrix[8]});

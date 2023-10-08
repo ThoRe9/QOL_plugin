@@ -23,7 +23,7 @@ public class ProtectListener implements Listener {
         Player player = event.getPlayer();
         Sign sign = event.getSign();
         ProtectedBlock protectedBlock = new ProtectedBlock();
-        if (protectedBlock.isProtectedBlock(sign)){
+        if (ProtectedBlock.isProtectedBlock(sign)){
             new ChatGenerator().addWarning("You cannot open it!").sendMessage(player);
             event.setCancelled(true);
         }
@@ -36,7 +36,7 @@ public class ProtectListener implements Listener {
             Block sourceInventoryBlock = event.getSource().getLocation().getBlock();
             Block destinationInventoryBlock = event.getDestination().getLocation().getBlock();
             ProtectedBlock protectedBlock = new ProtectedBlock();
-            if (protectedBlock.isProtectedBlock(sourceInventoryBlock) || protectedBlock.isProtectedBlock(destinationInventoryBlock)){
+            if (ProtectedBlock.isProtectedBlock(sourceInventoryBlock) || ProtectedBlock.isProtectedBlock(destinationInventoryBlock)){
                 hopperMinecart.setVelocity(hopperMinecart.getVelocity().multiply(-1));
                 event.setCancelled(true);
             }
@@ -45,7 +45,7 @@ public class ProtectListener implements Listener {
             Block sourceInventoryBlock = event.getSource().getLocation().getBlock();
             Block destinationInventoryBlock = event.getDestination().getLocation().getBlock();
             ProtectedBlock protectedBlock = new ProtectedBlock();
-            if (protectedBlock.isProtectedBlock(sourceInventoryBlock) || protectedBlock.isProtectedBlock(destinationInventoryBlock)){
+            if (ProtectedBlock.isProtectedBlock(sourceInventoryBlock) || ProtectedBlock.isProtectedBlock(destinationInventoryBlock)){
                 event.setCancelled(true);
             }
         }
@@ -59,7 +59,7 @@ public class ProtectListener implements Listener {
         // 保護ブロックの処理
         // 保護ブロックは、プレイヤーが何もできないようにされる
         ProtectedBlock protectedBlock = new ProtectedBlock();
-        if (protectedBlock.isProtectedBlock(block)){
+        if (ProtectedBlock.isProtectedBlock(block)){
             player.sendMessage("You cannot break it!");
             event.setCancelled(true);
         }

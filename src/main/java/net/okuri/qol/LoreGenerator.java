@@ -12,17 +12,26 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class LoreGenerator {
-    private ArrayList<String> info = new ArrayList<>();
-    private ArrayList<String> rarity = new ArrayList<>();
-    private ArrayList<String> parameters = new ArrayList<>();
-    private ArrayList<String> important = new ArrayList<>();
+    private final ArrayList<String> info = new ArrayList<>();
+    private final ArrayList<String> rarity = new ArrayList<>();
+    private final ArrayList<String> parameters = new ArrayList<>();
+    private final ArrayList<String> important = new ArrayList<>();
     private final ArrayList<NamedTextColor> parameterColors = new ArrayList<>(Arrays.asList(
             NamedTextColor.RED,
             NamedTextColor.YELLOW,
             NamedTextColor.GREEN,
             NamedTextColor.AQUA,
             NamedTextColor.BLUE,
-            NamedTextColor.LIGHT_PURPLE
+            NamedTextColor.LIGHT_PURPLE,
+            NamedTextColor.WHITE,
+            NamedTextColor.GRAY,
+            NamedTextColor.DARK_RED,
+            NamedTextColor.GOLD,
+            NamedTextColor.DARK_GREEN,
+            NamedTextColor.DARK_AQUA,
+            NamedTextColor.DARK_BLUE,
+            NamedTextColor.DARK_PURPLE,
+            NamedTextColor.DARK_GRAY
     ));
 
 
@@ -65,7 +74,7 @@ public class LoreGenerator {
     }
 
     public LoreGenerator addParametersLore(String parameterName, double parameter) {
-        this.parameters.add(parameterName + ": " + StringUtils.repeat('|', (int)(parameter * 10)));
+        this.parameters.add(parameterName + ": " + StringUtils.repeat('|', (int)(parameter * 100)));
         return this;
     }
     public LoreGenerator addParametersLore(String parameterName, double parameter, boolean isNumber) {

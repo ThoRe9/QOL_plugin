@@ -20,6 +20,7 @@ public class QOLSignCreateEvent extends Event implements Cancellable {
     public HandlerList getHandlers() {
         return HANDLERS;
     }
+
     public static HandlerList getHandlerList() {
         return HANDLERS;
     }
@@ -33,9 +34,11 @@ public class QOLSignCreateEvent extends Event implements Cancellable {
     public Sign getSign() {
         return sign;
     }
+
     public String[] getLines() {
         return lines;
     }
+
     public Player getPlayer() {
         return player;
     }

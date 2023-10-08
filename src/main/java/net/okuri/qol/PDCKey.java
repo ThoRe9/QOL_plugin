@@ -52,15 +52,32 @@ public enum PDCKey {
     // RARITY: 希少性。乱数によって決まる
     DISTILLATION("distillation", PersistentDataType.INTEGER, PDCKey.ApplyType.ITEM),
     // DISTILLATION: 蒸留の回数。蒸留酒の場合のみ記憶する
-    MATURATION("maturation", PersistentDataType.INTEGER, PDCKey.ApplyType.ITEM);
+    MATURATION("maturation", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
     // MATURATION: 熟成の日数。熟成酒の場合のみ記憶する
+    RICE_POLISHING_RATIO("rice_polishing_ratio", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
+    // RICE_POLISHING_RATIO: 精米歩合。
+    INGREDIENT_TYPE("ingredient_type", PersistentDataType.STRING, PDCKey.ApplyType.ITEM),
+    // INGREDIENT_TYPE: 醸造原料の種類を記憶する
+    TASTE_RICHNESS("taste_richness",PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
+    // TASTE_RICHNESS: 味のパラメータ
+    SMELL_RICHNESS("smell_richness", PersistentDataType.DOUBLE, ApplyType.ITEM),
+    // SMELL_RICHNESS: 香のパラメータ
+    COMPATIBILITY("compatibillity", PersistentDataType.DOUBLE, ApplyType.ITEM),
+    // COMPATIBILITY: 相性のパラメータ
+    SAKE_TYPE("sake_type", PersistentDataType.STRING, ApplyType.ITEM),
+    // SAKE_TYPE: 日本酒のタイプ
+    SAKE_TASTE_TYPE("sake_taste_type", PersistentDataType.STRING, ApplyType.ITEM),
+    // SAKE_TASTE_TYPE: 日本酒の味のタイプ
+    SAKE_ALC_TYPE("sake_alc_type", PersistentDataType.STRING, ApplyType.ITEM);
+    // SAKE_ALC_TYPE: 日本酒のアルコールのタイプ(甘口、辛口)
+
 
     public final NamespacedKey key;
     public final PersistentDataType type;
     public final PDCKey.ApplyType apply;
     public final Class<?> primitiveType;
 
-    PDCKey(String key, PersistentDataType type, PDCKey.ApplyType apply) {
+    <T,Z> PDCKey(String key, PersistentDataType<T,Z> type, PDCKey.ApplyType apply) {
         this.key = new NamespacedKey("qol", key);
         this.type = type;
         this.apply = apply;
@@ -70,15 +87,6 @@ public enum PDCKey {
     public enum ApplyType {
         ITEM,
         BLOCK,
-        PLAYER;
-    }
-    // NamespacedKeyからPDCKeyを取得する
-    public static PDCKey fromNamespacedKey(NamespacedKey key) {
-        for (PDCKey pdcKey : PDCKey.values()) {
-            if (pdcKey.key.equals(key)) {
-                return pdcKey;
-            }
-        }
-        return null;
+        PLAYER
     }
 }

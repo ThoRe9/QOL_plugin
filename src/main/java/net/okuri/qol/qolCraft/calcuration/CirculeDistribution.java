@@ -1,10 +1,8 @@
 package net.okuri.qol.qolCraft.calcuration;
 
-import org.bukkit.Bukkit;
-
 import java.util.ArrayList;
 
-public class CirculeDistribution implements Calcuration{
+public class CirculeDistribution implements Calcuration {
 
     // variable: 位相。cycleで一周する
     // cycle: 周期。
@@ -32,44 +30,56 @@ public class CirculeDistribution implements Calcuration{
         this.sum = variables[2];
         this.distributionNum = (int) variables[3];
     }
+
     @Override
-    public void calcuration(){
+    public void calcuration() {
         answer = new ArrayList<>();
         for (int i = 0; i < distributionNum; i++) {
-            answer.add((sum/distributionNum)*(Math.sin(2*Math.PI*(((double)i/distributionNum)+(variable/cycle))) + 1.0) + correction.get(i));
+            answer.add((sum / distributionNum) * (Math.sin(2 * Math.PI * (((double) i / distributionNum) + (variable / cycle))) + 1.0) + correction.get(i));
         }
     }
+
     @Override
-    public ArrayList<Double> getAns(){
+    public ArrayList<Double> getAns() {
         return this.answer;
     }
+
     public void setVariable(double variable) {
         this.variable = variable;
     }
+
     public void setCycle(double cycle) {
         this.cycle = cycle;
     }
+
     public void setSum(double sum) {
         this.sum = sum;
     }
+
     public void setDistributionNum(int distributionNum) {
         this.distributionNum = distributionNum;
     }
+
     public double getVariable() {
         return this.variable;
     }
+
     public double getCycle() {
         return this.cycle;
     }
+
     public double getSum() {
         return this.sum;
     }
+
     public int getDistributionNum() {
         return this.distributionNum;
     }
+
     public ArrayList<Double> getCorrection() {
         return this.correction;
     }
+
     public void setCorrection(ArrayList<Double> correction) {
         //もし correctionの長さがdistributionNumより短い場合はエラーを出す
         if (correction.size() < distributionNum) {
