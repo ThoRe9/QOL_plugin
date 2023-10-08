@@ -80,6 +80,18 @@ public class Commands implements CommandExecutor {
                     return true;
                 }
             }
+        } else if(command.getName().equalsIgnoreCase("alc")){
+            if (sender instanceof Player) {
+                if (args.length == 0) {
+                    Player player = (Player) sender;
+                    if (!PDCC.has(player, PDCKey.ALCOHOL_LEVEL)) {
+                        new ChatGenerator().addTitle("Your Alcohol Level").addInfo("You don't have alcohol level!").sendMessage(player);
+                        return true;
+                    }
+                    new ChatGenerator().addTitle("Your Alcohol Level").addInfo("Alcohol Percentage: " + PDCC.get(player, PDCKey.ALCOHOL_LEVEL)).sendMessage(player);
+                    return true;
+                }
+            }
         }
         return false;
     }
@@ -87,7 +99,7 @@ public class Commands implements CommandExecutor {
     public static ChatGenerator getEnv(int x, int y, int z, World world) {
         ChatGenerator chat = new ChatGenerator();
         Location location = new Location(world, x, y, z);
-        chat.addTitle("**Environment Getter**");
+        chat.addTitle("Environment Getter");
         chat.addInfo("x: " + x);
         chat.addInfo("y: " + y);
         chat.addInfo("z: " + z);

@@ -60,7 +60,9 @@ public class ChatGenerator {
         return this;
     }
     public ChatGenerator addTitle(String message){
-        components.add(Component.text(message).color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD));
+        components.add(Component.text("-----<").color(NamedTextColor.GRAY)
+                .append(Component.text(message).color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD))
+                .append(Component.text(">-----").color(NamedTextColor.GRAY)));
         return this;
     }
 

@@ -27,3 +27,9 @@ commands:
     permission: qol.command.superwheat
     permission-message: Permission denied
     usage: /<command> <typeInt> <temperature>
+  alc:
+    aliases: [ alcohol ]
+    description: You can get alcohol percentage.
+    permission: qol.command.alc
+    permission-message: Permission denied
+    usage: /<command>

@@ -58,6 +58,7 @@ public final class QOL extends JavaPlugin {
         getCommand("matsign").setExecutor(new Commands());
         getCommand("givesuperitem").setExecutor(new Commands());
         getCommand("superwheat").setExecutor(new Commands());
+        getCommand("alc").setExecutor(new Commands());
 
         // bukkitRunnableを起動
         Alcohol alc = new Alcohol();
