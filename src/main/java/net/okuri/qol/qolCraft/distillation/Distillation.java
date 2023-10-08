@@ -12,13 +12,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 
 public class Distillation implements Listener {
     public static NamespacedKey distillationRecipeKey = new NamespacedKey("qol", "distillation_recipe");
-    private ArrayList<DistillationRecipe> distillationRecipes = new ArrayList<>();
+    private final ArrayList<DistillationRecipe> distillationRecipes = new ArrayList<>();
     @EventHandler
     // Distillationのレシピを登録する
     public void FurnaceSmeltEvent(FurnaceSmeltEvent event) {

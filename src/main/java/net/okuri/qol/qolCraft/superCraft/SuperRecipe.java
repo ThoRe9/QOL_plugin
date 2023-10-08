@@ -5,5 +5,6 @@ import org.bukkit.inventory.Recipe;
 
 public interface SuperRecipe extends Recipe {
     boolean checkSuperRecipe(ItemStack[] matrix);
+
     String getId();
 }

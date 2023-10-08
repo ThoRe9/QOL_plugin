@@ -9,13 +9,15 @@ import net.okuri.qol.qolCraft.maturation.Maturation;
 import net.okuri.qol.qolCraft.maturation.MaturationRecipe;
 import net.okuri.qol.qolCraft.superCraft.DistributionCraftRecipe;
 import net.okuri.qol.qolCraft.superCraft.ShapelessSuperCraftRecipe;
-import net.okuri.qol.superItems.*;
+import net.okuri.qol.qolCraft.superCraft.SuperCraft;
+import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
+import net.okuri.qol.superItems.Koji;
+import net.okuri.qol.superItems.PolishedRice;
+import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.drinks.*;
 import net.okuri.qol.superItems.foods.BarleyBread;
 import net.okuri.qol.superItems.foods.Bread;
 import net.okuri.qol.superItems.foods.RyeBread;
-import net.okuri.qol.qolCraft.superCraft.SuperCraft;
-import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
 import net.okuri.qol.superItems.tools.EnvGetter;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -23,8 +25,6 @@ import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -268,6 +268,20 @@ public final class QOL extends JavaPlugin {
         sakeOchokoRecipe.setReciver(new Ochoko());
         sakeOchokoRecipe.setBottle(Material.GLASS_BOTTLE);
         superCraft.addDistributionCraftRecipe(sakeOchokoRecipe);
+
+        // shochu(1合)(distribution)
+        DistributionCraftRecipe shochu1goRecipe = new DistributionCraftRecipe("shochu_1go");
+        shochu1goRecipe.setDistribution(new Shochu());
+        shochu1goRecipe.setReciver(new ShochuBottle());
+        shochu1goRecipe.setBottle(Material.GLASS_BOTTLE);
+        superCraft.addDistributionCraftRecipe(shochu1goRecipe);
+
+        // shochu(お猪口)(distribution)
+        DistributionCraftRecipe shochuOchokoRecipe = new DistributionCraftRecipe("shochu_ochoko");
+        shochuOchokoRecipe.setDistribution(new ShochuBottle());
+        shochuOchokoRecipe.setReciver(new ShochuOchoko());
+        shochuOchokoRecipe.setBottle(Material.GLASS_BOTTLE);
+        superCraft.addDistributionCraftRecipe(shochuOchokoRecipe);
     }
 
     // Maturationのレシピを登録する

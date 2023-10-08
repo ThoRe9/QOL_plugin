@@ -2,7 +2,7 @@ package net.okuri.qol.qolCraft.calcuration;
 
 import java.util.ArrayList;
 
-public class DiscontinuityDurationCalcuration extends PotionEffectCalcuration{
+public class DiscontinuityDurationCalcuration extends PotionEffectCalcuration {
 
     // ポーション効果を対応する1つのパラメータと、divLineから計算します
     // maxDurationは最大の効果時間です。それぞれのパラメータはmaxDurationの倍率を表します。
@@ -30,6 +30,7 @@ public class DiscontinuityDurationCalcuration extends PotionEffectCalcuration{
             this.variables.add(variables[i]);
         }
     }
+
     @Override
     public void calcuration() {
         // PotionEffectsがvariablesの数より少ない場合はエラーを出す
@@ -39,8 +40,8 @@ public class DiscontinuityDurationCalcuration extends PotionEffectCalcuration{
 
         for (int i = 0; i < this.variables.size(); i++) {
             if (this.variables.get(i) < this.divLine) {
-                this.potionEffects.get(i).withDuration((int)(this.maxDuration * ((this.variables.get(i) * this.amplifier) % this.divLine) * this.durationAmplifier));
-                this.potionEffects.get(i).withAmplifier((int)(this.variables.get(i) * this.amplifier / this.divLine));
+                this.potionEffects.get(i).withDuration((int) (this.maxDuration * ((this.variables.get(i) * this.amplifier) % this.divLine) * this.durationAmplifier));
+                this.potionEffects.get(i).withAmplifier((int) (this.variables.get(i) * this.amplifier / this.divLine));
             }
         }
     }
@@ -48,18 +49,23 @@ public class DiscontinuityDurationCalcuration extends PotionEffectCalcuration{
     public void setAmplifier(double amplifier) {
         this.amplifier = amplifier;
     }
+
     public double getAmplifier() {
         return this.amplifier;
     }
+
     public void setDurationAmplifier(double durationAmplifier) {
         this.durationAmplifier = durationAmplifier;
     }
+
     public double getDurationAmplifier() {
         return this.durationAmplifier;
     }
+
     public double getVariable(int index) {
         return this.variables.get(index);
     }
+
     public int getEffectSize() {
         return this.potionEffects.size();
     }

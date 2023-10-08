@@ -44,7 +44,7 @@ public class Whisky implements Maturable, Distributable {
     private double alcoholLevel;
     private double amplifier;
     private double alcoholPer = 0.40;
-    private double amount = 750.0;
+    private final double amount = 750.0;
 
     @Override
     public void setMaturationVariable(ArrayList<ItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {

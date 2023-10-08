@@ -22,7 +22,7 @@ public class HotSake extends SakeBottle implements Distillable {
         PotionMeta meta = (PotionMeta) item.getItemMeta();
         double rawComp = PDCC.get(meta, PDCKey.COMPATIBILITY);
         double comp = 0.095 / rawComp;
-        super.compatibilty = comp;
+        super.compatibility = comp;
         super.x = super.x * comp / rawComp;
         super.y = super.y * comp / rawComp;
         super.z = super.z * comp / rawComp;
@@ -44,7 +44,7 @@ public class HotSake extends SakeBottle implements Distillable {
         lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
         lore.addParametersLore("Taste Richness", this.tasteRichness);
         lore.addParametersLore("Smell Richness", this.smellRichness);
-        lore.addParametersLore("Compatibility", this.compatibilty);
+        lore.addParametersLore("Compatibility", this.compatibility);
         lore.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio, true);
         lore.addParametersLore("Maturation Days", this.days, true);
         lore.addParametersLore("Alcohol Percentage", this.alcPer, true);

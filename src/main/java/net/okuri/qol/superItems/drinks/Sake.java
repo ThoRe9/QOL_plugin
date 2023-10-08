@@ -15,15 +15,15 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public abstract class Sake implements SuperItem{
+public abstract class Sake implements SuperItem {
 
     protected SuperItemType type;
     protected int count = 1;
     protected ItemStack ingredient;
     protected double ricePolishingRatio = 1.0;
     protected double days;
-    protected int registanceAmp;
-    protected int registanceDuration;
+    protected int resistanceAmp;
+    protected int resistanceDuration;
     protected int fireResistAmp;
     protected int fireResistDuration;
     protected int regenAmp;
@@ -33,7 +33,7 @@ public abstract class Sake implements SuperItem{
     protected double z;
     protected double smellRichness;
     protected double tasteRichness;
-    protected double compatibilty;
+    protected double compatibility;
     protected double quality;
     protected int rarity;
     protected double temp;
@@ -52,17 +52,23 @@ public abstract class Sake implements SuperItem{
     @Override
     public ItemStack getSuperItem() {
         ItemStack result = new ItemStack(Material.POTION, this.count);
-        PotionMeta meta = (PotionMeta)result.getItemMeta();
+        PotionMeta meta = (PotionMeta) result.getItemMeta();
         meta.setColor(Color.WHITE);
 
-        meta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, this.registanceDuration, this.registanceAmp), true);
-        meta.addCustomEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, this.fireResistDuration, this.fireResistAmp), true);
-        meta.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, this.regenDuration, this.regenAmp), true);
+        if (this.resistanceDuration > 0) {
+            meta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, this.resistanceDuration, this.resistanceAmp), true);
+        }
+        if (this.fireResistDuration > 0) {
+            meta.addCustomEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, this.fireResistDuration, this.fireResistAmp), true);
+        }
+        if (this.regenDuration > 0) {
+            meta.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, this.regenDuration, this.regenAmp), true);
+        }
 
         PDCC.setSuperItem(meta, this.type, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
         PDCC.set(meta, PDCKey.TASTE_RICHNESS, this.tasteRichness);
         PDCC.set(meta, PDCKey.SMELL_RICHNESS, this.smellRichness);
-        PDCC.set(meta, PDCKey.COMPATIBILITY, this.compatibilty);
+        PDCC.set(meta, PDCKey.COMPATIBILITY, this.compatibility);
         PDCC.set(meta, PDCKey.RICE_POLISHING_RATIO, this.ricePolishingRatio);
         PDCC.set(meta, PDCKey.QUALITY, this.quality);
         PDCC.set(meta, PDCKey.ALCOHOL_PERCENTAGE, this.alcPer);
@@ -77,7 +83,7 @@ public abstract class Sake implements SuperItem{
         PDCC.set(meta, PDCKey.SAKE_ALC_TYPE, this.alcType.name);
 
 
-        meta.displayName(Component.text(this.sakeType.kanji + AlcType.getStringType(this.alcPer, this.tasteRichness) +"Sake").color(NamedTextColor.GOLD));
+        meta.displayName(Component.text(this.sakeType.kanji + AlcType.getStringType(this.alcPer, this.tasteRichness) + "Sake").color(NamedTextColor.GOLD));
         meta.setCustomModelData(this.type.getCustomModelData());
 
         LoreGenerator lore = new LoreGenerator();
@@ -86,7 +92,7 @@ public abstract class Sake implements SuperItem{
         lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
         lore.addParametersLore("Taste Richness", this.tasteRichness);
         lore.addParametersLore("Smell Richness", this.smellRichness);
-        lore.addParametersLore("Compatibility", this.compatibilty);
+        lore.addParametersLore("Compatibility", this.compatibility);
         lore.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio, true);
         lore.addParametersLore("Maturation Days", this.days, true);
         lore.addParametersLore("Alcohol Percentage", this.alcPer, true);
@@ -96,12 +102,13 @@ public abstract class Sake implements SuperItem{
         result.setItemMeta(meta);
         return result;
     }
-    protected void initialize(ItemStack item){
+
+    protected void initialize(ItemStack item) {
         ItemMeta meta = item.getItemMeta();
         this.ricePolishingRatio = PDCC.get(meta, PDCKey.RICE_POLISHING_RATIO);
         this.tasteRichness = PDCC.get(meta, PDCKey.TASTE_RICHNESS);
         this.smellRichness = PDCC.get(meta, PDCKey.SMELL_RICHNESS);
-        this.compatibilty = PDCC.get(meta, PDCKey.COMPATIBILITY);
+        this.compatibility = PDCC.get(meta, PDCKey.COMPATIBILITY);
         this.quality = PDCC.get(meta, PDCKey.QUALITY);
         this.alcPer = PDCC.get(meta, PDCKey.ALCOHOL_PERCENTAGE);
         this.amount = PDCC.get(meta, PDCKey.ALCOHOL_AMOUNT);
@@ -116,7 +123,7 @@ public abstract class Sake implements SuperItem{
         this.tasteType = TasteType.valueOf(PDCC.get(meta, PDCKey.SAKE_TASTE_TYPE));
         this.alcType = AlcType.valueOf(PDCC.get(meta, PDCKey.SAKE_ALC_TYPE));
         this.ingredientType = SuperItemType.valueOf(PDCC.get(meta, PDCKey.INGREDIENT_TYPE));
-        if (this.ingredientType != SuperItemType.POLISHED_RICE){
+        if (this.ingredientType != SuperItemType.POLISHED_RICE) {
             this.x = this.x * 0.01;
             this.y = this.y * 0.01;
             this.z = this.z * 0.01;
@@ -124,15 +131,16 @@ public abstract class Sake implements SuperItem{
         this.setting();
 
     }
-    protected void initialize(){
+
+    protected void initialize() {
         ItemStack item = this.ingredient;
-        PotionMeta meta = (PotionMeta)this.ingredient.getItemMeta();
+        PotionMeta meta = (PotionMeta) item.getItemMeta();
         this.x = PDCC.get(meta, PDCKey.X);
         this.y = PDCC.get(meta, PDCKey.Y);
         this.z = PDCC.get(meta, PDCKey.Z);
-        this.tasteRichness = (double)PDCC.get(meta, PDCKey.TASTE_RICHNESS) * calcTasteMod(this.days);
-        this.smellRichness = (double)PDCC.get(meta, PDCKey.SMELL_RICHNESS) * calcSmellMod(this.days);
-        this.compatibilty = PDCC.get(meta, PDCKey.COMPATIBILITY);
+        this.tasteRichness = (double) PDCC.get(meta, PDCKey.TASTE_RICHNESS) * calcTasteMod(this.days);
+        this.smellRichness = (double) PDCC.get(meta, PDCKey.SMELL_RICHNESS) * calcSmellMod(this.days);
+        this.compatibility = PDCC.get(meta, PDCKey.COMPATIBILITY);
         this.ricePolishingRatio = PDCC.get(meta, PDCKey.RICE_POLISHING_RATIO);
         this.quality = PDCC.get(meta, PDCKey.QUALITY);
         this.alcPer = calcAlcPer(this.days);
@@ -141,7 +149,7 @@ public abstract class Sake implements SuperItem{
         this.tasteType = TasteType.getType(this.tasteRichness, this.smellRichness);
         this.alcType = AlcType.getType(this.alcPer);
         this.ingredientType = SuperItemType.valueOf(PDCC.get(meta, PDCKey.INGREDIENT_TYPE));
-        if (this.ingredientType != SuperItemType.POLISHED_RICE){
+        if (this.ingredientType != SuperItemType.POLISHED_RICE) {
             this.x = this.x * 0.01;
             this.y = this.y * 0.01;
             this.z = this.z * 0.01;
@@ -150,29 +158,34 @@ public abstract class Sake implements SuperItem{
         this.rarity = SuperItem.getRarity(this.x, this.y, this.z);
     }
 
-    protected void setting(){
+    protected void setting() {
         this.sumDuration = this.amount * this.baseDuration;
-        this.registanceAmp = (int)(this.x * this.tasteRichness * 2.5);
-        this.registanceDuration = (int)(this.x * this.smellRichness  * this.sumDuration);
-        this.fireResistAmp = (int)(this.y * this.tasteRichness  * 2.5);
-        this.fireResistDuration = (int)(this.y * this.smellRichness  * this.sumDuration);
-        this.regenAmp = (int)(this.z * this.tasteRichness  * 2.5);
-        this.regenDuration = (int)(this.z * this.smellRichness  * this.sumDuration);
+        this.resistanceAmp = (int) (this.x * this.tasteRichness * 2.5);
+        this.resistanceDuration = (int) (this.x * this.smellRichness * this.sumDuration);
+        this.fireResistAmp = (int) (this.y * this.tasteRichness * 2.5);
+        this.fireResistDuration = (int) (this.y * this.smellRichness * this.sumDuration);
+        this.regenAmp = (int) (this.z * this.tasteRichness * 2.5);
+        this.regenDuration = (int) (this.z * this.smellRichness * this.sumDuration);
 
 
     }
-    private double calcAlcPer(double days){
-        return 0.22 - 0.1/(days+0.5);
+
+    private double calcAlcPer(double days) {
+        return 0.22 - 0.1 / (days + 0.5);
     }
-    private double calcSmellMod(double days){
-        return 2.0 - 20.0/(days+20.0);
+
+    private double calcSmellMod(double days) {
+        return 2.0 - 20.0 / (days + 20.0);
     }
-    private double calcAmountMod(double days){
-        return 0.1 + 20.0/(days+22.0);
+
+    private double calcAmountMod(double days) {
+        return 0.1 + 20.0 / (days + 22.0);
     }
-    private double calcTasteMod(double days){
-        return 0.7 + 10.0/(days+33);
+
+    private double calcTasteMod(double days) {
+        return 0.7 + 10.0 / (days + 33);
     }
+
     public enum SakeType {
         NORMAL("NORMAL", 1, 0.60, "普通"),
         GINJO("GINJO", 0.60, 0.50, "吟醸"),
@@ -181,50 +194,56 @@ public abstract class Sake implements SuperItem{
         public final double maxRicePolishingRatio;
         public final double minRicePolishingRatio;
         public final String kanji;
-        SakeType(String name, double maxRicePolishingRatio, double minRicePolishingRatio, String kanji){
+
+        SakeType(String name, double maxRicePolishingRatio, double minRicePolishingRatio, String kanji) {
             this.name = name;
             this.maxRicePolishingRatio = maxRicePolishingRatio;
             this.minRicePolishingRatio = minRicePolishingRatio;
             this.kanji = kanji;
         }
-        public static SakeType getType(double ricePolishingRatio){
-            for (SakeType s : values()){
-                if (s.minRicePolishingRatio <= ricePolishingRatio && s.maxRicePolishingRatio >= ricePolishingRatio){
+
+        public static SakeType getType(double ricePolishingRatio) {
+            for (SakeType s : values()) {
+                if (s.minRicePolishingRatio <= ricePolishingRatio && s.maxRicePolishingRatio >= ricePolishingRatio) {
                     return s;
                 }
             }
             return null;
         }
     }
-    public enum TasteType{
+
+    public enum TasteType {
         KUNSHU("KUNSHU", "葷酒"),
         JUKUSHU("JUKUSHU", "熟酒"),
         SOUSHU("SOUSHU", "爽酒"),
         JUNSHU("JUNSHU", "醇酒");
         public final String name;
         public final String kanji;
-        TasteType(String name, String kanji){
+
+        TasteType(String name, String kanji) {
             this.name = name;
             this.kanji = kanji;
         }
-        public static TasteType getType(double taste, double smell){
-            TasteType ans = null;
-            if ( taste > 0.5){
-                if (smell > 0.5){
+
+        public static TasteType getType(double taste, double smell) {
+            TasteType ans;
+            if (taste > 0.5) {
+                if (smell > 0.5) {
                     ans = JUKUSHU;
-                } else{
+                } else {
                     ans = JUNSHU;
                 }
-            } else{
-                if(smell > 0.5){
+            } else {
+                if (smell > 0.5) {
                     ans = KUNSHU;
-                } else{
+                } else {
                     ans = SOUSHU;
                 }
             }
             return ans;
         }
     }
+
     public enum AlcType {
         DRY("DRY"),
         SWEET("SWEET");

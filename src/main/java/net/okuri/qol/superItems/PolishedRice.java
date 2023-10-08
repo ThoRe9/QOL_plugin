@@ -2,12 +2,10 @@ package net.okuri.qol.superItems;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.kyori.adventure.text.format.TextColor;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,7 +15,7 @@ import java.util.Objects;
 public class PolishedRice implements SuperCraftable {
     private ItemStack polishedRice;
     private ItemStack rice;
-    private SuperItemType type = SuperItemType.POLISHED_RICE;
+    private final SuperItemType type = SuperItemType.POLISHED_RICE;
     private double x = 0;
     private double y = 0;
     private double z = 0;
@@ -27,37 +25,39 @@ public class PolishedRice implements SuperCraftable {
     private double temp = 0;
     private double humid = 0;
 
-    public PolishedRice(){
+    public PolishedRice() {
         setting();
     }
 
-    public PolishedRice(ItemStack polishedRice){
+    public PolishedRice(ItemStack polishedRice) {
         // typeがPolishedRiceやRiceじゃないならエラーを吐く
         SuperItemType type = SuperItemType.valueOf(PDCC.get(polishedRice.getItemMeta(), PDCKey.TYPE));
-        if (type == SuperItemType.RICE){
+        if (type == SuperItemType.RICE) {
             this.rice = polishedRice;
-        } else if (type == SuperItemType.POLISHED_RICE){
+        } else if (type == SuperItemType.POLISHED_RICE) {
             this.polishedRice = polishedRice;
         } else {
             throw new IllegalArgumentException("typeがPolishedRiceやRiceじゃない");
         }
         setting();
     }
+
     @Override
     public void setMatrix(ItemStack[] matrix, String id) {
         ItemStack rice = matrix[0];
         SuperItemType type = SuperItemType.valueOf(PDCC.get(rice.getItemMeta(), PDCKey.TYPE));
-        if (Objects.equals(id, "polished_rice2")){
+        if (Objects.equals(id, "polished_rice2")) {
             this.rice = rice;
             this.polishedRice = null;
             this.ricePolishingRatio = 1.0;
-        } else if (Objects.equals(id, "polished_rice")){
+        } else if (Objects.equals(id, "polished_rice")) {
             this.polishedRice = rice;
             this.rice = null;
-        } else{
+        } else {
             throw new IllegalArgumentException("無効なレシピID");
         }
         setting();
+
     }
 
     @Override
@@ -71,7 +71,7 @@ public class PolishedRice implements SuperCraftable {
         LoreGenerator lore = new LoreGenerator();
         lore.addInfoLore("Polished Rice");
         lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
-        lore.addParametersLore("Rice Polishing Ratio" , this.ricePolishingRatio, true);
+        lore.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio, true);
         meta.lore(lore.generateLore());
         meta.setCustomModelData(this.type.getCustomModelData());
 
@@ -86,9 +86,10 @@ public class PolishedRice implements SuperCraftable {
         setting();
         return getSuperItem();
     }
-    private void setting(){
+
+    private void setting() {
         //riceが設定されている場合、x,y,z,rarity,quality, temp. humidを設定する
-        if(this.rice != null){
+        if (this.rice != null) {
             ItemMeta meta = this.rice.getItemMeta();
             this.x = PDCC.get(meta, PDCKey.X);
             this.y = PDCC.get(meta, PDCKey.Y);
@@ -100,7 +101,7 @@ public class PolishedRice implements SuperCraftable {
             this.ricePolishingRatio = 0.7;
         }
         //polishedRiceが設定されている場合、上記に加えてricePolishingRatioを設定する
-        if(this.polishedRice != null) {
+        if (this.polishedRice != null) {
             ItemMeta meta = this.polishedRice.getItemMeta();
             this.x = PDCC.get(meta, PDCKey.X);
             this.y = PDCC.get(meta, PDCKey.Y);
@@ -111,15 +112,15 @@ public class PolishedRice implements SuperCraftable {
             this.humid = PDCC.get(meta, PDCKey.HUMID);
             this.ricePolishingRatio = PDCC.get(meta, PDCKey.RICE_POLISHING_RATIO);
             // rPRが 0.7なら0.6に、0.6なら0.5に、0.5なら0.4に、0.4なら0.4にする。
-            if(this.ricePolishingRatio > 0.7) {
+            if (this.ricePolishingRatio > 0.7) {
                 this.ricePolishingRatio = 0.7;
-            }else if(this.ricePolishingRatio == 0.7){
+            } else if (this.ricePolishingRatio == 0.7) {
                 this.ricePolishingRatio = 0.6;
-            }else if(this.ricePolishingRatio == 0.6){
+            } else if (this.ricePolishingRatio == 0.6) {
                 this.ricePolishingRatio = 0.5;
-            }else if(this.ricePolishingRatio == 0.5){
+            } else if (this.ricePolishingRatio == 0.5) {
                 this.ricePolishingRatio = 0.4;
-            }else{
+            } else {
                 this.ricePolishingRatio = 0.4;
                 return;
             }
@@ -129,23 +130,22 @@ public class PolishedRice implements SuperCraftable {
             // maxのパラメータを　-|temp-1|*0.07する
             // minのパラメータを +temp*(humid+0.2)*0.2する
             // 以下処理
-            double a = Math.abs(this.temp - 1)*0.07;
-            double b = this.temp*(this.humid+0.2)*0.2;
-            if(max == this.x){
+            double a = Math.abs(this.temp - 1) * 0.07;
+            double b = this.temp * (this.humid + 0.2) * 0.2;
+            if (max == this.x) {
                 this.x -= a;
-            }else if(max == this.y){
+            } else if (max == this.y) {
                 this.y -= a;
-            }else if(max == this.z){
+            } else if (max == this.z) {
                 this.z -= a;
             }
-            if(min == this.x){
+            if (min == this.x) {
                 this.x += b;
-            }else if(min == this.y){
+            } else if (min == this.y) {
                 this.y += b;
-            }else if(min == this.z){
+            } else if (min == this.z) {
                 this.z += b;
             }
-
         }
     }
 }

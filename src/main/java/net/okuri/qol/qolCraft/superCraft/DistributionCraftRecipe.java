@@ -21,7 +21,7 @@ public class DistributionCraftRecipe implements SuperRecipe {
 
     private final String id;
     private SuperItemType bigBottleType;
-    private ArrayList<Material> otherIngredients = new ArrayList<>();
+    private final ArrayList<Material> otherIngredients = new ArrayList<>();
     private double smallBottleAmount;
     private int smallBottleCount;
     private Material bottle = Material.GLASS_BOTTLE;
@@ -114,12 +114,9 @@ public class DistributionCraftRecipe implements SuperRecipe {
         }
 
         distribution.setMatrix(this.matrix,id);
-        if (distribution.isDistributable(smallBottleAmount,smallBottleCount)){
-            //Bukkit.getLogger().info("isDistributable");
-            return true;
-        }
+        //Bukkit.getLogger().info("isDistributable");
+        return distribution.isDistributable(smallBottleAmount, smallBottleCount);
         //Bukkit.getLogger().info("is not Distributable");
-        return false;
     }
     public Distributable getDistribution(){
         return distribution;

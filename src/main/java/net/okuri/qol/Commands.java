@@ -2,7 +2,6 @@ package net.okuri.qol;
 
 import net.kyori.adventure.text.Component;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
@@ -26,8 +25,8 @@ public class Commands implements CommandExecutor {
                 chat.sendMessage(player);
                 return true;
             }
-        } else if(command.getName().equalsIgnoreCase("matsign")) {
-            if (args.length == 4){
+        } else if (command.getName().equalsIgnoreCase("matsign")) {
+            if (args.length == 4) {
                 // /matsign <x> <y> <z> <days>
                 // x,y,z座標に看板があるか確認する
                 if (sender instanceof Player) {
@@ -51,26 +50,26 @@ public class Commands implements CommandExecutor {
                     }
                 }
             }
-        } else if(command.getName().equalsIgnoreCase("givesuperitem")) {
-                if (sender instanceof Player) {
-                    if (args.length == 1) {
-                        Player player = (Player) sender;
-                        String typeStr = args[0];
-                        //type が SuperItemType に存在するか確認する
-                        try {
-                            SuperItemType.valueOf(typeStr);
-                        } catch (IllegalArgumentException e) {
-                            new ChatGenerator().addWarning("Invalid type!").sendMessage(player);
-                            return true;
-                        }
-                        ItemStack item = SuperItemType.getSuperItemClass(SuperItemType.valueOf(typeStr)).getDebugItem();
-                        player.getInventory().addItem(item);
-                        new ChatGenerator().addInfo("Successfully gave the item!").sendMessage(player);
+        } else if (command.getName().equalsIgnoreCase("givesuperitem")) {
+            if (sender instanceof Player) {
+                if (args.length == 1) {
+                    Player player = (Player) sender;
+                    String typeStr = args[0];
+                    //type が SuperItemType に存在するか確認する
+                    try {
+                        SuperItemType.valueOf(typeStr);
+                    } catch (IllegalArgumentException e) {
+                        new ChatGenerator().addWarning("Invalid type!").sendMessage(player);
                         return true;
                     }
+                    ItemStack item = SuperItemType.getSuperItemClass(SuperItemType.valueOf(typeStr)).getDebugItem();
+                    player.getInventory().addItem(item);
+                    new ChatGenerator().addInfo("Successfully gave the item!").sendMessage(player);
+                    return true;
                 }
-            } else if(command.getName().equalsIgnoreCase("superwheat")) {
-            if(sender instanceof Player) {
+            }
+        } else if (command.getName().equalsIgnoreCase("superwheat")) {
+            if (sender instanceof Player) {
                 if (args.length == 2) {
                     Player player = (Player) sender;
                     int type = Integer.parseInt(args[0]);
@@ -85,7 +84,7 @@ public class Commands implements CommandExecutor {
         return false;
     }
 
-    public static ChatGenerator getEnv(int x, int y, int z, World world){
+    public static ChatGenerator getEnv(int x, int y, int z, World world) {
         ChatGenerator chat = new ChatGenerator();
         Location location = new Location(world, x, y, z);
         chat.addTitle("**Environment Getter**");

@@ -7,14 +7,13 @@ import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.calcuration.CirculeDistribution;
 import net.okuri.qol.qolCraft.calcuration.RandFromXYZ;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public class SuperWheat extends SuperResource{
+public class SuperWheat extends SuperResource {
     private final ItemStack wheat = new ItemStack(Material.WHEAT);
     private int x;
     private int y;
@@ -29,8 +28,11 @@ public class SuperWheat extends SuperResource{
     private double px;
     private double py;
     private double pz;
-    public SuperWheat(){}
-    public SuperWheat(SuperItemType type){
+
+    public SuperWheat() {
+    }
+
+    public SuperWheat(SuperItemType type) {
         if (type == SuperItemType.RYE || type == SuperItemType.BARLEY || type == SuperItemType.WHEAT || type == SuperItemType.RICE) {
             this.superItemType = type;
         } else {
@@ -38,7 +40,7 @@ public class SuperWheat extends SuperResource{
         }
     }
 
-    
+
     public SuperWheat(int x, int y, int z, String name, double temp, double humid, int biomeID, double quality) {
         this.x = x;
         this.y = y;
@@ -50,19 +52,19 @@ public class SuperWheat extends SuperResource{
         this.quality = quality;
 
 
-        if (temp <= 0){
+        if (temp <= 0) {
             this.superItemType = SuperItemType.RYE;
         } else if (temp <= 0.70) {
             this.superItemType = SuperItemType.BARLEY;
         } else {
             if (humid <= 0.70) {
                 this.superItemType = SuperItemType.WHEAT;
-            } else{
+            } else {
                 this.superItemType = SuperItemType.RICE;
             }
         }
     }
-    
+
     public ItemStack getSuperItem() {
         // パラメータ計算
         RandFromXYZ rand = new RandFromXYZ();
@@ -77,7 +79,7 @@ public class SuperWheat extends SuperResource{
         this.px = ans.get(0);
         this.py = ans.get(1);
         this.pz = ans.get(2);
-        this.rarity = SuperItem.getRarity(px,py,pz);
+        this.rarity = SuperItem.getRarity(px, py, pz);
 
         // PersistentDataContainer にデータを保存
         ItemMeta meta = wheat.getItemMeta();
@@ -117,8 +119,7 @@ public class SuperWheat extends SuperResource{
         meta.lore(loreGenerator.generateLore());
 
         wheat.setItemMeta(meta);
-        Bukkit.getServer().getLogger().info("SuperWheat: " + px + ", " + py + ", " + pz);
-        
+
         return wheat;
     }
 
@@ -155,7 +156,7 @@ public class SuperWheat extends SuperResource{
                     this.superItemType = SuperItemType.WHEAT;
                     break;
             }
-        } else if( args.length == 2){
+        } else if (args.length == 2) {
             int type = args[0];
             switch (type) {
                 case 0:
@@ -174,9 +175,9 @@ public class SuperWheat extends SuperResource{
                     this.superItemType = SuperItemType.WHEAT;
                     break;
             }
-            ttemp = (double) args[1]/10.0;
+            ttemp = (double) args[1] / 10.0;
 
-        }else{
+        } else {
             this.superItemType = SuperItemType.WHEAT;
         }
 
@@ -195,6 +196,7 @@ public class SuperWheat extends SuperResource{
         return this.getSuperItem();
 
     }
+
     @Deprecated
     private void calcPs() {
         this.px = calcTemp('x');
@@ -203,13 +205,13 @@ public class SuperWheat extends SuperResource{
     }
 
     @Deprecated
-    private double calcTemp(char param){
+    private double calcTemp(char param) {
         // wheatのパラメータを計算。要バランス調整。
         int initValue;
-        double rxy = Math.abs(((this.x + this.y)/64.0) % this.biomeID) / (5.0*this.biomeID);
-        double ryz = Math.abs(((this.y + this.z)/64.0) % this.biomeID) / (5.0*this.biomeID);
-        double rzx = Math.abs(((this.z + this.x)/64.0) % this.biomeID) / (5.0*this.biomeID);
-        if (param== 'x') {
+        double rxy = Math.abs(((this.x + this.y) / 64.0) % this.biomeID) / (5.0 * this.biomeID);
+        double ryz = Math.abs(((this.y + this.z) / 64.0) % this.biomeID) / (5.0 * this.biomeID);
+        double rzx = Math.abs(((this.z + this.x) / 64.0) % this.biomeID) / (5.0 * this.biomeID);
+        if (param == 'x') {
             initValue = 9;
             rxy *= -1;
             ryz = 0;
@@ -225,11 +227,9 @@ public class SuperWheat extends SuperResource{
             return -1;
         }
 
-        Bukkit.getServer().getLogger().info("SuperWheatRXYZ: " + rxy + ", " + ryz + ", " + rzx);
-
         double rad = (this.temp + ((double) initValue / 12)) * Math.PI * 2;
-        double r  = rxy + ryz + rzx;
-        return ((1 + Math.sin(rad))/3 + r)*this.quality;
+        double r = rxy + ryz + rzx;
+        return ((1 + Math.sin(rad)) / 3 + r) * this.quality;
 
     }
 }

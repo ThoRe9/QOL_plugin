@@ -6,7 +6,6 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.maturation.Maturable;
 import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -17,15 +16,16 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Sake1ShoBottle extends Sake implements Maturable, Distributable {
-    public Sake1ShoBottle(){
+    public Sake1ShoBottle() {
         super.type = SuperItemType.SAKE_1SHO;
         this.maxAmount = 1800.0;
     }
-    public Sake1ShoBottle(ItemStack item){
+
+    public Sake1ShoBottle(ItemStack item) {
         super.type = SuperItemType.SAKE_1SHO;
         ItemMeta meta = item.getItemMeta();
-        if (PDCC.has(meta, PDCKey.TYPE)){
-            if (PDCC.get(meta, PDCKey.TYPE) == super.type.toString()){
+        if (PDCC.has(meta, PDCKey.TYPE)) {
+            if (PDCC.get(meta, PDCKey.TYPE) == super.type.toString()) {
                 super.initialize(item);
                 return;
             }
@@ -37,7 +37,7 @@ public class Sake1ShoBottle extends Sake implements Maturable, Distributable {
     @Override
     public void setMaturationVariable(ArrayList<ItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {
         super.ingredient = ingredients.get(0);
-        Duration dur = Duration.between(start,end);
+        Duration dur = Duration.between(start, end);
         super.days = dur.toDays();
         super.temp = temp;
         super.humid = humid;
@@ -49,7 +49,7 @@ public class Sake1ShoBottle extends Sake implements Maturable, Distributable {
     public ItemStack getSuperItem() {
 
         ItemStack result = super.getSuperItem();
-        PotionMeta meta = (PotionMeta)result.getItemMeta();
+        PotionMeta meta = (PotionMeta) result.getItemMeta();
         meta.setColor(Color.WHITE);
 
         LoreGenerator lore = new LoreGenerator();
@@ -58,7 +58,7 @@ public class Sake1ShoBottle extends Sake implements Maturable, Distributable {
         lore.setSuperItemLore(super.x, super.y, super.z, super.quality, super.rarity);
         lore.addParametersLore("Taste Richness", super.tasteRichness);
         lore.addParametersLore("Smell Richness", super.smellRichness);
-        lore.addParametersLore("Compatibility", super.compatibilty);
+        lore.addParametersLore("Compatibility", super.compatibility);
         lore.addParametersLore("Rice Polishing Ratio", super.ricePolishingRatio, true);
         lore.addParametersLore("Maturation Days", super.days, true);
         lore.addParametersLore("Alcohol Percentage", super.alcPer, true);
@@ -84,14 +84,12 @@ public class Sake1ShoBottle extends Sake implements Maturable, Distributable {
         ItemStack item = matrix[0];
         initialize(item);
     }
+
     @Override
     public boolean isDistributable(double smallBottleAmount, int smallBottleCount) {
         double amount = super.amount;
         double decline = smallBottleAmount * smallBottleCount;
-        if (amount - decline < 0){
-            return false;
-        }
-        return true;
+        return !(amount - decline < 0);
     }
 
     @Override

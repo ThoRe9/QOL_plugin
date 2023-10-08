@@ -11,10 +11,11 @@ import org.bukkit.inventory.meta.PotionMeta;
 
 public class Ochoko extends Sake implements DistributionReceiver {
 
-    public Ochoko(){
+    public Ochoko() {
         super.amount = 35.0;
         super.type = SuperItemType.SAKE_OCHOKO;
     }
+
     @Override
     public void receive(int count) {
         super.count = count;
@@ -41,10 +42,11 @@ public class Ochoko extends Sake implements DistributionReceiver {
         super.setting();
         return this.getSuperItem();
     }
+
     @Override
     public ItemStack getSuperItem() {
         ItemStack result = super.getSuperItem();
-        PotionMeta meta = (PotionMeta)result.getItemMeta();
+        PotionMeta meta = (PotionMeta) result.getItemMeta();
         meta.displayName(Component.text("お猪口"));
         PDCC.set(meta, PDCKey.CONSUMABLE, true);
 
@@ -55,7 +57,7 @@ public class Ochoko extends Sake implements DistributionReceiver {
         lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
         lore.addParametersLore("Taste Richness", this.tasteRichness);
         lore.addParametersLore("Smell Richness", this.smellRichness);
-        lore.addParametersLore("Compatibility", this.compatibilty);
+        lore.addParametersLore("Compatibility", this.compatibility);
         lore.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio, true);
         lore.addParametersLore("Maturation Days", this.days, true);
         lore.addParametersLore("Alcohol Percentage", this.alcPer, true);

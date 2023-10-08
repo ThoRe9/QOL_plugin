@@ -12,10 +12,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 public class LoreGenerator {
-    private ArrayList<String> info = new ArrayList<>();
-    private ArrayList<String> rarity = new ArrayList<>();
-    private ArrayList<String> parameters = new ArrayList<>();
-    private ArrayList<String> important = new ArrayList<>();
+    private final ArrayList<String> info = new ArrayList<>();
+    private final ArrayList<String> rarity = new ArrayList<>();
+    private final ArrayList<String> parameters = new ArrayList<>();
+    private final ArrayList<String> important = new ArrayList<>();
     private final ArrayList<NamedTextColor> parameterColors = new ArrayList<>(Arrays.asList(
             NamedTextColor.RED,
             NamedTextColor.YELLOW,

@@ -1,8 +1,6 @@
 package net.okuri.qol.superItems;
 
 
-
-
 import net.okuri.qol.superItems.drinks.*;
 import net.okuri.qol.superItems.drinks.AleBeer;
 import net.okuri.qol.superItems.drinks.LagerBeer;
@@ -25,6 +23,8 @@ public enum SuperItemType {
     HOT_SAKE("HOT_SAKE", 0),
     SAKE_OCHOKO("SAKE_OCHOKO", 0),
     SHOCHU("SHOCHU", 0),
+    SHOCHU_1GO("SHOCHU_1GO", 0),
+    SHOCHU_OCHOKO("SHOCHU_OCHOKO", 0),
     POTATO("POTATO", 0),
     WHISKY_INGREDIENT("WHISKY_INGREDIENT", 0),
     UNDISTILLED_WHISKY_INGREDIENT("UNDISTILLED_WHISKY_INGREDIENT", 0),
@@ -40,6 +40,7 @@ public enum SuperItemType {
 
     private final String type;
     private final int customModelData;
+
     SuperItemType(String type, int customModelData) {
         this.type = type;
         this.customModelData = customModelData;
@@ -48,12 +49,13 @@ public enum SuperItemType {
     public String getStringType() {
         return this.type;
     }
+
     public int getCustomModelData() {
         return this.customModelData;
     }
 
-    public static SuperItem getSuperItemClass (SuperItemType type){
-        switch(type){
+    public static SuperItem getSuperItemClass(SuperItemType type) {
+        switch (type) {
             case COAL:
                 return new SuperCoal();
             case WHEAT:
@@ -80,6 +82,10 @@ public enum SuperItemType {
                 return new Ochoko();
             case SHOCHU:
                 return new Shochu();
+            case SHOCHU_1GO:
+                return new ShochuBottle();
+            case SHOCHU_OCHOKO:
+                return new ShochuOchoko();
             case POTATO:
                 return new SuperPotato();
             case WHISKY_INGREDIENT:

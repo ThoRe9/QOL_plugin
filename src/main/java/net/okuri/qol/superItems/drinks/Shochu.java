@@ -7,11 +7,16 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.distillation.Distillable;
 import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.superItems.SuperItemType;
+import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
-public class Shochu extends Sake implements Distillable{
-    public Shochu(){
+public class Shochu extends Sake implements Distillable, Distributable {
+    public Shochu() {
         super.type = SuperItemType.SHOCHU;
     }
 
@@ -19,8 +24,11 @@ public class Shochu extends Sake implements Distillable{
     public void setDistillationVariable(ItemStack item, double temp, double humid) {
         super.ingredient = item;
         super.initialize();
-        super.alcPer = calcAlcPer(1-Math.abs(1-Math.abs(temp)));
-        double amountMod = Math.pow(Math.abs(1.0-temp) * (1.0-humid), 0.5);
+        super.sakeType = null;
+        super.tasteType = null;
+        super.alcType = null;
+        super.alcPer = calcAlcPer(1 - Math.abs(1 - Math.abs(temp)));
+        double amountMod = Math.pow(Math.abs(1.0 - temp) * (1.0 - humid), 0.5);
         super.maxAmount = 1800.0;
         super.amount = super.maxAmount * amountMod;
         // パラメータの増減量の設定：
@@ -31,19 +39,19 @@ public class Shochu extends Sake implements Distillable{
         double dx = 0.0;
         double dy = 0.0;
         double dz = 0.0;
-        if (ingredientType == SuperItemType.POLISHED_RICE){
-            dy = - super.y * 0.2 * (1+super.compatibilty);
-            dz = - super.z * 0.2 * (1+super.compatibilty);
-            dx = - (dy + dz) * 0.9 * (1+super.compatibilty);
-        } else if(ingredientType == SuperItemType.POTATO){
-            dx = - super.x * 0.2 * (1+super.compatibilty);
-            dz = - super.z * 0.2 * (1+super.compatibilty);
-            dy = - (dx + dz) * 0.9 * (1+super.compatibilty);
-        } else if(ingredientType == SuperItemType.BARLEY){
-            dx = - super.x * 0.2 * (1+super.compatibilty);
-            dy = - super.y * 0.2 * (1+super.compatibilty);
-            dz = - (dx + dy) * 0.9 * (1+super.compatibilty);
-        } else{
+        if (ingredientType == SuperItemType.POLISHED_RICE) {
+            dy = -super.y * 0.2 * (1 + super.compatibility);
+            dz = -super.z * 0.2 * (1 + super.compatibility);
+            dx = -(dy + dz) * 0.9 * (1 + super.compatibility);
+        } else if (ingredientType == SuperItemType.POTATO) {
+            dx = -super.x * 0.2 * (1 + super.compatibility);
+            dz = -super.z * 0.2 * (1 + super.compatibility);
+            dy = -(dx + dz) * 0.9 * (1 + super.compatibility);
+        } else if (ingredientType == SuperItemType.BARLEY) {
+            dx = -super.x * 0.2 * (1 + super.compatibility);
+            dy = -super.y * 0.2 * (1 + super.compatibility);
+            dz = -(dx + dy) * 0.9 * (1 + super.compatibility);
+        } else {
             throw new IllegalArgumentException("This item is not SakeIngredient");
         }
         super.x = super.x + dx;
@@ -52,27 +60,51 @@ public class Shochu extends Sake implements Distillable{
 
         this.setting();
     }
-    private double calcAlcPer(double var){
-        return 0.20+ var * 0.10;
+
+    private double calcAlcPer(double var) {
+        return 0.20 + var * 0.10;
     }
 
     public ItemStack getSuperItem() {
-        ItemStack result = super.getSuperItem();
-        PotionMeta meta = (PotionMeta)result.getItemMeta();
+        ItemStack result = new ItemStack(Material.POTION);
+        PotionMeta meta = (PotionMeta) result.getItemMeta();
+        meta.setCustomModelData(this.type.getCustomModelData());
+        meta.setColor(Color.WHITE);
         String superName = "";
-        if (super.compatibilty >= 0.9) superName = "本格";
+        if (super.compatibility >= 0.9) superName = "本格";
         meta.displayName(Component.text(superName + this.getIngredientName() + "焼酎"));
-        PDCC.set(meta, PDCKey.CONSUMABLE, true);
+
+        if (this.resistanceDuration > 0) {
+            meta.addCustomEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, this.resistanceDuration, this.resistanceAmp), true);
+        }
+        if (this.fireResistDuration > 0) {
+            meta.addCustomEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, this.fireResistDuration, this.fireResistAmp), true);
+        }
+        if (this.regenDuration > 0) {
+            meta.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, this.regenDuration, this.regenAmp), true);
+        }
+
+        PDCC.setSuperItem(meta, this.type, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
+        PDCC.set(meta, PDCKey.TASTE_RICHNESS, this.tasteRichness);
+        PDCC.set(meta, PDCKey.SMELL_RICHNESS, this.smellRichness);
+        PDCC.set(meta, PDCKey.COMPATIBILITY, this.compatibility);
+        PDCC.set(meta, PDCKey.RICE_POLISHING_RATIO, this.ricePolishingRatio);
+        PDCC.set(meta, PDCKey.QUALITY, this.quality);
+        PDCC.set(meta, PDCKey.ALCOHOL_PERCENTAGE, this.alcPer);
+        PDCC.set(meta, PDCKey.ALCOHOL, true);
+        PDCC.set(meta, PDCKey.ALCOHOL_AMOUNT, this.amount);
+        PDCC.set(meta, PDCKey.RARITY, this.rarity);
+        PDCC.set(meta, PDCKey.INGREDIENT_TYPE, this.ingredientType.toString());
+        PDCC.set(meta, PDCKey.MATURATION, this.days);
 
         LoreGenerator lore = new LoreGenerator();
         lore.addInfoLore("JAPANESE Shochu!!");
         lore.addInfoLore("in a big bottle!!");
-        lore.addInfoLore(this.sakeType.kanji + " " + this.tasteType.kanji + " " + this.alcType.name);
         lore.addInfoLore("Made from" + this.getIngredientName());
         lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
         lore.addParametersLore("Taste Richness", this.tasteRichness);
         lore.addParametersLore("Smell Richness", this.smellRichness);
-        lore.addParametersLore("Compatibility", this.compatibilty);
+        lore.addParametersLore("Compatibility", this.compatibility);
         lore.addParametersLore("Alcohol Percentage", this.alcPer, true);
         lore.addParametersLore("Amount", this.amount, true);
         meta.lore(lore.generateLore());
@@ -80,12 +112,13 @@ public class Shochu extends Sake implements Distillable{
         result.setItemMeta(meta);
         return result;
     }
-    private String getIngredientName(){
-        if (this.ingredientType == SuperItemType.POLISHED_RICE){
+
+    protected String getIngredientName() {
+        if (this.ingredientType == SuperItemType.POLISHED_RICE) {
             return "米";
-        } else if(this.ingredientType == SuperItemType.POTATO){
+        } else if (this.ingredientType == SuperItemType.POTATO) {
             return "芋";
-        } else if(this.ingredientType == SuperItemType.BARLEY){
+        } else if (this.ingredientType == SuperItemType.BARLEY) {
             return "麦";
         } else {
             return "不明";
@@ -105,23 +138,70 @@ public class Shochu extends Sake implements Distillable{
         // ingredientTypeがpotatoの場合はfire_resistance
         // ingredientTypeがbarleyの場合はregeneration
         // 以外の効果を消す。以下処理
-        if (super.ingredientType == SuperItemType.POLISHED_RICE){
+        if (super.ingredientType == SuperItemType.POLISHED_RICE) {
             super.fireResistAmp = 0;
             super.fireResistDuration = 0;
             super.regenAmp = 0;
             super.regenDuration = 0;
-        } else if(super.ingredientType == SuperItemType.POTATO){
-            super.registanceAmp = 0;
-            super.registanceDuration = 0;
+        } else if (super.ingredientType == SuperItemType.POTATO) {
+            super.resistanceAmp = 0;
+            super.resistanceDuration = 0;
             super.regenAmp = 0;
             super.regenDuration = 0;
         } else if (super.ingredientType == SuperItemType.BARLEY) {
-            super.registanceAmp = 0;
-            super.registanceDuration = 0;
+            super.resistanceAmp = 0;
+            super.resistanceDuration = 0;
             super.fireResistAmp = 0;
             super.fireResistDuration = 0;
-        } else{
+        } else {
             throw new IllegalArgumentException("This item is not SakeIngredient");
         }
+    }
+    @Override
+    public void initialize(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        super.ricePolishingRatio = PDCC.get(meta, PDCKey.RICE_POLISHING_RATIO);
+        super.tasteRichness = PDCC.get(meta, PDCKey.TASTE_RICHNESS);
+        super.smellRichness = PDCC.get(meta, PDCKey.SMELL_RICHNESS);
+        super.compatibility = PDCC.get(meta, PDCKey.COMPATIBILITY);
+        super.quality = PDCC.get(meta, PDCKey.QUALITY);
+        super.alcPer = PDCC.get(meta, PDCKey.ALCOHOL_PERCENTAGE);
+        super.amount = PDCC.get(meta, PDCKey.ALCOHOL_AMOUNT);
+        super.rarity = PDCC.get(meta, PDCKey.RARITY);
+        super.x = PDCC.get(meta, PDCKey.X);
+        super.y = PDCC.get(meta, PDCKey.Y);
+        super.z = PDCC.get(meta, PDCKey.Z);
+        super.temp = PDCC.get(meta, PDCKey.TEMP);
+        super.humid = PDCC.get(meta, PDCKey.HUMID);
+        super.days = PDCC.get(meta, PDCKey.MATURATION);
+        super.ingredientType = SuperItemType.valueOf(PDCC.get(meta, PDCKey.INGREDIENT_TYPE));
+        this.setting();
+    }
+
+    @Override
+    public boolean isDistributable(double smallBottleAmount, int smallBottleCount) {
+        double amount = super.amount;
+        double decline = smallBottleAmount * smallBottleCount;
+        return !(amount - decline < 0);
+    }
+
+    @Override
+    public void distribute(double smallBottleAmount, int smallBottleCounts) {
+        double amount = super.amount;
+        double decline = smallBottleAmount * smallBottleCounts;
+        super.amount = amount - decline;
+        this.setting();
+    }
+
+    @Override
+    public SuperItemType getType() {
+        return this.type;
+    }
+
+    @Override
+    public void setMatrix(ItemStack[] matrix, String id) {
+        ItemStack bigBottle = matrix[0];
+        this.initialize(bigBottle);
+        this.setting();
     }
 }

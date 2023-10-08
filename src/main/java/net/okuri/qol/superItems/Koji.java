@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
 public class Koji implements SuperCraftable {
-    private SuperItemType SuperItemType = net.okuri.qol.superItems.SuperItemType.KOJI;
+    private final SuperItemType SuperItemType = net.okuri.qol.superItems.SuperItemType.KOJI;
     private ItemStack rice;
     private double riceX;
     private double riceY;

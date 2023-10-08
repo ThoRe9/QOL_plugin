@@ -1,6 +1,5 @@
 package net.okuri.qol.event;
 
-import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.qolCraft.superCraft.DistributionCraftRecipe;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.inventory.ClickType;
@@ -17,13 +16,16 @@ public class DistributionEvent extends CraftItemEvent {
     public DistributionEvent(@NotNull Recipe recipe, @NotNull InventoryView what, InventoryType.@NotNull SlotType type, int slot, @NotNull ClickType click, @NotNull InventoryAction action) {
         super(recipe, what, type, slot, click, action);
     }
+
     public DistributionEvent(@NotNull DistributionCraftRecipe recipe, @NotNull InventoryView what, InventoryType.@NotNull SlotType type, int slot, @NotNull ClickType click, @NotNull InventoryAction action) {
         super(recipe, what, type, slot, click, action);
     }
+
     @Override
     public HandlerList getHandlers() {
         return HANDLERS;
     }
+
     public static HandlerList getHandlerList() {
         return HANDLERS;
     }

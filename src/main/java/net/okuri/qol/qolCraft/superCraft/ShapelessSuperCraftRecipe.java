@@ -17,10 +17,12 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
     private final ArrayList<Material> ingredients = new ArrayList<>();
     private final ArrayList<SuperItemType> superIngredients = new ArrayList<>();
     private ItemStack[] superIngredientItems;
+
     public ShapelessSuperCraftRecipe(ItemStack result, String id) {
         this.result = result;
         this.id = id;
     }
+
     @Override
     public boolean checkSuperRecipe(ItemStack[] matrix) {
         boolean flag = false;
@@ -64,24 +66,28 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
         return flag;
     }
 
-    public void addIngredient(Material ingredient){
+    public void addIngredient(Material ingredient) {
         this.ingredients.add(ingredient);
     }
-    public void addSuperIngredient(SuperItemType ingredient){
+
+    public void addSuperIngredient(SuperItemType ingredient) {
         this.superIngredients.add(ingredient);
     }
 
     public void setResultClass(SuperCraftable resultClass) {
         this.resultClass = resultClass;
     }
-    public SuperCraftable getResultClass(){
-        resultClass.setMatrix(superIngredientItems,id);
+
+    public SuperCraftable getResultClass() {
+        resultClass.setMatrix(superIngredientItems, id);
         return resultClass;
     }
+
     @Override
-    public String getId(){
+    public String getId() {
         return id;
     }
+
     @Override
     public ItemStack getResult() {
         return result;

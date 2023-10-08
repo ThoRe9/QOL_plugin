@@ -124,7 +124,7 @@ public class SuperCraft implements Listener {
 
         // もしflagが立っているなら、グリッド内のアイテムをクラフトした分だけ減らす。
         if (this.superCraftFlag || this.shapelessCraftFlag || this.distributionFlag){
-            CraftingInventory inv =(CraftingInventory) event.getInventory();
+            CraftingInventory inv = event.getInventory();
             for(ItemStack item : inv.getMatrix()){
                 if (item == null) {continue;}
                 if (item.getType() == Material.AIR) {continue;}

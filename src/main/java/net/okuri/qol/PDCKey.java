@@ -77,7 +77,7 @@ public enum PDCKey {
     public final PDCKey.ApplyType apply;
     public final Class<?> primitiveType;
 
-    PDCKey(String key, PersistentDataType type, PDCKey.ApplyType apply) {
+    <T,Z> PDCKey(String key, PersistentDataType<T,Z> type, PDCKey.ApplyType apply) {
         this.key = new NamespacedKey("qol", key);
         this.type = type;
         this.apply = apply;
@@ -87,15 +87,6 @@ public enum PDCKey {
     public enum ApplyType {
         ITEM,
         BLOCK,
-        PLAYER;
-    }
-    // NamespacedKeyからPDCKeyを取得する
-    public static PDCKey fromNamespacedKey(NamespacedKey key) {
-        for (PDCKey pdcKey : PDCKey.values()) {
-            if (pdcKey.key.equals(key)) {
-                return pdcKey;
-            }
-        }
-        return null;
+        PLAYER
     }
 }

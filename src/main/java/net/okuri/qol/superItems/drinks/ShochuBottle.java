@@ -10,11 +10,10 @@ import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
-public class SakeBottle extends Sake implements DistributionReceiver, Distributable {
-
-    public SakeBottle() {
+public class ShochuBottle extends Shochu implements DistributionReceiver, Distributable {
+    public ShochuBottle() {
         super.amount = 170.0;
-        super.type = SuperItemType.SAKE_1GO;
+        super.type = SuperItemType.SHOCHU_1GO;
     }
 
     @Override
@@ -28,16 +27,31 @@ public class SakeBottle extends Sake implements DistributionReceiver, Distributa
     }
 
     @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
-        ItemStack bigBottle = matrix[0];
-        super.initialize(bigBottle);
-        super.amount = 170.0;
-        super.setting();
+    public ItemStack getSuperItem() {
+        ItemStack result = super.getSuperItem();
+        result.setAmount(super.count);
+        PotionMeta meta = (PotionMeta) result.getItemMeta();
+        meta.displayName(Component.text("お猪口(焼酎)"));
+        PDCC.set(meta, PDCKey.CONSUMABLE, true);
+
+        LoreGenerator lore = new LoreGenerator();
+        lore.addInfoLore("JAPANESE Shochu!!");
+        lore.addInfoLore("in a bottle!!");
+        lore.addInfoLore("Made from" + this.getIngredientName());
+        lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
+        lore.addParametersLore("Taste Richness", this.tasteRichness);
+        lore.addParametersLore("Smell Richness", this.smellRichness);
+        lore.addParametersLore("Compatibility", this.compatibility);
+        lore.addParametersLore("Alcohol Percentage", this.alcPer, true);
+        lore.addParametersLore("Amount", this.amount, true);
+        meta.lore(lore.generateLore());
+        result.setItemMeta(meta);
+        return result;
     }
 
     @Override
     public ItemStack getDebugItem(int... args) {
-        ItemStack bigBottle = new Sake1ShoBottle().getDebugItem(args);
+        ItemStack bigBottle = new Shochu().getDebugItem(args);
         super.initialize(bigBottle);
         super.amount = 170.0;
         super.setting();
@@ -45,47 +59,10 @@ public class SakeBottle extends Sake implements DistributionReceiver, Distributa
     }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack result = super.getSuperItem();
-        PotionMeta meta = (PotionMeta) result.getItemMeta();
-        meta.displayName(Component.text("徳利"));
-        PDCC.set(meta, PDCKey.CONSUMABLE, true);
-
-        LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("JAPANESE Sake!!");
-        lore.addInfoLore("in a bottle!!");
-        lore.addInfoLore(this.sakeType.kanji + " " + this.tasteType.kanji + " " + this.alcType.name);
-        lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
-        lore.addParametersLore("Taste Richness", this.tasteRichness);
-        lore.addParametersLore("Smell Richness", this.smellRichness);
-        lore.addParametersLore("Compatibility", this.compatibility);
-        lore.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio, true);
-        lore.addParametersLore("Maturation Days", this.days, true);
-        lore.addParametersLore("Alcohol Percentage", this.alcPer, true);
-        lore.addParametersLore("Amount", this.amount, true);
-        meta.lore(lore.generateLore());
-
-        result.setItemMeta(meta);
-        return result;
-    }
-
-    @Override
-    public boolean isDistributable(double smallBottleAmount, int smallBottleCount) {
-        double amount = super.amount;
-        double decline = smallBottleAmount * smallBottleCount;
-        return !(amount - decline < 0);
-    }
-
-    @Override
-    public void distribute(double smallBottleAmount, int smallBottleCounts) {
-        double amount = super.amount;
-        double decline = smallBottleAmount * smallBottleCounts;
-        super.amount = amount - decline;
+    public void setMatrix(ItemStack[] matrix, String id) {
+        ItemStack bigBottle = matrix[0];
+        super.initialize(bigBottle);
+        super.amount = 170.0;
         super.setting();
-    }
-
-    @Override
-    public SuperItemType getType() {
-        return this.type;
     }
 }

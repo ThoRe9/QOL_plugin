@@ -21,14 +21,14 @@ public class SuperCraftRecipe implements SuperRecipe {
     public Map<Character, SuperItemType> superIngredients = new HashMap<Character, SuperItemType>();
     private SuperCraftable resultClass = null;
 
-    public SuperCraftRecipe(ItemStack result, String id){
+    public SuperCraftRecipe(ItemStack result, String id) {
         this.result = result;
         this.id = id;
     }
 
     // レシピの判定
     @Override
-    public boolean checkSuperRecipe(ItemStack[] matrix){
+    public boolean checkSuperRecipe(ItemStack[] matrix) {
         this.matrix = matrix;
         //Bukkit.getServer().getLogger().info("checkSuperRecipe");
 
@@ -56,14 +56,14 @@ public class SuperCraftRecipe implements SuperRecipe {
                     }
                 } else if (superIngredients.containsKey(ingredient)) {
                     if (matrix[checkIndex] == null) {
-                       // Bukkit.getServer().getLogger().info("nullSlotDetected");
+                        // Bukkit.getServer().getLogger().info("nullSlotDetected");
                         return false;
                     }
-                    if (!PDCC.has(matrix[checkIndex].getItemMeta(),PDCKey.TYPE)) {
+                    if (!PDCC.has(matrix[checkIndex].getItemMeta(), PDCKey.TYPE)) {
                         //Bukkit.getServer().getLogger().info("noTypeDetected");
                         return false;
                     }
-                    if (!Objects.equals(PDCC.get(matrix[checkIndex].getItemMeta(),PDCKey.TYPE), superIngredients.get(ingredient).toString())) {
+                    if (!Objects.equals(PDCC.get(matrix[checkIndex].getItemMeta(), PDCKey.TYPE), superIngredients.get(ingredient).toString())) {
                         //Bukkit.getServer().getLogger().info("differentTypeDetected");
                         return false;
                     }
@@ -78,9 +78,11 @@ public class SuperCraftRecipe implements SuperRecipe {
     public void setId(String id) {
         this.id = id;
     }
+
     public String getId() {
         return this.id;
     }
+
     public void setShape(String[] shape) {
         this.shape = shape;
     }
@@ -104,13 +106,16 @@ public class SuperCraftRecipe implements SuperRecipe {
     public SuperCraftRecipe getRecipe() {
         return this;
     }
+
     public void setResultClass(SuperCraftable resultClass) {
         this.resultClass = resultClass;
     }
+
     public SuperCraftable getResultClass() {
-        this.resultClass.setMatrix(this.matrix,id);
+        this.resultClass.setMatrix(this.matrix, id);
         return this.resultClass;
     }
+
     @Override
     public ItemStack getResult() {
         return this.resultClass.getSuperItem();

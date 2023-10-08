@@ -18,7 +18,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class WhiskyWithIce implements SuperCraftable {
     private ItemStack whisky = null;
-    private SuperItemType superItemType = SuperItemType.WHISKY_WITH_ICE;
+    private final SuperItemType superItemType = SuperItemType.WHISKY_WITH_ICE;
     private ItemStack[] matrix = null;
     private double x;
     private double y;
@@ -29,7 +29,7 @@ public class WhiskyWithIce implements SuperCraftable {
     private double temp;
     private double humid;
     private int days;
-    private double alcoholAmount = 30.0;
+    private final double alcoholAmount = 30.0;
     private double alcoholPer = 0.40;
 
     @Override

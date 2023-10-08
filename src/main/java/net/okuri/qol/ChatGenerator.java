@@ -16,12 +16,12 @@ public class ChatGenerator {
         ERROR,
         WARNING,
         SUCCESS,
-        DEBUG;
+        DEBUG
     }
 
-    private ArrayList<Component> components = new ArrayList<>();
-    private ArrayList<Component> debugComponents = new ArrayList<>();
-    private Component prefix = Component.text("[").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD)
+    private final ArrayList<Component> components = new ArrayList<>();
+    private final ArrayList<Component> debugComponents = new ArrayList<>();
+    private final Component prefix = Component.text("[").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD)
             .append(Component.text("QOL").color(NamedTextColor.GOLD).decorate(TextDecoration.BOLD))
             .append(Component.text("] ").color(NamedTextColor.DARK_GRAY).decorate(TextDecoration.BOLD));
 

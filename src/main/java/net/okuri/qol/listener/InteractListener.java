@@ -14,12 +14,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 
 public class InteractListener implements Listener {
     // プレイヤーが右クリックしたとき
     @EventHandler
-    public void playerInteractEvent(PlayerInteractEvent event){
+    public void playerInteractEvent(PlayerInteractEvent event) {
 
         // interactしたプレイヤーのハンドがメインハンドか確認
         if (event.getHand() != org.bukkit.inventory.EquipmentSlot.HAND) {
@@ -28,16 +27,16 @@ public class InteractListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = player.getInventory().getItemInMainHand();
         // itemがnullなら終了
-        if (item.getType() == Material.AIR){
+        if (item.getType() == Material.AIR) {
             return;
         }
         ItemMeta meta = item.getItemMeta();
         // 手に持ったitemがeatableなら処理をする
         // metaのPersistentDataContainerにeatableKeyがあるか確認
-        if (PDCC.has(meta, PDCKey.EATABLE)){
-            if (!(boolean) PDCC.get(meta, PDCKey.EATABLE)){
+        if (PDCC.has(meta, PDCKey.EATABLE)) {
+            if (!(boolean) PDCC.get(meta, PDCKey.EATABLE)) {
                 // playerが満腹なら食べない
-                if (player.getFoodLevel() <= 20){
+                if (player.getFoodLevel() <= 20) {
                     new ChatGenerator().addWarning("You are full!").sendMessage(player);
                     event.setCancelled(true);
                     return;
@@ -55,10 +54,10 @@ public class InteractListener implements Listener {
         // metaのPersistentDataContainerにtypeKeyがあるか確認
         if (!PDCC.has(meta, PDCKey.TYPE)) return;
         SuperItemType type = SuperItemType.valueOf(PDCC.get(meta, PDCKey.TYPE));
-        switch (type){
+        switch (type) {
             case ENV_TOOL:
                 // ブロックを右クリックしたとき
-                if (event.getClickedBlock() != null){
+                if (event.getClickedBlock() != null) {
                     // ブロックの座標を取得
                     int x = event.getClickedBlock().getX();
                     int y = event.getClickedBlock().getY();

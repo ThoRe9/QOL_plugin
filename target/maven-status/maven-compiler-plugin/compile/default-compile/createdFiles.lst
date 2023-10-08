@@ -45,6 +45,7 @@ net\okuri\qol\listener\InteractListener.class
 net\okuri\qol\superItems\foods\Food.class
 net\okuri\qol\qolCraft\maturation\MaturationRecipe.class
 net\okuri\qol\superItems\drinks\LagerBeer.class
+net\okuri\qol\superItems\drinks\ShochuBottle.class
 net\okuri\qol\superItems\foods\Bread.class
 net\okuri\qol\superItems\drinks\WhiskyIngredient.class
 net\okuri\qol\superItems\drinks\BeerIngredient.class
@@ -61,6 +62,7 @@ net\okuri\qol\superItems\drinks\Sake$AlcType.class
 net\okuri\qol\superItems\PolishedRice.class
 net\okuri\qol\superItems\Barley.class
 net\okuri\qol\superItems\drinks\HotSake.class
+net\okuri\qol\superItems\drinks\ShochuOchoko.class
 net\okuri\qol\event\MaturationEndEvent.class
 net\okuri\qol\superItems\drinks\Whisky.class
 net\okuri\qol\superItems\drinks\Highball.class

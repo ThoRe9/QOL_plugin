@@ -43,10 +43,10 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
     private int distilled = 0;
     // rarityはmaxDurationからどれだけ離れているかを表す。1.0でmaxDurationと同じ、20.0でmaxDurationの2倍の効果時間。
     private int rarity = 0;
-    private double temp = 0.0;
-    private double humid = 0.0;
+    private final double temp = 0.0;
+    private final double humid = 0.0;
     private double alcPer = 0.10;
-    private double alcAmount = 5000.0;
+    private final double alcAmount = 5000.0;
     // maxDurationは効果全ての効果時間の総和の基準値。超えたり超えなかったりする。
     private final int maxDuration = 24000;
 
@@ -121,7 +121,7 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         if (this.distilled == 0){
             lore.addImportantLore("You need to distill this!");
         }
-        lore.addRarityLore((int)(this.rarity));
+        lore.addRarityLore(this.rarity);
         meta.lore(lore.generateLore());
 
         meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.FAST_DIGGING, (int)Math.floor(this.hasteDuration / this.durationAmplifier), this.hasteLevel + this.distilled - 1), true);

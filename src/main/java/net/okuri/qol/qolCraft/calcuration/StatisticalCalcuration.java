@@ -3,7 +3,7 @@ package net.okuri.qol.qolCraft.calcuration;
 import java.util.ArrayList;
 
 public class StatisticalCalcuration implements Calcuration{
-    private ArrayList<Double> vers = new ArrayList<>();
+    private final ArrayList<Double> vers = new ArrayList<>();
     private double mean;
     private double variance;
     private double standardDeviation;

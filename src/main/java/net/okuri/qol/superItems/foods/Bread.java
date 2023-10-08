@@ -17,12 +17,12 @@ import org.bukkit.persistence.PersistentDataType;
 
 public class Bread implements SuperCraftable {
     private ItemStack[] matrix = null;
-    private ItemStack result = null;
-    private SuperItemType superItemType = SuperItemType.BREAD;
+    private final ItemStack result = null;
+    private final SuperItemType superItemType = SuperItemType.BREAD;
     private double par = 0.0;
     private int foodLevel = 5;
     private float foodSaturation = 6.0f;
-    private Sound sound = Sound.ENTITY_GENERIC_EAT;
+    private final Sound sound = Sound.ENTITY_GENERIC_EAT;
     protected Component display ;
     protected PDCKey wheatkey;
     public static NamespacedKey parkey = new NamespacedKey("qol", "bread_par");
