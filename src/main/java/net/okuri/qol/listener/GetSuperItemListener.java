@@ -3,7 +3,6 @@ package net.okuri.qol.listener;
 import net.okuri.qol.ChatGenerator;
 import net.okuri.qol.superItems.SuperCoal;
 import net.okuri.qol.superItems.SuperWheat;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
@@ -75,7 +74,7 @@ public class GetSuperItemListener implements Listener {
             player.sendMessage("You got a SuperCoal!");
             // TODO qualityはJOBのレベルによって変える
             SuperCoal superCoal = new SuperCoal();
-            superCoal.setResValiables(block.getX(), block.getY(), block.getZ(), player.getLocation().getBlock().getTemperature(), player.getLocation().getBlock().getHumidity(), player.getLocation().getBlock().getBiome().ordinal(), 1.0 + n / 30.0);
+            superCoal.setResVariables(block.getX(), block.getY(), block.getZ(), player.getLocation().getBlock().getTemperature(), player.getLocation().getBlock().getHumidity(), player.getLocation().getBlock().getBiome().ordinal(), 1.0 + n / 30.0);
             ItemStack coal = superCoal.getSuperItem();
             player.getInventory().addItem(coal);
         }

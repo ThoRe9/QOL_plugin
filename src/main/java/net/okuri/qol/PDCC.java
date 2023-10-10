@@ -1,6 +1,7 @@
 package net.okuri.qol;
 
 import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.SuperResource;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
@@ -169,5 +170,15 @@ public class PDCC {
         meta.getPersistentDataContainer().set(PDCKey.RARITY.key, PDCKey.RARITY.type, rarity);
         meta.getPersistentDataContainer().set(PDCKey.TEMP.key, PDCKey.TEMP.type, temp);
         meta.getPersistentDataContainer().set(PDCKey.HUMID.key, PDCKey.HUMID.type, humid);
+    }
+    public static <T> void setSuperItem(ItemMeta meta, SuperResource r){
+        meta.getPersistentDataContainer().set(PDCKey.TYPE.key, PDCKey.TYPE.type, r.getSuperItemType().toString());
+        meta.getPersistentDataContainer().set(PDCKey.X.key, PDCKey.X.type, r.getX());
+        meta.getPersistentDataContainer().set(PDCKey.Y.key, PDCKey.Y.type, r.getY());
+        meta.getPersistentDataContainer().set(PDCKey.Z.key, PDCKey.Z.type, r.getZ());
+        meta.getPersistentDataContainer().set(PDCKey.QUALITY.key, PDCKey.QUALITY.type, r.getQuality());
+        meta.getPersistentDataContainer().set(PDCKey.RARITY.key, PDCKey.RARITY.type, r.getRarity());
+        meta.getPersistentDataContainer().set(PDCKey.TEMP.key, PDCKey.TEMP.type, r.getTemp());
+        meta.getPersistentDataContainer().set(PDCKey.HUMID.key, PDCKey.HUMID.type, r.getHumid());
     }
 }

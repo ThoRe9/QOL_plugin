@@ -8,14 +8,10 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.calcuration.CirculeDistribution;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataType;
 
-import javax.naming.Name;
 import java.util.ArrayList;
-import java.util.List;
 
 public class SuperCoal extends SuperResource {
     private final SuperItemType superItemType = SuperItemType.COAL;
@@ -40,8 +36,11 @@ public class SuperCoal extends SuperResource {
     // biomeIDは生産地のバイオームID
     private int biomeID;
     private int rarity;
-    public SuperCoal(){
+
+    public SuperCoal(Component name, String info, Material material, Material blockMaterial, SuperItemType superItemType, double probability) {
+        super(name, info, material, blockMaterial, superItemType, probability);
     }
+
     public ItemStack getSuperItem() {
         this.calc();
         // PersistentDataContainer にデータを保存
@@ -66,12 +65,12 @@ public class SuperCoal extends SuperResource {
     }
     @Override
     public ItemStack getDebugItem(int... args) {
-        this.setResValiables(90, 0, 0, 0.5, 0.5, 0, 1.0);
+        this.setResVariables(90, 0, 0, 0.5, 0.5, 0, 1.0);
         return this.getSuperItem();
     }
 
     @Override
-    public void setResValiables(int Px, int Py, int Pz, double temp, double humid, int biomeId, double quality) {
+    public void setResVariables(int Px, int Py, int Pz, double temp, double humid, int biomeId, double quality) {
         this.Px = Px;
         this.Py = Py;
         this.Pz = Pz;

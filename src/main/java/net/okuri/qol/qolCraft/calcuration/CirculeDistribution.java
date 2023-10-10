@@ -21,7 +21,7 @@ public class CirculeDistribution implements Calcuration {
 
     @Override
     public void setVariable(double... variables) {
-        // 変数が3個じゃない場合はエラーを出す
+        // 変数が4個じゃない場合はエラーを出す
         if (variables.length != 4) {
             throw new IllegalArgumentException("Variables are not long enough.");
         }

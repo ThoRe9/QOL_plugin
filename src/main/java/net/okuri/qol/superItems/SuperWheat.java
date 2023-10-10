@@ -39,6 +39,7 @@ public class SuperWheat extends SuperResource {
 
 
     public SuperWheat(int x, int y, int z, String name, double temp, double humid, int biomeID, double quality) {
+
         this.x = x;
         this.y = y;
         this.z = z;
@@ -121,7 +122,7 @@ public class SuperWheat extends SuperResource {
     }
 
     @Override
-    public void setResValiables(int x, int y, int z, double temp, double humid, int biomeId, double quality) {
+    public void setResVariables(int x, int y, int z, double temp, double humid, int biomeId, double quality) {
         this.x = x;
         this.y = y;
         this.z = z;
