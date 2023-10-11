@@ -11,9 +11,7 @@ import net.okuri.qol.qolCraft.superCraft.DistributionCraftRecipe;
 import net.okuri.qol.qolCraft.superCraft.ShapelessSuperCraftRecipe;
 import net.okuri.qol.qolCraft.superCraft.SuperCraft;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
-import net.okuri.qol.superItems.Koji;
-import net.okuri.qol.superItems.PolishedRice;
-import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.*;
 import net.okuri.qol.superItems.drinks.*;
 import net.okuri.qol.superItems.foods.BarleyBread;
 import net.okuri.qol.superItems.foods.Bread;
@@ -40,6 +38,7 @@ public final class QOL extends JavaPlugin {
         SuperCraft superCraft = new SuperCraft();
         Maturation maturation = new Maturation();
         Distillation distillation = new Distillation();
+        GetSuperItemListener superResource = new GetSuperItemListener();
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
         getServer().getPluginManager().registerEvents(new ConsumeListener(), this);
         getServer().getPluginManager().registerEvents(new GetSuperItemListener(), this);
@@ -53,6 +52,7 @@ public final class QOL extends JavaPlugin {
         registerRecipes(superCraft);
         registerMaturationRecipes(maturation);
         registerDistillationRecipes(distillation);
+        registerSuperResources(superResource);
 
         getCommand("getenv").setExecutor(new Commands());
         getCommand("matsign").setExecutor(new Commands());
@@ -331,6 +331,20 @@ public final class QOL extends JavaPlugin {
         DistillationRecipe shochuRecipe = new DistillationRecipe("Shochu", new Shochu());
         shochuRecipe.addingredient(SuperItemType.SAKE_INGREDIENT);
         distillation.addDistillationRecipe(shochuRecipe);
+    }
+
+
+    private void registerSuperResources(GetSuperItemListener superResource) {
+        // ここにSuperResourceを登録していく
+
+        // SuperWheat
+        SuperWheat superWheat = new SuperWheat(Material.WHEAT, Material.WHEAT, SuperItemType.WHEAT, 3);
+        superResource.addResource(superWheat);
+
+        // SuperCoal
+        SuperCoal superCoal = new SuperCoal(Component.text("Super Coal").color(NamedTextColor.RED), "Super Coal!!", Material.COAL, Material.COAL_ORE, SuperItemType.COAL, 3);
+        superResource.addResource(superCoal);
+
     }
 
     public JavaPlugin getPlugin() {

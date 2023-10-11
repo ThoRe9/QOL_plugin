@@ -14,31 +14,14 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 
 public class SuperCoal extends SuperResource {
-    private final SuperItemType superItemType = SuperItemType.COAL;
     private final ItemStack itemStack = new ItemStack(Material.COAL, 1);
-    // Px Py Pz は座標情報を記憶する。
-    private int Px;
-    private int Py;
-    private int Pz;
-    private int sum;
-    // qualityは、全体の効果時間への倍率。
-    private double quality;
-    // pxは掘ったy座標に依存している。(マイクラの生成確立に反比例する)
-    private double x =0;
-    // pyは掘ったx,z座標に依存(乱数)
-    private double y =0;
-    // pzは掘ったx,z座標に依存(乱数)
-    private double z =0;
-    // tempは生産地の気温
-    private double temp;
-    // humidは生産地の湿度
-    private double humid;
-    // biomeIDは生産地のバイオームID
-    private int biomeID;
-    private int rarity;
 
-    public SuperCoal(Component name, String info, Material material, Material blockMaterial, SuperItemType superItemType, double probability) {
+    public SuperCoal(Component name, String info, Material material, Material blockMaterial, SuperItemType superItemType, int probability) {
         super(name, info, material, blockMaterial, superItemType, probability);
+    }
+
+    public SuperCoal(Material material, Material blockMaterial, SuperItemType type, int per){
+        super(material, blockMaterial, type, per);
     }
 
     public ItemStack getSuperItem() {
@@ -76,7 +59,7 @@ public class SuperCoal extends SuperResource {
         this.Pz = Pz;
         this.temp = temp;
         this.humid = humid;
-        this.biomeID = biomeId;
+        this.biomeId = biomeId;
         this.quality = quality;
     }
 

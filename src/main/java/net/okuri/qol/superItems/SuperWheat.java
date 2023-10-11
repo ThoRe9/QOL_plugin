@@ -15,41 +15,37 @@ import java.util.ArrayList;
 
 public class SuperWheat extends SuperResource {
     private final ItemStack wheat = new ItemStack(Material.WHEAT);
-    private int x;
-    private int y;
-    private int z;
-    private String name;
-    private double temp;
-    private double humid;
-    private int biomeID;
-    private double quality;
-    private int rarity;
-    private SuperItemType superItemType;
-    private double px;
-    private double py;
-    private double pz;
 
     public SuperWheat(SuperItemType type) {
+        super(Material.WHEAT, Material.WHEAT, SuperItemType.WHEAT, 3);
         if (type == SuperItemType.RYE || type == SuperItemType.BARLEY || type == SuperItemType.WHEAT || type == SuperItemType.RICE) {
             this.superItemType = type;
         } else {
             this.superItemType = SuperItemType.WHEAT;
         }
     }
+    public SuperWheat(Material material, Material blockMaterial, SuperItemType type, int per){
+        super(material, blockMaterial, type, per);
+    }
 
-
-    public SuperWheat(int x, int y, int z, String name, double temp, double humid, int biomeID, double quality) {
-
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.name = name;
+    @Override
+    public void setResVariables(int Px, int Py, int Pz, double temp, double humid, int biomeId, double quality) {
+        this.Px = Px;
+        this.Py = Py;
+        this.Pz = Pz;
         this.temp = temp;
         this.humid = humid;
-        this.biomeID = biomeID;
+        this.biomeId = biomeId;
         this.quality = quality;
 
+        CirculeDistribution cd = new CirculeDistribution();
+        cd.setVariable(base + biomeId, biomeId, 1, 3);
+        cd.calcuration();
+        this.x = cd.getAns().get(0) * quality;
+        this.y = cd.getAns().get(1) * quality;
+        this.z = cd.getAns().get(2) * quality;
 
+        this.rarity = SuperItem.getRarity(this.Px, this.Py, this.Pz);
         if (temp <= 0) {
             this.superItemType = SuperItemType.RYE;
         } else if (temp <= 0.70) {
@@ -66,7 +62,7 @@ public class SuperWheat extends SuperResource {
     public ItemStack getSuperItem() {
         // パラメータ計算
         RandFromXYZ rand = new RandFromXYZ();
-        rand.setVariable(this.x, this.y, this.z, this.biomeID, 0.05);
+        rand.setVariable(this.Px, this.Py, this.Pz, this.biomeId, 0.05);
         rand.calcuration();
         ArrayList<Double> correction = rand.getAns();
         CirculeDistribution calc = new CirculeDistribution();
@@ -74,21 +70,21 @@ public class SuperWheat extends SuperResource {
         calc.setCorrection(correction);
         calc.calcuration();
         ArrayList<Double> ans = calc.getAns();
-        this.px = ans.get(0);
-        this.py = ans.get(1);
-        this.pz = ans.get(2);
-        this.rarity = SuperItem.getRarity(px, py, pz);
+        this.x = ans.get(0);
+        this.y = ans.get(1);
+        this.z = ans.get(2);
+        this.rarity = SuperItem.getRarity(x, y, z);
 
         // PersistentDataContainer にデータを保存
         ItemMeta meta = wheat.getItemMeta();
 
         PDCC.set(meta, PDCKey.TYPE, this.superItemType.toString());
-        PDCC.set(meta, PDCKey.X, this.px);
-        PDCC.set(meta, PDCKey.Y, this.py);
-        PDCC.set(meta, PDCKey.Z, this.pz);
+        PDCC.set(meta, PDCKey.X, this.x);
+        PDCC.set(meta, PDCKey.Y, this.y);
+        PDCC.set(meta, PDCKey.Z, this.z);
         PDCC.set(meta, PDCKey.NAME, this.name);
         PDCC.set(meta, PDCKey.TEMP, this.temp);
-        PDCC.set(meta, PDCKey.BIOME_ID, this.biomeID);
+        PDCC.set(meta, PDCKey.BIOME_ID, this.biomeId);
         PDCC.set(meta, PDCKey.QUALITY, this.quality);
         PDCC.set(meta, PDCKey.RARITY, this.rarity);
         PDCC.set(meta, PDCKey.HUMID, this.humid);
@@ -110,26 +106,15 @@ public class SuperWheat extends SuperResource {
         LoreGenerator loreGenerator = new LoreGenerator();
         loreGenerator.addInfoLore("This is a super wheat!");
         loreGenerator.addInfoLore("This is made by " + this.name);
-        loreGenerator.addParametersLore("x", this.px);
-        loreGenerator.addParametersLore("y", this.py);
-        loreGenerator.addParametersLore("z", this.pz);
+        loreGenerator.addParametersLore("Px", this.x);
+        loreGenerator.addParametersLore("Py", this.y);
+        loreGenerator.addParametersLore("Pz", this.z);
         loreGenerator.addParametersLore("quality", this.quality);
         meta.lore(loreGenerator.generateLore());
 
         wheat.setItemMeta(meta);
 
         return wheat;
-    }
-
-    @Override
-    public void setResVariables(int x, int y, int z, double temp, double humid, int biomeId, double quality) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-        this.temp = temp;
-        this.humid = humid;
-        this.biomeID = biomeId;
-        this.quality = quality;
     }
 
     @Override
@@ -179,36 +164,36 @@ public class SuperWheat extends SuperResource {
             this.superItemType = SuperItemType.WHEAT;
         }
 
-        this.x = 10;
-        this.y = 10;
-        this.z = 10;
+        this.Px = 10;
+        this.Py = 10;
+        this.Pz = 10;
         this.temp = ttemp;
         this.humid = 0.5;
-        this.biomeID = 100;
-        this.px = 0.33;
-        this.py = 0.33;
-        this.pz = 0.33;
+        this.biomeId = 100;
+        this.x = 0.33;
+        this.y = 0.33;
+        this.z = 0.33;
         this.quality = 1.0;
         this.rarity = 1;
-        this.name = "debug";
+        this.name = Component.text("debug");
         return this.getSuperItem();
 
     }
 
     @Deprecated
     private void calcPs() {
-        this.px = calcTemp('x');
-        this.py = calcTemp('y');
-        this.pz = calcTemp('z');
+        this.x = calcTemp('x');
+        this.y = calcTemp('y');
+        this.z = calcTemp('z');
     }
 
     @Deprecated
     private double calcTemp(char param) {
         // wheatのパラメータを計算。要バランス調整。
         int initValue;
-        double rxy = Math.abs(((this.x + this.y) / 64.0) % this.biomeID) / (5.0 * this.biomeID);
-        double ryz = Math.abs(((this.y + this.z) / 64.0) % this.biomeID) / (5.0 * this.biomeID);
-        double rzx = Math.abs(((this.z + this.x) / 64.0) % this.biomeID) / (5.0 * this.biomeID);
+        double rxy = Math.abs(((this.Px + this.Py) / 64.0) % this.biomeId) / (5.0 * this.biomeId);
+        double ryz = Math.abs(((this.Py + this.Pz) / 64.0) % this.biomeId) / (5.0 * this.biomeId);
+        double rzx = Math.abs(((this.Pz + this.Px) / 64.0) % this.biomeId) / (5.0 * this.biomeId);
         if (param == 'x') {
             initValue = 9;
             rxy *= -1;

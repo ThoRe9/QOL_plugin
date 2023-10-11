@@ -9,13 +9,17 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public abstract class SuperResource implements SuperItem {
+    // SuperResource の設定方法
+    // 1. コンストラクタを設定する・
+    // 2. superResourcesに追加する。
+
     // 以下設定必須項目
     Component name;
     String info;
     final Material material;
     final Material blockMaterial;
-    final SuperItemType superItemType;
-    final double probability;
+    SuperItemType superItemType;
+    final int probabilityPercentage;
 
     // ここまで
     int Px;
@@ -31,22 +35,22 @@ public abstract class SuperResource implements SuperItem {
     double z;
     int rarity;
 
-    public SuperResource(Component name, String info, Material material, Material blockMaterial, SuperItemType superItemType, double probability) {
+    public SuperResource(Component name, String info, Material material, Material blockMaterial, SuperItemType superItemType, int probabilityPercentage) {
         this.name = name;
         this.info = info;
         this.material = material;
         this.blockMaterial = blockMaterial;
         this.superItemType = superItemType;
-        this.probability = probability;
+        this.probabilityPercentage = probabilityPercentage;
     }
 
-    public SuperResource(Material material, Material blockMaterial, SuperItemType superItemType, double probability) {
+    public SuperResource(Material material, Material blockMaterial, SuperItemType superItemType, int probabilityPercentage) {
         this.name = Component.text("Super" + material.name());
         this.info = "Super" + material.name();
         this.material = material;
         this.blockMaterial = blockMaterial;
         this.superItemType = superItemType;
-        this.probability = probability;
+        this.probabilityPercentage = probabilityPercentage;
     }
 
     public void setResVariables(int Px, int Py, int Pz, double temp, double humid, int biomeId, double quality) {
@@ -126,7 +130,7 @@ public abstract class SuperResource implements SuperItem {
     }
 
     public double getProbability() {
-        return probability;
+        return probabilityPercentage;
     }
 
     public double getRarity() {
