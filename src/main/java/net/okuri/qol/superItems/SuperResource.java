@@ -2,6 +2,7 @@ package net.okuri.qol.superItems;
 
 import net.kyori.adventure.text.Component;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.PDCC;
 import net.okuri.qol.qolCraft.calcuration.CirculeDistribution;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -81,6 +82,8 @@ public abstract class SuperResource implements SuperItem {
         meta.displayName(name);
         meta.setCustomModelData(superItemType.getCustomModelData());
 
+        PDCC.setSuperResource(meta, this);
+
         LoreGenerator lore = new LoreGenerator();
         lore.addInfoLore(info);
         lore.addParametersLore("x", x);
@@ -96,7 +99,7 @@ public abstract class SuperResource implements SuperItem {
 
     @Override
     public ItemStack getDebugItem(int... args) {
-        this.setResVariables(90, 0, 0, 0.5, 0.5, 0, 1.0, (Player) org.bukkit.Bukkit.getOfflinePlayer("okuri0131"));
+        this.setResVariables(90, 0, 0, 0.5, 0.5, 10, 1.0, (Player) org.bukkit.Bukkit.getOfflinePlayer("okuri0131"));
         return this.getSuperItem();
     }
 
@@ -140,7 +143,7 @@ public abstract class SuperResource implements SuperItem {
         return probabilityPercentage;
     }
 
-    public double getRarity() {
+    public int getRarity() {
         return rarity;
     }
 

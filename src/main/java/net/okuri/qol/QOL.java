@@ -346,6 +346,9 @@ public final class QOL extends JavaPlugin {
         SuperCoal superCoal = new SuperCoal(Component.text("Super Coal").color(NamedTextColor.RED), "Super Coal!!", Material.COAL, Material.COAL_ORE, SuperItemType.COAL, 3);
         superResource.addResource(superCoal);
 
+        // SuperPotato
+        SuperPotato superPotato = new SuperPotato();
+        superResource.addResource(superPotato);
     }
 
     public JavaPlugin getPlugin() {

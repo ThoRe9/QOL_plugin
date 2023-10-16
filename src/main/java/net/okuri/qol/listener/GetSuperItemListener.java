@@ -1,7 +1,6 @@
 package net.okuri.qol.listener;
 
 import net.okuri.qol.ChatGenerator;
-import net.okuri.qol.PDCC;
 import net.okuri.qol.superItems.SuperResource;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -13,7 +12,6 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.joml.Random;
 
 import java.util.ArrayList;
@@ -57,9 +55,6 @@ public class GetSuperItemListener implements Listener {
                     // TODO quality の計算
                     r.setResVariables(block.getX(), block.getY(), block.getZ(), temp, humid, biomeID, 1.0, player);
                     ItemStack resultItem = r.getSuperItem();
-                    ItemMeta meta = resultItem.getItemMeta();
-                    PDCC.setSuperResource(meta, r);
-                    resultItem.setItemMeta(meta);
                     player.getInventory().addItem(resultItem);
                 }
             }
