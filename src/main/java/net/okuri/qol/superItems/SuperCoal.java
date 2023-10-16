@@ -8,6 +8,7 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.calcuration.CirculeDistribution;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -48,12 +49,12 @@ public class SuperCoal extends SuperResource {
     }
     @Override
     public ItemStack getDebugItem(int... args) {
-        this.setResVariables(90, 0, 0, 0.5, 0.5, 0, 1.0);
+        this.setResVariables(90, 0, 0, 0.5, 0.5, 0, 1.0, (Player) Bukkit.getOfflinePlayer("okuri0131"));
         return this.getSuperItem();
     }
 
     @Override
-    public void setResVariables(int Px, int Py, int Pz, double temp, double humid, int biomeId, double quality) {
+    public void setResVariables(int Px, int Py, int Pz, double temp, double humid, int biomeId, double quality, Player producer) {
         this.Px = Px;
         this.Py = Py;
         this.Pz = Pz;
@@ -61,6 +62,7 @@ public class SuperCoal extends SuperResource {
         this.humid = humid;
         this.biomeId = biomeId;
         this.quality = quality;
+        this.producer = producer;
     }
 
     private void calc(){

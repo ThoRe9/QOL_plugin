@@ -2,9 +2,9 @@ package net.okuri.qol.superItems;
 
 import net.kyori.adventure.text.Component;
 import net.okuri.qol.LoreGenerator;
-import net.okuri.qol.PDCC;
 import net.okuri.qol.qolCraft.calcuration.CirculeDistribution;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -34,6 +34,7 @@ public abstract class SuperResource implements SuperItem {
     double y;
     double z;
     int rarity;
+    Player producer;
 
     public SuperResource(Component name, String info, Material material, Material blockMaterial, SuperItemType superItemType, int probabilityPercentage) {
         this.name = name;
@@ -53,7 +54,7 @@ public abstract class SuperResource implements SuperItem {
         this.probabilityPercentage = probabilityPercentage;
     }
 
-    public void setResVariables(int Px, int Py, int Pz, double temp, double humid, int biomeId, double quality) {
+    public void setResVariables(int Px, int Py, int Pz, double temp, double humid, int biomeId, double quality, Player producer) {
         this.Px = Px;
         this.Py = Py;
         this.Pz = Pz;
@@ -61,6 +62,7 @@ public abstract class SuperResource implements SuperItem {
         this.humid = humid;
         this.biomeId = biomeId;
         this.quality = quality;
+        this.producer = producer;
 
         CirculeDistribution cd = new CirculeDistribution();
         cd.setVariable(base + biomeId, biomeId, 1, 3);
@@ -79,7 +81,6 @@ public abstract class SuperResource implements SuperItem {
         meta.displayName(name);
         meta.setCustomModelData(superItemType.getCustomModelData());
 
-        PDCC.setSuperItem(meta, this);
         LoreGenerator lore = new LoreGenerator();
         lore.addInfoLore(info);
         lore.addParametersLore("x", x);
@@ -91,6 +92,12 @@ public abstract class SuperResource implements SuperItem {
 
         result.setItemMeta(meta);
         return result;
+    }
+
+    @Override
+    public ItemStack getDebugItem(int... args) {
+        this.setResVariables(90, 0, 0, 0.5, 0.5, 0, 1.0, (Player) org.bukkit.Bukkit.getOfflinePlayer("okuri0131"));
+        return this.getSuperItem();
     }
 
     public Component getName() {
@@ -143,6 +150,10 @@ public abstract class SuperResource implements SuperItem {
 
     public double getHumid() {
         return humid;
+    }
+
+    public String getProducerName() {
+        return producer.getName();
     }
 
     public void setName(Component name) {

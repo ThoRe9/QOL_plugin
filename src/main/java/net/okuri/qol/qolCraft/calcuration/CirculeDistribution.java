@@ -29,6 +29,10 @@ public class CirculeDistribution implements Calcuration {
         this.cycle = variables[1];
         this.sum = variables[2];
         this.distributionNum = (int) variables[3];
+        this.correction = new ArrayList<>();
+        for (int i = 0; i < this.distributionNum; i++) {
+            this.correction.add(0.0);
+        }
     }
 
     @Override

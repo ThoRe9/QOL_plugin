@@ -8,6 +8,7 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.calcuration.CirculeDistribution;
 import net.okuri.qol.qolCraft.calcuration.RandFromXYZ;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -29,7 +30,7 @@ public class SuperWheat extends SuperResource {
     }
 
     @Override
-    public void setResVariables(int Px, int Py, int Pz, double temp, double humid, int biomeId, double quality) {
+    public void setResVariables(int Px, int Py, int Pz, double temp, double humid, int biomeId, double quality, Player producer) {
         this.Px = Px;
         this.Py = Py;
         this.Pz = Pz;
@@ -37,6 +38,7 @@ public class SuperWheat extends SuperResource {
         this.humid = humid;
         this.biomeId = biomeId;
         this.quality = quality;
+        this.producer = producer;
 
         CirculeDistribution cd = new CirculeDistribution();
         cd.setVariable(base + biomeId, biomeId, 1, 3);
@@ -78,11 +80,10 @@ public class SuperWheat extends SuperResource {
         // PersistentDataContainer にデータを保存
         ItemMeta meta = wheat.getItemMeta();
 
-        PDCC.set(meta, PDCKey.TYPE, this.superItemType.toString());
+        PDCC.set(meta, PDCKey.TYPE, this.superItemType.name());
         PDCC.set(meta, PDCKey.X, this.x);
         PDCC.set(meta, PDCKey.Y, this.y);
         PDCC.set(meta, PDCKey.Z, this.z);
-        PDCC.set(meta, PDCKey.NAME, this.name);
         PDCC.set(meta, PDCKey.TEMP, this.temp);
         PDCC.set(meta, PDCKey.BIOME_ID, this.biomeId);
         PDCC.set(meta, PDCKey.QUALITY, this.quality);
@@ -105,7 +106,6 @@ public class SuperWheat extends SuperResource {
         // 説明を設定
         LoreGenerator loreGenerator = new LoreGenerator();
         loreGenerator.addInfoLore("This is a super wheat!");
-        loreGenerator.addInfoLore("This is made by " + this.name);
         loreGenerator.addParametersLore("Px", this.x);
         loreGenerator.addParametersLore("Py", this.y);
         loreGenerator.addParametersLore("Pz", this.z);

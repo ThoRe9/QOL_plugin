@@ -48,6 +48,7 @@ public final class QOL extends JavaPlugin {
         getServer().getPluginManager().registerEvents(superCraft, this);
         getServer().getPluginManager().registerEvents(maturation, this);
         getServer().getPluginManager().registerEvents(distillation, this);
+        getServer().getPluginManager().registerEvents(superResource, this);
 
         registerRecipes(superCraft);
         registerMaturationRecipes(maturation);

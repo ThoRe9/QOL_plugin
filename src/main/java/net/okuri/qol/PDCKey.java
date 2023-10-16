@@ -38,8 +38,8 @@ public enum PDCKey {
     // DIVLINE: パラメータ計算用(4)
     SODA_STRENGTH("soda_strength", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
     // SODA_STRENGTH: ソーダの強さを記憶する
-    NAME("name", PersistentDataType.STRING, PDCKey.ApplyType.ITEM),
-    // NAME: 生産者の名前を記憶する
+    PRODUCER("producer", PersistentDataType.STRING, PDCKey.ApplyType.ITEM),
+    // producer: 1次産業での生産者の名前を記憶する
     TEMP("temp", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
     // TEMP: 生産地の気温を記憶する
     HUMID("humid", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
