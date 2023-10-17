@@ -1,4 +1,4 @@
-package net.okuri.qol.superItems.drinks;
+package net.okuri.qol.superItems.drinks.whisky;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;

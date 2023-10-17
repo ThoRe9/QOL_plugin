@@ -6,6 +6,7 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
+import net.okuri.qol.superItems.resources.Rice;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

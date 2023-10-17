@@ -1,4 +1,4 @@
-package net.okuri.qol.superItems.drinks;
+package net.okuri.qol.superItems.drinks.whisky;
 
 import org.bukkit.inventory.ItemStack;
 

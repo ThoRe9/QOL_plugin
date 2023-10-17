@@ -1,26 +1,18 @@
-package net.okuri.qol.superItems.drinks;
+package net.okuri.qol.superItems.drinks.ingredients;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.distillation.Distillable;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
-import net.okuri.qol.superItems.SuperCoal;
 import net.okuri.qol.superItems.SuperItem;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.SuperWheat;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
-
-import java.util.Objects;
 
 // WhiskyIngredientは、Whiskyの材料となるアイテムです。これをMaturingBarrelに入れることで、Whiskyを作ることができます。
 public class WhiskyIngredient implements SuperCraftable, Distillable {

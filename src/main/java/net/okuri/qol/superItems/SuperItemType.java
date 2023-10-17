@@ -1,8 +1,14 @@
 package net.okuri.qol.superItems;
 
 
-import net.okuri.qol.superItems.drinks.*;
+import net.okuri.qol.superItems.drinks.Soda;
+import net.okuri.qol.superItems.drinks.ingredients.BeerIngredient;
+import net.okuri.qol.superItems.drinks.ingredients.SakeIngredient;
+import net.okuri.qol.superItems.drinks.ingredients.WhiskyIngredient;
+import net.okuri.qol.superItems.drinks.sake.*;
+import net.okuri.qol.superItems.drinks.whisky.*;
 import net.okuri.qol.superItems.foods.Bread;
+import net.okuri.qol.superItems.resources.*;
 import net.okuri.qol.superItems.tools.EnvGetter;
 
 public enum SuperItemType {

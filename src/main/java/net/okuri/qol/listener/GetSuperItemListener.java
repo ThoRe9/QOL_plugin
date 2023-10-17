@@ -1,7 +1,7 @@
 package net.okuri.qol.listener;
 
 import net.okuri.qol.ChatGenerator;
-import net.okuri.qol.superItems.SuperResource;
+import net.okuri.qol.superItems.resources.SuperResource;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Biome;

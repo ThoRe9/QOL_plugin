@@ -1,10 +1,12 @@
-package net.okuri.qol.superItems;
+package net.okuri.qol.superItems.resources;
 
 import net.kyori.adventure.text.Component;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.qolCraft.calcuration.CirculeDistribution;
 import net.okuri.qol.qolCraft.calcuration.RandFromXYZ;
+import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

@@ -1,10 +1,10 @@
-package net.okuri.qol.superItems.drinks;
+package net.okuri.qol.superItems.drinks.ingredients;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
-import net.okuri.qol.PDCKey;
 import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.Koji;
 import net.okuri.qol.superItems.PolishedRice;

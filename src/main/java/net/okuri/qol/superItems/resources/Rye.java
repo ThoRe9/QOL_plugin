@@ -1,5 +1,6 @@
-package net.okuri.qol.superItems;
+package net.okuri.qol.superItems.resources;
 
+import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.inventory.ItemStack;
 
 public class Rye extends SuperWheat {

@@ -1,4 +1,4 @@
-package net.okuri.qol.superItems.drinks;
+package net.okuri.qol.superItems.drinks.sake;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -8,7 +8,7 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.distillation.Distillable;
 import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.Bukkit;
+import net.okuri.qol.superItems.drinks.ingredients.SakeIngredient;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;

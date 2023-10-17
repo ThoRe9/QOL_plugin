@@ -1,7 +1,7 @@
 package net.okuri.qol;
 
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.SuperResource;
+import net.okuri.qol.superItems.resources.SuperResource;
 import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

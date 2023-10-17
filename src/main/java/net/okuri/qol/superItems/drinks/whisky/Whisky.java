@@ -1,4 +1,4 @@
-package net.okuri.qol.superItems.drinks;
+package net.okuri.qol.superItems.drinks.whisky;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
 
 import java.time.Duration;
 import java.time.LocalDateTime;

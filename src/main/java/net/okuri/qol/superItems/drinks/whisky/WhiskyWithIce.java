@@ -1,10 +1,8 @@
-package net.okuri.qol.superItems.drinks;
+package net.okuri.qol.superItems.drinks.whisky;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
-import net.okuri.qol.Alcohol;
 import net.okuri.qol.LoreGenerator;
-
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
@@ -14,7 +12,6 @@ import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.persistence.PersistentDataType;
 
 public class WhiskyWithIce implements SuperCraftable {
     private ItemStack whisky = null;

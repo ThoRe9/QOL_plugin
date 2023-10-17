@@ -1,4 +1,4 @@
-package net.okuri.qol.superItems.drinks;
+package net.okuri.qol.superItems.drinks.sake;
 
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
@@ -6,6 +6,7 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.maturation.Maturable;
 import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.drinks.ingredients.SakeIngredient;
 import org.bukkit.Color;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
