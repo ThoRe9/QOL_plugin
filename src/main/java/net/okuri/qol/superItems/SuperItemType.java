@@ -2,12 +2,8 @@ package net.okuri.qol.superItems;
 
 
 import net.okuri.qol.superItems.drinks.*;
-import net.okuri.qol.superItems.drinks.AleBeer;
-import net.okuri.qol.superItems.drinks.LagerBeer;
-import net.okuri.qol.superItems.drinks.Whisky;
 import net.okuri.qol.superItems.foods.Bread;
 import net.okuri.qol.superItems.tools.EnvGetter;
-import org.bukkit.Material;
 
 public enum SuperItemType {
     COAL("COAL", 0),
@@ -57,7 +53,7 @@ public enum SuperItemType {
     public static SuperItem getSuperItemClass(SuperItemType type) {
         switch (type) {
             case COAL:
-                return new SuperCoal(Material.COAL, Material.COAL_ORE, SuperItemType.COAL, 3);
+                return new SuperCoal();
             case WHEAT:
                 return new Wheat();
             case RYE:

@@ -17,12 +17,8 @@ import java.util.ArrayList;
 public class SuperCoal extends SuperResource {
     private final ItemStack itemStack = new ItemStack(Material.COAL, 1);
 
-    public SuperCoal(Component name, String info, Material material, Material blockMaterial, SuperItemType superItemType, int probability) {
-        super(name, info, material, blockMaterial, superItemType, probability);
-    }
-
-    public SuperCoal(Material material, Material blockMaterial, SuperItemType type, int per){
-        super(material, blockMaterial, type, per);
+    public SuperCoal() {
+        super(Component.text("Super Coal").color(NamedTextColor.GREEN), "This is a coal!", Material.COAL, Material.COAL_ORE, SuperItemType.COAL, 3);
     }
 
     public ItemStack getSuperItem() {

@@ -25,8 +25,10 @@ public class SuperWheat extends SuperResource {
             this.superItemType = SuperItemType.WHEAT;
         }
     }
-    public SuperWheat(Material material, Material blockMaterial, SuperItemType type, int per){
-        super(material, blockMaterial, type, per);
+
+    public SuperWheat() {
+
+        super(Material.WHEAT, Material.WHEAT, SuperItemType.WHEAT, 3);
     }
 
     @Override
@@ -40,14 +42,21 @@ public class SuperWheat extends SuperResource {
         this.quality = quality;
         this.producer = producer;
 
-        CirculeDistribution cd = new CirculeDistribution();
-        cd.setVariable(base + biomeId, biomeId, 1, 3);
-        cd.calcuration();
-        this.x = cd.getAns().get(0) * quality;
-        this.y = cd.getAns().get(1) * quality;
-        this.z = cd.getAns().get(2) * quality;
+        // パラメータ計算
+        RandFromXYZ rand = new RandFromXYZ();
+        rand.setVariable(this.Px, this.Py, this.Pz, this.biomeId, 0.05);
+        rand.calcuration();
+        ArrayList<Double> correction = rand.getAns();
+        CirculeDistribution calc = new CirculeDistribution();
+        calc.setVariable(this.temp + 0.75, 0.5, 1, 3);
+        calc.setCorrection(correction);
+        calc.calcuration();
+        ArrayList<Double> ans = calc.getAns();
+        this.x = ans.get(0);
+        this.y = ans.get(1);
+        this.z = ans.get(2);
 
-        this.rarity = SuperItem.getRarity(this.Px, this.Py, this.Pz);
+        this.rarity = SuperItem.getRarity(this.x, this.y, this.z);
         if (temp <= 0) {
             this.superItemType = SuperItemType.RYE;
         } else if (temp <= 0.70) {
@@ -62,21 +71,6 @@ public class SuperWheat extends SuperResource {
     }
 
     public ItemStack getSuperItem() {
-        // パラメータ計算
-        RandFromXYZ rand = new RandFromXYZ();
-        rand.setVariable(this.Px, this.Py, this.Pz, this.biomeId, 0.05);
-        rand.calcuration();
-        ArrayList<Double> correction = rand.getAns();
-        CirculeDistribution calc = new CirculeDistribution();
-        calc.setVariable(this.temp + 0.75, 0.5, 1, 3);
-        calc.setCorrection(correction);
-        calc.calcuration();
-        ArrayList<Double> ans = calc.getAns();
-        this.x = ans.get(0);
-        this.y = ans.get(1);
-        this.z = ans.get(2);
-        this.rarity = SuperItem.getRarity(x, y, z);
-
         // PersistentDataContainer にデータを保存
         ItemMeta meta = wheat.getItemMeta();
 

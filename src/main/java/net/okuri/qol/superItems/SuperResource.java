@@ -4,10 +4,13 @@ import net.kyori.adventure.text.Component;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.qolCraft.calcuration.CirculeDistribution;
+import net.okuri.qol.qolCraft.calcuration.RandFromXYZ;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.ArrayList;
 
 public abstract class SuperResource implements SuperItem {
     // SuperResource の設定方法
@@ -65,12 +68,19 @@ public abstract class SuperResource implements SuperItem {
         this.quality = quality;
         this.producer = producer;
 
-        CirculeDistribution cd = new CirculeDistribution();
-        cd.setVariable(base + biomeId, biomeId, 1, 3);
-        cd.calcuration();
-        this.x = cd.getAns().get(0) * quality;
-        this.y = cd.getAns().get(1) * quality;
-        this.z = cd.getAns().get(2) * quality;
+        // パラメータ計算 (SuperWheatのものを拝借)
+        RandFromXYZ rand = new RandFromXYZ();
+        rand.setVariable(this.Px, this.Py, this.Pz, this.biomeId, 0.05);
+        rand.calcuration();
+        ArrayList<Double> correction = rand.getAns();
+        CirculeDistribution calc = new CirculeDistribution();
+        calc.setVariable(this.temp + 0.75, 0.5, 1, 3);
+        calc.setCorrection(correction);
+        calc.calcuration();
+        ArrayList<Double> ans = calc.getAns();
+        this.x = ans.get(0);
+        this.y = ans.get(1);
+        this.z = ans.get(2);
 
         this.rarity = SuperItem.getRarity(this.x, this.y, this.z);
     }
@@ -99,7 +109,7 @@ public abstract class SuperResource implements SuperItem {
 
     @Override
     public ItemStack getDebugItem(int... args) {
-        this.setResVariables(90, 0, 0, 0.5, 0.5, 10, 1.0, (Player) org.bukkit.Bukkit.getOfflinePlayer("okuri0131"));
+        this.setResVariables(90, 90, 90, 0.5, 0.5, 10, 1.0, (Player) org.bukkit.Bukkit.getOfflinePlayer("okuri0131"));
         return this.getSuperItem();
     }
 

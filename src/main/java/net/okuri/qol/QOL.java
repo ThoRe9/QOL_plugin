@@ -339,11 +339,11 @@ public final class QOL extends JavaPlugin {
         // ここにSuperResourceを登録していく
 
         // SuperWheat
-        SuperWheat superWheat = new SuperWheat(Material.WHEAT, Material.WHEAT, SuperItemType.WHEAT, 3);
+        SuperWheat superWheat = new SuperWheat();
         superResource.addResource(superWheat);
 
         // SuperCoal
-        SuperCoal superCoal = new SuperCoal(Component.text("Super Coal").color(NamedTextColor.RED), "Super Coal!!", Material.COAL, Material.COAL_ORE, SuperItemType.COAL, 3);
+        SuperCoal superCoal = new SuperCoal();
         superResource.addResource(superCoal);
 
         // SuperPotato
