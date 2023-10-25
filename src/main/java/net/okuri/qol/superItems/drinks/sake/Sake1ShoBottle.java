@@ -1,15 +1,12 @@
 package net.okuri.qol.superItems.drinks.sake;
 
 import net.okuri.qol.LoreGenerator;
-import net.okuri.qol.PDCC;
-import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.maturation.Maturable;
 import net.okuri.qol.qolCraft.superCraft.Distributable;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.drinks.ingredients.SakeIngredient;
 import org.bukkit.Color;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 
 import java.time.Duration;
@@ -18,38 +15,40 @@ import java.util.ArrayList;
 
 public class Sake1ShoBottle extends Sake implements Maturable, Distributable {
     public Sake1ShoBottle() {
-        super.type = SuperItemType.SAKE_1SHO;
+        super(SuperItemType.SAKE_1SHO);
         this.maxAmount = 1800.0;
     }
 
-    public Sake1ShoBottle(ItemStack item) {
-        super.type = SuperItemType.SAKE_1SHO;
-        ItemMeta meta = item.getItemMeta();
-        if (PDCC.has(meta, PDCKey.TYPE)) {
-            if (PDCC.get(meta, PDCKey.TYPE) == super.type.toString()) {
-                super.initialize(item);
-                return;
-            }
+    public Sake1ShoBottle(SuperItemStack stack) {
+        super(SuperItemType.SAKE_1SHO, stack);
+        // superItemType で得られるclassがSake1ShoBottleを継承していない場合はエラーを吐く
+        initialize(stack);
+    }
+
+    public Sake1ShoBottle(SuperItemType superItemType) {
+        super(superItemType);
+        // superItemType で得られるclassがSake1ShoBottleを継承していない場合はエラーを吐く
+        if (!Sake1ShoBottle.class.isAssignableFrom(SuperItemType.getSuperItemClass(superItemType).getClass())) {
+            throw new IllegalArgumentException("superItemType must be Sake1ShoBottle or its subclass");
         }
-        throw new IllegalArgumentException("This item is not Sake1ShoBottle");
     }
 
 
+
     @Override
-    public void setMaturationVariable(ArrayList<ItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {
+    public void setMaturationVariable(ArrayList<SuperItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {
         super.ingredient = ingredients.get(0);
         Duration dur = Duration.between(start, end);
         super.days = dur.toDays();
         super.temp = temp;
         super.humid = humid;
-        super.type = SuperItemType.SAKE_1SHO;
         initialize();
     }
 
     @Override
-    public ItemStack getSuperItem() {
+    public SuperItemStack getSuperItem() {
 
-        ItemStack result = super.getSuperItem();
+        SuperItemStack result = super.getSuperItem();
         PotionMeta meta = (PotionMeta) result.getItemMeta();
         meta.setColor(Color.WHITE);
 
@@ -71,7 +70,7 @@ public class Sake1ShoBottle extends Sake implements Maturable, Distributable {
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         super.ingredient = new SakeIngredient().getDebugItem(args);
         super.days = 1.0;
         super.temp = 0.0;
@@ -81,8 +80,8 @@ public class Sake1ShoBottle extends Sake implements Maturable, Distributable {
     }
 
     @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
-        ItemStack item = matrix[0];
+    public void setMatrix(SuperItemStack[] matrix, String id) {
+        SuperItemStack item = matrix[0];
         initialize(item);
     }
 
@@ -101,8 +100,4 @@ public class Sake1ShoBottle extends Sake implements Maturable, Distributable {
         super.setting();
     }
 
-    @Override
-    public SuperItemType getType() {
-        return this.type;
-    }
 }

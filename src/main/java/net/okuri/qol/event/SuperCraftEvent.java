@@ -19,12 +19,12 @@ public class SuperCraftEvent extends CraftItemEvent {
     }
 
     @Override
-    public SuperRecipe getRecipe() {
+    public @NotNull SuperRecipe getRecipe() {
         return recipe;
     }
 
     @Override
-    public HandlerList getHandlers() {
+    public @NotNull HandlerList getHandlers() {
         return HANDLERS;
     }
 

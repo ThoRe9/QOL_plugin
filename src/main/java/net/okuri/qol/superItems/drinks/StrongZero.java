@@ -4,36 +4,41 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
+import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class StrongZero implements SuperCraftable {
-    private ItemStack[] matrix = null;
-    private ItemStack rice = null;
-    private ItemStack soda = null;
+public class StrongZero extends SuperItem implements SuperCraftable {
+    private SuperItemStack[] matrix = null;
+    private SuperItemStack rice = null;
+    private SuperItemStack soda = null;
     public static NamespacedKey st0key = new NamespacedKey("qol", "strongzero");
     private final double alcPer = 0.09;
     private final double alcAmount = 300.0;
 
+    public StrongZero() {
+        super(Material.POTION);
+    }
+
     @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
+    public void setMatrix(SuperItemStack[] matrix, String id) {
         this.matrix = matrix;
         setting(matrix[4], matrix[7]);
     }
 
-    private void setting(ItemStack rice, ItemStack soda) {
+    private void setting(SuperItemStack rice, SuperItemStack soda) {
         this.rice = rice;
         this.soda = soda;
     }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack strongZero = new ItemStack(Material.POTION, 1);
+    public SuperItemStack getSuperItem() {
+        SuperItemStack strongZero = new SuperItemStack(Material.POTION, 1);
         PotionMeta meta = (PotionMeta) strongZero.getItemMeta();
         meta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 1000, 1), true);
         meta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 1000, 1), true);
@@ -54,7 +59,7 @@ public class StrongZero implements SuperCraftable {
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         return getSuperItem();
     }
 }

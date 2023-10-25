@@ -7,8 +7,8 @@ import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.qolCraft.superCraft.DistributionReceiver;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
 import java.util.Objects;
@@ -16,8 +16,19 @@ import java.util.Objects;
 public class SakeBottle extends Sake implements DistributionReceiver, Distributable {
 
     public SakeBottle() {
+        super(SuperItemType.SAKE_1GO);
         super.amount = 170.0;
-        super.type = SuperItemType.SAKE_1GO;
+    }
+
+    public SakeBottle(SuperItemType type, SuperItemStack stack) {
+        super(type, stack);
+        // superItemType で得られるclassがSakeBottleを継承していない場合はエラーを吐く
+        initialize(stack);
+    }
+
+    public SakeBottle(SuperItemType superItemType) {
+        super(superItemType);
+        // superItemType で得られるclassがSakeBotleを継承していない場合はエラーを吐く
     }
 
     @Override
@@ -31,8 +42,8 @@ public class SakeBottle extends Sake implements DistributionReceiver, Distributa
     }
 
     @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
-        ItemStack bigBottle = matrix[0];
+    public void setMatrix(SuperItemStack[] matrix, String id) {
+        SuperItemStack bigBottle = matrix[0];
         super.initialize(bigBottle);
         if (Objects.equals(id, "sake_1go")){
             super.amount = 170.0;
@@ -41,8 +52,8 @@ public class SakeBottle extends Sake implements DistributionReceiver, Distributa
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
-        ItemStack bigBottle = new Sake1ShoBottle().getDebugItem(args);
+    public SuperItemStack getDebugItem(int... args) {
+        SuperItemStack bigBottle = new Sake1ShoBottle().getDebugItem(args);
         super.initialize(bigBottle);
         super.amount = 170.0;
         super.setting();
@@ -50,8 +61,8 @@ public class SakeBottle extends Sake implements DistributionReceiver, Distributa
     }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack result = super.getSuperItem();
+    public SuperItemStack getSuperItem() {
+        SuperItemStack result = super.getSuperItem();
         PotionMeta meta = (PotionMeta) result.getItemMeta();
         meta.displayName(Component.text("徳利").color(NamedTextColor.GOLD));
         PDCC.set(meta, PDCKey.CONSUMABLE, true);
@@ -87,10 +98,5 @@ public class SakeBottle extends Sake implements DistributionReceiver, Distributa
         double decline = smallBottleAmount * smallBottleCounts;
         super.amount = amount - decline;
         super.setting();
-    }
-
-    @Override
-    public SuperItemType getType() {
-        return this.type;
     }
 }

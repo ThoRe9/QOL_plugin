@@ -9,6 +9,7 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.ProtectedBlock;
 import net.okuri.qol.event.MaturationEndEvent;
 import net.okuri.qol.event.MaturationPrepareEvent;
+import net.okuri.qol.superItems.SuperItem;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -25,7 +26,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -88,7 +88,14 @@ public class Maturation implements Listener {
                 Barrel barrel = (Barrel) sign.getBlock().getRelative(((Directional) sign.getBlockData()).getFacing().getOppositeFace()).getState();
                 Maturable result = getRecipe(barrel).getResultClass();
                 ArrayList<ItemStack> ingredients = new ArrayList<>();
-                Collections.addAll(ingredients, barrel.getInventory().getContents());
+                // 空欄のアイテムを除いてingredientsに追加する
+                for (ItemStack itemStack : barrel.getInventory().getContents()) {
+                    if (itemStack != null) {
+                        if (itemStack.getType() != Material.AIR) {
+                            ingredients.add(itemStack);
+                        }
+                    }
+                }
                 LocalDateTime start = LocalDateTime.parse(lines[2]);
                 LocalDateTime end = LocalDateTime.now();
                 double temp = barrel.getWorld().getTemperature(barrel.getX(), barrel.getY(), barrel.getZ());
@@ -113,7 +120,7 @@ public class Maturation implements Listener {
         // 樽の中身にresultを入れる
         Inventory barrelInventory = event.getBarrel().getSnapshotInventory();
         barrelInventory.clear();
-        barrelInventory.addItem(result.getSuperItem());
+        barrelInventory.addItem(((SuperItem) result).getSuperItem());
         sign.update();
         // 樽、看板の保護を解除
         ProtectedBlock.setProtectedBlock(sign, false);

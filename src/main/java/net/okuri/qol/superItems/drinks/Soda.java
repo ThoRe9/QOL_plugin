@@ -6,36 +6,39 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
+import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
-public class Soda implements SuperCraftable {
+public class Soda extends SuperItem implements SuperCraftable {
     private double strength = 1.0;
     private final SuperItemType superItemType = SuperItemType.SODA;
-    @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
-        // settingにmatrixの0~2をわたす
-        setting(new ItemStack[]{matrix[0], matrix[1], matrix[2]});
+    public Soda(){
+        super(SuperItemType.SODA);
     }
-    private void setting(ItemStack[] coals) {
+
+    @Override
+    public void setMatrix(SuperItemStack[] matrix, String id) {
+        // settingにmatrixの0~2をわたす
+        setting(new SuperItemStack[]{matrix[0], matrix[1], matrix[2]});
+    }
+
+    private void setting(SuperItemStack[] coals) {
         // coalのrarity * qualityの平均値をstrengthにする
         double sum = 0;
-        for (ItemStack coal : coals) {
+        for (SuperItemStack coal : coals) {
             double r = PDCC.get(coal.getItemMeta(), PDCKey.X);
             double q = PDCC.get(coal.getItemMeta(), PDCKey.QUALITY);
             sum += (1+ r) * q;
         }
         this.strength = sum / coals.length;
     }
-    public Soda(){
-    }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack soda = new ItemStack(Material.POTION, 3);
+    public SuperItemStack getSuperItem() {
+        SuperItemStack soda = new SuperItemStack(this.getSuperItemType());
         PotionMeta meta = (PotionMeta)soda.getItemMeta();
         // strength, SuperItemTypeをPersistentDataContainerに保存
         PDCC.set(meta,PDCKey.SODA_STRENGTH, strength);
@@ -53,7 +56,7 @@ public class Soda implements SuperCraftable {
         return soda;
     }
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         this.strength = 1.0;
         return getSuperItem();
     }

@@ -6,18 +6,17 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
+import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 
-public class Highball implements SuperCraftable {
-    private ItemStack whisky = null;
-    private final SuperItemType superItemType = SuperItemType.HIGHBALL;
-    private ItemStack[] matrix = null;
+public class Highball extends SuperItem implements SuperCraftable {
+    private SuperItemStack whisky = null;
+    private SuperItemStack[] matrix = null;
     private double strength = 1.0;
     private double x;
     private double y;
@@ -31,14 +30,37 @@ public class Highball implements SuperCraftable {
     private double alcoholPer = 0.0;
     private final double alcoholAmount = 150.0;
 
+    public Highball() {
+        super(SuperItemType.HIGHBALL);
+    }
+
+    public Highball(SuperItemStack highball) {
+        super(SuperItemType.HIGHBALL);
+        if (!(highball.getSuperItemType() == SuperItemType.HIGHBALL)) {
+            throw new IllegalArgumentException("HighballのコンストラクタにはSuperItemType.HIGHBALLを渡してください");
+        }
+        ItemMeta meta = highball.getItemMeta();
+        this.x = PDCC.get(meta, PDCKey.X);
+        this.y = PDCC.get(meta, PDCKey.Y);
+        this.z = PDCC.get(meta, PDCKey.Z);
+        this.divline = PDCC.get(meta, PDCKey.DIVLINE);
+        this.quality = PDCC.get(meta, PDCKey.QUALITY);
+        this.rarity = PDCC.get(meta, PDCKey.RARITY);
+        this.temp = PDCC.get(meta, PDCKey.TEMP);
+        this.humid = PDCC.get(meta, PDCKey.HUMID);
+        this.maturation = PDCC.get(meta, PDCKey.MATURATION);
+        this.strength = PDCC.get(meta, PDCKey.SODA_STRENGTH);
+        this.alcoholPer = PDCC.get(meta, PDCKey.ALCOHOL_PERCENTAGE);
+
+    }
     @Override
-    public ItemStack getSuperItem() {
+    public SuperItemStack getSuperItem() {
         // HighballはWhiskyのFAST_DIGGING, SPEED, NIGHT_VISIONのdurationにstrengthをかけた効果を持つ
-        ItemStack highball = new ItemStack(Material.POTION, 3);
+        SuperItemStack highball = new SuperItemStack(SuperItemType.HIGHBALL, 3);
         PotionMeta meta = (PotionMeta) highball.getItemMeta();
         PotionMeta whiskyMeta = (PotionMeta) this.whisky.getItemMeta();
-        meta.setCustomModelData(this.superItemType.getCustomModelData());
-        PDCC.setLiquor(meta, this.superItemType, this.alcoholAmount, this.alcoholPer, this.x, this.y, this.z, this.divline, this.quality, this.rarity, this.temp, this.humid, this.maturation);
+        meta.setCustomModelData(this.getSuperItemType().getCustomModelData());
+        PDCC.setLiquor(meta, this.alcoholAmount, this.alcoholPer, this.x, this.y, this.z, this.divline, this.quality, this.rarity, this.temp, this.humid, this.maturation);
         for (PotionEffect effect : whiskyMeta.getCustomEffects()) {
             PotionEffect newEffect = new PotionEffect(effect.getType(), (int) Math.round(effect.getDuration() * this.strength), effect.getAmplifier(), effect.isAmbient(), effect.hasParticles(), effect.hasIcon());
             meta.addCustomEffect(newEffect, true);
@@ -60,8 +82,8 @@ public class Highball implements SuperCraftable {
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
-        ItemStack whisky = new Whisky().getDebugItem();
+    public SuperItemStack getDebugItem(int... args) {
+        SuperItemStack whisky = new Whisky().getDebugItem();
         this.whisky = whisky;
         this.strength = 1.0;
         this.alcoholPer = 0.1;
@@ -77,29 +99,19 @@ public class Highball implements SuperCraftable {
         return getSuperItem();
     }
 
-    public Highball(ItemStack[] matrix) {
-        this.matrix = matrix;
-        // 4にはwhisky 6,7,8にはsodaがある
-        setting(matrix[4], new ItemStack[]{matrix[6], matrix[7], matrix[8]});
-    }
-
-    public Highball() {
-
-    }
-
     @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
+    public void setMatrix(SuperItemStack[] matrix, String id) {
         this.matrix = matrix;
         // 4にはwhisky 6,7,8にはsodaがある
-        setting(matrix[4], new ItemStack[]{matrix[6], matrix[7], matrix[8]});
+        setting(matrix[4], new SuperItemStack[]{matrix[6], matrix[7], matrix[8]});
     }
 
-    private void setting(ItemStack whisky, ItemStack[] sodas) {
+    private void setting(SuperItemStack whisky, SuperItemStack[] sodas) {
         this.whisky = whisky;
         ItemMeta whiskyMeta = whisky.getItemMeta();
         // sodaのstrengthの平均値をstrengthにする
         double sum = 0.0;
-        for (ItemStack soda : sodas) {
+        for (SuperItemStack soda : sodas) {
             sum += (double) PDCC.get(soda, PDCKey.SODA_STRENGTH);
         }
         this.strength = (sum / 3.0);

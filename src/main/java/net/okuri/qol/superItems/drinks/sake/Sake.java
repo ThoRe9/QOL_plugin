@@ -6,20 +6,17 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public abstract class Sake implements SuperItem {
-
-    protected SuperItemType type;
+public abstract class Sake extends SuperItem {
     protected int count = 1;
-    protected ItemStack ingredient;
+    protected SuperItemStack ingredient;
     protected double ricePolishingRatio = 1.0;
     protected double days;
     protected int resistanceAmp;
@@ -49,9 +46,26 @@ public abstract class Sake implements SuperItem {
     protected double sumDuration;
     protected SuperItemType ingredientType;
 
+    public Sake(SuperItemType type, SuperItemStack stack) {
+        super(type, stack);
+        // superItemType で得られるclassがSakeを継承していない場合はエラーを吐く
+        if (!Sake.class.isAssignableFrom(SuperItemType.getSuperItemClass(stack.getSuperItemType()).getClass())) {
+            throw new IllegalArgumentException("superItemType must be Sake or its subclass");
+        }
+        initialize(stack);
+    }
+
+    public Sake(SuperItemType superItemType) {
+        super(superItemType);
+        // superItemType で得られるclassがSakeを継承していない場合はエラーを吐く
+    }
+
+    public Sake() {
+        super(SuperItemType.SAKE_1GO);
+    }
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack result = new ItemStack(Material.POTION, this.count);
+    public SuperItemStack getSuperItem() {
+        SuperItemStack result = new SuperItemStack(this.getSuperItemType(), this.count);
         PotionMeta meta = (PotionMeta) result.getItemMeta();
         meta.setColor(Color.WHITE);
 
@@ -65,7 +79,7 @@ public abstract class Sake implements SuperItem {
             meta.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, this.regenDuration, this.regenAmp), true);
         }
 
-        PDCC.setSuperItem(meta, this.type, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
+        PDCC.setSuperItem(meta, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
         PDCC.set(meta, PDCKey.TASTE_RICHNESS, this.tasteRichness);
         PDCC.set(meta, PDCKey.SMELL_RICHNESS, this.smellRichness);
         PDCC.set(meta, PDCKey.COMPATIBILITY, this.compatibility);
@@ -84,7 +98,6 @@ public abstract class Sake implements SuperItem {
 
 
         meta.displayName(Component.text(this.sakeType.kanji + AlcType.getStringType(this.alcPer, this.tasteRichness) + "Sake").color(NamedTextColor.GOLD));
-        meta.setCustomModelData(this.type.getCustomModelData());
 
         LoreGenerator lore = new LoreGenerator();
         lore.addInfoLore("JAPANESE Sake!!");
@@ -103,7 +116,7 @@ public abstract class Sake implements SuperItem {
         return result;
     }
 
-    protected void initialize(ItemStack item) {
+    protected void initialize(SuperItemStack item) {
         ItemMeta meta = item.getItemMeta();
         this.ricePolishingRatio = PDCC.get(meta, PDCKey.RICE_POLISHING_RATIO);
         this.tasteRichness = PDCC.get(meta, PDCKey.TASTE_RICHNESS);
@@ -133,7 +146,7 @@ public abstract class Sake implements SuperItem {
     }
 
     protected void initialize() {
-        ItemStack item = this.ingredient;
+        SuperItemStack item = this.ingredient;
         PotionMeta meta = (PotionMeta) item.getItemMeta();
         this.x = PDCC.get(meta, PDCKey.X);
         this.y = PDCC.get(meta, PDCKey.Y);

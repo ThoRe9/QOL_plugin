@@ -7,13 +7,12 @@ import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.resources.Rice;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Objects;
 
-public class PolishedRice implements SuperCraftable {
+public class PolishedRice extends SuperItem implements SuperCraftable {
     private ItemStack polishedRice;
     private ItemStack rice;
     private final SuperItemType type = SuperItemType.POLISHED_RICE;
@@ -27,10 +26,12 @@ public class PolishedRice implements SuperCraftable {
     private double humid = 0;
 
     public PolishedRice() {
+        super(SuperItemType.POLISHED_RICE);
         setting();
     }
 
-    public PolishedRice(ItemStack polishedRice) {
+    public PolishedRice(SuperItemStack polishedRice) {
+        super(SuperItemType.POLISHED_RICE, polishedRice);
         // typeがPolishedRiceやRiceじゃないならエラーを吐く
         SuperItemType type = SuperItemType.valueOf(PDCC.get(polishedRice.getItemMeta(), PDCKey.TYPE));
         if (type == SuperItemType.RICE) {
@@ -44,8 +45,8 @@ public class PolishedRice implements SuperCraftable {
     }
 
     @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
-        ItemStack rice = matrix[0];
+    public void setMatrix(SuperItemStack[] matrix, String id) {
+        SuperItemStack rice = matrix[0];
         SuperItemType type = SuperItemType.valueOf(PDCC.get(rice.getItemMeta(), PDCKey.TYPE));
         if (Objects.equals(id, "polished_rice2")) {
             this.rice = rice;
@@ -62,10 +63,10 @@ public class PolishedRice implements SuperCraftable {
     }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack result = new ItemStack(Material.PUMPKIN_SEEDS);
+    public SuperItemStack getSuperItem() {
+        SuperItemStack result = new SuperItemStack(this.getSuperItemType());
         ItemMeta meta = result.getItemMeta();
-        PDCC.setSuperItem(meta, this.type, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
+        PDCC.setSuperItem(meta, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
         PDCC.set(meta, PDCKey.RICE_POLISHING_RATIO, this.ricePolishingRatio);
 
         meta.displayName(Component.text("Polished Rice").color(NamedTextColor.GOLD));
@@ -81,7 +82,7 @@ public class PolishedRice implements SuperCraftable {
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         this.rice = new Rice().getDebugItem();
         this.polishedRice = null;
         setting();

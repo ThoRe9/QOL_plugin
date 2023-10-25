@@ -4,31 +4,31 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
-import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.calcuration.CirculeDistribution;
 import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
 public class SuperCoal extends SuperResource {
-    private final ItemStack itemStack = new ItemStack(Material.COAL, 1);
 
     public SuperCoal() {
         super(Component.text("Super Coal").color(NamedTextColor.GREEN), "This is a coal!", Material.COAL, Material.COAL_ORE, SuperItemType.COAL, 3);
     }
 
-    public ItemStack getSuperItem() {
+    @Override
+    public SuperItemStack getSuperItem() {
         this.calc();
+        SuperItemStack itemStack = new SuperItemStack(this.getSuperItemType());
         // PersistentDataContainer にデータを保存
         ItemMeta meta = itemStack.getItemMeta();
 
-        PDCC.setSuperItem(meta, this.superItemType, this.x, this.y, this.z, this.quality, this.rarity,  this.temp, this.humid );
+        PDCC.setSuperItem(meta, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
 
         //名前を変更
         Component display;
@@ -40,13 +40,12 @@ public class SuperCoal extends SuperResource {
         loreGenerator.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity, "JUST A COAL");
         meta.lore(loreGenerator.generateLore());
 
-        this.itemStack.setItemMeta(meta);
-        Bukkit.getLogger().info((String)PDCC.get(this.itemStack, PDCKey.TYPE));
-        return this.itemStack;
+        itemStack.setItemMeta(meta);
+        return itemStack;
 
     }
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         this.setResVariables(90, 0, 0, 0.5, 0.5, 0, 1.0, (Player) Bukkit.getOfflinePlayer("okuri0131"));
         return this.getSuperItem();
     }

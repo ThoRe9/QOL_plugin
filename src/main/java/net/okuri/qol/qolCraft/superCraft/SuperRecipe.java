@@ -1,10 +1,10 @@
 package net.okuri.qol.qolCraft.superCraft;
 
-import org.bukkit.inventory.ItemStack;
+import net.okuri.qol.superItems.SuperItemStack;
 import org.bukkit.inventory.Recipe;
 
 public interface SuperRecipe extends Recipe {
-    boolean checkSuperRecipe(ItemStack[] matrix);
+    boolean checkSuperRecipe(SuperItemStack[] matrix);
 
     String getId();
 }

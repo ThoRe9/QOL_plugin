@@ -6,16 +6,16 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
+import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class Bread implements SuperCraftable {
-    private ItemStack[] matrix = null;
-    private final ItemStack result = null;
+public class Bread extends SuperItem implements SuperCraftable {
+    private final SuperItemStack result = null;
+    private SuperItemStack[] matrix = null;
     private final SuperItemType superItemType = SuperItemType.BREAD;
     private double par = 0.0;
     private int foodLevel = 5;
@@ -25,18 +25,25 @@ public class Bread implements SuperCraftable {
     protected PDCKey wheatkey;
     public static NamespacedKey parkey = new NamespacedKey("qol", "bread_par");
 
+    public Bread(){
+        super(SuperItemType.BREAD);
+        this.display = Component.text("Bread").color(NamedTextColor.DARK_GREEN);
+        this.wheatkey = PDCKey.Y;
+    }
+
     @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
+    public void setMatrix(SuperItemStack[] matrix, String id) {
         this.matrix = matrix;
         // settingにmatrixの0~2をわたす
-        setting(new ItemStack[]{matrix[3], matrix[4], matrix[5]});
+        setting(new SuperItemStack[]{matrix[3], matrix[4], matrix[5]});
     }
-    private void setting(ItemStack[] wheats) {
+
+    private void setting(SuperItemStack[] wheats) {
         // wheatのyパラメータの平均値を引き継ぐ。
         this.foodLevel = 5;
         this.foodSaturation = 6.0f;
         double sum = 0;
-        for (ItemStack wheat : wheats) {
+        for (SuperItemStack wheat : wheats) {
             double p = PDCC.get(wheat, wheatkey);
             sum += p;
         }
@@ -44,14 +51,10 @@ public class Bread implements SuperCraftable {
         this.foodLevel = (int) Math.floor(this.foodLevel * (1 + this.par));
         this.foodSaturation = (float) (this.foodSaturation * (1 + this.par));
     }
-    public Bread(){
-        this.display = Component.text("Bread").color(NamedTextColor.DARK_GREEN);
-        this.wheatkey = PDCKey.Y;
-    }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack bread = new ItemStack(Material.BREAD, 1);
+    public SuperItemStack getSuperItem() {
+        SuperItemStack bread = new SuperItemStack(this.getSuperItemType(), 1);
         ItemMeta meta = bread.getItemMeta();
         meta.displayName(display);
         LoreGenerator lore = new LoreGenerator();
@@ -70,7 +73,7 @@ public class Bread implements SuperCraftable {
         return bread;
     }
     @Override
-    public ItemStack getDebugItem(int... args){
+    public SuperItemStack getDebugItem(int... args) {
         return getSuperItem();
     }
 }

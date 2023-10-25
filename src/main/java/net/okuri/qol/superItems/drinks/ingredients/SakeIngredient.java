@@ -6,24 +6,18 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
-import net.okuri.qol.superItems.Koji;
-import net.okuri.qol.superItems.PolishedRice;
-import net.okuri.qol.superItems.SuperItem;
-import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.*;
 import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-public class SakeIngredient implements SuperCraftable {
-    private final SuperItemType type = SuperItemType.SAKE_INGREDIENT;
-    private ItemStack koji;
-    private ItemStack rice;
-    private ItemStack barley;
-    private ItemStack potato;
+public class SakeIngredient extends SuperItem implements SuperCraftable {
+    private SuperItemStack koji;
+    private SuperItemStack rice;
+    private SuperItemStack barley;
+    private SuperItemStack potato;
     private double ricePolishingRatio;
     private final int maxDuration = 72000;
     private int resistanceAmp;
@@ -44,10 +38,30 @@ public class SakeIngredient implements SuperCraftable {
     private double humid;
     private SuperItemType ingredientType;
 
+    public SakeIngredient() {
+        super(SuperItemType.SAKE_INGREDIENT);
+    }
+
+    public SakeIngredient(SuperItemStack item) {
+        super(SuperItemType.SAKE_INGREDIENT, item);
+        this.x = PDCC.get(item.getItemMeta(), PDCKey.X);
+        this.y = PDCC.get(item.getItemMeta(), PDCKey.Y);
+        this.z = PDCC.get(item.getItemMeta(), PDCKey.Z);
+        this.smellRichness = PDCC.get(item.getItemMeta(), PDCKey.SMELL_RICHNESS);
+        this.tasteRichness = PDCC.get(item.getItemMeta(), PDCKey.TASTE_RICHNESS);
+        this.compatibility = PDCC.get(item.getItemMeta(), PDCKey.COMPATIBILITY);
+        this.quality = PDCC.get(item.getItemMeta(), PDCKey.QUALITY);
+        this.temp = PDCC.get(item.getItemMeta(), PDCKey.TEMP);
+        this.humid = PDCC.get(item.getItemMeta(), PDCKey.HUMID);
+        this.ricePolishingRatio = PDCC.get(item.getItemMeta(), PDCKey.RICE_POLISHING_RATIO);
+        this.ingredientType = SuperItemType.valueOf(PDCC.get(item.getItemMeta(), PDCKey.INGREDIENT_TYPE));
+
+    }
+
     @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
+    public void setMatrix(SuperItemStack[] matrix, String id) {
         this.koji = matrix[4];
-        ItemStack ingredient = matrix[1];
+        SuperItemStack ingredient = new SuperItemStack(matrix[1]);
         SuperItemType type = SuperItemType.valueOf(PDCC.get(ingredient.getItemMeta(), PDCKey.TYPE));
         if (type == SuperItemType.POLISHED_RICE) {
             this.rice = ingredient;
@@ -61,11 +75,11 @@ public class SakeIngredient implements SuperCraftable {
     }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack result = new ItemStack(Material.POTION);
+    public SuperItemStack getSuperItem() {
+        SuperItemStack result = new SuperItemStack(SuperItemType.SAKE_INGREDIENT);
         PotionMeta meta = (PotionMeta) result.getItemMeta();
 
-        PDCC.setSuperItem(meta, this.type, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
+        PDCC.setSuperItem(meta, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
         PDCC.set(meta, PDCKey.TASTE_RICHNESS, this.tasteRichness);
         PDCC.set(meta, PDCKey.SMELL_RICHNESS, this.smellRichness);
         PDCC.set(meta, PDCKey.COMPATIBILITY, this.compatibility);
@@ -91,13 +105,13 @@ public class SakeIngredient implements SuperCraftable {
             lore.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio, true);
         }
         meta.lore(lore.generateLore());
-        meta.setCustomModelData(this.type.getCustomModelData());
+        meta.setCustomModelData(super.getSuperItemType().getCustomModelData());
         result.setItemMeta(meta);
         return result;
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         this.koji = new Koji().getDebugItem(args);
         this.rice = new PolishedRice().getDebugItem(args);
         this.ingredientType = SuperItemType.POLISHED_RICE;

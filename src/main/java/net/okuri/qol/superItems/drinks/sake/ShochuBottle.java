@@ -7,14 +7,29 @@ import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.qolCraft.superCraft.DistributionReceiver;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
 public class ShochuBottle extends Shochu implements DistributionReceiver, Distributable {
     public ShochuBottle() {
+        super(SuperItemType.SHOCHU_1GO);
         super.amount = 170.0;
-        super.type = SuperItemType.SHOCHU_1GO;
+    }
+
+    public ShochuBottle(SuperItemStack stack) {
+        super(SuperItemType.SHOCHU_1GO, stack);
+        // superItemType で得られるclassがShochuBottleを継承していない場合はエラーを吐く
+
+        initialize(stack);
+    }
+
+    public ShochuBottle(SuperItemType superItemType) {
+        super(superItemType);
+        // superItemType で得られるclassがShochuBottleを継承していない場合はエラーを吐く
+        if (!ShochuBottle.class.isAssignableFrom(SuperItemType.getSuperItemClass(superItemType).getClass())) {
+            throw new IllegalArgumentException("superItemType must be ShochuBottle or its subclass");
+        }
     }
 
     @Override
@@ -28,8 +43,8 @@ public class ShochuBottle extends Shochu implements DistributionReceiver, Distri
     }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack result = super.getSuperItem();
+    public SuperItemStack getSuperItem() {
+        SuperItemStack result = super.getSuperItem();
         result.setAmount(super.count);
         PotionMeta meta = (PotionMeta) result.getItemMeta();
         meta.displayName(Component.text("徳利(焼酎)").color(NamedTextColor.GOLD));
@@ -51,8 +66,8 @@ public class ShochuBottle extends Shochu implements DistributionReceiver, Distri
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
-        ItemStack bigBottle = new Shochu().getDebugItem(args);
+    public SuperItemStack getDebugItem(int... args) {
+        SuperItemStack bigBottle = new Shochu().getDebugItem(args);
         super.initialize(bigBottle);
         super.amount = 170.0;
         super.setting();
@@ -60,8 +75,8 @@ public class ShochuBottle extends Shochu implements DistributionReceiver, Distri
     }
 
     @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
-        ItemStack bigBottle = matrix[0];
+    public void setMatrix(SuperItemStack[] matrix, String id) {
+        SuperItemStack bigBottle = matrix[0];
         super.initialize(bigBottle);
         super.amount = 170.0;
         super.setting();

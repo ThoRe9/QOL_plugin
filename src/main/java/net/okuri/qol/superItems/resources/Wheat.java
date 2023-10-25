@@ -1,7 +1,7 @@
 package net.okuri.qol.superItems.resources;
 
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.inventory.ItemStack;
 
 public class Wheat extends SuperWheat {
     public Wheat() {
@@ -9,7 +9,7 @@ public class Wheat extends SuperWheat {
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         if (args.length == 2) {
             return super.getDebugItem(args[0], args[1]);
         }

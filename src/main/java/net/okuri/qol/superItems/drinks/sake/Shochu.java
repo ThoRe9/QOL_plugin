@@ -7,11 +7,10 @@ import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.distillation.Distillable;
 import net.okuri.qol.qolCraft.superCraft.Distributable;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.drinks.ingredients.SakeIngredient;
 import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
@@ -19,11 +18,22 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Shochu extends Sake implements Distillable, Distributable {
     public Shochu() {
-        super.type = SuperItemType.SHOCHU;
+        super(SuperItemType.SHOCHU);
+    }
+
+    public Shochu(SuperItemType type, SuperItemStack stack) {
+        super(type, stack);
+        // superItemType で得られるclassがShochuを継承していない場合はエラーを吐く
+        initialize(stack);
+    }
+
+    public Shochu(SuperItemType superItemType) {
+        super(superItemType);
+        // superItemType で得られるclassがShochuを継承していない場合はエラーを吐く
     }
 
     @Override
-    public void setDistillationVariable(ItemStack item, double temp, double humid) {
+    public void setDistillationVariable(SuperItemStack item, double temp, double humid) {
         super.ingredient = item;
         super.initialize();
         super.sakeType = null;
@@ -67,10 +77,10 @@ public class Shochu extends Sake implements Distillable, Distributable {
         return 0.20 + var * 0.10;
     }
 
-    public ItemStack getSuperItem() {
-        ItemStack result = new ItemStack(Material.POTION);
+    public SuperItemStack getSuperItem() {
+        SuperItemStack result = new SuperItemStack(this.getSuperItemType(), this.count);
         PotionMeta meta = (PotionMeta) result.getItemMeta();
-        meta.setCustomModelData(this.type.getCustomModelData());
+        meta.setCustomModelData(this.getSuperItemType().getCustomModelData());
         meta.setColor(Color.WHITE);
         String superName = "";
         if (super.compatibility >= 0.9) superName = "本格";
@@ -86,7 +96,7 @@ public class Shochu extends Sake implements Distillable, Distributable {
             meta.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, this.regenDuration, this.regenAmp), true);
         }
 
-        PDCC.setSuperItem(meta, this.type, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
+        PDCC.setSuperItem(meta, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
         PDCC.set(meta, PDCKey.TASTE_RICHNESS, this.tasteRichness);
         PDCC.set(meta, PDCKey.SMELL_RICHNESS, this.smellRichness);
         PDCC.set(meta, PDCKey.COMPATIBILITY, this.compatibility);
@@ -128,7 +138,7 @@ public class Shochu extends Sake implements Distillable, Distributable {
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         setDistillationVariable(new SakeIngredient().getDebugItem(args), 0.0, 0.0);
         return getSuperItem();
     }
@@ -160,7 +170,7 @@ public class Shochu extends Sake implements Distillable, Distributable {
         }
     }
     @Override
-    public void initialize(ItemStack item) {
+    public void initialize(SuperItemStack item) {
         ItemMeta meta = item.getItemMeta();
         super.ricePolishingRatio = PDCC.get(meta, PDCKey.RICE_POLISHING_RATIO);
         super.tasteRichness = PDCC.get(meta, PDCKey.TASTE_RICHNESS);
@@ -194,15 +204,9 @@ public class Shochu extends Sake implements Distillable, Distributable {
         super.amount = amount - decline;
         this.setting();
     }
-
     @Override
-    public SuperItemType getType() {
-        return this.type;
-    }
-
-    @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
-        ItemStack bigBottle = matrix[0];
+    public void setMatrix(SuperItemStack[] matrix, String id) {
+        SuperItemStack bigBottle = matrix[0];
         this.initialize(bigBottle);
         this.setting();
     }

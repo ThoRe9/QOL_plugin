@@ -6,13 +6,14 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
+import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
-public class BeerIngredient implements SuperCraftable {
+public class BeerIngredient extends SuperItem implements SuperCraftable {
     protected ItemStack[] matrix;
     private double x;
     private double y;
@@ -22,15 +23,30 @@ public class BeerIngredient implements SuperCraftable {
     private double temp;
     private double humid;
 
+    public BeerIngredient() {
+        super(SuperItemType.BEER_INGREDIENT);
+    }
+
+    public BeerIngredient(SuperItemStack item) {
+        super(SuperItemType.BEER_INGREDIENT, item);
+        this.x = PDCC.get(item, PDCKey.X);
+        this.y = PDCC.get(item, PDCKey.Y);
+        this.z = PDCC.get(item, PDCKey.Z);
+        this.quality = PDCC.get(item, PDCKey.QUALITY);
+        this.rarity = PDCC.get(item, PDCKey.RARITY);
+        this.temp = PDCC.get(item, PDCKey.TEMP);
+        this.humid = PDCC.get(item, PDCKey.HUMID);
+
+    }
     @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
+    public void setMatrix(SuperItemStack[] matrix, String id) {
         this.matrix = matrix;
         setting(matrix[1]);
     }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack result = new ItemStack(Material.POTION, 1);
+    public SuperItemStack getSuperItem() {
+        SuperItemStack result = new SuperItemStack(SuperItemType.BEER_INGREDIENT);
         PotionMeta resultMeta = (PotionMeta) result.getItemMeta();
         resultMeta.displayName(Component.text("Beer Ingredient").color(NamedTextColor.GOLD));
         resultMeta.setColor(Color.WHITE);
@@ -43,7 +59,7 @@ public class BeerIngredient implements SuperCraftable {
         lore.addParametersLore("z", this.z * 10);
         resultMeta.lore(lore.generateLore());
 
-        PDCC.setSuperItem(resultMeta, SuperItemType.BEER_INGREDIENT, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
+        PDCC.setSuperItem(resultMeta, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
         // consumable = false
         PDCC.set(resultMeta, PDCKey.CONSUMABLE, false);
         result.setItemMeta(resultMeta);
@@ -51,7 +67,7 @@ public class BeerIngredient implements SuperCraftable {
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         this.x = 0.33;
         this.y = 0.33;
         this.z = 0.33;

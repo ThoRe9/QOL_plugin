@@ -7,12 +7,10 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.calcuration.StatisticalCalcuration;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import org.bukkit.Color;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
-public class Koji implements SuperCraftable {
-    private final SuperItemType SuperItemType = net.okuri.qol.superItems.SuperItemType.KOJI;
+public class Koji extends SuperItem implements SuperCraftable {
     private ItemStack rice;
     private double riceX;
     private double riceY;
@@ -29,18 +27,34 @@ public class Koji implements SuperCraftable {
     private int rarity;
     private double temp;
     private double humid;
+
+    public Koji() {
+        super(SuperItemType.KOJI);
+    }
+
+    public Koji(SuperItemStack koji) {
+        super(SuperItemType.KOJI, koji);
+        this.smell = PDCC.get(koji.getItemMeta(), PDCKey.SMELL_RICHNESS);
+        this.taste = PDCC.get(koji.getItemMeta(), PDCKey.TASTE_RICHNESS);
+        this.compatibility = PDCC.get(koji.getItemMeta(), PDCKey.COMPATIBILITY);
+        this.quality = PDCC.get(koji.getItemMeta(), PDCKey.QUALITY);
+        this.rarity = PDCC.get(koji.getItemMeta(), PDCKey.RARITY);
+        this.ricePolishingRatio = PDCC.get(koji.getItemMeta(), PDCKey.RICE_POLISHING_RATIO);
+        this.temp = PDCC.get(koji.getItemMeta(), PDCKey.TEMP);
+        this.humid = PDCC.get(koji.getItemMeta(), PDCKey.HUMID);
+    }
     @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
+    public void setMatrix(SuperItemStack[] matrix, String id) {
         this.rice = matrix[1];
         setting();
     }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack result = new ItemStack(Material.POTION, getAmount());
+    public SuperItemStack getSuperItem() {
+        SuperItemStack result = new SuperItemStack(this.getSuperItemType(), getAmount());
         PotionMeta meta = (PotionMeta) result.getItemMeta();
 
-        PDCC.set(meta, PDCKey.TYPE, this.SuperItemType.toString());
+
         PDCC.set(meta, PDCKey.SMELL_RICHNESS, this.smell);
         PDCC.set(meta, PDCKey.TASTE_RICHNESS, this.taste);
         PDCC.set(meta, PDCKey.COMPATIBILITY, this.compatibility);
@@ -63,15 +77,14 @@ public class Koji implements SuperCraftable {
         lg.addRarityLore(this.rarity);
         lg.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio, true);
         meta.lore(lg.generateLore());
-        meta.setCustomModelData(this.SuperItemType.getCustomModelData());
 
         result.setItemMeta(meta);
         return result;
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
-        ItemStack rice = new PolishedRice().getDebugItem(args);
+    public SuperItemStack getDebugItem(int... args) {
+        SuperItemStack rice = new PolishedRice().getDebugItem(args);
         this.rice = rice;
         setting();
         return this.getSuperItem();

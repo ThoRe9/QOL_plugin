@@ -6,17 +6,17 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
+import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 
-public class WhiskyWithIce implements SuperCraftable {
-    private ItemStack whisky = null;
+public class WhiskyWithIce extends SuperItem implements SuperCraftable {
+    private SuperItemStack whisky = null;
     private final SuperItemType superItemType = SuperItemType.WHISKY_WITH_ICE;
-    private ItemStack[] matrix = null;
+    private SuperItemStack[] matrix = null;
     private double x;
     private double y;
     private double z;
@@ -29,14 +29,23 @@ public class WhiskyWithIce implements SuperCraftable {
     private final double alcoholAmount = 30.0;
     private double alcoholPer = 0.40;
 
+
+    public WhiskyWithIce() {
+        super(SuperItemType.WHISKY_WITH_ICE);
+    }
+
+    public WhiskyWithIce(SuperItemStack whiskyWithIce) {
+        super(SuperItemType.WHISKY_WITH_ICE, whiskyWithIce);
+    }
+
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack WWI = new ItemStack(Material.POTION, 3);
+    public SuperItemStack getSuperItem() {
+        SuperItemStack WWI = new SuperItemStack(this.getSuperItemType(), 3);
         PotionMeta WWImeta = (PotionMeta) WWI.getItemMeta();
         PotionMeta Wmeta = (PotionMeta) this.whisky.getItemMeta();
         WWImeta.setCustomModelData(this.superItemType.getCustomModelData());
 
-        PDCC.setLiquor(WWImeta, this.superItemType, this.alcoholAmount, this.alcoholPer, this.x, this.y, this.z, this.divLine, this.quality, this.rarity, this.temp, this.humid, this.days);
+        PDCC.setLiquor(WWImeta, this.alcoholAmount, this.alcoholPer, this.x, this.y, this.z, this.divLine, this.quality, this.rarity, this.temp, this.humid, this.days);
 
         WWImeta.displayName(Component.text("Whisky with Ice").color(NamedTextColor.GOLD));
         LoreGenerator loreGenerator = new LoreGenerator();
@@ -53,26 +62,17 @@ public class WhiskyWithIce implements SuperCraftable {
         return WWI;
     }
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         this.whisky = new Whisky().getDebugItem();
         return getSuperItem();
     }
-    public WhiskyWithIce(ItemStack[] matrix) {
-        setting(matrix[4]);
-    }
-    public WhiskyWithIce(ItemStack whisky) {
-        setting(whisky);
-    }
-
-    public WhiskyWithIce() {
-    }
     @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
+    public void setMatrix(SuperItemStack[] matrix, String id) {
         this.matrix = matrix;
         setting(matrix[4]);
     }
 
-    private void setting(ItemStack whisky) {
+    private void setting(SuperItemStack whisky) {
         this.whisky = whisky;
         this.alcoholPer = PDCC.get(whisky, PDCKey.ALCOHOL_PERCENTAGE);
         ItemMeta meta = whisky.getItemMeta();

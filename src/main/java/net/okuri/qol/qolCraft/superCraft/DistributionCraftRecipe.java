@@ -1,12 +1,12 @@
 package net.okuri.qol.qolCraft.superCraft;
 
-import net.okuri.qol.PDCC;
-import net.okuri.qol.PDCKey;
+import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
@@ -21,73 +21,61 @@ public class DistributionCraftRecipe implements SuperRecipe {
 
     private final String id;
     private SuperItemType bigBottleType;
-    private final ArrayList<Material> otherIngredients = new ArrayList<>();
+    private final ArrayList<SuperItemType> otherIngredients = new ArrayList<>();
     private double smallBottleAmount;
     private int smallBottleCount;
-    private Material bottle = Material.GLASS_BOTTLE;
-    private SuperItemType superSmallBottleType;
-    private boolean isSuperSmallBottle = false;
+    private SuperItemType bottle = SuperItemType.DEFAULT.setMaterial(Material.GLASS_BOTTLE);
     private Distributable distribution;
     private DistributionReceiver receiver;
-    private ItemStack[] matrix = new ItemStack[9];
+    private SuperItemStack[] matrix = new SuperItemStack[9];
     public DistributionCraftRecipe(String id){
         this.id = id;
     }
     @Override
-    public boolean checkSuperRecipe(ItemStack[] matrix) {
+    public boolean checkSuperRecipe(SuperItemStack[] matrix) {
         // まず、matrixの中にbigBottleTypeを持つものが在るかチェック
         // あれば、その個数を数える。2つ以上あった時点でfalseを返す。
         // 同時にbigBottleType,bottle以外のアイテムがあればfalseを返す。
         // bottleの数も数える
         // 上記のどれでもない場合、OtherIngredientの物があるか確認。もしあったら、それを返す。
 
-        ArrayList<Material> lastOtherIngredients = new ArrayList<>();
+        ArrayList<SuperItemType> lastOtherIngredients = new ArrayList<>();
         ArrayList<ItemStack> superBottles = new ArrayList<>();
+        SuperItemStack[] otherIngredientStacks = new SuperItemStack[this.otherIngredients.size()];
         lastOtherIngredients.addAll(otherIngredients);
         int smallBottleCount = 0;
         int bigBottleCount = 0;
-        ItemStack distributionItem = null;
-        for (ItemStack itemStack : matrix) {
-            // bigBottleの処理
+        SuperItemStack distributionItem = null;
+
+        for (SuperItemStack itemStack : matrix) {
             if (itemStack == null) {
                 //Bukkit.getLogger().info("null");
                 continue;
             }
             ItemMeta meta = itemStack.getItemMeta();
-            if (PDCC.has(meta,PDCKey.TYPE)){
-                SuperItemType type = SuperItemType.valueOf(PDCC.get(meta,PDCKey.TYPE));
-                if (type == bigBottleType){
-                    //Bukkit.getLogger().info("bigBottle");
-                    bigBottleCount++;
-                    distributionItem = itemStack;
-                    if (bigBottleCount >= 2){
-                        //Bukkit.getLogger().info("bigBottleCount >= 2");
-                        return false;
-                    }
-                    continue;
+
+            // bigBottleの処理
+            if (itemStack.isSimilar(bigBottleType)) {
+                //Bukkit.getLogger().info("bigBottle");
+                bigBottleCount++;
+                distributionItem = itemStack;
+                if (bigBottleCount >= 2) {
+                    //Bukkit.getLogger().info("bigBottleCount >= 2");
+                    return false;
                 }
+                continue;
             }
 
-            // bottleの処理
-            if (isSuperSmallBottle){
-                if (PDCC.has(meta, PDCKey.TYPE)){
-                    SuperItemType type = SuperItemType.valueOf(PDCC.get(meta,PDCKey.TYPE));
-                    if(type == this.superSmallBottleType){
-                        smallBottleCount++;
-                        superBottles.add(itemStack);
-                        continue;
-                    }
-                }
-            } else{
-                if (itemStack.getType() == bottle){
-                    //Bukkit.getLogger().info("bottle");
-                    smallBottleCount++;
-                    continue;
-                }
+            // smallBottleの処理
+            if (itemStack.isSimilar(this.bottle)) {
+                smallBottleCount++;
+                superBottles.add(itemStack);
+                continue;
             }
             // otherIngredientの処理
-            if (lastOtherIngredients.contains(itemStack.getType())){
-                lastOtherIngredients.remove(itemStack.getType());
+            if (lastOtherIngredients.contains(itemStack.getSuperItemType())) {
+                otherIngredientStacks[lastOtherIngredients.indexOf(itemStack.getSuperItemType())] = itemStack;
+                lastOtherIngredients.remove(itemStack.getSuperItemType());
                 //Bukkit.getLogger().info("otherIngredient");
             } else{
                 //Bukkit.getLogger().info("anything not found");
@@ -104,13 +92,18 @@ public class DistributionCraftRecipe implements SuperRecipe {
         this.smallBottleCount = smallBottleCount;
         // ここまでで、matrixの中にはbigBottleが1つ、bottleが1つ以上あることが確定
         // あとは、isDistributionがtrueを返すかどうかを確認する
-        this.matrix = new ItemStack[9];
+        this.matrix = new SuperItemStack[9];
         this.matrix[0] = distributionItem;
-        if (isSuperSmallBottle){
-            // matrixの余っている枠にsuperBottleを追加
-            for (int i=0 ; i < superBottles.size() ; i++){
-                this.matrix[i+1] = superBottles.get(i);
-            }
+        // matrixの後の枠に otherIngredientStacksとsmallBottleを入れる
+        int index = 1;
+        for (SuperItemStack itemStack : otherIngredientStacks) {
+            if (itemStack == null) continue;
+            this.matrix[index] = itemStack;
+            index++;
+        }
+        for (ItemStack itemStack : superBottles) {
+            this.matrix[index] = new SuperItemStack(itemStack);
+            index++;
         }
 
         distribution.setMatrix(this.matrix,id);
@@ -142,28 +135,32 @@ public class DistributionCraftRecipe implements SuperRecipe {
     }
     public void setDistribution(Distributable distribution){
         this.distribution = distribution;
-        this.bigBottleType = distribution.getType();
+        this.bigBottleType = ((SuperItem) distribution).getSuperItemType();
     }
     public void setBottle(Material bottle){
-        this.bottle = bottle;
-        this.superSmallBottleType = null;
-        this.isSuperSmallBottle = false;
+        this.bottle = SuperItemType.DEFAULT.setMaterial(bottle);
     }
-    public void setBottle(SuperItemType bottle){
-        this.bottle = null;
-        this.superSmallBottleType = bottle;
-        this.isSuperSmallBottle = true;
+
+    public void setBottle(SuperItemType bottle) {
+        this.bottle = bottle;
     }
     public void addOtherIngredient(Material material){
-        otherIngredients.add(material);
+        this.addOtherIngredient(SuperItemType.DEFAULT.setMaterial(material));
+    }
+
+    public void addOtherIngredient(SuperItemType type) {
+        if (otherIngredients.size() >= 7) {
+            throw new IllegalArgumentException("すでにotherIngredientsの数が7を超えています。");
+        }
+        otherIngredients.add(type);
     }
     @Override
     public String getId(){
         return id;
     }
     @Override
-    public ItemStack getResult(){
-        return receiver.getSuperItem();
+    public @NotNull SuperItemStack getResult() {
+        return ((SuperItem) receiver).getSuperItem();
     }
 
 }

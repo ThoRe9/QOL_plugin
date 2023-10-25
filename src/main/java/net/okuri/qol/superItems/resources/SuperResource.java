@@ -6,15 +6,15 @@ import net.okuri.qol.PDCC;
 import net.okuri.qol.qolCraft.calcuration.CirculeDistribution;
 import net.okuri.qol.qolCraft.calcuration.RandFromXYZ;
 import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
-public abstract class SuperResource implements SuperItem {
+public abstract class SuperResource extends SuperItem {
     // SuperResource の設定方法
     // 1. コンストラクタを設定する・
     // 2. superResourcesに追加する。
@@ -24,7 +24,6 @@ public abstract class SuperResource implements SuperItem {
     String info;
     final Material material;
     final Material blockMaterial;
-    SuperItemType superItemType;
     final int probabilityPercentage;
 
     // ここまで
@@ -43,20 +42,20 @@ public abstract class SuperResource implements SuperItem {
     Player producer;
 
     public SuperResource(Component name, String info, Material material, Material blockMaterial, SuperItemType superItemType, int probabilityPercentage) {
+        super(superItemType);
         this.name = name;
         this.info = info;
         this.material = material;
         this.blockMaterial = blockMaterial;
-        this.superItemType = superItemType;
         this.probabilityPercentage = probabilityPercentage;
     }
 
     public SuperResource(Material material, Material blockMaterial, SuperItemType superItemType, int probabilityPercentage) {
+        super(superItemType);
         this.name = Component.text("Super" + material.name());
         this.info = "Super" + material.name();
         this.material = material;
         this.blockMaterial = blockMaterial;
-        this.superItemType = superItemType;
         this.probabilityPercentage = probabilityPercentage;
     }
 
@@ -88,11 +87,11 @@ public abstract class SuperResource implements SuperItem {
     }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack result = new ItemStack(material);
+    public SuperItemStack getSuperItem() {
+        SuperItemStack result = new SuperItemStack(this.getSuperItemType());
         ItemMeta meta = result.getItemMeta();
         meta.displayName(name);
-        meta.setCustomModelData(superItemType.getCustomModelData());
+        meta.setCustomModelData(super.getSuperItemType().getCustomModelData());
 
         PDCC.setSuperResource(meta, this);
 
@@ -110,7 +109,7 @@ public abstract class SuperResource implements SuperItem {
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         this.setResVariables(90, 90, 90, 0.5, 0.5, 10, 1.0, (Player) org.bukkit.Bukkit.getOfflinePlayer("okuri0131"));
         return this.getSuperItem();
     }
@@ -131,9 +130,6 @@ public abstract class SuperResource implements SuperItem {
         return blockMaterial;
     }
 
-    public SuperItemType getSuperItemType() {
-        return superItemType;
-    }
 
     public double getX() {
         return x;

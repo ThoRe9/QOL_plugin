@@ -3,16 +3,17 @@ package net.okuri.qol.superItems.foods;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.PDCKey;
-import org.bukkit.inventory.ItemStack;
+import net.okuri.qol.superItems.SuperItemStack;
 
 public class BarleyBread extends Bread {
     public BarleyBread() {
+        super();
         super.display = Component.text("Barley Bread").color(NamedTextColor.DARK_GREEN);
         super.wheatkey = PDCKey.Z;
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         return super.getDebugItem();
     }
 }

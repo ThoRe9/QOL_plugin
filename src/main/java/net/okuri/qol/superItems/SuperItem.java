@@ -1,8 +1,8 @@
 package net.okuri.qol.superItems;
 
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.Material;
 
-public interface SuperItem {
+public abstract class SuperItem {
     /*
     SuperItemは、SuperItemの基底クラスです。
     これを継承して、SuperItemを作成します。
@@ -10,11 +10,33 @@ public interface SuperItem {
     このメソッドでsuperItemTypeが設定されたItemStackを返すようにしてください。
      */
 
-    ItemStack getSuperItem();
+    /*
+    SuperItemは金型のようなものです。
+    getSuperItemで得られる　SuperItemStackが、実際にプレイヤーが持つアイテムです。
+    あくまでこのクラスは、SuperItemStackを作成するためのクラスです。
+     */
 
-    ItemStack getDebugItem(int... args);
+    private SuperItemType superItemType;
+    private Material material;
 
-    static int getRarity(double x, double y, double z) {
+    public SuperItem(SuperItemType type, SuperItemStack stack) {
+        if (type != stack.getSuperItemType()) throw new IllegalArgumentException("SuperItemTypeが一致しません。");
+        this.superItemType = stack.getSuperItemType();
+        this.material = stack.getType();
+    }
+
+    public SuperItem(SuperItemType superItemType) {
+        this.superItemType = superItemType;
+        this.material = superItemType.getMaterial();
+    }
+
+    public SuperItem(Material material) {
+        this.superItemType = SuperItemType.DEFAULT;
+        this.superItemType.setMaterial(material);
+        this.material = material;
+    }
+
+    public static int getRarity(double x, double y, double z) {
         // x+y+z=1以下が☆ (Common)
         // x+y+z=1.2が☆☆ (Uncommon)
         // x+y+z=1.4が☆☆☆ (Rare)
@@ -33,5 +55,22 @@ public interface SuperItem {
         else rarity = 1;
         return rarity;
     }
+
+    public SuperItemType getSuperItemType() {
+        return this.superItemType;
+    }
+
+    public void setSuperItemType(SuperItemType superItemType) {
+        this.superItemType = superItemType;
+        this.material = superItemType.getMaterial();
+    }
+
+    public Material getMaterial() {
+        return this.material;
+    }
+
+    public abstract SuperItemStack getSuperItem();
+
+    public abstract SuperItemStack getDebugItem(int... args);
 
 }

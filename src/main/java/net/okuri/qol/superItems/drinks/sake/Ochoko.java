@@ -6,8 +6,8 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.DistributionReceiver;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
 import java.util.Objects;
@@ -16,8 +16,22 @@ public class Ochoko extends Sake implements DistributionReceiver {
     private Component display;
 
     public Ochoko() {
+        super(SuperItemType.SAKE_OCHOKO);
         super.amount = 35.0;
-        super.type = SuperItemType.SAKE_OCHOKO;
+    }
+
+    public Ochoko(SuperItemStack stack) {
+        super(SuperItemType.SAKE_INGREDIENT, stack);
+        // superItemType で得られるclassがSakeを継承していない場合はエラーを吐く
+        initialize(stack);
+    }
+
+    public Ochoko(SuperItemType superItemType) {
+        super(superItemType);
+        // superItemType で得られるclassがOchokoを継承していない場合はエラーを吐く
+        if (!Ochoko.class.isAssignableFrom(SuperItemType.getSuperItemClass(superItemType).getClass())) {
+            throw new IllegalArgumentException("superItemType must be Ochoko or its subclass");
+        }
     }
 
     @Override
@@ -31,8 +45,8 @@ public class Ochoko extends Sake implements DistributionReceiver {
     }
 
     @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
-        ItemStack bigBottle = matrix[0];
+    public void setMatrix(SuperItemStack[] matrix, String id) {
+        SuperItemStack bigBottle = matrix[0];
         super.initialize(bigBottle);
         super.amount = 35.0;
         super.setting();
@@ -44,8 +58,8 @@ public class Ochoko extends Sake implements DistributionReceiver {
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
-        ItemStack bigBottle = new Sake1ShoBottle().getDebugItem(args);
+    public SuperItemStack getDebugItem(int... args) {
+        SuperItemStack bigBottle = new Sake1ShoBottle().getDebugItem(args);
         super.initialize(bigBottle);
         super.amount = 35.0;
         super.setting();
@@ -53,8 +67,8 @@ public class Ochoko extends Sake implements DistributionReceiver {
     }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack result = super.getSuperItem();
+    public SuperItemStack getSuperItem() {
+        SuperItemStack result = super.getSuperItem();
         PotionMeta meta = (PotionMeta) result.getItemMeta();
         meta.displayName(display);
         PDCC.set(meta, PDCKey.CONSUMABLE, true);

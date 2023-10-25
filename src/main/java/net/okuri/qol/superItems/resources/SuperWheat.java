@@ -8,23 +8,22 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.calcuration.CirculeDistribution;
 import net.okuri.qol.qolCraft.calcuration.RandFromXYZ;
 import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
 
 public class SuperWheat extends SuperResource {
-    private final ItemStack wheat = new ItemStack(Material.WHEAT);
 
     public SuperWheat(SuperItemType type) {
         super(Material.WHEAT, Material.WHEAT, SuperItemType.WHEAT, 3);
         if (type == SuperItemType.RYE || type == SuperItemType.BARLEY || type == SuperItemType.WHEAT || type == SuperItemType.RICE) {
-            this.superItemType = type;
+            this.setSuperItemType(type);
         } else {
-            this.superItemType = SuperItemType.WHEAT;
+            this.setSuperItemType(SuperItemType.WHEAT);
         }
     }
 
@@ -60,23 +59,21 @@ public class SuperWheat extends SuperResource {
 
         this.rarity = SuperItem.getRarity(this.x, this.y, this.z);
         if (temp <= 0) {
-            this.superItemType = SuperItemType.RYE;
+            this.setSuperItemType(SuperItemType.RYE);
         } else if (temp <= 0.70) {
-            this.superItemType = SuperItemType.BARLEY;
+            this.setSuperItemType(SuperItemType.BARLEY);
+        } else if (temp <= 0.85) {
+            this.setSuperItemType(SuperItemType.WHEAT);
         } else {
-            if (humid <= 0.70) {
-                this.superItemType = SuperItemType.WHEAT;
-            } else {
-                this.superItemType = SuperItemType.RICE;
-            }
+            this.setSuperItemType(SuperItemType.RICE);
         }
     }
 
-    public ItemStack getSuperItem() {
+    public SuperItemStack getSuperItem() {
+        SuperItemStack wheat = new SuperItemStack(this.getSuperItemType());
         // PersistentDataContainer にデータを保存
         ItemMeta meta = wheat.getItemMeta();
 
-        PDCC.set(meta, PDCKey.TYPE, this.superItemType.name());
         PDCC.set(meta, PDCKey.X, this.x);
         PDCC.set(meta, PDCKey.Y, this.y);
         PDCC.set(meta, PDCKey.Z, this.z);
@@ -88,11 +85,12 @@ public class SuperWheat extends SuperResource {
 
         // 名前を設定
         Component display;
-        if (this.superItemType == SuperItemType.RYE) {
+        SuperItemType type = this.getSuperItemType();
+        if (type == SuperItemType.RYE) {
             display = Component.text("rye").color(NamedTextColor.GOLD);
-        } else if (this.superItemType == SuperItemType.BARLEY) {
+        } else if (type == SuperItemType.BARLEY) {
             display = Component.text("barley").color(NamedTextColor.GOLD);
-        } else if (this.superItemType == SuperItemType.WHEAT) {
+        } else if (type == SuperItemType.WHEAT) {
             display = Component.text("wheat").color(NamedTextColor.GOLD);
         } else {
             display = Component.text("rice").color(NamedTextColor.RED);
@@ -114,50 +112,51 @@ public class SuperWheat extends SuperResource {
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
+
         double ttemp = 0.5;
         if (args.length == 1) {
             int type = args[0];
             switch (type) {
                 case 0:
-                    this.superItemType = SuperItemType.RYE;
+                    this.setSuperItemType(SuperItemType.RYE);
                     break;
                 case 1:
-                    this.superItemType = SuperItemType.BARLEY;
+                    this.setSuperItemType(SuperItemType.BARLEY);
                     break;
                 case 2:
-                    this.superItemType = SuperItemType.WHEAT;
+                    this.setSuperItemType(SuperItemType.WHEAT);
                     break;
                 case 3:
-                    this.superItemType = SuperItemType.RICE;
+                    this.setSuperItemType(SuperItemType.RICE);
                     break;
                 default:
-                    this.superItemType = SuperItemType.WHEAT;
+                    this.setSuperItemType(SuperItemType.WHEAT);
                     break;
             }
         } else if (args.length == 2) {
             int type = args[0];
             switch (type) {
                 case 0:
-                    this.superItemType = SuperItemType.RYE;
+                    this.setSuperItemType(SuperItemType.RYE);
                     break;
                 case 1:
-                    this.superItemType = SuperItemType.BARLEY;
+                    this.setSuperItemType(SuperItemType.BARLEY);
                     break;
                 case 2:
-                    this.superItemType = SuperItemType.WHEAT;
+                    this.setSuperItemType(SuperItemType.WHEAT);
                     break;
                 case 3:
-                    this.superItemType = SuperItemType.RICE;
+                    this.setSuperItemType(SuperItemType.RICE);
                     break;
                 default:
-                    this.superItemType = SuperItemType.WHEAT;
+                    this.setSuperItemType(SuperItemType.WHEAT);
                     break;
             }
             ttemp = (double) args[1] / 10.0;
 
         } else {
-            this.superItemType = SuperItemType.WHEAT;
+            this.setSuperItemType(SuperItemType.WHEAT);
         }
 
         this.Px = 10;

@@ -8,18 +8,15 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.distillation.Distillable;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 
 // WhiskyIngredientは、Whiskyの材料となるアイテムです。これをMaturingBarrelに入れることで、Whiskyを作ることができます。
-public class WhiskyIngredient implements SuperCraftable, Distillable {
-
-    private SuperItemType superItemType = SuperItemType.WHISKY_INGREDIENT;
-    private ItemStack itemStack = new ItemStack(Material.POTION, 1);
-    protected ItemStack[] matrix = null;
+public class WhiskyIngredient extends SuperItem implements SuperCraftable, Distillable {
+    protected SuperItemStack[] matrix = null;
     private double x = 0.0;
     private double y = 0.0;
     private double z = 0.0;
@@ -43,24 +40,30 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
     private final int maxDuration = 24000;
 
     public WhiskyIngredient(){
+        super(SuperItemType.WHISKY_INGREDIENT);
     }
     public WhiskyIngredient(int distilled){
-        this.superItemType = SuperItemType.UNDISTILLED_WHISKY_INGREDIENT;
+        super(SuperItemType.WHISKY_INGREDIENT);
         this.distilled = distilled;
     }
-    public WhiskyIngredient(ItemStack whisky_ingredient){
+
+    public WhiskyIngredient(SuperItemStack whisky_ingredient) {
+        super(SuperItemType.WHISKY_INGREDIENT, whisky_ingredient);
         setting(whisky_ingredient);
     }
-    public WhiskyIngredient(ItemStack[] matrix){
+
+    public WhiskyIngredient(SuperItemStack[] matrix) {
+        super(SuperItemType.WHISKY_INGREDIENT);
         setting(matrix[1],matrix[7]);
     }
-    public WhiskyIngredient(ItemStack barley, ItemStack coal){
+
+    public WhiskyIngredient(SuperItemStack barley, SuperItemStack coal) {
+        super(SuperItemType.WHISKY_INGREDIENT);
         setting(barley, coal);
     }
 
     public WhiskyIngredient(double x, double y, double z, double coalRarity, double quality) {
-        this.superItemType = SuperItemType.UNDISTILLED_WHISKY_INGREDIENT;
-        this.itemStack = new ItemStack(Material.POTION);
+        super(SuperItemType.WHISKY_INGREDIENT);
         this.quality = quality;
         this.divLine = 1.25 - coalRarity;
         this.x = x;
@@ -76,18 +79,19 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         setType();
     }
     @Override
-    public void setMatrix(ItemStack[] matrix, String id){
+    public void setMatrix(SuperItemStack[] matrix, String id) {
         this.matrix = matrix;
         setting(matrix[1], matrix[7]);
     }
     @Override
-    public ItemStack getSuperItem() {
+    public SuperItemStack getSuperItem() {
         setType();
-        PotionMeta meta = (PotionMeta) this.itemStack.getItemMeta();
+        SuperItemStack itemStack = new SuperItemStack(this.getSuperItemType());
+        PotionMeta meta = (PotionMeta) itemStack.getItemMeta();
         meta.setColor(org.bukkit.Color.fromRGB(255, 255, 255));
 
         PDCC.set(meta, PDCKey.CONSUMABLE, false);
-        PDCC.setLiquor(meta, this.superItemType, this.alcAmount, this.alcPer, this.x, this.y, this.z, this.divLine, this.quality, this.rarity, this.temp, this.humid, 0);
+        PDCC.setLiquor(meta, this.alcAmount, this.alcPer, this.x, this.y, this.z, this.divLine, this.quality, this.rarity, this.temp, this.humid, 0);
         PDCC.set(meta, PDCKey.DISTILLATION, this.distilled);
 
         //　各Durationが負のとき、バグ予防
@@ -119,12 +123,12 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.FAST_DIGGING, (int)Math.floor(this.hasteDuration / this.durationAmplifier), this.hasteLevel + this.distilled - 1), true);
         meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.SPEED, (int)Math.floor(this.speedDuration / this.durationAmplifier), this.speedLevel + this.distilled -1), true);
         meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.NIGHT_VISION, (int)Math.floor(this.nightVisionDuration / this.durationAmplifier), this.nightVisionLevel + this.distilled-1), true);
-        this.itemStack.setItemMeta(meta);
+        itemStack.setItemMeta(meta);
 
-        return this.itemStack;
+        return itemStack;
     }
     @Override
-    public ItemStack getDebugItem(int... args){
+    public SuperItemStack getDebugItem(int... args) {
         this.x = 0.33;
         this.y = 0.33;
         this.z = 0.33;
@@ -140,7 +144,7 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         return this.getSuperItem();
     }
     @Override
-    public void setDistillationVariable(ItemStack item, double temp, double humid){
+    public void setDistillationVariable(SuperItemStack item, double temp, double humid) {
         setting(item);
         if (this.distilled >= 3){
             return;
@@ -164,8 +168,6 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         }
     }
     private void setting(ItemStack barley, ItemStack coal){
-        this.superItemType = SuperItemType.UNDISTILLED_WHISKY_INGREDIENT;
-        this.itemStack = new ItemStack(Material.POTION);
         this.distilled = 0;
         //barleyかチェック
         ItemMeta barleyMeta = barley.getItemMeta();
@@ -214,9 +216,8 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
         this.rarity = SuperItem.getRarity(barleyX,barleyY,barleyZ);
         setType();
     }
-    private void setting(ItemStack whisky_ingredient){
-        this.superItemType = SuperItemType.WHISKY_INGREDIENT;
-        this.itemStack = whisky_ingredient;
+
+    private void setting(SuperItemStack whisky_ingredient) {
         ItemMeta meta = whisky_ingredient.getItemMeta();
         PotionMeta potionMeta = (PotionMeta) meta;
         this.distilled = PDCC.get(potionMeta, PDCKey.DISTILLATION);
@@ -242,9 +243,9 @@ public class WhiskyIngredient implements SuperCraftable, Distillable {
     }
     private void setType(){
         if (this.distilled > 0){
-            this.superItemType = SuperItemType.WHISKY_INGREDIENT;
+            super.setSuperItemType(SuperItemType.WHISKY_INGREDIENT);
         } else{
-            this.superItemType = SuperItemType.UNDISTILLED_WHISKY_INGREDIENT;
+            this.setSuperItemType(SuperItemType.UNDISTILLED_WHISKY_INGREDIENT);
         }
     }
 }

@@ -2,9 +2,9 @@ package net.okuri.qol.superItems.resources;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 
 public class SuperPotato extends SuperResource {
     public SuperPotato() {
@@ -12,13 +12,13 @@ public class SuperPotato extends SuperResource {
     }
 
     @Override
-    public ItemStack getSuperItem() {
+    public SuperItemStack getSuperItem() {
         return super.getSuperItem();
     }
 
     // TODO 壊れてる
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         return super.getDebugItem(args);
     }
 }

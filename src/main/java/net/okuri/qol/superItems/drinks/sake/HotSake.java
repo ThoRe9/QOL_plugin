@@ -8,17 +8,30 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.distillation.Distillable;
 import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 
 public class HotSake extends SakeBottle implements Distillable, Distributable {
     public HotSake(){
+        super(SuperItemType.HOT_SAKE);
         super.amount = 170.0;
-        super.type = SuperItemType.HOT_SAKE;
+    }
+
+    public HotSake(SuperItemStack stack) {
+        super(SuperItemType.HOT_SAKE, stack);
+        initialize(stack);
+    }
+
+    public HotSake(SuperItemType superItemType) {
+        super(superItemType);
+        // superItemType で得られるclassがHotSakeを継承していない場合はエラーを吐く
+        if (!HotSake.class.isAssignableFrom(SuperItemType.getSuperItemClass(superItemType).getClass())) {
+            throw new IllegalArgumentException("superItemType must be Sake or its subclass");
+        }
     }
     @Override
-    public void setDistillationVariable(ItemStack item, double temp, double humid) {
+    public void setDistillationVariable(SuperItemStack item, double temp, double humid) {
         super.initialize(item);
         PotionMeta meta = (PotionMeta) item.getItemMeta();
         double rawComp = PDCC.get(meta, PDCKey.COMPATIBILITY);
@@ -32,11 +45,10 @@ public class HotSake extends SakeBottle implements Distillable, Distributable {
     }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack result = super.getSuperItem();
+    public SuperItemStack getSuperItem() {
+        SuperItemStack result = super.getSuperItem();
         PotionMeta meta =(PotionMeta) result.getItemMeta();
         meta.displayName(Component.text("熱燗").color(NamedTextColor.RED));
-        meta.setCustomModelData(super.type.getCustomModelData());
 
         LoreGenerator lore = new LoreGenerator();
         lore.addInfoLore("JAPANESE Sake!!");
@@ -57,7 +69,7 @@ public class HotSake extends SakeBottle implements Distillable, Distributable {
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         this.setDistillationVariable(new SakeBottle().getDebugItem(args), 0.0, 0.0);
         return this.getSuperItem();
     }

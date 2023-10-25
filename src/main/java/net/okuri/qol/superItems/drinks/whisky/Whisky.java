@@ -7,10 +7,10 @@ import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.maturation.Maturable;
 import net.okuri.qol.qolCraft.superCraft.Distributable;
+import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.potion.PotionEffect;
@@ -21,8 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Whisky implements Maturable, Distributable {
-    private final SuperItemType superItemType = SuperItemType.WHISKY;
+public class Whisky extends SuperItem implements Maturable, Distributable {
     private LocalDateTime start;
     private double x;
     private double y;
@@ -45,8 +44,31 @@ public class Whisky implements Maturable, Distributable {
     private double alcoholPer = 0.40;
     private final double amount = 750.0;
 
+    public Whisky() {
+        super(SuperItemType.WHISKY);
+    }
+
+    public Whisky(double hasteLevel, double hasteDuration, double speedLevel, double speedDuration, double nightVisionLevel, double nightVisionDuration) {
+        super(SuperItemType.WHISKY);
+        this.hasteLevel = hasteLevel;
+        this.hasteDuration = hasteDuration;
+        this.speedLevel = speedLevel;
+        this.speedDuration = speedDuration;
+        this.nightVisionLevel = nightVisionLevel;
+        this.nightVisionDuration = nightVisionDuration;
+        this.amplifier = 1.0;
+        this.amountAmplifier = 1.0;
+        this.temperature = 0.0;
+    }
+
+    public Whisky(SuperItemStack whiskyIngredient, LocalDateTime start) {
+        super(SuperItemType.WHISKY);
+        this.setFromWhiskyIngredient(whiskyIngredient);
+        this.start = start;
+    }
+
     @Override
-    public void setMaturationVariable(ArrayList<ItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {
+    public void setMaturationVariable(ArrayList<SuperItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {
         this.setFromWhiskyIngredient(ingredients.get(0));
         this.start = start;
         this.temperature = temp;
@@ -54,7 +76,7 @@ public class Whisky implements Maturable, Distributable {
         this.amplifier = this.getMaturationLevel(start, end);
     }
     @Override
-    public ItemStack getSuperItem() {
+    public SuperItemStack getSuperItem() {
         // パラメータ計算
         this.setAmplifier();
         this.hasteDuration = this.hasteDuration*this.amplifier*(1+Math.sin(2*Math.PI*this.temperature));
@@ -73,9 +95,8 @@ public class Whisky implements Maturable, Distributable {
         }
 
         // アイテム生成
-        ItemStack whisky = new ItemStack(Material.POTION, 1);
+        SuperItemStack whisky = new SuperItemStack(SuperItemType.WHISKY);
         PotionMeta whiskyMeta = (PotionMeta) whisky.getItemMeta();
-        whiskyMeta.setCustomModelData(this.superItemType.getCustomModelData());
         whiskyMeta.displayName(Component.text("Whisky").color(NamedTextColor.GOLD));
         LoreGenerator loreGenerator = new LoreGenerator();
         loreGenerator.addParametersLore("Age: ", this.days/70.0);
@@ -95,13 +116,13 @@ public class Whisky implements Maturable, Distributable {
         // PersistentDataContainerにデータを保存
         // 仮で飲めるようにしておいた
         PDCC.set(whiskyMeta, PDCKey.CONSUMABLE, true);
-        PDCC.setLiquor(whiskyMeta, this.superItemType, this.amount, this.alcoholPer, this.x, this.y, this.z, this.divLine, this.quality, this.rarity, this.temperature, this.humidity, this.days);
+        PDCC.setLiquor(whiskyMeta, this.amount, this.alcoholPer, this.x, this.y, this.z, this.divLine, this.quality, this.rarity, this.temperature, this.humidity, this.days);
         whisky.setItemMeta(whiskyMeta);
         return whisky;
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         this.start = LocalDateTime.now().minusDays(10);
         this.x = 0.0;
         this.y = 0.0;
@@ -130,24 +151,8 @@ public class Whisky implements Maturable, Distributable {
     private void setAmplifier(){
         this.amplifier = this.getMaturationLevel(this.start, LocalDateTime.now());
     }
-    public Whisky() {}
 
-    public Whisky(double hasteLevel, double hasteDuration, double speedLevel, double speedDuration, double nightVisionLevel, double nightVisionDuration) {
-        this.hasteLevel = hasteLevel;
-        this.hasteDuration = hasteDuration;
-        this.speedLevel = speedLevel;
-        this.speedDuration = speedDuration;
-        this.nightVisionLevel = nightVisionLevel;
-        this.nightVisionDuration = nightVisionDuration;
-        this.amplifier = 1.0;
-        this.amountAmplifier = 1.0;
-        this.temperature = 0.0;
-    }
-    public Whisky(ItemStack whiskyIngredient, LocalDateTime start) {
-        this.setFromWhiskyIngredient(whiskyIngredient);
-        this.start = start;
-    }
-    private void setFromWhiskyIngredient(ItemStack whiskyIngredient){
+    private void setFromWhiskyIngredient(SuperItemStack whiskyIngredient) {
         PotionMeta whiskyMeta = (PotionMeta) whiskyIngredient.getItemMeta();
         PersistentDataContainer pdc = whiskyMeta.getPersistentDataContainer();
         List<PotionEffect> effects = whiskyMeta.getCustomEffects();
@@ -194,12 +199,7 @@ public class Whisky implements Maturable, Distributable {
     }
 
     @Override
-    public SuperItemType getType() {
-        return null;
-    }
-
-    @Override
-    public void setMatrix(ItemStack[] matrix, String id) {
-
+    public void setMatrix(SuperItemStack[] matrix, String id) {
+        //todo distributionの設定
     }
 }

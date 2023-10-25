@@ -6,7 +6,7 @@ import org.bukkit.persistence.PersistentDataType;
 public enum PDCKey {
     // ここにPDCのキーを列挙する
 
-    TYPE("super_item_type", PersistentDataType.STRING, PDCKey.ApplyType.ITEM),
+    TYPE("super_item_type", PersistentDataType.STRING, PDCKey.ApplyType.ITEM, true),
     // TYPE: SuperItemTypeを記憶する
     PROTECTED("qol_protected", PersistentDataType.BOOLEAN, PDCKey.ApplyType.BLOCK),
     // PROTECTED: 保護されているかどうかを記憶する
@@ -54,6 +54,10 @@ public enum PDCKey {
     // DISTILLATION: 蒸留の回数。蒸留酒の場合のみ記憶する
     MATURATION("maturation", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
     // MATURATION: 熟成の日数。熟成酒の場合のみ記憶する
+    MATURATION_START("maturation_start", PersistentDataType.LONG, PDCKey.ApplyType.ITEM),
+    // MATURATION_START: 熟成開始日時。熟成酒の場合のみ記憶する
+    MATURATION_END("maturation_end", PersistentDataType.LONG, PDCKey.ApplyType.ITEM),
+    // MATURATION_END: 熟成終了日時。熟成酒の場合のみ記憶する
     RICE_POLISHING_RATIO("rice_polishing_ratio", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
     // RICE_POLISHING_RATIO: 精米歩合。
     INGREDIENT_TYPE("ingredient_type", PersistentDataType.STRING, PDCKey.ApplyType.ITEM),
@@ -75,13 +79,21 @@ public enum PDCKey {
     public final NamespacedKey key;
     public final PersistentDataType type;
     public final PDCKey.ApplyType apply;
-    public final Class<?> primitiveType;
+    // isProtected : これがtrueのものは、PDCCで上書きできない。finalみたいなもん
+    public final boolean isProtected;
 
     <T,Z> PDCKey(String key, PersistentDataType<T,Z> type, PDCKey.ApplyType apply) {
         this.key = new NamespacedKey("qol", key);
         this.type = type;
         this.apply = apply;
-        this.primitiveType = type.getPrimitiveType();
+        this.isProtected = false;
+    }
+
+    <T, Z> PDCKey(String key, PersistentDataType<T, Z> type, PDCKey.ApplyType apply, boolean isProtected) {
+        this.key = new NamespacedKey("qol", key);
+        this.type = type;
+        this.apply = apply;
+        this.isProtected = isProtected;
     }
 
     public enum ApplyType {

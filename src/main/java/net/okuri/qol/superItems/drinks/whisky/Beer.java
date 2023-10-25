@@ -6,9 +6,9 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.maturation.Maturable;
+import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -17,12 +17,11 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
-public class Beer implements Maturable {
+public class Beer extends SuperItem implements Maturable {
     private LocalDateTime start;
-    private ItemStack ingredient;
+    private SuperItemStack ingredient;
     private double temperature;
     private double humid;
-    private SuperItemType superItemType;
     private double x;
     private double y;
     private double z;
@@ -38,11 +37,24 @@ public class Beer implements Maturable {
     private double tempParam = 0.0;
     private double durationAmp = 0.0;
     private double divLine = 0.0;
-
     public Beer() {
+        super(SuperItemType.BEER);
     }
 
-    public Beer(ItemStack ingredient, LocalDateTime start) {
+    public Beer(SuperItemType type) {
+        super(type);
+        // typeで得られるclassが、このクラスのclassを継承しているか確認
+        if (!this.getClass().isAssignableFrom(SuperItemType.getSuperItemClass(type).getClass())) {
+            throw new IllegalArgumentException("type is not Beer");
+        }
+    }
+
+    public Beer(SuperItemType type, SuperItemStack ingredient, LocalDateTime start) {
+        super(type);
+        // typeで得られるclassが、このクラスのclassを継承しているか確認
+        if (!this.getClass().isAssignableFrom(SuperItemType.getSuperItemClass(type).getClass())) {
+            throw new IllegalArgumentException("type is not Beer");
+        }
         this.ingredient = ingredient;
         this.x = PDCC.get(ingredient.getItemMeta(), PDCKey.X);
         this.y = PDCC.get(ingredient.getItemMeta(), PDCKey.Y);
@@ -50,8 +62,23 @@ public class Beer implements Maturable {
         this.start = start;
     }
 
+    public Beer(SuperItemType type, SuperItemStack beer) {
+        super(type, beer);
+        // typeで得られるclassが、このクラスのclassを継承しているか確認
+        if (!this.getClass().isAssignableFrom(SuperItemType.getSuperItemClass(beer.getSuperItemType()).getClass())) {
+            throw new IllegalArgumentException("type is not Beer");
+        }
+        this.x = PDCC.get(beer.getItemMeta(), PDCKey.X);
+        this.y = PDCC.get(beer.getItemMeta(), PDCKey.Y);
+        this.z = PDCC.get(beer.getItemMeta(), PDCKey.Z);
+        this.start = PDCC.get(beer.getItemMeta(), PDCKey.MATURATION_START);
+        this.days = PDCC.get(beer.getItemMeta(), PDCKey.MATURATION);
+        this.temperature = PDCC.get(beer.getItemMeta(), PDCKey.TEMP);
+        this.humid = PDCC.get(beer.getItemMeta(), PDCKey.HUMID);
+    }
+
     @Override
-    public void setMaturationVariable(ArrayList<ItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {
+    public void setMaturationVariable(ArrayList<SuperItemStack> ingredients, LocalDateTime start, LocalDateTime end, double temp, double humid) {
         this.ingredient = ingredients.get(0);
         this.x = PDCC.get(ingredient.getItemMeta(), PDCKey.X);
         this.y = PDCC.get(ingredient.getItemMeta(), PDCKey.Y);
@@ -62,13 +89,12 @@ public class Beer implements Maturable {
     }
 
     @Override
-    public ItemStack getSuperItem() {
-        ItemStack result = new ItemStack(Material.POTION, 3);
+    public SuperItemStack getSuperItem() {
+        SuperItemStack result = new SuperItemStack(this.getSuperItemType(), 3);
         PotionMeta meta = (PotionMeta) result.getItemMeta();
         LoreGenerator lore = new LoreGenerator();
         // パラメータ計算
         calcParam();
-        meta.setCustomModelData(this.superItemType.getCustomModelData());
         //　各Durationが負のとき、バグ予防
         if (this.hasteDuration < 0) {
             this.hasteDuration = 0;
@@ -81,30 +107,36 @@ public class Beer implements Maturable {
         }
 
         // Ale Beer or Lager Beer
-        if (this.superItemType == SuperItemType.ALE_BEER) {
+        if (this.getSuperItemType() == SuperItemType.ALE_BEER) {
             meta.displayName(Component.text("Ale Beer").color(NamedTextColor.GOLD));
             meta.addCustomEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, this.hasteDuration, this.hasteLV), true);
             meta.setColor(org.bukkit.Color.fromRGB(246, 245, 19));
             lore.addInfoLore("Bitter and quite ale Beer!!");
-        } else {
+        } else if (this.getSuperItemType() == SuperItemType.LAGER_BEER) {
             meta.displayName(Component.text("Lager Beer").color(NamedTextColor.GOLD));
             meta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, this.speedDuration, this.speedLV), true);
             meta.addCustomEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, this.nightVisionDuration, this.nightVisionLV), true);
             meta.setColor(org.bukkit.Color.fromRGB(93, 52, 26));
             lore.addInfoLore("Heavy stouts lager Beer!!");
+        } else {
+            meta.displayName(Component.text("Beer").color(NamedTextColor.GOLD));
+            lore.addInfoLore("Beer!!");
         }
         lore.addParametersLore("Age: ", this.timeParam);
         lore.addParametersLore("Alcohol: ", 0.05, true);
         lore.addParametersLore("Amount: ", 300.0, true);
         meta.lore(lore.generateLore());
         // PersistentDataContainerにデータを保存
-        PDCC.setLiquor(meta, this.superItemType, 300.0, 0.05, this.x, this.y, this.z, this.divLine, 1.0, 2, this.temperature, this.humid, this.days);
+        PDCC.setLiquor(meta, 300.0, 0.05, this.x, this.y, this.z, this.divLine, 1.0, 2, this.temperature, this.humid, this.days);
+        PDCC.set(meta, PDCKey.MATURATION_START, this.start);
+        PDCC.set(meta, PDCKey.MATURATION_END, LocalDateTime.now());
+        PDCC.set(meta, PDCKey.MATURATION, Duration.between(this.start, LocalDateTime.now()).toDays());
         result.setItemMeta(meta);
         return result;
     }
 
     @Override
-    public ItemStack getDebugItem(int... args) {
+    public SuperItemStack getDebugItem(int... args) {
         this.x = 0.0;
         this.y = 0.0;
         this.z = 0.0;
@@ -130,12 +162,12 @@ public class Beer implements Maturable {
         if (this.temperature < 0.5) {
             tempLine = 0.25;
             dayLine = 7;
-            this.superItemType = SuperItemType.LAGER_BEER;
+            this.setSuperItemType(SuperItemType.ALE_BEER);
             this.maxDuration = 6000;
         } else {
             tempLine = 0.75;
             dayLine = 1;
-            this.superItemType = SuperItemType.ALE_BEER;
+            this.setSuperItemType(SuperItemType.LAGER_BEER);
             this.maxDuration = 12000;
         }
         //temp系

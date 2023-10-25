@@ -2,22 +2,21 @@ package net.okuri.qol.qolCraft.superCraft;
 
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
-import net.okuri.qol.event.DistributionEvent;
 import net.okuri.qol.event.SuperCraftEvent;
+import net.okuri.qol.superItems.SuperItem;
+import net.okuri.qol.superItems.SuperItemStack;
+import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.util.io.BukkitObjectInputStream;
 
 import java.util.ArrayList;
 
@@ -60,13 +59,33 @@ public class SuperCraft implements Listener {
         Player player = (Player) event.getView().getPlayer();
         CraftingInventory inventory = event.getInventory();
         ItemStack[] matrix = event.getInventory().getMatrix();
-
+        SuperItemStack[] superMatrix = new SuperItemStack[matrix.length];
+        // 深いコピーを行う
+        for (int i = 0; i < matrix.length; i++) {
+            if (matrix[i] == null) {
+                superMatrix[i] = null;
+                continue;
+            }
+            if (matrix[i].getType() == Material.AIR) {
+                superMatrix[i] = null;
+                continue;
+            }
+            if (matrix[i].getItemMeta() == null) {
+                superMatrix[i] = null;
+                continue;
+            } else {
+                superMatrix[i] = new SuperItemStack(matrix[i]);
+                if (superMatrix[i].getSuperItemType() == SuperItemType.DEFAULT) {
+                    Bukkit.getLogger().info(superMatrix[i].getType().toString());
+                }
+            }
+        }
         // レシピの判定
         for (SuperCraftRecipe superCraftRecipe : superCraftRecipes) {
-            if (superCraftRecipe.checkSuperRecipe(matrix)) {
-                //Bukkit.getLogger().info("SuperCraftRecipe matched!");
+            if (superCraftRecipe.checkSuperRecipe(superMatrix)) {
+                Bukkit.getLogger().info("SuperCraftRecipe matched!");
                 SuperCraftable result = superCraftRecipe.getResultClass();
-                ItemStack resultItem = result.getSuperItem();
+                SuperItemStack resultItem = ((SuperItem) result).getSuperItem();
 
                 inventory.setResult(resultItem);
                 this.superCraftFlag = true;
@@ -76,10 +95,10 @@ public class SuperCraft implements Listener {
         }
         // 不定形レシピの判定
         for (ShapelessSuperCraftRecipe shapelessSuperCraftRecipe : shapelessSuperCraftRecipes) {
-            if (shapelessSuperCraftRecipe.checkSuperRecipe(matrix)) {
-                //Bukkit.getLogger().info("ShapelessSuperCraftRecipe matched!");
+            if (shapelessSuperCraftRecipe.checkSuperRecipe(superMatrix)) {
+                Bukkit.getLogger().info("ShapelessSuperCraftRecipe matched!");
                 SuperCraftable result = shapelessSuperCraftRecipe.getResultClass();
-                ItemStack resultItem = result.getSuperItem();
+                ItemStack resultItem = ((SuperItem) result).getSuperItem();
 
                 inventory.setResult(resultItem);
                 this.shapelessCraftFlag = true;
@@ -89,17 +108,17 @@ public class SuperCraft implements Listener {
         }
         // Distributionの判定
         for (DistributionCraftRecipe d : distributionCraftRecipes){
-            if (d.checkSuperRecipe(matrix)){
-                //Bukkit.getLogger().info("DistributionCraftRecipe matched!");
+            if (d.checkSuperRecipe(superMatrix)) {
+                Bukkit.getLogger().info("DistributionCraftRecipe matched!");
                 d.process();
                 Distributable distribution = d.getDistribution();
                 DistributionReceiver receiver = d.getReceiver();
 
-                ItemStack receiverItem = receiver.getSuperItem();
+                ItemStack receiverItem = ((SuperItem) receiver).getSuperItem();
 
                 inventory.setResult(receiverItem);
                 this.distributionFlag = true;
-                this.distributableItem = distribution.getSuperItem();
+                this.distributableItem = ((SuperItem) distribution).getSuperItem();
                 this.recipe = d;
 
                 return;
