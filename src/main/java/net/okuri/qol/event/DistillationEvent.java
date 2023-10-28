@@ -1,7 +1,7 @@
 package net.okuri.qol.event;
 
 import net.okuri.qol.qolCraft.distillation.Distillable;
-import net.okuri.qol.superItems.SuperItemStack;
+import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.inventory.FurnaceSmeltEvent;

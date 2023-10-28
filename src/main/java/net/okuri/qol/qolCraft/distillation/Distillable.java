@@ -1,6 +1,6 @@
 package net.okuri.qol.qolCraft.distillation;
 
-import net.okuri.qol.superItems.SuperItemStack;
+import net.okuri.qol.superItems.itemStack.SuperItemStack;
 
 public interface Distillable {
     // distillationの処理は以下のように進む

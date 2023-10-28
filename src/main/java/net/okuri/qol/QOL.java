@@ -3,34 +3,35 @@ package net.okuri.qol;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.listener.*;
-import net.okuri.qol.qolCraft.distillation.Distillation;
+import net.okuri.qol.qolCraft.distillation.DistillationController;
 import net.okuri.qol.qolCraft.distillation.DistillationRecipe;
-import net.okuri.qol.qolCraft.maturation.Maturation;
+import net.okuri.qol.qolCraft.maturation.MaturationController;
 import net.okuri.qol.qolCraft.maturation.MaturationRecipe;
+import net.okuri.qol.qolCraft.resource.ResourceController;
 import net.okuri.qol.qolCraft.superCraft.DistributionCraftRecipe;
 import net.okuri.qol.qolCraft.superCraft.ShapelessSuperCraftRecipe;
-import net.okuri.qol.qolCraft.superCraft.SuperCraft;
+import net.okuri.qol.qolCraft.superCraft.SuperCraftController;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
-import net.okuri.qol.superItems.Koji;
-import net.okuri.qol.superItems.PolishedRice;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.drinks.Soda;
-import net.okuri.qol.superItems.drinks.StrongZero;
-import net.okuri.qol.superItems.drinks.ingredients.BeerIngredient;
-import net.okuri.qol.superItems.drinks.ingredients.SakeIngredient;
-import net.okuri.qol.superItems.drinks.ingredients.WhiskyIngredient;
-import net.okuri.qol.superItems.drinks.sake.*;
-import net.okuri.qol.superItems.drinks.whisky.Beer;
-import net.okuri.qol.superItems.drinks.whisky.Highball;
-import net.okuri.qol.superItems.drinks.whisky.Whisky;
-import net.okuri.qol.superItems.drinks.whisky.WhiskyWithIce;
-import net.okuri.qol.superItems.foods.BarleyBread;
-import net.okuri.qol.superItems.foods.Bread;
-import net.okuri.qol.superItems.foods.RyeBread;
-import net.okuri.qol.superItems.resources.SuperCoal;
-import net.okuri.qol.superItems.resources.SuperPotato;
-import net.okuri.qol.superItems.resources.SuperWheat;
-import net.okuri.qol.superItems.tools.EnvGetter;
+import net.okuri.qol.superItems.factory.Koji;
+import net.okuri.qol.superItems.factory.PolishedRice;
+import net.okuri.qol.superItems.factory.drinks.Soda;
+import net.okuri.qol.superItems.factory.drinks.StrongZero;
+import net.okuri.qol.superItems.factory.drinks.ingredients.BeerIngredient;
+import net.okuri.qol.superItems.factory.drinks.ingredients.SakeIngredient;
+import net.okuri.qol.superItems.factory.drinks.ingredients.WhiskyIngredient;
+import net.okuri.qol.superItems.factory.drinks.sake.*;
+import net.okuri.qol.superItems.factory.drinks.whisky.Beer;
+import net.okuri.qol.superItems.factory.drinks.whisky.Highball;
+import net.okuri.qol.superItems.factory.drinks.whisky.Whisky;
+import net.okuri.qol.superItems.factory.drinks.whisky.WhiskyWithIce;
+import net.okuri.qol.superItems.factory.foods.BarleyBread;
+import net.okuri.qol.superItems.factory.foods.Bread;
+import net.okuri.qol.superItems.factory.foods.RyeBread;
+import net.okuri.qol.superItems.factory.resources.SuperCoal;
+import net.okuri.qol.superItems.factory.resources.SuperPotato;
+import net.okuri.qol.superItems.factory.resources.SuperWheat;
+import net.okuri.qol.superItems.factory.tools.EnvGetter;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -49,13 +50,12 @@ public final class QOL extends JavaPlugin {
         // Plugin startup logic
 
         // drinkCraftsには特殊レシピを登録する
-        SuperCraft superCraft = new SuperCraft();
-        Maturation maturation = new Maturation();
-        Distillation distillation = new Distillation();
-        GetSuperItemListener superResource = new GetSuperItemListener();
+        SuperCraftController superCraft = new SuperCraftController();
+        MaturationController maturation = new MaturationController();
+        DistillationController distillation = new DistillationController();
+        ResourceController superResource = ResourceController.getListener();
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
         getServer().getPluginManager().registerEvents(new ConsumeListener(), this);
-        getServer().getPluginManager().registerEvents(new GetSuperItemListener(), this);
         getServer().getPluginManager().registerEvents(new InteractListener(), this);
         getServer().getPluginManager().registerEvents(new ProtectListener(), this);
         getServer().getPluginManager().registerEvents(new QOLSignListener(this), this);
@@ -93,7 +93,7 @@ public final class QOL extends JavaPlugin {
         getLogger().info("QOL Plugin Disabled");
     }
 
-    public void registerRecipes(SuperCraft superCraft) {
+    public void registerRecipes(SuperCraftController superCraft) {
     //ここに特殊レシピ(作業台)を登録する
         // 注意: VANILLAのレシピも登録しておくこと！！材料増えるバグが発生するよ。
 
@@ -308,7 +308,7 @@ public final class QOL extends JavaPlugin {
     }
 
     // Maturationのレシピを登録する
-    private void registerMaturationRecipes(Maturation maturation){
+    private void registerMaturationRecipes(MaturationController maturation) {
         // ここにMaturationのレシピを登録する
 
         // Whisky
@@ -328,7 +328,7 @@ public final class QOL extends JavaPlugin {
     }
 
     // Distillationのレシピを登録する
-    private void registerDistillationRecipes(Distillation distillation){
+    private void registerDistillationRecipes(DistillationController distillation) {
         // ここにDistillationのレシピを登録する
 
         // Whisky Ingredient
@@ -349,7 +349,7 @@ public final class QOL extends JavaPlugin {
     }
 
 
-    private void registerSuperResources(GetSuperItemListener superResource) {
+    private void registerSuperResources(ResourceController superResource) {
         // ここにSuperResourceを登録していく
 
         // SuperWheat

@@ -1,6 +1,6 @@
 package net.okuri.qol.qolCraft.maturation;
 
-import net.okuri.qol.superItems.SuperItemStack;
+import net.okuri.qol.superItems.itemStack.SuperItemStack;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ package net.okuri.qol.listener;
 import net.okuri.qol.Alcohol;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
-import net.okuri.qol.superItems.SuperItemStack;
+import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
