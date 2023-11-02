@@ -8,7 +8,9 @@ public enum SuperItemTag {
     FOOD,
     // FOOD: 食料のSuperItem。食べられるものすべてに付与。
     DRINK,
-    // DRINK: 飲料のSuperItem。飲めるものすべてに付与。
+    // DRINK: 飲料のSuperItem。飲めるもので、酒以外に付与。
+    LIQUOR,
+    // LIQUOR: 酒のSuperItem。飲めるもので、酒に付与。
     TOOL;
     // TOOL: 道具のSuperItem。右クリックで何かするものすべてに付与。
     private final HashSet<SuperItemType> superItemTypes = new HashSet<>();

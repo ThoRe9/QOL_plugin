@@ -1,6 +1,7 @@
 package net.okuri.qol.listener;
 
 import net.okuri.qol.Alcohol;
+import net.okuri.qol.ChatGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
@@ -18,7 +19,11 @@ public class ConsumeListener implements Listener {
         SuperItemStack item = new SuperItemStack(event.getItem());
         ItemMeta meta = item.getItemMeta();
         // 材料ポーションなど使用できないアイテムを使用したときの処理
-        if (!item.isConsumable()) return;
+        if (!item.isConsumable()) {
+            event.setCancelled(true);
+            new ChatGenerator().addWarning("You can't consume this item.").sendMessage(player);
+            return;
+        }
         // alcoholを使用したとき
         this.alcoholEvent(player, meta);
 

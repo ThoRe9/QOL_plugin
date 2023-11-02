@@ -36,6 +36,8 @@ public enum PDCKey {
     // Z: パラメータ計算用(3)
     DIVLINE("divline", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
     // DIVLINE: パラメータ計算用(4)
+    MAX_DURATION("max_duration", PersistentDataType.INTEGER, PDCKey.ApplyType.ITEM),
+    // MAX_DURATION: パラメータ計算用(5)
     SODA_STRENGTH("soda_strength", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
     // SODA_STRENGTH: ソーダの強さを記憶する
     PRODUCER("producer", PersistentDataType.STRING, PDCKey.ApplyType.ITEM),
@@ -72,8 +74,14 @@ public enum PDCKey {
     // SAKE_TYPE: 日本酒のタイプ
     SAKE_TASTE_TYPE("sake_taste_type", PersistentDataType.STRING, ApplyType.ITEM),
     // SAKE_TASTE_TYPE: 日本酒の味のタイプ
-    SAKE_ALC_TYPE("sake_alc_type", PersistentDataType.STRING, ApplyType.ITEM);
+    SAKE_ALC_TYPE("sake_alc_type", PersistentDataType.STRING, ApplyType.ITEM),
     // SAKE_ALC_TYPE: 日本酒のアルコールのタイプ(甘口、辛口)
+    X_EFFECT("x_effect", PersistentDataType.STRING, ApplyType.ITEM),
+    // X_EFFECT: X効果の種類
+    Y_EFFECT("y_effect", PersistentDataType.STRING, ApplyType.ITEM),
+    // Y_EFFECT: Y効果の種類
+    Z_EFFECT("z_effect", PersistentDataType.STRING, ApplyType.ITEM);
+    // Z_EFFECT: Z効果の種類
 
 
     public final NamespacedKey key;
