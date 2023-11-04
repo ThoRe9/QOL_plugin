@@ -52,7 +52,7 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
     private Component displayName;
     private String infoLore;
     private double defaultMaturationDays = 1.0;
-    private double quality;
+    private double quality = 1.0;
     // 以下オプション
     private double temp = 0;
     private double humid = 0;
@@ -182,7 +182,6 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         lore.addParametersLore("Alcohol Percentage", this.alcoholPercentage, true);
         lore.addParametersLore("Amount", this.alcoholAmount, true);
         lore.addInfoLore(this.producer);
-        lore.addInfoLore(this.infoLore);
 
         SuperLiquorStack item = new SuperLiquorStack(this.getSuperItemType(), this.itemCount);
         item.setXEffectType(this.xEffectType);
@@ -261,13 +260,13 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
                 if (item == null) continue;
                 SuperItemType type = item.getSuperItemType();
                 if (mainIngredients.contains(type)) {
-                    ingredients.add((SuperXYZStack) item);
+                    ingredients.add(new SuperXYZStack(item));
                 } else if (mainBuffIngredients.contains(type)) {
-                    buffIngredients.add((SuperXYZStack) item);
+                    buffIngredients.add(new SuperXYZStack(item));
                 } else if (subIngredients.contains(type)) {
-                    subIngredients.add((SuperXYZStack) item);
+                    subIngredients.add(new SuperXYZStack(item));
                 } else if (subBuffIngredients.contains(type)) {
-                    subBuffIngredients.add((SuperXYZStack) item);
+                    subBuffIngredients.add(new SuperXYZStack(item));
                 }
             }
             calc(ingredients, buffIngredients, subIngredients, subBuffIngredients);
@@ -302,7 +301,7 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         double subX = 0;
         double subY = 0;
         double subZ = 0;
-        if (subIngredients.size() < 1) {
+        if (subIngredients.isEmpty()) {
             subX = x;
             subY = y;
             subZ = z;
@@ -325,7 +324,11 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         double mean = sc.getMean();
         this.smell = 1.1 - standerdDeviation * 3;
         this.taste = (0.1 + max - mean) / (1 - max);
-        this.compatibility = (((max - min) % min) / min) * (this.compatibilityMax - this.compatibilityMin) + this.compatibilityMin;
+        if (this.compatibilityMax == this.compatibilityMin) {
+            this.compatibility = this.compatibilityMax;
+        } else {
+            this.compatibility = (((max - min) % min) / min) * (this.compatibilityMax - this.compatibilityMin) + this.compatibilityMin;
+        }
         // 4. subBuffIngredientsの計算。taste, smell, compatibilityを計算する。
         subX = 0;
         subY = 0;

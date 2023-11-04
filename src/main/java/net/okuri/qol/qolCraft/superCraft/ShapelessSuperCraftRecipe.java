@@ -1,5 +1,6 @@
 package net.okuri.qol.qolCraft.superCraft;
 
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
@@ -13,7 +14,7 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
     private final ItemStack result;
     private final String id;
     private SuperCraftable resultClass;
-    private final ArrayList<SuperItemType> ingredients = new ArrayList<>();
+    private final ArrayList<SuperItemData> ingredients = new ArrayList<>();
     private SuperItemStack[] ingredientItems;
 
     public ShapelessSuperCraftRecipe(ItemStack result, String id) {
@@ -32,7 +33,7 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
             SuperItemStack itemStack = matrix[i];
             if (itemStack != null) {
                 for (int j = 0; j < ingredients.size(); j++) {
-                    SuperItemType ingredient = ingredients.get(j);
+                    SuperItemData ingredient = ingredients.get(j);
                     if (itemStack.isSimilar(ingredient)) {
                         ingredientItems[j] = itemStack;
                         flag = true;
@@ -54,12 +55,17 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
     }
 
     public void addIngredient(Material ingredient) {
-        this.ingredients.add(SuperItemType.DEFAULT.setMaterial(ingredient));
+        this.ingredients.add(new SuperItemData(ingredient));
     }
 
-    public void addingredient(SuperItemType ingredient) {
+    public void addIngredient(SuperItemType ingredient) {
+        this.ingredients.add(new SuperItemData(ingredient));
+    }
+
+    public void addIngredient(SuperItemData ingredient) {
         this.ingredients.add(ingredient);
     }
+
 
     public void setResultClass(SuperCraftable resultClass) {
         this.resultClass = resultClass;

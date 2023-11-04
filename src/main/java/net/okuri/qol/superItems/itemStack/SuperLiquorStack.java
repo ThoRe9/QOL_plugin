@@ -33,6 +33,10 @@ public class SuperLiquorStack extends SuperXYZStack {
     public SuperLiquorStack(@NotNull SuperItemType type, int amount) {
         super(type, amount);
         assert type.hasTag(SuperItemTag.LIQUOR);
+        ItemMeta meta = super.getItemMeta();
+        PDCC.set(meta, PDCKey.ALCOHOL, true);
+        super.setItemMeta(meta);
+
         this.setX(0.0);
         this.setY(0.0);
         this.setZ(0.0);

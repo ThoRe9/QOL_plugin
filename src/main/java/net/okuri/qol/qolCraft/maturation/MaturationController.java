@@ -9,6 +9,7 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.ProtectedBlock;
 import net.okuri.qol.event.MaturationEndEvent;
 import net.okuri.qol.event.MaturationPrepareEvent;
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
 import org.bukkit.Bukkit;
@@ -159,22 +160,22 @@ public class MaturationController implements Listener {
         if (ingredients.size() != recipe.getIngredientSize()) {
             return false;
         }
-        // barrelの中身が全てSuperItemかどうかを確認する。もしそうなら、SuperItemTypeの配列を作成する
-        ArrayList<SuperItemType> superItemTypes = new ArrayList<>();
+        // barrelの中身が全てSuperItemかどうかを確認する。もしそうなら、SuperItemDataの配列を作成する
+        ArrayList<SuperItemData> superItemDatas = new ArrayList<>();
         for (ItemStack ingredient : ingredients) {
             if (ingredient == null) {
                 return false;
             }
             if (ingredient.hasItemMeta() && PDCC.has(ingredient, PDCKey.TYPE)) {
-                superItemTypes.add(SuperItemType.valueOf(PDCC.get(ingredient, PDCKey.TYPE)));
+                superItemDatas.add(new SuperItemData(SuperItemType.valueOf(PDCC.get(ingredient, PDCKey.TYPE))));
             } else {
                 return false;
             }
         }
         // recipeの材料と一致するかどうかを確認する(順番も一致させる)
-        ArrayList<SuperItemType> recipeIngredients = recipe.getIngredients();
+        ArrayList<SuperItemData> recipeIngredients = recipe.getIngredients();
         for (int i = 0; i < recipeIngredients.size(); i++) {
-            if (recipeIngredients.get(i) != superItemTypes.get(i)) {
+            if (recipeIngredients.get(i) != superItemDatas.get(i)) {
                 return false;
             }
         }

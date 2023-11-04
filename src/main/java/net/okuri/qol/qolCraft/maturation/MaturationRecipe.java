@@ -1,12 +1,13 @@
 package net.okuri.qol.qolCraft.maturation;
 
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 
 import java.util.ArrayList;
 
 
 public class MaturationRecipe {
-    private final ArrayList<SuperItemType> ingredients = new ArrayList<>();
+    private final ArrayList<SuperItemData> ingredients = new ArrayList<>();
 
     private final Maturable resultClass;
     private final String recipeName;
@@ -16,7 +17,11 @@ public class MaturationRecipe {
         this.recipeName = name;
     }
 
-    public void addingredient(SuperItemType superIngredient) {
+    public void addIngredient(SuperItemType superIngredient) {
+        this.addIngredient(new SuperItemData(superIngredient));
+    }
+
+    public void addIngredient(SuperItemData superIngredient) {
         ingredients.add(superIngredient);
     }
 
@@ -24,7 +29,7 @@ public class MaturationRecipe {
         return ingredients.size();
     }
 
-    public ArrayList<SuperItemType> getIngredients() {
+    public ArrayList<SuperItemData> getIngredients() {
         return ingredients;
     }
 

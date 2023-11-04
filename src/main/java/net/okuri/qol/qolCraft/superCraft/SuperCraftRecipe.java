@@ -1,9 +1,9 @@
 package net.okuri.qol.qolCraft.superCraft;
 
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -16,7 +16,7 @@ public class SuperCraftRecipe implements SuperRecipe {
     // Materialだけでなく、SuperItemTypeも判定できる
     private String id;
     public ItemStack result;
-    public Map<Character, SuperItemType> ingredients = new HashMap<>();
+    public Map<Character, SuperItemData> ingredients = new HashMap<>();
     public String[] shape = new String[3];
     private SuperItemStack[] matrix = new SuperItemStack[9];
     private SuperCraftable resultClass = null;
@@ -38,25 +38,21 @@ public class SuperCraftRecipe implements SuperRecipe {
 
                 int checkIndex = i * 3 + j;
                 char ingredient = row.charAt(j);
-                // ingredientsの中身を出力
-                for (Map.Entry<Character, SuperItemType> entry : ingredients.entrySet()) {
-                    Bukkit.getServer().getLogger().info(entry.getKey().toString());
-                    Bukkit.getServer().getLogger().info(entry.getValue().toString());
-                }
+
                 if (ingredient == ' ') {
-                    Bukkit.getServer().getLogger().info("nullAndAirSlotDetected");
-                    Bukkit.getServer().getLogger().info(String.valueOf(checkIndex));
+                    //Bukkit.getServer().getLogger().info("nullAndAirSlotDetected");
+                    //Bukkit.getServer().getLogger().info(String.valueOf(checkIndex));
                     if (matrix[checkIndex] != null) {
-                        Bukkit.getServer().getLogger().info(matrix[checkIndex].toString());
+                        //Bukkit.getServer().getLogger().info(matrix[checkIndex].toString());
                         return false;
                     }
                 } else if (ingredients.containsKey(ingredient)) {
                     if (matrix[checkIndex] == null) {
-                        Bukkit.getServer().getLogger().info("nullSlotDetected");
+                        //Bukkit.getServer().getLogger().info("nullSlotDetected");
                         return false;
                     }
                     if (!matrix[checkIndex].isSimilar(ingredients.get(ingredient))) {
-                        Bukkit.getServer().getLogger().info("differentMaterialDetected");
+                        //Bukkit.getServer().getLogger().info("differentMaterialDetected");
                         return false;
                     }
                 } else {
@@ -79,16 +75,20 @@ public class SuperCraftRecipe implements SuperRecipe {
         this.shape = shape;
     }
 
-    public void setIngredients(Map<Character, SuperItemType> ingredients) {
+    public void setIngredients(Map<Character, SuperItemData> ingredients) {
         this.ingredients = ingredients;
     }
 
 
     public void addIngredient(Character key, Material value) {
-        this.ingredients.put(key, SuperItemType.DEFAULT.setMaterial(value));
+        this.addIngredient(key, new SuperItemData(value));
     }
 
     public void addIngredient(Character key, SuperItemType value) {
+        this.addIngredient(key, new SuperItemData(value));
+    }
+
+    public void addIngredient(Character key, SuperItemData value) {
         this.ingredients.put(key, value);
     }
 

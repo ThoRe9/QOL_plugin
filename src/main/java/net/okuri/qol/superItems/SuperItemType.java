@@ -147,13 +147,6 @@ public enum SuperItemType {
         return this.material;
     }
 
-    public SuperItemType setMaterial(Material material) {
-        if (this == DEFAULT) {
-            this.material = material;
-            return this;
-        }
-        throw new UnsupportedOperationException("This method is not supported.");
-    }
 
     public SuperItemTag getTag() {
         return this.tag;

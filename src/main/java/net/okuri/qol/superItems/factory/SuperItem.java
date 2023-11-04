@@ -1,5 +1,6 @@
 package net.okuri.qol.superItems.factory;
 
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
@@ -18,23 +19,22 @@ public abstract class SuperItem {
     あくまでこのクラスは、SuperItemStackを作成するためのクラスです。
      */
 
-    private SuperItemType superItemType;
+    private SuperItemData superItemData;
     private Material material;
 
     public SuperItem(SuperItemType type, SuperItemStack stack) {
         if (type != stack.getSuperItemType()) throw new IllegalArgumentException("SuperItemTypeが一致しません。");
-        this.superItemType = stack.getSuperItemType();
+        this.superItemData = new SuperItemData(stack.getSuperItemType());
         this.material = stack.getType();
     }
 
     public SuperItem(SuperItemType superItemType) {
-        this.superItemType = superItemType;
+        this.superItemData = new SuperItemData(superItemType);
         this.material = superItemType.getMaterial();
     }
 
     public SuperItem(Material material) {
-        this.superItemType = SuperItemType.DEFAULT;
-        this.superItemType.setMaterial(material);
+        this.superItemData = new SuperItemData(material);
         this.material = material;
     }
 
@@ -59,12 +59,16 @@ public abstract class SuperItem {
     }
 
     public SuperItemType getSuperItemType() {
-        return this.superItemType;
+        return this.superItemData.getType();
     }
 
     public void setSuperItemType(SuperItemType superItemType) {
-        this.superItemType = superItemType;
+        this.superItemData = new SuperItemData(superItemType);
         this.material = superItemType.getMaterial();
+    }
+
+    public SuperItemData getSuperItemData() {
+        return this.superItemData;
     }
 
     public Material getMaterial() {

@@ -3,7 +3,6 @@ package net.okuri.qol.qolCraft.superCraft;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.event.SuperCraftEvent;
-import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Bukkit;
@@ -75,9 +74,6 @@ public class SuperCraftController implements Listener {
                 continue;
             } else {
                 superMatrix[i] = new SuperItemStack(matrix[i]);
-                if (superMatrix[i].getSuperItemType() == SuperItemType.DEFAULT) {
-                    Bukkit.getLogger().info(superMatrix[i].getSuperItemType().getMaterial().toString());
-                }
             }
         }
 

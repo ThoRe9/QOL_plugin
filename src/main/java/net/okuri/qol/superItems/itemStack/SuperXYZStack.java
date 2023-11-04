@@ -19,6 +19,18 @@ public class SuperXYZStack extends SuperItemStack {
         // 浅いコピーではなく、深いコピーを行っている
         // そのため、このクラスをいじっても元のアイテム情報は変化しないことに注意
         super(stack);
+        ItemMeta meta = super.getItemMeta();
+        x = PDCC.get(meta, PDCKey.X);
+        y = PDCC.get(meta, PDCKey.Y);
+        z = PDCC.get(meta, PDCKey.Z);
+    }
+
+    public SuperXYZStack(SuperItemStack stack) {
+        super(stack);
+        ItemMeta meta = super.getItemMeta();
+        x = PDCC.get(meta, PDCKey.X);
+        y = PDCC.get(meta, PDCKey.Y);
+        z = PDCC.get(meta, PDCKey.Z);
     }
 
     public SuperXYZStack(Material material) {

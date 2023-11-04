@@ -234,13 +234,13 @@ public final class QOL extends JavaPlugin {
         polishedRiceMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE").generateLore());
         polishedRice.setItemMeta(polishedRiceMeta);
         ShapelessSuperCraftRecipe polishedRiceRecipe = new ShapelessSuperCraftRecipe(polishedRice, "polished_rice");
-        polishedRiceRecipe.addingredient(SuperItemType.POLISHED_RICE);
+        polishedRiceRecipe.addIngredient(SuperItemType.POLISHED_RICE);
         polishedRiceRecipe.setResultClass(new PolishedRice());
         //superCraft.addShapelessSuperCraftRecipe(polishedRiceRecipe);
 
         // polished rice(initial)
         ShapelessSuperCraftRecipe polishedRiceRecipe2 = new ShapelessSuperCraftRecipe(polishedRice, "polished_rice2");
-        polishedRiceRecipe2.addingredient(SuperItemType.RICE);
+        polishedRiceRecipe2.addIngredient(SuperItemType.RICE);
         polishedRiceRecipe2.setResultClass(new PolishedRice());
         //superCraft.addShapelessSuperCraftRecipe(polishedRiceRecipe2);
 
@@ -313,17 +313,17 @@ public final class QOL extends JavaPlugin {
 
         // Whisky
         MaturationRecipe whiskyRecipe = new MaturationRecipe("Whisky", new Whisky());
-        whiskyRecipe.addingredient(SuperItemType.WHISKY_INGREDIENT);
+        whiskyRecipe.addIngredient(SuperItemType.WHISKY_INGREDIENT);
         maturation.addMaturationRecipe(whiskyRecipe);
 
         // Beer
         MaturationRecipe beerRecipe = new MaturationRecipe("Beer", new Beer());
-        beerRecipe.addingredient(SuperItemType.BEER_INGREDIENT);
+        beerRecipe.addIngredient(SuperItemType.BEER_INGREDIENT);
         maturation.addMaturationRecipe(beerRecipe);
 
         // Sake
         MaturationRecipe sakeRecipe = new MaturationRecipe("Sake", new Sake1ShoBottle());
-        sakeRecipe.addingredient(SuperItemType.SAKE_INGREDIENT);
+        sakeRecipe.addIngredient(SuperItemType.SAKE_INGREDIENT);
         maturation.addMaturationRecipe(sakeRecipe);
     }
 
@@ -333,18 +333,18 @@ public final class QOL extends JavaPlugin {
 
         // Whisky Ingredient
         DistillationRecipe whiskyIngredientRecipe = new DistillationRecipe("Whisky Ingredient", new WhiskyIngredient());
-        whiskyIngredientRecipe.addingredient(SuperItemType.WHISKY_INGREDIENT);
-        whiskyIngredientRecipe.addingredient(SuperItemType.UNDISTILLED_WHISKY_INGREDIENT);
+        whiskyIngredientRecipe.addIngredient(SuperItemType.WHISKY_INGREDIENT);
+        whiskyIngredientRecipe.addIngredient(SuperItemType.UNDISTILLED_WHISKY_INGREDIENT);
         distillation.addDistillationRecipe(whiskyIngredientRecipe);
 
         // hot sake
         DistillationRecipe hotSakeRecipe = new DistillationRecipe("Hot Sake", new HotSake());
-        hotSakeRecipe.addingredient(SuperItemType.SAKE_1GO);
+        hotSakeRecipe.addIngredient(SuperItemType.SAKE_1GO);
         distillation.addDistillationRecipe(hotSakeRecipe);
 
         // shochu
         DistillationRecipe shochuRecipe = new DistillationRecipe("Shochu", new Shochu());
-        shochuRecipe.addingredient(SuperItemType.SAKE_INGREDIENT);
+        shochuRecipe.addIngredient(SuperItemType.SAKE_INGREDIENT);
         distillation.addDistillationRecipe(shochuRecipe);
     }
 

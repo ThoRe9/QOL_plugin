@@ -1,12 +1,13 @@
 package net.okuri.qol.qolCraft.distillation;
 
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 
 import java.util.ArrayList;
 
 public class DistillationRecipe {
     // 注意：　ここでのingredients は、全てが必須なのではなく、どれか一つでもあれば良い。
-    private final ArrayList<SuperItemType> ingredients = new ArrayList<>();
+    private final ArrayList<SuperItemData> ingredients = new ArrayList<>();
     private final Distillable resultClass;
     private final String recipeName;
 
@@ -15,8 +16,12 @@ public class DistillationRecipe {
         this.recipeName = name;
     }
 
-    public void addingredient(SuperItemType superIngredient) {
-        ingredients.add(superIngredient);
+    public void addIngredient(SuperItemType superIngredient) {
+        this.addIngredient(new SuperItemData(superIngredient));
+    }
+
+    public void addIngredient(SuperItemData data) {
+        ingredients.add(data);
     }
 
     private String getRecipeName() {
@@ -27,7 +32,7 @@ public class DistillationRecipe {
         return resultClass;
     }
 
-    public ArrayList<SuperItemType> getIngredients() {
+    public ArrayList<SuperItemData> getIngredients() {
         return ingredients;
     }
 }
