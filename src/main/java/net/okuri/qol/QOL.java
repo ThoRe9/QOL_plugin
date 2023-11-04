@@ -112,7 +112,7 @@ public final class QOL extends JavaPlugin {
         whiskyRecipe.addIngredient('B', Material.WATER_BUCKET);
         whiskyRecipe.addIngredient('C', SuperItemType.COAL);
         whiskyRecipe.setResultClass(new WhiskyIngredient());
-        superCraft.addSuperCraftRecipe(whiskyRecipe);
+        //superCraft.addSuperCraftRecipe(whiskyRecipe);
 
         // WhiskyWithIce
         ItemStack whiskyWithIce = new ItemStack(Material.POTION, 1);
@@ -127,7 +127,7 @@ public final class QOL extends JavaPlugin {
         whiskyWithIceRecipe.addIngredient('I', Material.ICE);
         whiskyWithIceRecipe.addIngredient('B', Material.GLASS_BOTTLE);
         whiskyWithIceRecipe.setResultClass(new WhiskyWithIce());
-        superCraft.addSuperCraftRecipe(whiskyWithIceRecipe);
+        //superCraft.addSuperCraftRecipe(whiskyWithIceRecipe);
 
         // Soda
         ItemStack soda = new ItemStack(Material.POTION, 1);
@@ -142,7 +142,7 @@ public final class QOL extends JavaPlugin {
         sodaRecipe.addIngredient('W', Material.WATER_BUCKET);
         sodaRecipe.addIngredient('B', Material.GLASS_BOTTLE);
         sodaRecipe.setResultClass(new Soda());
-        superCraft.addSuperCraftRecipe(sodaRecipe);
+        //superCraft.addSuperCraftRecipe(sodaRecipe);
 
         //Highball
         ItemStack highball = new ItemStack(Material.POTION, 1);
@@ -157,7 +157,7 @@ public final class QOL extends JavaPlugin {
         highballRecipe.addIngredient('I', Material.ICE);
         highballRecipe.addIngredient('S', SuperItemType.SODA);
         highballRecipe.setResultClass(new Highball());
-        superCraft.addSuperCraftRecipe(highballRecipe);
+        //superCraft.addSuperCraftRecipe(highballRecipe);
 
         // Bread
         ItemStack superBread = new ItemStack(Material.BREAD, 1);
@@ -165,7 +165,7 @@ public final class QOL extends JavaPlugin {
         superBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
         superBreadRecipe.addIngredient('W', SuperItemType.WHEAT);
         superBreadRecipe.setResultClass(new Bread());
-        superCraft.addSuperCraftRecipe(superBreadRecipe);
+        //superCraft.addSuperCraftRecipe(superBreadRecipe);
         // パンは元からレシピが存在するので以下略
 
         // RyeBread
@@ -174,7 +174,7 @@ public final class QOL extends JavaPlugin {
         superRyeBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
         superRyeBreadRecipe.addIngredient('W', SuperItemType.RYE);
         superRyeBreadRecipe.setResultClass(new RyeBread());
-        superCraft.addSuperCraftRecipe(superRyeBreadRecipe);
+        //superCraft.addSuperCraftRecipe(superRyeBreadRecipe);
 
         // BarleyBread
         ItemStack superBarleyBread = new ItemStack(Material.BREAD, 1);
@@ -182,7 +182,7 @@ public final class QOL extends JavaPlugin {
         superBarleyBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
         superBarleyBreadRecipe.addIngredient('W', SuperItemType.BARLEY);
         superBarleyBreadRecipe.setResultClass(new BarleyBread());
-        superCraft.addSuperCraftRecipe(superBarleyBreadRecipe);
+        //superCraft.addSuperCraftRecipe(superBarleyBreadRecipe);
 
         // BeerIngredient
         ItemStack beer = new ItemStack(Material.POTION, 1);
@@ -197,7 +197,7 @@ public final class QOL extends JavaPlugin {
         beerRecipe.addIngredient('B', Material.WATER_BUCKET);
         beerRecipe.addIngredient('V', Material.VINE);
         beerRecipe.setResultClass(new BeerIngredient());
-        superCraft.addSuperCraftRecipe(beerRecipe);
+        //superCraft.addSuperCraftRecipe(beerRecipe);
 
         // ストゼロ
         ItemStack st0 = new ItemStack(Material.POTION, 1);
@@ -225,7 +225,7 @@ public final class QOL extends JavaPlugin {
         envGetterRecipe.addIngredient('R', Material.COMPARATOR);
         envGetterRecipe.addIngredient('O', Material.OBSERVER);
         envGetterRecipe.setResultClass(new EnvGetter());
-        superCraft.addSuperCraftRecipe(envGetterRecipe);
+        //superCraft.addSuperCraftRecipe(envGetterRecipe);
 
         // polished rice
         ItemStack polishedRice = new ItemStack(Material.PUMPKIN_SEEDS, 1);
@@ -236,13 +236,13 @@ public final class QOL extends JavaPlugin {
         ShapelessSuperCraftRecipe polishedRiceRecipe = new ShapelessSuperCraftRecipe(polishedRice, "polished_rice");
         polishedRiceRecipe.addingredient(SuperItemType.POLISHED_RICE);
         polishedRiceRecipe.setResultClass(new PolishedRice());
-        superCraft.addShapelessSuperCraftRecipe(polishedRiceRecipe);
+        //superCraft.addShapelessSuperCraftRecipe(polishedRiceRecipe);
 
         // polished rice(initial)
         ShapelessSuperCraftRecipe polishedRiceRecipe2 = new ShapelessSuperCraftRecipe(polishedRice, "polished_rice2");
         polishedRiceRecipe2.addingredient(SuperItemType.RICE);
         polishedRiceRecipe2.setResultClass(new PolishedRice());
-        superCraft.addShapelessSuperCraftRecipe(polishedRiceRecipe2);
+        //superCraft.addShapelessSuperCraftRecipe(polishedRiceRecipe2);
 
         // Koji
         ItemStack koji = new ItemStack(Material.POTION, 1);
@@ -255,7 +255,7 @@ public final class QOL extends JavaPlugin {
         kojiRecipe.addIngredient('R', SuperItemType.POLISHED_RICE);
         kojiRecipe.addIngredient('W', Material.WATER_BUCKET);
         kojiRecipe.setResultClass(new Koji());
-        superCraft.addSuperCraftRecipe(kojiRecipe);
+        //superCraft.addSuperCraftRecipe(kojiRecipe);
 
         // SakeIngredient
         ItemStack sake = new ItemStack(Material.POTION, 1);
@@ -269,42 +269,42 @@ public final class QOL extends JavaPlugin {
         sakeRecipe.addIngredient('K', SuperItemType.KOJI);
         sakeRecipe.addIngredient('W', Material.WATER_BUCKET);
         sakeRecipe.setResultClass(new SakeIngredient());
-        superCraft.addSuperCraftRecipe(sakeRecipe);
+        //superCraft.addSuperCraftRecipe(sakeRecipe);
 
         // Sake(1合)(distribution)
         DistributionCraftRecipe sake1goRecipe = new DistributionCraftRecipe("sake_1go");
         sake1goRecipe.setDistribution(new Sake1ShoBottle());
         sake1goRecipe.setReciver(new SakeBottle());
         sake1goRecipe.setBottle(Material.GLASS_BOTTLE);
-        superCraft.addDistributionCraftRecipe(sake1goRecipe);
+        //superCraft.addDistributionCraftRecipe(sake1goRecipe);
 
         // Sake(お猪口)(distribution)
         DistributionCraftRecipe sakeOchokoRecipe = new DistributionCraftRecipe("sake_ochoko");
         sakeOchokoRecipe.setDistribution(new SakeBottle());
         sakeOchokoRecipe.setReciver(new Ochoko());
         sakeOchokoRecipe.setBottle(Material.GLASS_BOTTLE);
-        superCraft.addDistributionCraftRecipe(sakeOchokoRecipe);
+        //superCraft.addDistributionCraftRecipe(sakeOchokoRecipe);
 
         // shochu(1合)(distribution)
         DistributionCraftRecipe shochu1goRecipe = new DistributionCraftRecipe("shochu_1go");
         shochu1goRecipe.setDistribution(new Shochu());
         shochu1goRecipe.setReciver(new ShochuBottle());
         shochu1goRecipe.setBottle(Material.GLASS_BOTTLE);
-        superCraft.addDistributionCraftRecipe(shochu1goRecipe);
+        //superCraft.addDistributionCraftRecipe(shochu1goRecipe);
 
         // shochu(お猪口)(distribution)
         DistributionCraftRecipe shochuOchokoRecipe = new DistributionCraftRecipe("shochu_ochoko");
         shochuOchokoRecipe.setDistribution(new ShochuBottle());
         shochuOchokoRecipe.setReciver(new ShochuOchoko());
         shochuOchokoRecipe.setBottle(Material.GLASS_BOTTLE);
-        superCraft.addDistributionCraftRecipe(shochuOchokoRecipe);
+        //superCraft.addDistributionCraftRecipe(shochuOchokoRecipe);
 
         // hotsakeなochoko
         DistributionCraftRecipe hotSakeOchokoRecipe = new DistributionCraftRecipe("hot_sake_ochoko");
         hotSakeOchokoRecipe.setDistribution(new HotSake());
         hotSakeOchokoRecipe.setReciver(new Ochoko());
         hotSakeOchokoRecipe.setBottle(Material.GLASS_BOTTLE);
-        superCraft.addDistributionCraftRecipe(hotSakeOchokoRecipe);
+        //superCraft.addDistributionCraftRecipe(hotSakeOchokoRecipe);
     }
 
     // Maturationのレシピを登録する

@@ -3,6 +3,7 @@ package net.okuri.qol.qolCraft.superCraft;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.jetbrains.annotations.NotNull;
@@ -37,20 +38,25 @@ public class SuperCraftRecipe implements SuperRecipe {
 
                 int checkIndex = i * 3 + j;
                 char ingredient = row.charAt(j);
+                // ingredientsの中身を出力
+                for (Map.Entry<Character, SuperItemType> entry : ingredients.entrySet()) {
+                    Bukkit.getServer().getLogger().info(entry.getKey().toString());
+                    Bukkit.getServer().getLogger().info(entry.getValue().toString());
+                }
                 if (ingredient == ' ') {
-                    //Bukkit.getServer().getLogger().info("nullAndAirSlotDetected");
-                    //Bukkit.getServer().getLogger().info(String.valueOf(checkIndex));
+                    Bukkit.getServer().getLogger().info("nullAndAirSlotDetected");
+                    Bukkit.getServer().getLogger().info(String.valueOf(checkIndex));
                     if (matrix[checkIndex] != null) {
-                        //Bukkit.getServer().getLogger().info(matrix[checkIndex].toString());
+                        Bukkit.getServer().getLogger().info(matrix[checkIndex].toString());
                         return false;
                     }
                 } else if (ingredients.containsKey(ingredient)) {
                     if (matrix[checkIndex] == null) {
-                        //Bukkit.getServer().getLogger().info("nullSlotDetected");
+                        Bukkit.getServer().getLogger().info("nullSlotDetected");
                         return false;
                     }
                     if (!matrix[checkIndex].isSimilar(ingredients.get(ingredient))) {
-                        //Bukkit.getServer().getLogger().info("differentMaterialDetected");
+                        Bukkit.getServer().getLogger().info("differentMaterialDetected");
                         return false;
                     }
                 } else {

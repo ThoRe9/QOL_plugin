@@ -76,10 +76,11 @@ public class SuperCraftController implements Listener {
             } else {
                 superMatrix[i] = new SuperItemStack(matrix[i]);
                 if (superMatrix[i].getSuperItemType() == SuperItemType.DEFAULT) {
-                    Bukkit.getLogger().info(superMatrix[i].getType().toString());
+                    Bukkit.getLogger().info(superMatrix[i].getSuperItemType().getMaterial().toString());
                 }
             }
         }
+
         // レシピの判定
         for (SuperCraftRecipe superCraftRecipe : superCraftRecipes) {
             if (superCraftRecipe.checkSuperRecipe(superMatrix)) {

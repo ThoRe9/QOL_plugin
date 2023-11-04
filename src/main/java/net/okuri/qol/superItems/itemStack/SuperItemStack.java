@@ -1,5 +1,7 @@
 package net.okuri.qol.superItems.itemStack;
 
+import net.kyori.adventure.text.Component;
+import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.superItems.SuperItemType;
@@ -124,4 +126,15 @@ public class SuperItemStack extends ItemStack {
         return this.superItemClass;
     }
 
+    public void setDisplayName(Component display) {
+        ItemMeta meta = super.getItemMeta();
+        meta.displayName(display);
+        super.setItemMeta(meta);
+    }
+
+    public void setLore(LoreGenerator lore) {
+        ItemMeta meta = super.getItemMeta();
+        meta.lore(lore.generateLore());
+        super.setItemMeta(meta);
+    }
 }

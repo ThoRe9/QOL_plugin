@@ -6,7 +6,6 @@ net\okuri\qol\qolCraft\distillation\DistillationController.class
 net\okuri\qol\qolCraft\calcuration\PotionEffectCalcuration.class
 net\okuri\qol\ChatGenerator$ChatType.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftController.class
-net\okuri\qol\superItems\factory\drinks\liquor.class
 net\okuri\qol\superItems\factory\drinks\whisky\AleBeer.class
 net\okuri\qol\listener\ConsumeListener.class
 net\okuri\qol\qolCraft\superCraft\SuperRecipe.class
@@ -45,6 +44,7 @@ net\okuri\qol\superItems\factory\drinks\sake\SakeBottle.class
 net\okuri\qol\listener\InteractListener.class
 net\okuri\qol\qolCraft\maturation\MaturationRecipe.class
 net\okuri\qol\superItems\factory\Koji.class
+net\okuri\qol\superItems\itemStack\SuperLiquorStack.class
 net\okuri\qol\superItems\factory\drinks\sake\Ochoko.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake.class
 net\okuri\qol\qolCraft\maturation\MaturationController.class
@@ -54,7 +54,6 @@ net\okuri\qol\LoreGenerator.class
 net\okuri\qol\superItems\factory\resources\SuperCoal.class
 net\okuri\qol\superItems\itemStack\SuperItemStack.class
 net\okuri\qol\qolCraft\calcuration\StatisticalCalcuration.class
-net\okuri\qol\superItems\SuperItemType$2.class
 net\okuri\qol\PDCKey$ApplyType.class
 net\okuri\qol\superItems\factory\drinks\Soda.class
 net\okuri\qol\superItems\factory\drinks\sake\ShochuOchoko.class
@@ -65,6 +64,7 @@ net\okuri\qol\superItems\factory\drinks\sake\Sake1ShoBottle.class
 net\okuri\qol\superItems\factory\foods\BarleyBread.class
 net\okuri\qol\superItems\factory\foods\RyeBread.class
 net\okuri\qol\superItems\factory\foods\Food.class
+net\okuri\qol\superItems\factory\drinks\Liquor.class
 net\okuri\qol\superItems\factory\resources\SuperResource.class
 net\okuri\qol\superItems\factory\drinks\ingredients\SakeIngredient.class
 net\okuri\qol\superItems\factory\PolishedRice.class
@@ -78,6 +78,7 @@ net\okuri\qol\listener\ProtectListener.class
 net\okuri\qol\superItems\factory\foods\Bread.class
 net\okuri\qol\superItems\factory\drinks\sake\ShochuBottle.class
 net\okuri\qol\superItems\factory\drinks\whisky\Whisky.class
+net\okuri\qol\superItems\itemStack\SuperXYZStack.class
 net\okuri\qol\superItems\factory\resources\Wheat.class
 net\okuri\qol\qolCraft\superCraft\ShapelessSuperCraftRecipe.class
 net\okuri\qol\superItems\factory\DefaultItem.class
