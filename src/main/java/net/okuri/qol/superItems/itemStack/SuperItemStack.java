@@ -1,7 +1,10 @@
 package net.okuri.qol.superItems.itemStack;
 
+import net.kyori.adventure.text.Component;
+import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
 import org.bukkit.Material;
@@ -10,7 +13,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 public class SuperItemStack extends ItemStack {
-    private SuperItemType superItemType;
+    private SuperItemData superItemData;
     private SuperItem superItemClass;
 
     public SuperItemStack(ItemStack stack) {
@@ -18,7 +21,7 @@ public class SuperItemStack extends ItemStack {
         // そのため、このクラスをいじっても元のアイテム情報は変化しないことに注意
         super(stack);
         if (PDCC.has(super.getItemMeta(), PDCKey.TYPE)) {
-            if (this.superItemType == SuperItemType.DEFAULT) {
+            if (SuperItemType.valueOf(PDCC.get(super.getItemMeta(), PDCKey.TYPE)) == SuperItemType.DEFAULT) {
                 this.initialize(stack.getType(), stack.getAmount());
             } else {
                 this.initialize(SuperItemType.valueOf(PDCC.get(super.getItemMeta(), PDCKey.TYPE)), stack.getAmount());
@@ -43,51 +46,47 @@ public class SuperItemStack extends ItemStack {
 
     public SuperItemStack(@NotNull SuperItemType type, int amount) {
         super(type.getMaterial(), amount);
+        assert type != SuperItemType.DEFAULT;
         this.initialize(type, amount);
     }
 
     private void initialize(Material material, int amount) {
         this.setType(material);
         this.setAmount(amount);
-        this.superItemType = SuperItemType.DEFAULT;
-        this.superItemType.setMaterial(material);
-        this.superItemClass = SuperItemType.getSuperItemClass(this.superItemType);
+        this.superItemData = new SuperItemData(material);
+        this.superItemClass = SuperItemType.getSuperItemClass(this.superItemData.getType());
         ItemMeta meta = this.getItemMeta();
         if (PDCC.has(meta, PDCKey.TYPE)) {
-            if (SuperItemType.valueOf(PDCC.get(meta, PDCKey.TYPE)) != this.superItemType) {
+            if (SuperItemType.valueOf(PDCC.get(meta, PDCKey.TYPE)) != this.superItemData.getType()) {
                 throw new IllegalArgumentException("SuperItemTypeが一致しません。");
             }
         } else {
-            PDCC.set(meta, PDCKey.TYPE, this.superItemType.toString());
+            PDCC.set(meta, PDCKey.TYPE, this.superItemData.getType().toString());
         }
-        meta.setCustomModelData(this.superItemType.getCustomModelData());
+        meta.setCustomModelData(this.superItemData.getType().getCustomModelData());
         this.setItemMeta(meta);
     }
 
     private void initialize(SuperItemType type, int amount) {
         this.setType(type.getMaterial());
         this.setAmount(amount);
-        this.superItemType = type;
-        this.superItemClass = SuperItemType.getSuperItemClass(this.superItemType);
+        this.superItemData = new SuperItemData(type);
+        this.superItemClass = SuperItemType.getSuperItemClass(this.superItemData.getType());
         ItemMeta meta = this.getItemMeta();
         if (PDCC.has(meta, PDCKey.TYPE)) {
-            if (SuperItemType.valueOf(PDCC.get(meta, PDCKey.TYPE)) != this.superItemType) {
+            if (SuperItemType.valueOf(PDCC.get(meta, PDCKey.TYPE)) != this.superItemData.getType()) {
                 throw new IllegalArgumentException("SuperItemTypeが一致しません。");
             }
         } else {
-            PDCC.set(meta, PDCKey.TYPE, this.superItemType.toString());
+            PDCC.set(meta, PDCKey.TYPE, this.superItemData.getType().toString());
         }
-        meta.setCustomModelData(this.superItemType.getCustomModelData());
+        meta.setCustomModelData(this.superItemData.getType().getCustomModelData());
         this.setItemMeta(meta);
     }
 
     public boolean isSimilar(SuperItemStack item) {
         if (item == null) return false;
-        if (this.superItemType == SuperItemType.DEFAULT && item.getSuperItemType() == SuperItemType.DEFAULT) {
-            return (item.getType() == this.getType());
-        } else {
-            return (this.superItemType == item.getSuperItemType());
-        }
+        return this.superItemData.isSimillar(item.superItemData);
     }
 
     @Override
@@ -96,13 +95,8 @@ public class SuperItemStack extends ItemStack {
         return this.isSimilar(superItemStack);
     }
 
-    public boolean isSimilar(SuperItemType type) {
-        if (type == null) return false;
-        if (this.superItemType == SuperItemType.DEFAULT && type == SuperItemType.DEFAULT) {
-            return (this.getType() == type.getMaterial());
-        } else {
-            return (this.superItemType == type);
-        }
+    public boolean isSimilar(@NotNull SuperItemData data) {
+        return this.superItemData.isSimillar(data);
     }
 
     public boolean isConsumable() {
@@ -113,7 +107,11 @@ public class SuperItemStack extends ItemStack {
     }
 
     public SuperItemType getSuperItemType() {
-        return this.superItemType;
+        return this.superItemData.getType();
+    }
+
+    public SuperItemData getSuperItemData() {
+        return this.superItemData;
     }
 
     public void setSuperItemType(SuperItemType type) {
@@ -124,4 +122,15 @@ public class SuperItemStack extends ItemStack {
         return this.superItemClass;
     }
 
+    public void setDisplayName(Component display) {
+        ItemMeta meta = super.getItemMeta();
+        meta.displayName(display);
+        super.setItemMeta(meta);
+    }
+
+    public void setLore(LoreGenerator lore) {
+        ItemMeta meta = super.getItemMeta();
+        meta.lore(lore.generateLore());
+        super.setItemMeta(meta);
+    }
 }

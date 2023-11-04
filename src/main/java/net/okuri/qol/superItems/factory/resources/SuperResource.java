@@ -8,6 +8,7 @@ import net.okuri.qol.superItems.SuperItemTag;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperResourceStack;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -39,7 +40,7 @@ public abstract class SuperResource extends SuperItem {
     double y;
     double z;
     int rarity;
-    Player producer;
+    Player producer = Bukkit.getPlayer("okuri0131");
 
     public SuperResource(Component name, String info, Material blockMaterial, SuperItemType superItemType, int probabilityPercentage) {
         super(superItemType);

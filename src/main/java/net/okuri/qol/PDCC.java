@@ -1,5 +1,6 @@
 package net.okuri.qol;
 
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.resources.SuperResource;
 import org.bukkit.block.TileState;
@@ -208,17 +209,16 @@ public class PDCC {
         meta.getPersistentDataContainer().set(PDCKey.PRODUCER.key, PDCKey.PRODUCER.type, r.getProducerName());
     }
 
-    public static SuperItemType getItemType(ItemStack stack) {
+    public static SuperItemData getItemData(ItemStack stack) {
         ItemMeta meta = stack.getItemMeta();
         SuperItemType type;
         if (has(meta, PDCKey.TYPE)) {
             type = SuperItemType.valueOf(get(meta, PDCKey.TYPE));
             if (!(type == SuperItemType.DEFAULT)) {
-                return type;
+                return new SuperItemData(type);
             }
         }
         type = SuperItemType.DEFAULT;
-        type.setMaterial(stack.getType());
-        return type;
+        return new SuperItemData(stack.getType());
     }
 }

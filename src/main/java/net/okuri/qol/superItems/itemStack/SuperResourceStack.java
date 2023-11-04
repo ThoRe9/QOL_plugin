@@ -13,6 +13,14 @@ import org.jetbrains.annotations.NotNull;
 public class SuperResourceStack extends SuperItemStack {
     // このクラスはSuperItemStackを継承したクラスです。
     // このクラスはtagにSuperItemTag.RESOURCEを持つSuperItemStack全般を表します。
+
+    // Tag: RESOURCEを持つものは以下のパラメータを必ず持ちます。
+    // x, y, z : パラメータ
+    // temp, humid, biomeId : 乱数用のパラメータ。バニラのものを使用する。
+    // quality : パラメータへの現在の乗算バフ量。
+    // rarity : x+y+zの値によって決まるレアリティ。
+    // producer : 生成者の名前。
+
     private double x;
     private double y;
     private double z;

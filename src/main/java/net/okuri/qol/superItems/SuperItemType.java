@@ -6,6 +6,7 @@ import net.okuri.qol.superItems.factory.Koji;
 import net.okuri.qol.superItems.factory.PolishedRice;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.factory.drinks.Soda;
+import net.okuri.qol.superItems.factory.drinks.StrongZero;
 import net.okuri.qol.superItems.factory.drinks.ingredients.BeerIngredient;
 import net.okuri.qol.superItems.factory.drinks.ingredients.SakeIngredient;
 import net.okuri.qol.superItems.factory.drinks.ingredients.WhiskyIngredient;
@@ -17,57 +18,40 @@ import net.okuri.qol.superItems.factory.tools.EnvGetter;
 import org.bukkit.Material;
 
 public enum SuperItemType {
-    DEFAULT("DEFAULT", 0, null) {
-        private Material defaultMaterial = Material.AIR;
-
-        @Override
-        public String getStringType() {
-            return this.getMaterial().toString();
-        }
-
-        @Override
-        public Material getMaterial() {
-            return this.defaultMaterial;
-        }
-
-        @Override
-        public SuperItemType setMaterial(Material material) {
-            this.defaultMaterial = material;
-            return this;
-        }
-    },
+    DEFAULT("DEFAULT", 0, null),
     COAL("COAL", 0, Material.COAL, SuperItemTag.RESOURCE),
     WHEAT("WHEAT", 0, Material.WHEAT, SuperItemTag.RESOURCE),
     RYE("RYE", 0, Material.WHEAT, SuperItemTag.RESOURCE),
     BARLEY("BARLEY", 0, Material.WHEAT, SuperItemTag.RESOURCE),
     RICE("RICE", 0, Material.WHEAT, SuperItemTag.RESOURCE),
     POLISHED_RICE("POLISHED_RICE", 0, Material.PUMPKIN_SEEDS, SuperItemTag.RESOURCE),
-    KOJI("KOJI", 0, Material.POTION),
-    SAKE_INGREDIENT("SAKE_INGREDIENT", 0, Material.POTION),
-    SAKE_1SHO("SAKE_1SHO", 6, Material.POTION, SuperItemTag.DRINK),
-    SAKE_1GO("SAKE_1GO", 7, Material.POTION, SuperItemTag.DRINK),
-    HOT_SAKE("HOT_SAKE", 8, Material.POTION, SuperItemTag.DRINK),
-    SAKE_OCHOKO("SAKE_OCHOKO", 9, Material.POTION, SuperItemTag.DRINK),
-    SHOCHU("SHOCHU", 6, Material.POTION, SuperItemTag.DRINK),
-    SHOCHU_1GO("SHOCHU_1GO", 7, Material.POTION, SuperItemTag.DRINK),
-    SHOCHU_OCHOKO("SHOCHU_OCHOKO", 9, Material.POTION, SuperItemTag.DRINK),
+    KOJI("KOJI", 0, Material.POTION, SuperItemTag.INGREDIENT),
+    SAKE_INGREDIENT("SAKE_INGREDIENT", 0, Material.POTION, SuperItemTag.INGREDIENT),
+    SAKE_1SHO("SAKE_1SHO", 6, Material.POTION, SuperItemTag.LIQUOR),
+    SAKE_1GO("SAKE_1GO", 7, Material.POTION, SuperItemTag.LIQUOR),
+    HOT_SAKE("HOT_SAKE", 8, Material.POTION, SuperItemTag.LIQUOR),
+    SAKE_OCHOKO("SAKE_OCHOKO", 9, Material.POTION, SuperItemTag.LIQUOR),
+    SHOCHU("SHOCHU", 6, Material.POTION, SuperItemTag.LIQUOR),
+    SHOCHU_1GO("SHOCHU_1GO", 7, Material.POTION, SuperItemTag.LIQUOR),
+    SHOCHU_OCHOKO("SHOCHU_OCHOKO", 9, Material.POTION, SuperItemTag.LIQUOR),
     POTATO("POTATO", 0, Material.POTATO, SuperItemTag.RESOURCE),
-    UNDISTILLED_WHISKY_INGREDIENT("UNDISTILLED_WHISKY_INGREDIENT", 0, Material.POTION),
-    WHISKY_INGREDIENT("WHISKY_INGREDIENT", 0, Material.POTION),
-    WHISKY("WHISKY", 1, Material.POTION),
-    WHISKY_WITH_ICE("WHISKY_WITH_ICE", 2, Material.POTION, SuperItemTag.DRINK),
-    HIGHBALL("HIGHBALL", 3, Material.POTION, SuperItemTag.DRINK),
+    UNDISTILLED_WHISKY_INGREDIENT("UNDISTILLED_WHISKY_INGREDIENT", 0, Material.POTION, SuperItemTag.INGREDIENT),
+    WHISKY_INGREDIENT("WHISKY_INGREDIENT", 0, Material.POTION, SuperItemTag.INGREDIENT),
+    WHISKY("WHISKY", 1, Material.POTION, SuperItemTag.LIQUOR),
+    WHISKY_WITH_ICE("WHISKY_WITH_ICE", 2, Material.POTION, SuperItemTag.LIQUOR),
+    HIGHBALL("HIGHBALL", 3, Material.POTION, SuperItemTag.LIQUOR),
     BREAD("BREAD", 0, Material.BREAD, SuperItemTag.FOOD),
-    BEER_INGREDIENT("BEER_INGREDIENT", 0, Material.POTION),
-    ALE_BEER("ALE_BEER", 4, Material.POTION, SuperItemTag.DRINK),
-    LAGER_BEER("LAGER_BEER", 5, Material.POTION, SuperItemTag.DRINK),
-    BEER("BEER", 0, Material.POTION, SuperItemTag.DRINK),
+    BEER_INGREDIENT("BEER_INGREDIENT", 0, Material.POTION, SuperItemTag.INGREDIENT),
+    ALE_BEER("ALE_BEER", 4, Material.POTION, SuperItemTag.LIQUOR),
+    LAGER_BEER("LAGER_BEER", 5, Material.POTION, SuperItemTag.LIQUOR),
+    BEER("BEER", 0, Material.POTION, SuperItemTag.LIQUOR),
     SODA("SODA", 0, Material.POTION, SuperItemTag.DRINK),
-    ENV_TOOL("ENV_TOOL", 0, Material.PAPER, SuperItemTag.TOOL);
+    ENV_TOOL("ENV_TOOL", 0, Material.PAPER, SuperItemTag.TOOL),
+    STRONG_ZERO("STRONG_ZERO", 0, Material.POTION, SuperItemTag.LIQUOR);
 
     private final String type;
     private final int customModelData;
-    private final Material material;
+    private Material material;
     private final SuperItemTag tag;
 
     SuperItemType(String type, int customModelData, Material material) {
@@ -150,6 +134,8 @@ public enum SuperItemType {
                 return new Soda();
             case ENV_TOOL:
                 return new EnvGetter();
+            case STRONG_ZERO:
+                return new StrongZero();
             case DEFAULT:
                 return new DefaultItem(type);
             default:
@@ -161,9 +147,6 @@ public enum SuperItemType {
         return this.material;
     }
 
-    public SuperItemType setMaterial(Material material) {
-        throw new UnsupportedOperationException("This method is not supported.");
-    }
 
     public SuperItemTag getTag() {
         return this.tag;

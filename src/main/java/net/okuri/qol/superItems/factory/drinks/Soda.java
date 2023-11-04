@@ -42,7 +42,6 @@ public class Soda extends SuperItem implements SuperCraftable {
         PotionMeta meta = (PotionMeta)soda.getItemMeta();
         // strength, SuperItemTypeをPersistentDataContainerに保存
         PDCC.set(meta,PDCKey.SODA_STRENGTH, strength);
-        PDCC.set(meta,PDCKey.TYPE, superItemType.toString());
         // displayName, loreを設定
         meta.displayName(Component.text("Soda").color(NamedTextColor.AQUA));
         LoreGenerator lore = new LoreGenerator();

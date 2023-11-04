@@ -1,5 +1,6 @@
 package net.okuri.qol.qolCraft.superCraft;
 
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
@@ -15,7 +16,7 @@ public class SuperCraftRecipe implements SuperRecipe {
     // Materialだけでなく、SuperItemTypeも判定できる
     private String id;
     public ItemStack result;
-    public Map<Character, SuperItemType> ingredients = new HashMap<>();
+    public Map<Character, SuperItemData> ingredients = new HashMap<>();
     public String[] shape = new String[3];
     private SuperItemStack[] matrix = new SuperItemStack[9];
     private SuperCraftable resultClass = null;
@@ -37,6 +38,7 @@ public class SuperCraftRecipe implements SuperRecipe {
 
                 int checkIndex = i * 3 + j;
                 char ingredient = row.charAt(j);
+
                 if (ingredient == ' ') {
                     //Bukkit.getServer().getLogger().info("nullAndAirSlotDetected");
                     //Bukkit.getServer().getLogger().info(String.valueOf(checkIndex));
@@ -73,16 +75,20 @@ public class SuperCraftRecipe implements SuperRecipe {
         this.shape = shape;
     }
 
-    public void setIngredients(Map<Character, SuperItemType> ingredients) {
+    public void setIngredients(Map<Character, SuperItemData> ingredients) {
         this.ingredients = ingredients;
     }
 
 
     public void addIngredient(Character key, Material value) {
-        this.ingredients.put(key, SuperItemType.DEFAULT.setMaterial(value));
+        this.addIngredient(key, new SuperItemData(value));
     }
 
     public void addIngredient(Character key, SuperItemType value) {
+        this.addIngredient(key, new SuperItemData(value));
+    }
+
+    public void addIngredient(Character key, SuperItemData value) {
         this.ingredients.put(key, value);
     }
 

@@ -1,65 +1,25 @@
 package net.okuri.qol.superItems.factory.drinks;
 
-import net.okuri.qol.LoreGenerator;
-import net.okuri.qol.PDCC;
-import net.okuri.qol.PDCKey;
-import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
-import net.okuri.qol.superItems.factory.SuperItem;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
-import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.potion.PotionEffect;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.potion.PotionEffectType;
 
-public class StrongZero extends SuperItem implements SuperCraftable {
-    private SuperItemStack[] matrix = null;
-    private SuperItemStack rice = null;
-    private SuperItemStack soda = null;
-    public static NamespacedKey st0key = new NamespacedKey("qol", "strongzero");
-    private final double alcPer = 0.09;
-    private final double alcAmount = 300.0;
+public class StrongZero extends Liquor {
+
+    // Liquor のサンプル用
+    // Liquorを追加する場合の手順：
+    // 1. コンストラクタでSuperItemType、maxDuration, amplifierLine, 各EffectType, alcoholAmount, alcoholPercentageを設定する
+    // 2. Maturationを追加する場合は追加でdefaultMaturationDaysを設定する。
+    // 3. Distillationを追加する場合は何も設定は必要ありません。
+    // 4. SuperCraftを追加する場合はSubIngredientなどの設定を行う必要があります。各種BuffAmpの設定も必要です。
+    // 6. display. loreなども設定してください。
 
     public StrongZero() {
-        super(Material.POTION);
+        super(SuperItemType.STRONG_ZERO, 3600, 0.5, 350, 0.12, PotionEffectType.INCREASE_DAMAGE, PotionEffectType.HUNGER);
+        super.addMainIngredient(SuperItemType.RICE);
+        super.setDisplayName(Component.text("Strong Zero").color(NamedTextColor.AQUA));
+        super.setInfoLore("Strong Zero is a Japanese alcoholic beverage that is a type of chūhai, made by Suntory. It is a vodka-based, carbonated, alcoholic drink with fruit flavors. It is sold in cans and bottles. It is one of the most popular alcoholic drinks in Japan, especially among young people.");
     }
 
-    @Override
-    public void setMatrix(SuperItemStack[] matrix, String id) {
-        this.matrix = matrix;
-        setting(matrix[4], matrix[7]);
-    }
-
-    private void setting(SuperItemStack rice, SuperItemStack soda) {
-        this.rice = rice;
-        this.soda = soda;
-    }
-
-    @Override
-    public SuperItemStack getSuperItem() {
-        SuperItemStack strongZero = new SuperItemStack(Material.POTION, 1);
-        PotionMeta meta = (PotionMeta) strongZero.getItemMeta();
-        meta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 1000, 1), true);
-        meta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 1000, 1), true);
-        meta.getPersistentDataContainer().set(st0key, PersistentDataType.STRING, "strongzero");
-        PDCC.set(meta, PDCKey.ALCOHOL, true);
-        PDCC.set(meta, PDCKey.ALCOHOL_LEVEL, alcPer);
-        PDCC.set(meta, PDCKey.ALCOHOL_AMOUNT, alcAmount);
-        meta.setDisplayName("Strong Zero");
-        LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("This is japanese culture!!!!!");
-        lore.addImportantLore("SO STRONG");
-        lore.addParametersLore("Alcohol", 0.9, true);
-        lore.addParametersLore("Amount", 300.0, true);
-        meta.lore(lore.generateLore());
-        strongZero.setItemMeta(meta);
-
-        return strongZero;
-    }
-
-    @Override
-    public SuperItemStack getDebugItem(int... args) {
-        return getSuperItem();
-    }
 }

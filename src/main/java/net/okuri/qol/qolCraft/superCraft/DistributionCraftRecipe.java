@@ -1,5 +1,6 @@
 package net.okuri.qol.qolCraft.superCraft;
 
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
@@ -20,11 +21,11 @@ public class DistributionCraftRecipe implements SuperRecipe {
     // 6. addRecipeを用いて、レシピを登録
 
     private final String id;
-    private SuperItemType bigBottleType;
-    private final ArrayList<SuperItemType> otherIngredients = new ArrayList<>();
+    private final ArrayList<SuperItemData> otherIngredients = new ArrayList<>();
+    private SuperItemData bigBottleData;
     private double smallBottleAmount;
     private int smallBottleCount;
-    private SuperItemType bottle = SuperItemType.DEFAULT.setMaterial(Material.GLASS_BOTTLE);
+    private SuperItemData bottle = new SuperItemData(Material.GLASS_BOTTLE);
     private Distributable distribution;
     private DistributionReceiver receiver;
     private SuperItemStack[] matrix = new SuperItemStack[9];
@@ -39,7 +40,7 @@ public class DistributionCraftRecipe implements SuperRecipe {
         // bottleの数も数える
         // 上記のどれでもない場合、OtherIngredientの物があるか確認。もしあったら、それを返す。
 
-        ArrayList<SuperItemType> lastOtherIngredients = new ArrayList<>();
+        ArrayList<SuperItemData> lastOtherIngredients = new ArrayList<>();
         ArrayList<ItemStack> superBottles = new ArrayList<>();
         SuperItemStack[] otherIngredientStacks = new SuperItemStack[this.otherIngredients.size()];
         lastOtherIngredients.addAll(otherIngredients);
@@ -55,7 +56,7 @@ public class DistributionCraftRecipe implements SuperRecipe {
             ItemMeta meta = itemStack.getItemMeta();
 
             // bigBottleの処理
-            if (itemStack.isSimilar(bigBottleType)) {
+            if (itemStack.isSimilar(bigBottleData)) {
                 //Bukkit.getLogger().info("bigBottle");
                 bigBottleCount++;
                 distributionItem = itemStack;
@@ -135,24 +136,28 @@ public class DistributionCraftRecipe implements SuperRecipe {
     }
     public void setDistribution(Distributable distribution){
         this.distribution = distribution;
-        this.bigBottleType = ((SuperItem) distribution).getSuperItemType();
+        this.bigBottleData = ((SuperItem) distribution).getSuperItemData();
     }
     public void setBottle(Material bottle){
-        this.bottle = SuperItemType.DEFAULT.setMaterial(bottle);
+        this.bottle = new SuperItemData(bottle);
     }
 
     public void setBottle(SuperItemType bottle) {
-        this.bottle = bottle;
+        this.bottle = new SuperItemData(bottle);
     }
     public void addOtherIngredient(Material material){
-        this.addOtherIngredient(SuperItemType.DEFAULT.setMaterial(material));
+        this.addOtherIngredient(new SuperItemData(material));
     }
 
     public void addOtherIngredient(SuperItemType type) {
+        this.addOtherIngredient(new SuperItemData(type));
+    }
+
+    public void addOtherIngredient(SuperItemData data) {
         if (otherIngredients.size() >= 7) {
             throw new IllegalArgumentException("すでにotherIngredientsの数が7を超えています。");
         }
-        otherIngredients.add(type);
+        otherIngredients.add(data);
     }
     @Override
     public String getId(){
