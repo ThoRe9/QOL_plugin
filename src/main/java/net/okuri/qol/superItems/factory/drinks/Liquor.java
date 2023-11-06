@@ -20,6 +20,7 @@ import org.bukkit.potion.PotionEffectType;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public abstract class Liquor extends SuperItem implements Distributable, DistributionReceiver, Distillable, Maturable, SuperCraftable {
     // このクラスは酒類のアイテムのもとになるクラスです。
@@ -32,7 +33,7 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
     private double y;
     private double z;
     /*
-    mianIngredients: x,y,zパラメータの基礎になる材料
+    mainIngredients: x,y,zパラメータの基礎になる材料
     subIngredients: smell,taste,compatibilityの基礎になる材料
     mainBuffIngredients: x,y,zパラメータの補正になる材料
     subBuffIngredients: smell,taste,compatibilityの補正になる材料
@@ -172,16 +173,12 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         this.rarity = SuperItem.getRarity(newX, newY, newZ);
 
         LoreGenerator lore = new LoreGenerator();
-        lore.setSuperItemLore(newX, newY, newZ, this.quality, this.rarity, this.infoLore);
-        lore.addParametersLore("Smell", this.smell);
-        lore.addParametersLore("Taste", this.taste);
-        lore.addParametersLore("Compatibility", this.compatibility);
+        lore.setLiquorLore(newX, newY, newZ, this.taste, this.smell, this.compatibility, this.alcoholAmount, this.alcoholPercentage, this.quality, this.rarity);
+        lore.addInfoLore(this.infoLore);
         if (maturationDays > 0) {
             lore.addParametersLore("Maturation Days", this.maturationDays, true);
         }
-        lore.addParametersLore("Alcohol Percentage", this.alcoholPercentage, true);
-        lore.addParametersLore("Amount", this.alcoholAmount, true);
-        lore.addInfoLore(this.producer);
+        lore.addInfoLore("made by " + this.producer);
 
         SuperLiquorStack item = new SuperLiquorStack(this.getSuperItemType(), this.itemCount);
         item.setXEffectType(this.xEffectType);
@@ -222,7 +219,7 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         return this.getSuperItem();
     }
 
-    public void setParmeter(double x, double y, double z) {
+    public void setParameter(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -241,15 +238,15 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
 
     @Override
     public void setMatrix(SuperItemStack[] matrix, String id) {
-        if (id == "distribution") {
+        if (Objects.equals(id, "distribution")) {
             // 分配(親)の場合
             SuperLiquorStack liquor = (SuperLiquorStack) matrix[0];
             this.initialize(liquor);
-        } else if (id == "distribution_receiver") {
+        } else if (Objects.equals(id, "distribution_receiver")) {
             // 分配(子)の場合
             SuperLiquorStack liquor = (SuperLiquorStack) matrix[0];
             this.initialize(liquor);
-            this.displayName = this.displayName.append(Component.text("(" + String.valueOf(this.alcoholAmount) + "ml)").color(this.displayName.color()));
+            this.displayName = this.displayName.append(Component.text("(" + this.alcoholAmount + "ml)").color(this.displayName.color()));
         } else {
             // SuperCraftの場合
             ArrayList<SuperXYZStack> ingredients = new ArrayList<>();
@@ -259,13 +256,13 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
             for (SuperItemStack item : matrix) {
                 if (item == null) continue;
                 SuperItemType type = item.getSuperItemType();
-                if (mainIngredients.contains(type)) {
+                if (this.mainIngredients.contains(type)) {
                     ingredients.add(new SuperXYZStack(item));
-                } else if (mainBuffIngredients.contains(type)) {
+                } else if (this.mainBuffIngredients.contains(type)) {
                     buffIngredients.add(new SuperXYZStack(item));
-                } else if (subIngredients.contains(type)) {
+                } else if (this.subIngredients.contains(type)) {
                     subIngredients.add(new SuperXYZStack(item));
-                } else if (subBuffIngredients.contains(type)) {
+                } else if (this.subBuffIngredients.contains(type)) {
                     subBuffIngredients.add(new SuperXYZStack(item));
                 }
             }
@@ -318,11 +315,11 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         StatisticalCalcuration sc = new StatisticalCalcuration();
         sc.setVariable(subX, subY, subZ);
         sc.calcuration();
-        double standerdDeviation = sc.getStandardDeviation();
+        double standardDeviation = sc.getStandardDeviation();
         double max = sc.getMax();
         double min = sc.getMin();
         double mean = sc.getMean();
-        this.smell = 1.1 - standerdDeviation * 3;
+        this.smell = 1.1 - standardDeviation * 3;
         this.taste = (0.1 + max - mean) / (1 - max);
         if (this.compatibilityMax == this.compatibilityMin) {
             this.compatibility = this.compatibilityMax;
@@ -346,12 +343,12 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         sc = new StatisticalCalcuration();
         sc.setVariable(subX, subY, subZ);
         sc.calcuration();
-        standerdDeviation = sc.getStandardDeviation();
+        standardDeviation = sc.getStandardDeviation();
         max = sc.getMax();
         min = sc.getMin();
         mean = sc.getMean();
         this.subAllBuff *= subBuff;
-        this.smellBuff *= ((1.1 - standerdDeviation * 3) * this.smellBuffAmp + 1.0);
+        this.smellBuff *= ((1.1 - standardDeviation * 3) * this.smellBuffAmp + 1.0);
         this.tasteBuff *= (((0.1 + max - mean) / (1 - max)) * this.tasteBuffAmp + 1.0);
         this.compatibilityBuff *= ((((max - min) % min) / min) * (this.compatibilityMax - this.compatibilityMin) + this.compatibilityMin) * this.compatibilityBuffAmp + 1.0;
     }
@@ -369,9 +366,9 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         // 減 : - そのパラメータ * 0.2 * (1+compatibility)
         // 最大のパラメータを増やし、他のパラメータを減らす。
         // 以下処理
-        double dx = 0.0;
-        double dy = 0.0;
-        double dz = 0.0;
+        double dx;
+        double dy;
+        double dz;
         if (x > y && x > z) {
             dy = -this.y * 0.2 * (1 + this.compatibility);
             dz = -this.z * 0.2 * (1 + this.compatibility);
@@ -485,27 +482,27 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         this.allBuffAmp = allBuffAmp;
     }
 
-    public double getxBuffAmp() {
+    public double getXBuffAmp() {
         return xBuffAmp;
     }
 
-    public void setxBuffAmp(double xBuffAmp) {
+    public void setXBuffAmp(double xBuffAmp) {
         this.xBuffAmp = xBuffAmp;
     }
 
-    public double getyBuffAmp() {
+    public double getYBuffAmp() {
         return yBuffAmp;
     }
 
-    public void setyBuffAmp(double yBuffAmp) {
+    public void setYBuffAmp(double yBuffAmp) {
         this.yBuffAmp = yBuffAmp;
     }
 
-    public double getzBuffAmp() {
+    public double getZBuffAmp() {
         return zBuffAmp;
     }
 
-    public void setzBuffAmp(double zBuffAmp) {
+    public void setZBuffAmp(double zBuffAmp) {
         this.zBuffAmp = zBuffAmp;
     }
 
@@ -557,27 +554,27 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         this.infoLore = infoLore;
     }
 
-    public int getxAmplifier() {
+    public int getXAmplifier() {
         return xAmplifier;
     }
 
-    public int getyAmplifier() {
+    public int getYAmplifier() {
         return yAmplifier;
     }
 
-    public int getzAmplifier() {
+    public int getZAmplifier() {
         return zAmplifier;
     }
 
-    public int getxDuration() {
+    public int getXDuration() {
         return xDuration;
     }
 
-    public int getyDuration() {
+    public int getYDuration() {
         return yDuration;
     }
 
-    public int getzDuration() {
+    public int getZDuration() {
         return zDuration;
     }
 

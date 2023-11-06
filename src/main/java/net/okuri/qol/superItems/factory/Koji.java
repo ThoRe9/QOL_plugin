@@ -86,8 +86,7 @@ public class Koji extends SuperItem implements SuperCraftable {
 
     @Override
     public SuperItemStack getDebugItem(int... args) {
-        SuperItemStack rice = new PolishedRice().getDebugItem(args);
-        this.rice = rice;
+        this.rice = new PolishedRice().getDebugItem(args);
         setting();
         return this.getSuperItem();
     }
