@@ -32,7 +32,15 @@ import java.util.Objects;
 
 
 public class MaturationController implements Listener {
+    private static final MaturationController listener = new MaturationController();
     ArrayList<MaturationRecipe> maturationRecipes = new ArrayList<>();
+
+    private MaturationController() {
+    }
+
+    public static MaturationController getListener() {
+        return listener;
+    }
 
 
     public void addMaturationRecipe(MaturationRecipe maturationRecipe) {

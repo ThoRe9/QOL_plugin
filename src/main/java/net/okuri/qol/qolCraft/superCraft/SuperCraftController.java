@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 
 public class SuperCraftController implements Listener {
+    private static final SuperCraftController listener = new SuperCraftController();
 
     private final ArrayList<SuperCraftRecipe> superCraftRecipes = new ArrayList<>();
     private final ArrayList<ShapelessSuperCraftRecipe> shapelessSuperCraftRecipes = new ArrayList<>();
@@ -30,6 +31,13 @@ public class SuperCraftController implements Listener {
     private boolean distributionFlag = false;
     private ItemStack distributableItem;
     private SuperRecipe recipe;
+
+    private SuperCraftController() {
+    }
+
+    public static SuperCraftController getListener() {
+        return listener;
+    }
 
     public void addSuperCraftRecipe(SuperCraftRecipe superCraftRecipe) {
         superCraftRecipes.add(superCraftRecipe);

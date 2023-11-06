@@ -50,9 +50,9 @@ public final class QOL extends JavaPlugin {
         // Plugin startup logic
 
         // drinkCraftsには特殊レシピを登録する
-        SuperCraftController superCraft = new SuperCraftController();
-        MaturationController maturation = new MaturationController();
-        DistillationController distillation = new DistillationController();
+        SuperCraftController superCraft = SuperCraftController.getListener();
+        MaturationController maturation = MaturationController.getListener();
+        DistillationController distillation = DistillationController.getListener();
         ResourceController superResource = ResourceController.getListener();
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
         getServer().getPluginManager().registerEvents(new ConsumeListener(), this);
