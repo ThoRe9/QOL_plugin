@@ -2,18 +2,16 @@ package net.okuri.qol.superItems.factory.drinks;
 
 import net.kyori.adventure.text.Component;
 import net.okuri.qol.LoreGenerator;
-import net.okuri.qol.qolCraft.calcuration.StatisticalCalcuration;
 import net.okuri.qol.qolCraft.distillation.Distillable;
 import net.okuri.qol.qolCraft.maturation.Maturable;
 import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.qolCraft.superCraft.DistributionReceiver;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.factory.CraftableXYZItem;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import net.okuri.qol.superItems.itemStack.SuperLiquorStack;
-import net.okuri.qol.superItems.itemStack.SuperXYZStack;
-import org.bukkit.Bukkit;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -22,16 +20,13 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public abstract class Liquor extends SuperItem implements Distributable, DistributionReceiver, Distillable, Maturable, SuperCraftable {
+public abstract class Liquor extends CraftableXYZItem implements Distributable, DistributionReceiver, Distillable, Maturable, SuperCraftable {
     // このクラスは酒類のアイテムのもとになるクラスです。
     // tag; LIQUORを持つアイテムはこのクラスを必ず継承してください。
     // 使用する場合はコンストラクタでSuperItemTypeを指定して生成してください。
     private PotionEffectType xEffectType;
     private PotionEffectType yEffectType;
     private PotionEffectType zEffectType;
-    private double x;
-    private double y;
-    private double z;
     /*
     mainIngredients: x,y,zパラメータの基礎になる材料
     subIngredients: smell,taste,compatibilityの基礎になる材料
@@ -39,46 +34,21 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
     subBuffIngredients: smell,taste,compatibilityの補正になる材料
     すべて多数ある場合、それらの平均値を取る
      */
-    private final ArrayList<SuperItemType> mainIngredients = new ArrayList<>();
-    private final ArrayList<SuperItemType> subIngredients = new ArrayList<>();
-    private final ArrayList<SuperItemType> mainBuffIngredients = new ArrayList<>();
+
     private int maxDuration;
     private double amplifierLine;
     private double alcoholAmount;
     private double alcoholPercentage;
-    private final ArrayList<SuperItemType> subBuffIngredients = new ArrayList<>();
-    private double smell;
-    private double taste;
-    private double compatibility;
+
     private Component displayName;
     private String infoLore;
     private double defaultMaturationDays = 1.0;
-    private double quality = 1.0;
     // 以下オプション
     private double temp = 0;
     private double humid = 0;
     private int biomeId = 0;
     private String producer = "";
-    // x,y,zの補正値。計算はすべて乗算。
-    // デフォルトでは一切バフされない設定なので、バフをかける場合はampに1より大きい値を設定する。
-    private double allBuff = 1;
-    private double allBuffAmp = 1;
-    private double xBuff = 1;
-    private double xBuffAmp = 0;
-    private double yBuff = 1;
-    private double yBuffAmp = 0;
-    private double zBuff = 1;
-    private double zBuffAmp = 0;
-    private double compatibilityMin = 1;
-    private double compatibilityMax = 1;
-    private double subAllBuff = 1;
-    private double subAllBuffAmp = 0;
-    private double smellBuff = 1;
-    private double smellBuffAmp = 0;
-    private double tasteBuff = 1;
-    private double tasteBuffAmp = 0;
-    private double compatibilityBuff = 1;
-    private double compatibilityBuffAmp = 0;
+
     // 以下設定不要
     private int itemCount = 1;
     private PotionEffect xEffect;
@@ -95,7 +65,7 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
 
 
     public Liquor(SuperItemType type, int maxDuration, double amplifierLine, double alcoholAmount, double alcoholPercentage, PotionEffectType xEffectType, PotionEffectType yEffectType, PotionEffectType zEffectType) {
-        super(type);
+        super(type, true);
         this.maxDuration = maxDuration;
         this.amplifierLine = amplifierLine;
         this.xEffectType = xEffectType;
@@ -106,7 +76,7 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
     }
 
     public Liquor(SuperItemType type, int maxDuration, double amplifierLine, double alcoholAmount, double alcoholPercentage, PotionEffectType xEffectType, PotionEffectType yEffectType) {
-        super(type);
+        super(type, true);
         this.maxDuration = maxDuration;
         this.amplifierLine = amplifierLine;
         this.xEffectType = xEffectType;
@@ -116,7 +86,7 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
     }
 
     public Liquor(SuperItemType type, int maxDuration, double amplifierLine, double alcoholAmount, double alcoholPercentage, PotionEffectType xEffectType) {
-        super(type);
+        super(type, true);
         this.maxDuration = maxDuration;
         this.amplifierLine = amplifierLine;
         this.xEffectType = xEffectType;
@@ -125,12 +95,10 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
     }
 
     private void initialize(SuperLiquorStack liquorStack) {
+        super.initialize(liquorStack);
         this.xEffectType = liquorStack.getXEffectType();
         this.yEffectType = liquorStack.getYEffectType();
         this.zEffectType = liquorStack.getZEffectType();
-        this.x = liquorStack.getX();
-        this.y = liquorStack.getY();
-        this.z = liquorStack.getZ();
         this.maxDuration = liquorStack.getMaxDuration();
         this.amplifierLine = liquorStack.getAmplifierLine();
         this.alcoholAmount = liquorStack.getAlcoholAmount();
@@ -138,23 +106,20 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         this.displayName = liquorStack.displayName();
         this.maxDuration = liquorStack.getMaxDuration();
         this.amplifierLine = liquorStack.getAmplifierLine();
-        this.taste = liquorStack.getTaste();
-        this.smell = liquorStack.getSmell();
-        this.compatibility = liquorStack.getCompatibility();
-        this.quality = liquorStack.getQuality();
         this.producer = liquorStack.getProducer();
         this.temp = liquorStack.getTemp();
         this.humid = liquorStack.getHumid();
         this.biomeId = liquorStack.getBiomeId();
-
     }
 
+
     @Override
-    public SuperItemStack getSuperItem() {
-        Bukkit.getLogger().info("getSuperItem called");
-        double newX = this.x * this.xBuff * this.allBuff * this.quality;
-        double newY = this.y * this.yBuff * this.allBuff * this.quality;
-        double newZ = this.z * this.zBuff * this.allBuff * this.quality;
+    public SuperLiquorStack getSuperItem() {
+        SuperLiquorStack item = new SuperLiquorStack(super.getSuperItem());
+
+        double newX = item.getX();
+        double newY = item.getY();
+        double newZ = item.getZ();
         this.xAmplifier = (int) Math.floor(newX / this.amplifierLine);
         this.yAmplifier = (int) Math.floor(newY / this.amplifierLine);
         this.zAmplifier = (int) Math.floor(newZ / this.amplifierLine);
@@ -173,33 +138,27 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         this.rarity = SuperItem.getRarity(newX, newY, newZ);
 
         LoreGenerator lore = new LoreGenerator();
-        lore.setLiquorLore(newX, newY, newZ, this.taste, this.smell, this.compatibility, this.alcoholAmount, this.alcoholPercentage, this.quality, this.rarity);
+        lore.setLiquorLore(newX, newY, newZ, this.getTaste(), this.getSmell(), this.getCompatibility(), this.alcoholAmount, this.alcoholPercentage, this.getQuality(), this.rarity);
         lore.addInfoLore(this.infoLore);
         if (maturationDays > 0) {
             lore.addParametersLore("Maturation Days", this.maturationDays, true);
         }
         lore.addInfoLore("made by " + this.producer);
 
-        SuperLiquorStack item = new SuperLiquorStack(this.getSuperItemType(), this.itemCount);
+
         item.setXEffectType(this.xEffectType);
         item.setYEffectType(this.yEffectType);
         item.setZEffectType(this.zEffectType);
         item.setTemp(this.temp);
         item.setHumid(this.humid);
         item.setBiomeId(this.biomeId);
-        item.setQuality(this.quality);
+        item.setQuality(super.getQuality());
         item.setRarity(this.rarity);
         item.setProducer(this.producer);
         item.setAlcoholAmount(this.alcoholAmount);
         item.setAlcoholPercentage(this.alcoholPercentage);
         item.setMaxDuration(this.maxDuration);
         item.setAmplifierLine(this.amplifierLine);
-        item.setX(newX);
-        item.setY(newY);
-        item.setZ(newZ);
-        item.setSmell(this.smell * this.smellBuff * this.subAllBuff);
-        item.setTaste(this.taste * this.tasteBuff * this.subAllBuff);
-        item.setCompatibility(this.compatibility * this.compatibilityBuff * this.subAllBuff);
         item.setDisplayName(this.displayName);
         item.setLore(lore);
         if (this.xEffect != null) {
@@ -215,15 +174,10 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
     }
 
     @Override
-    public SuperItemStack getDebugItem(int... args) {
+    public SuperLiquorStack getDebugItem(int... args) {
         return this.getSuperItem();
     }
 
-    public void setParameter(double x, double y, double z) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
-    }
 
     @Override
     public boolean isDistributable(double smallBottleAmount, int smallBottleCount) {
@@ -248,110 +202,11 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
             this.initialize(liquor);
             this.displayName = this.displayName.append(Component.text("(" + this.alcoholAmount + "ml)").color(this.displayName.color()));
         } else {
-            // SuperCraftの場合
-            ArrayList<SuperXYZStack> ingredients = new ArrayList<>();
-            ArrayList<SuperXYZStack> buffIngredients = new ArrayList<>();
-            ArrayList<SuperXYZStack> subIngredients = new ArrayList<>();
-            ArrayList<SuperXYZStack> subBuffIngredients = new ArrayList<>();
-            for (SuperItemStack item : matrix) {
-                if (item == null) continue;
-                SuperItemType type = item.getSuperItemType();
-                if (this.mainIngredients.contains(type)) {
-                    ingredients.add(new SuperXYZStack(item));
-                } else if (this.mainBuffIngredients.contains(type)) {
-                    buffIngredients.add(new SuperXYZStack(item));
-                } else if (this.subIngredients.contains(type)) {
-                    subIngredients.add(new SuperXYZStack(item));
-                } else if (this.subBuffIngredients.contains(type)) {
-                    subBuffIngredients.add(new SuperXYZStack(item));
-                }
-            }
-            calc(ingredients, buffIngredients, subIngredients, subBuffIngredients);
+            super.setMatrix(matrix, id);
         }
     }
 
-    private void calc(ArrayList<SuperXYZStack> ingredients, ArrayList<SuperXYZStack> buffIngredients, ArrayList<SuperXYZStack> subIngredients, ArrayList<SuperXYZStack> subBuffIngredients) {
-        // ここから各種パラメータの計算
-        // 1. x,y,zの計算
-        x = 0;
-        y = 0;
-        z = 0;
-        for (SuperXYZStack item : ingredients) {
-            x += item.getX();
-            y += item.getY();
-            z += item.getZ();
-        }
-        x /= ingredients.size();
-        y /= ingredients.size();
-        z /= ingredients.size();
-        // 2. x,y,zへのbuffの計算
-        double buff = 1;
-        for (SuperXYZStack item : buffIngredients) {
-            buff = buff * (1 + (this.allBuffAmp * (item.getX() + item.getY() + item.getZ()) / 3));
-            this.xBuff *= (1 + item.getX() * this.xBuffAmp);
-            this.yBuff *= (1 + item.getY() * this.yBuffAmp);
-            this.zBuff *= (1 + item.getZ() * this.zBuffAmp);
-        }
-        this.allBuff *= buff;
-        // 3. subIngredientsの計算。taste, smell, compatibilityを計算する。
-        // ない場合は現在のx,y,zから計算する。
-        double subX = 0;
-        double subY = 0;
-        double subZ = 0;
-        if (subIngredients.isEmpty()) {
-            subX = x;
-            subY = y;
-            subZ = z;
-        } else {
-            for (SuperXYZStack item : subIngredients) {
-                subX += item.getX();
-                subY += item.getY();
-                subZ += item.getZ();
-            }
-            subX /= subIngredients.size();
-            subY /= subIngredients.size();
-            subZ /= subIngredients.size();
-        }
-        StatisticalCalcuration sc = new StatisticalCalcuration();
-        sc.setVariable(subX, subY, subZ);
-        sc.calcuration();
-        double standardDeviation = sc.getStandardDeviation();
-        double max = sc.getMax();
-        double min = sc.getMin();
-        double mean = sc.getMean();
-        this.smell = 1.1 - standardDeviation * 3;
-        this.taste = (0.1 + max - mean) / (1 - max);
-        if (this.compatibilityMax == this.compatibilityMin) {
-            this.compatibility = this.compatibilityMax;
-        } else {
-            this.compatibility = (((max - min) % min) / min) * (this.compatibilityMax - this.compatibilityMin) + this.compatibilityMin;
-        }
-        // 4. subBuffIngredientsの計算。taste, smell, compatibilityを計算する。
-        subX = 0;
-        subY = 0;
-        subZ = 0;
-        double subBuff = 1;
-        for (SuperXYZStack item : subBuffIngredients) {
-            subBuff *= (1 + (this.subAllBuffAmp * (item.getX() + item.getY() + item.getZ()) / 3));
-            subX += item.getX();
-            subY += item.getY();
-            subZ += item.getZ();
-        }
-        subX /= subBuffIngredients.size();
-        subY /= subBuffIngredients.size();
-        subZ /= subBuffIngredients.size();
-        sc = new StatisticalCalcuration();
-        sc.setVariable(subX, subY, subZ);
-        sc.calcuration();
-        standardDeviation = sc.getStandardDeviation();
-        max = sc.getMax();
-        min = sc.getMin();
-        mean = sc.getMean();
-        this.subAllBuff *= subBuff;
-        this.smellBuff *= ((1.1 - standardDeviation * 3) * this.smellBuffAmp + 1.0);
-        this.tasteBuff *= (((0.1 + max - mean) / (1 - max)) * this.tasteBuffAmp + 1.0);
-        this.compatibilityBuff *= ((((max - min) % min) / min) * (this.compatibilityMax - this.compatibilityMin) + this.compatibilityMin) * this.compatibilityBuffAmp + 1.0;
-    }
+
 
     @Override
     public void setDistillationVariable(SuperItemStack item, double temp, double humid) {
@@ -369,22 +224,29 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         double dx;
         double dy;
         double dz;
+        double x = super.getX();
+        double y = super.getY();
+        double z = super.getZ();
+        double compatibility = super.getCompatibility();
         if (x > y && x > z) {
-            dy = -this.y * 0.2 * (1 + this.compatibility);
-            dz = -this.z * 0.2 * (1 + this.compatibility);
-            dx = -(dy + dz) * 0.9 * (1 + this.compatibility);
+            dy = -y * 0.2 * (1 + compatibility);
+            dz = -z * 0.2 * (1 + compatibility);
+            dx = -(dy + dz) * 0.9 * (1 + compatibility);
         } else if (y > x && y > z) {
-            dx = -this.x * 0.2 * (1 + this.compatibility);
-            dz = -this.z * 0.2 * (1 + this.compatibility);
-            dy = -(dx + dz) * 0.9 * (1 + this.compatibility);
+            dx = -x * 0.2 * (1 + compatibility);
+            dz = -z * 0.2 * (1 + compatibility);
+            dy = -(dx + dz) * 0.9 * (1 + compatibility);
         } else {
-            dx = -this.x * 0.2 * (1 + this.compatibility);
-            dy = -this.y * 0.2 * (1 + this.compatibility);
-            dz = -(dx + dy) * 0.9 * (1 + this.compatibility);
+            dx = -x * 0.2 * (1 + compatibility);
+            dy = -y * 0.2 * (1 + compatibility);
+            dz = -(dx + dy) * 0.9 * (1 + compatibility);
         }
-        this.x = this.x + dx;
-        this.y = this.y + dy;
-        this.z = this.z + dz;
+        x = x + dx;
+        y = y + dy;
+        z = z + dz;
+        super.setX(x);
+        super.setY(y);
+        super.setZ(z);
     }
 
     @Override
@@ -399,8 +261,8 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         this.maturationDays = days;
         this.alcoholAmount *= calcAmountMod(days);
         this.alcoholPercentage *= calcAlcPerMod(days);
-        this.tasteBuff *= calcTasteMod(days);
-        this.smellBuff *= calcSmellMod(days);
+        super.setTasteBuff(super.getTasteBuff() * calcTasteMod(days));
+        super.setSmellBuff(super.getSmellBuff() * calcSmellMod(days));
 
     }
 
@@ -454,90 +316,6 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         return this.zEffect;
     }
 
-    public void addMainIngredient(SuperItemType type) {
-        assert type.getTag().hasXYZ();
-        this.mainIngredients.add(type);
-    }
-
-    public void addSubIngredient(SuperItemType type) {
-        assert type.getTag().hasXYZ();
-        this.subIngredients.add(type);
-    }
-
-    public void addMainBuffIngredient(SuperItemType type) {
-        assert type.getTag().hasXYZ();
-        this.mainBuffIngredients.add(type);
-    }
-
-    public void addSubBuffIngredient(SuperItemType type) {
-        assert type.getTag().hasXYZ();
-        this.subBuffIngredients.add(type);
-    }
-
-    public double getAllBuffAmp() {
-        return allBuffAmp;
-    }
-
-    public void setAllBuffAmp(double allBuffAmp) {
-        this.allBuffAmp = allBuffAmp;
-    }
-
-    public double getXBuffAmp() {
-        return xBuffAmp;
-    }
-
-    public void setXBuffAmp(double xBuffAmp) {
-        this.xBuffAmp = xBuffAmp;
-    }
-
-    public double getYBuffAmp() {
-        return yBuffAmp;
-    }
-
-    public void setYBuffAmp(double yBuffAmp) {
-        this.yBuffAmp = yBuffAmp;
-    }
-
-    public double getZBuffAmp() {
-        return zBuffAmp;
-    }
-
-    public void setZBuffAmp(double zBuffAmp) {
-        this.zBuffAmp = zBuffAmp;
-    }
-
-    public double getSubAllBuffAmp() {
-        return subAllBuffAmp;
-    }
-
-    public void setSubAllBuffAmp(double subAllBuffAmp) {
-        this.subAllBuffAmp = subAllBuffAmp;
-    }
-
-    public double getSmellBuffAmp() {
-        return smellBuffAmp;
-    }
-
-    public void setSmellBuffAmp(double smellBuffAmp) {
-        this.smellBuffAmp = smellBuffAmp;
-    }
-
-    public double getTasteBuffAmp() {
-        return tasteBuffAmp;
-    }
-
-    public void setTasteBuffAmp(double tasteBuffAmp) {
-        this.tasteBuffAmp = tasteBuffAmp;
-    }
-
-    public double getCompatibilityBuffAmp() {
-        return compatibilityBuffAmp;
-    }
-
-    public void setCompatibilityBuffAmp(double compatibilityBuffAmp) {
-        this.compatibilityBuffAmp = compatibilityBuffAmp;
-    }
-
     public Component getDisplayName() {
         return displayName;
     }
@@ -578,36 +356,12 @@ public abstract class Liquor extends SuperItem implements Distributable, Distrib
         return zDuration;
     }
 
-    public double getCompatibilityMin() {
-        return compatibilityMin;
-    }
-
-    public void setCompatibilityMin(double compatibilityMin) {
-        this.compatibilityMin = compatibilityMin;
-    }
-
-    public double getCompatibilityMax() {
-        return compatibilityMax;
-    }
-
-    public void setCompatibilityMax(double compatibilityMax) {
-        this.compatibilityMax = compatibilityMax;
-    }
-
     public double getDefaultMaturationDays() {
         return defaultMaturationDays;
     }
 
     public void setDefaultMaturationDays(double defaultMaturationDays) {
         this.defaultMaturationDays = defaultMaturationDays;
-    }
-
-    public double getQuality() {
-        return quality;
-    }
-
-    public void setQuality(double quality) {
-        this.quality = quality;
     }
 
     public double getTemp() {

@@ -2,7 +2,6 @@ package net.okuri.qol.superItems.itemStack;
 
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
-import net.okuri.qol.superItems.SuperItemTag;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.drinks.Liquor;
 import org.bukkit.inventory.ItemStack;
@@ -16,23 +15,48 @@ import java.util.List;
 
 public class SuperLiquorStack extends SuperXYZStack {
     // このクラスはSuperItemStackを継承したクラスです。
-    // このクラスはtagにSuperItemTag.DRINKを持つSuperItemStack全般を表します。
+    // このクラスはtagにSuperItemTag.LIQUORを持つSuperItemStack全般を表します。
 
-    private double x;
-    private double y;
-    private double z;
     private double taste;
     private double smell;
     private double compatibility;
     private int rarity;
+
+    public SuperLiquorStack(@NotNull SuperXYZStack item) {
+        super(item);
+        this.setX(item.getX());
+        this.setY(item.getY());
+        this.setZ(item.getZ());
+        this.setTemp(0.0);
+        this.setHumid(0.0);
+        this.setBiomeId(0);
+        this.setQuality(item.getQuality());
+        this.setRarity(0);
+        this.setProducer("");
+        this.setAlcoholAmount(0.0);
+        this.setAlcoholPercentage(0.0);
+        this.setAmplifierLine(0.0);
+        this.setMaxDuration(0);
+        if (item.isHasTSC()) {
+            this.setTaste(item.getTaste());
+            this.setSmell(item.getSmell());
+            this.setCompatibility(item.getCompatibility());
+        } else {
+            this.setTaste(0.0);
+            this.setSmell(0.0);
+            this.setCompatibility(0.0);
+        }
+        this.setXEffectType(null);
+        this.setYEffectType(null);
+        this.setZEffectType(null);
+    }
 
     public SuperLiquorStack(@NotNull SuperItemType type) {
         this(type, 1);
     }
 
     public SuperLiquorStack(@NotNull SuperItemType type, int amount) {
-        super(type, amount);
-        assert type.hasTag(SuperItemTag.LIQUOR);
+        super(type, amount, true);
         ItemMeta meta = super.getItemMeta();
         PDCC.set(meta, PDCKey.ALCOHOL, true);
         super.setItemMeta(meta);
@@ -61,11 +85,7 @@ public class SuperLiquorStack extends SuperXYZStack {
 
     public SuperLiquorStack(ItemStack stack) {
         super(stack);
-        assert this.getSuperItemType().hasTag(SuperItemTag.LIQUOR);
         PotionMeta meta = (PotionMeta) stack.getItemMeta();
-        this.x = PDCC.get(meta, PDCKey.X);
-        this.y = PDCC.get(meta, PDCKey.Y);
-        this.z = PDCC.get(meta, PDCKey.Z);
         this.temp = PDCC.get(meta, PDCKey.TEMP);
         this.humid = PDCC.get(meta, PDCKey.HUMID);
         this.biomeId = PDCC.get(meta, PDCKey.BIOME_ID);
@@ -147,39 +167,6 @@ public class SuperLiquorStack extends SuperXYZStack {
 
     public void setCompatibility(double compatibility) {
         this.compatibility = compatibility;
-    }
-
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-        ItemMeta meta = super.getItemMeta();
-        PDCC.set(meta, PDCKey.X, x);
-        super.setItemMeta(meta);
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-        ItemMeta meta = super.getItemMeta();
-        PDCC.set(meta, PDCKey.Y, y);
-        super.setItemMeta(meta);
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-    public void setZ(double z) {
-        this.z = z;
-        ItemMeta meta = super.getItemMeta();
-        PDCC.set(meta, PDCKey.Z, z);
-        super.setItemMeta(meta);
     }
 
     public double getTemp() {

@@ -38,11 +38,11 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
                         ingredientItems[j] = itemStack;
                         flag = true;
                         break;
-                    } else {
+                    }
+                    if (j == ingredients.size() - 1) {
                         return false;
                     }
                 }
-
             }
         }
         //ingredientItemsにすべての要素が入っているかチェック

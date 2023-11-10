@@ -1,4 +1,4 @@
-package net.okuri.qol.superItems.factory;
+package net.okuri.qol.superItems.factory.ingredient;
 
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -7,6 +7,7 @@ import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.factory.resources.Rice;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.inventory.ItemStack;

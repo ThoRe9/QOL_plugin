@@ -21,6 +21,7 @@ public abstract class SuperItem {
 
     private SuperItemData superItemData;
     private Material material;
+    private int count = 1;
 
     public SuperItem(SuperItemType type, SuperItemStack stack) {
         if (type != stack.getSuperItemType()) throw new IllegalArgumentException("SuperItemTypeが一致しません。");
@@ -78,5 +79,13 @@ public abstract class SuperItem {
     public abstract SuperItemStack getSuperItem();
 
     public abstract SuperItemStack getDebugItem(int... args);
+
+    public int getCount() {
+        return this.count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
 
 }

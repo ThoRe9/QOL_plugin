@@ -9,4 +9,6 @@ public interface SuperCraftable {
     //
 
     void setMatrix(SuperItemStack[] matrix, String id);
+
+    SuperItemStack getSuperItem();
 }

@@ -7,12 +7,12 @@ import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
-public class SuperPotato extends SuperResource {
-    public SuperPotato() {
-        super(Component.text("Super Potato").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD),
-                "This is a super potato!",
-                Material.POTATOES,
-                SuperItemType.POTATO,
+public class SugarCane extends SuperResource {
+    public SugarCane() {
+        super(Component.text("Super Sugar Cane").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD),
+                "This is a super sugar cane!",
+                Material.SUGAR_CANE,
+                SuperItemType.SUGAR_CANE,
                 3);
         this.base = 1.0;
     }

@@ -33,7 +33,7 @@ public class LoreGenerator {
             NamedTextColor.DARK_GRAY
     ));
 
-    private final ArrayList<Component> liquorLore = new ArrayList<>();
+    private final ArrayList<Component> presetLore = new ArrayList<>();
     private final TextColor xColor = TextColor.color(112, 145, 173);
     private final TextColor yColor = TextColor.color(107, 87, 117);
     private final TextColor zColor = TextColor.color(232, 169, 133);
@@ -62,8 +62,8 @@ public class LoreGenerator {
                 lore.add(Component.text(s).color(colorIterator.next()));
             }
         }
-        if (!this.liquorLore.isEmpty()) {
-            lore.addAll(this.liquorLore);
+        if (!this.presetLore.isEmpty()) {
+            lore.addAll(this.presetLore);
         }
         if (!this.rarity.isEmpty()) {
             for (String s : this.rarity) {
@@ -126,15 +126,39 @@ public class LoreGenerator {
     }
 
     public LoreGenerator setLiquorLore(double x, double y, double z, double taste, double smell, double compatibility, double amount, double alcLV, double quality, int rarity) {
-        liquorLore.add(Component.text("x: ").color(xColor).append(Component.text(StringUtils.repeat('|', (int) (x * 100))).color(xColor)));
-        liquorLore.add(Component.text("y: ").color(yColor).append(Component.text(StringUtils.repeat('|', (int) (y * 100))).color(yColor)));
-        liquorLore.add(Component.text("z: ").color(zColor).append(Component.text(StringUtils.repeat('|', (int) (z * 100))).color(zColor)));
-        liquorLore.add(Component.text("Taste: ").color(tasteColor).append(Component.text(StringUtils.repeat('|', (int) (taste * 100))).color(tasteColor)));
-        liquorLore.add(Component.text("Smell: ").color(smellColor).append(Component.text(StringUtils.repeat('|', (int) (smell * 100))).color(smellColor)));
-        liquorLore.add(Component.text("Compatibility: ").color(compatibilityColor).append(Component.text(StringUtils.repeat('|', (int) (compatibility * 100))).color(compatibilityColor)));
-        liquorLore.add(Component.text("Amount: ").color(amountColor).append(Component.text((int) amount).color(amountColor)).append(Component.text("ml").color(amountColor)));
-        liquorLore.add(Component.text("Alcohol Level: ").color(alcLVColor).append(Component.text((int) (alcLV * 100)).color(alcLVColor)).append(Component.text("%").color(alcLVColor)));
-        liquorLore.add(Component.text("Quality: ").color(qualityColor).append(Component.text(StringUtils.repeat('|', (int) (quality * 100))).color(qualityColor)));
+        presetLore.clear();
+        presetLore.add(Component.text("x: ").color(xColor).append(Component.text(StringUtils.repeat('|', (int) (x * 100))).color(xColor)));
+        presetLore.add(Component.text("y: ").color(yColor).append(Component.text(StringUtils.repeat('|', (int) (y * 100))).color(yColor)));
+        presetLore.add(Component.text("z: ").color(zColor).append(Component.text(StringUtils.repeat('|', (int) (z * 100))).color(zColor)));
+        presetLore.add(Component.text("Taste: ").color(tasteColor).append(Component.text(StringUtils.repeat('|', (int) (taste * 100))).color(tasteColor)));
+        presetLore.add(Component.text("Smell: ").color(smellColor).append(Component.text(StringUtils.repeat('|', (int) (smell * 100))).color(smellColor)));
+        presetLore.add(Component.text("Compatibility: ").color(compatibilityColor).append(Component.text(StringUtils.repeat('|', (int) (compatibility * 100))).color(compatibilityColor)));
+        presetLore.add(Component.text("Amount: ").color(amountColor).append(Component.text((int) amount).color(amountColor)).append(Component.text("ml").color(amountColor)));
+        presetLore.add(Component.text("Alcohol Level: ").color(alcLVColor).append(Component.text((int) (alcLV * 100)).color(alcLVColor)).append(Component.text("%").color(alcLVColor)));
+        presetLore.add(Component.text("Quality: ").color(qualityColor).append(Component.text(StringUtils.repeat('|', (int) (quality * 100))).color(qualityColor)));
+        this.addRarityLore(rarity);
+        return this;
+    }
+
+    public LoreGenerator setIngredientLore(double x, double y, double z, double quality, int rarity) {
+        presetLore.clear();
+        presetLore.add(Component.text("x: ").color(xColor).append(Component.text(StringUtils.repeat('|', (int) (x * 100))).color(xColor)));
+        presetLore.add(Component.text("y: ").color(yColor).append(Component.text(StringUtils.repeat('|', (int) (y * 100))).color(yColor)));
+        presetLore.add(Component.text("z: ").color(zColor).append(Component.text(StringUtils.repeat('|', (int) (z * 100))).color(zColor)));
+        presetLore.add(Component.text("Quality: ").color(qualityColor).append(Component.text(StringUtils.repeat('|', (int) (quality * 100))).color(qualityColor)));
+        this.addRarityLore(rarity);
+        return this;
+    }
+
+    public LoreGenerator setIngredientLore(double x, double u, double z, double taste, double smell, double compatibility, double quality, int rarity) {
+        presetLore.clear();
+        presetLore.add(Component.text("x: ").color(xColor).append(Component.text(StringUtils.repeat('|', (int) (x * 100))).color(xColor)));
+        presetLore.add(Component.text("u: ").color(yColor).append(Component.text(StringUtils.repeat('|', (int) (u * 100))).color(yColor)));
+        presetLore.add(Component.text("z: ").color(zColor).append(Component.text(StringUtils.repeat('|', (int) (z * 100))).color(zColor)));
+        presetLore.add(Component.text("Taste: ").color(tasteColor).append(Component.text(StringUtils.repeat('|', (int) (taste * 100))).color(tasteColor)));
+        presetLore.add(Component.text("Smell: ").color(smellColor).append(Component.text(StringUtils.repeat('|', (int) (smell * 100))).color(smellColor)));
+        presetLore.add(Component.text("Compatibility: ").color(compatibilityColor).append(Component.text(StringUtils.repeat('|', (int) (compatibility * 100))).color(compatibilityColor)));
+        presetLore.add(Component.text("Quality: ").color(qualityColor).append(Component.text(StringUtils.repeat('|', (int) (quality * 100))).color(qualityColor)));
         this.addRarityLore(rarity);
         return this;
     }

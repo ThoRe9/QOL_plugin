@@ -13,8 +13,6 @@ import net.okuri.qol.qolCraft.superCraft.ShapelessSuperCraftRecipe;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftController;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.factory.Koji;
-import net.okuri.qol.superItems.factory.PolishedRice;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
 import net.okuri.qol.superItems.factory.drinks.ingredients.BeerIngredient;
@@ -28,6 +26,10 @@ import net.okuri.qol.superItems.factory.drinks.whisky.WhiskyWithIce;
 import net.okuri.qol.superItems.factory.foods.BarleyBread;
 import net.okuri.qol.superItems.factory.foods.Bread;
 import net.okuri.qol.superItems.factory.foods.RyeBread;
+import net.okuri.qol.superItems.factory.ingredient.Koji;
+import net.okuri.qol.superItems.factory.ingredient.Molasses;
+import net.okuri.qol.superItems.factory.ingredient.PolishedRice;
+import net.okuri.qol.superItems.factory.resources.SugarCane;
 import net.okuri.qol.superItems.factory.resources.SuperCoal;
 import net.okuri.qol.superItems.factory.resources.SuperPotato;
 import net.okuri.qol.superItems.factory.resources.SuperWheat;
@@ -305,6 +307,20 @@ public final class QOL extends JavaPlugin {
         hotSakeOchokoRecipe.setReciver(new Ochoko());
         hotSakeOchokoRecipe.setBottle(Material.GLASS_BOTTLE);
         superCraft.addDistributionCraftRecipe(hotSakeOchokoRecipe);
+
+        // Molasses
+        ItemStack molasses = new ItemStack(Material.HONEY_BOTTLE, 1);
+        ItemMeta molassesMeta = molasses.getItemMeta();
+        molassesMeta.displayName(Component.text("Molasses").color(NamedTextColor.GOLD));
+        molassesMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE").generateLore());
+        molasses.setItemMeta(molassesMeta);
+        ShapelessSuperCraftRecipe molassesRecipe = new ShapelessSuperCraftRecipe(molasses, "molasses");
+        molassesRecipe.addIngredient(SuperItemType.SUGAR_CANE);
+        molassesRecipe.addIngredient(Material.GLASS_BOTTLE);
+        molassesRecipe.setResultClass(new Molasses());
+        superCraft.addShapelessSuperCraftRecipe(molassesRecipe);
+
+
     }
 
     // Maturationのレシピを登録する
@@ -363,6 +379,10 @@ public final class QOL extends JavaPlugin {
         // SuperPotato
         SuperPotato superPotato = new SuperPotato();
         superResource.addResource(superPotato);
+
+        // SugarCane
+        SugarCane sugarCane = new SugarCane();
+        superResource.addResource(sugarCane);
     }
 
     public JavaPlugin getPlugin() {

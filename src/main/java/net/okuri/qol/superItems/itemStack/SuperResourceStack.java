@@ -4,13 +4,12 @@ import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.superItems.SuperItemTag;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.factory.resources.SuperResource;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
-public class SuperResourceStack extends SuperItemStack {
+public class SuperResourceStack extends SuperXYZStack {
     // このクラスはSuperItemStackを継承したクラスです。
     // このクラスはtagにSuperItemTag.RESOURCEを持つSuperItemStack全般を表します。
 
@@ -21,9 +20,6 @@ public class SuperResourceStack extends SuperItemStack {
     // rarity : x+y+zの値によって決まるレアリティ。
     // producer : 生成者の名前。
 
-    private double x;
-    private double y;
-    private double z;
     private double temp;
     private double humid;
     private int biomeId;
@@ -35,9 +31,6 @@ public class SuperResourceStack extends SuperItemStack {
         super(stack);
         assert this.getSuperItemType().hasTag(SuperItemTag.RESOURCE);
         ItemMeta meta = stack.getItemMeta();
-        this.x = PDCC.get(meta, PDCKey.X);
-        this.y = PDCC.get(meta, PDCKey.Y);
-        this.z = PDCC.get(meta, PDCKey.Z);
         this.temp = PDCC.get(meta, PDCKey.TEMP);
         this.humid = PDCC.get(meta, PDCKey.HUMID);
         this.biomeId = PDCC.get(meta, PDCKey.BIOME_ID);
@@ -52,15 +45,15 @@ public class SuperResourceStack extends SuperItemStack {
     }
 
     public SuperResourceStack(@NotNull SuperItemType type, int amount, SuperResource factory) {
-        super(type, amount);
+        super(type, amount, false);
         assert type.hasTag(SuperItemTag.RESOURCE);
         this.setParameters(factory);
     }
 
     private void setParameters(SuperResource factory) {
-        this.x = factory.getX();
-        this.y = factory.getY();
-        this.z = factory.getZ();
+        super.setX(factory.getX());
+        super.setY(factory.getY());
+        super.setZ(factory.getZ());
         this.temp = factory.getTemp();
         this.humid = factory.getHumid();
         this.biomeId = factory.getBiomeId();
@@ -72,44 +65,6 @@ public class SuperResourceStack extends SuperItemStack {
         this.setItemMeta(meta);
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-        this.rarity = SuperItem.getRarity(x, y, z);
-        ItemMeta meta = this.getItemMeta();
-        PDCC.set(meta, PDCKey.X, x);
-        PDCC.set(meta, PDCKey.RARITY, rarity);
-        this.setItemMeta(meta);
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-        this.rarity = SuperItem.getRarity(x, y, z);
-        ItemMeta meta = this.getItemMeta();
-        PDCC.set(meta, PDCKey.Y, y);
-        PDCC.set(meta, PDCKey.RARITY, rarity);
-        this.setItemMeta(meta);
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-    public void setZ(double z) {
-        this.z = z;
-        this.rarity = SuperItem.getRarity(x, y, z);
-        ItemMeta meta = this.getItemMeta();
-        PDCC.set(meta, PDCKey.Z, z);
-        PDCC.set(meta, PDCKey.RARITY, rarity);
-        this.setItemMeta(meta);
-    }
 
     public double getTemp() {
         return temp;
@@ -149,14 +104,11 @@ public class SuperResourceStack extends SuperItemStack {
     }
 
     public void setQuality(double quality) {
-        this.x = this.x / this.quality * quality;
-        this.y = this.y / this.quality * quality;
-        this.z = this.z / this.quality * quality;
+        super.setX(super.getX() / this.quality * quality);
+        super.setY(super.getY() / this.quality * quality);
+        super.setZ(super.getZ() / this.quality * quality);
         this.quality = quality;
         ItemMeta meta = this.getItemMeta();
-        PDCC.set(meta, PDCKey.X, x);
-        PDCC.set(meta, PDCKey.Y, y);
-        PDCC.set(meta, PDCKey.Z, z);
         PDCC.set(meta, PDCKey.QUALITY, quality);
         this.setItemMeta(meta);
     }
