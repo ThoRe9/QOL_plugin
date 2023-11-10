@@ -1,8 +1,8 @@
 package net.okuri.qol.qolCraft.superCraft;
 
-import net.okuri.qol.PDCC;
-import net.okuri.qol.PDCKey;
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,9 +14,8 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
     private final ItemStack result;
     private final String id;
     private SuperCraftable resultClass;
-    private final ArrayList<Material> ingredients = new ArrayList<>();
-    private final ArrayList<SuperItemType> superIngredients = new ArrayList<>();
-    private ItemStack[] superIngredientItems;
+    private final ArrayList<SuperItemData> ingredients = new ArrayList<>();
+    private SuperItemStack[] ingredientItems;
 
     public ShapelessSuperCraftRecipe(ItemStack result, String id) {
         this.result = result;
@@ -24,42 +23,31 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
     }
 
     @Override
-    public boolean checkSuperRecipe(ItemStack[] matrix) {
+    public boolean checkSuperRecipe(SuperItemStack[] matrix) {
         boolean flag = false;
-        superIngredientItems = new ItemStack[superIngredients.size()];
-        for (int i = 0; i < superIngredients.size(); i++) {
-            SuperItemType searchType = superIngredients.get(i);
-            for (int j = 0; j < matrix.length; j++) {
-                ItemStack itemStack = matrix[j];
-                if (itemStack != null) {
-                    if (PDCC.has(itemStack.getItemMeta(), PDCKey.TYPE)) {
-                        SuperItemType type = SuperItemType.valueOf(PDCC.get(itemStack.getItemMeta(), PDCKey.TYPE));
-                        if (type == searchType) {
-                            superIngredientItems[i] = itemStack;
-                            matrix[j] = null;
-                            flag = true;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        // matrixの中身をingredientsと比較
-        for (Material ingredient : ingredients) {
-            for (int j = 0; j < matrix.length; j++) {
-                ItemStack itemStack = matrix[j];
-                if (itemStack != null) {
-                    if (itemStack.getType() == ingredient) {
-                        matrix[j] = null;
+        // ingredientItemsには、ingredientsの順番にmatrixの中身が入っている
+        ingredientItems = new SuperItemStack[ingredients.size()];
+
+        // matrixの中身のSuperItemTypeがingredientsとすべて一致するかチェック
+        for (int i = 0; i < matrix.length; i++) {
+            SuperItemStack itemStack = matrix[i];
+            if (itemStack != null) {
+                for (int j = 0; j < ingredients.size(); j++) {
+                    SuperItemData ingredient = ingredients.get(j);
+                    if (itemStack.isSimilar(ingredient)) {
+                        ingredientItems[j] = itemStack;
                         flag = true;
                         break;
                     }
+                    if (j == ingredients.size() - 1) {
+                        return false;
+                    }
                 }
             }
         }
-        // matrixが空になっているかチェック
-        for (ItemStack itemStack : matrix) {
-            if (itemStack != null) {
+        //ingredientItemsにすべての要素が入っているかチェック
+        for (SuperItemStack itemStack : ingredientItems) {
+            if (itemStack == null) {
                 return false;
             }
         }
@@ -67,19 +55,24 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
     }
 
     public void addIngredient(Material ingredient) {
+        this.ingredients.add(new SuperItemData(ingredient));
+    }
+
+    public void addIngredient(SuperItemType ingredient) {
+        this.ingredients.add(new SuperItemData(ingredient));
+    }
+
+    public void addIngredient(SuperItemData ingredient) {
         this.ingredients.add(ingredient);
     }
 
-    public void addSuperIngredient(SuperItemType ingredient) {
-        this.superIngredients.add(ingredient);
-    }
 
     public void setResultClass(SuperCraftable resultClass) {
         this.resultClass = resultClass;
     }
 
     public SuperCraftable getResultClass() {
-        resultClass.setMatrix(superIngredientItems, id);
+        resultClass.setMatrix(ingredientItems, id);
         return resultClass;
     }
 

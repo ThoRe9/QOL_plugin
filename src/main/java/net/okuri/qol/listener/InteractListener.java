@@ -5,14 +5,13 @@ import net.okuri.qol.Commands;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.foods.Food;
+import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class InteractListener implements Listener {
@@ -25,7 +24,10 @@ public class InteractListener implements Listener {
             return;
         }
         Player player = event.getPlayer();
-        ItemStack item = player.getInventory().getItemInMainHand();
+        if (player.getInventory().getItemInMainHand() == null || player.getInventory().getItemInMainHand().getType() == Material.AIR) {
+            return;
+        }
+        SuperItemStack item = new SuperItemStack(player.getInventory().getItemInMainHand());
         // itemがnullなら終了
         if (item.getType() == Material.AIR) {
             return;

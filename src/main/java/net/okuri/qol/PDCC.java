@@ -1,11 +1,13 @@
 package net.okuri.qol;
 
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
-import org.bukkit.NamespacedKey;
+import net.okuri.qol.superItems.factory.resources.SuperResource;
 import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Map;
@@ -72,27 +74,47 @@ public class PDCC {
         PersistentDataType<?, T> type = key.type;
         if (key.apply != PDCKey.ApplyType.ITEM) throw new IllegalArgumentException("PDCKey is not for ItemStack");
         ItemMeta meta = item.getItemMeta();
-        meta.getPersistentDataContainer().set(key.key, type, value);
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        if (key.isProtected) {
+            setProtectedKey(pdc, key, value);
+        } else {
+            pdc.set(key.key, type, value);
+        }
         item.setItemMeta(meta);
     }
 
     public static <T> void set(ItemMeta meta, PDCKey key, T value) {
         PersistentDataType<?, T> type = key.type;
         if (key.apply != PDCKey.ApplyType.ITEM) throw new IllegalArgumentException("PDCKey is not for ItemStack");
-        meta.getPersistentDataContainer().set(key.key, type, value);
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        if (key.isProtected) {
+            setProtectedKey(pdc, key, value);
+        } else {
+            pdc.set(key.key, type, value);
+        }
     }
 
     public static <T> void set(TileState tile, PDCKey key, T value) {
         PersistentDataType<?, T> type = key.type;
         if (key.apply != PDCKey.ApplyType.BLOCK) throw new IllegalArgumentException("PDCKey is not for TileState");
-        tile.getPersistentDataContainer().set(key.key, type, value);
+        PersistentDataContainer pdc = tile.getPersistentDataContainer();
+        if (key.isProtected) {
+            setProtectedKey(pdc, key, value);
+        } else {
+            pdc.set(key.key, type, value);
+        }
         tile.update();
     }
 
     public static <T> void set(Player player, PDCKey key, T value) {
         PersistentDataType<?, T> type = key.type;
         if (key.apply != PDCKey.ApplyType.PLAYER) throw new IllegalArgumentException("PDCKey is not for Player");
-        player.getPersistentDataContainer().set(key.key, type, value);
+        PersistentDataContainer pdc = player.getPersistentDataContainer();
+        if (key.isProtected) {
+            setProtectedKey(pdc, key, value);
+        } else {
+            pdc.set(key.key, type, value);
+        }
     }
 
     @Deprecated
@@ -144,8 +166,14 @@ public class PDCC {
         }
     }
 
-    public static <T> void setLiquor(ItemMeta meta, SuperItemType type, double alcoholAmount, double alcoholPer, double x, double y, double z, double divLine, double quality, int rarity, double temp, double humid, double maturation) {
-        meta.getPersistentDataContainer().set(PDCKey.TYPE.key, PDCKey.TYPE.type, type.toString());
+    private static <T> void setProtectedKey(PersistentDataContainer pdc, PDCKey key, T value) {
+        PersistentDataType<?, T> type = key.type;
+        // すでに設定されている場合、上書きしない
+        if (pdc.has(key.key, type)) throw new IllegalArgumentException("This key is protected.");
+        pdc.set(key.key, type, value);
+    }
+
+    public static <T> void setLiquor(ItemMeta meta, double alcoholAmount, double alcoholPer, double x, double y, double z, double divLine, double quality, int rarity, double temp, double humid, double maturation) {
         meta.getPersistentDataContainer().set(PDCKey.ALCOHOL.key, PDCKey.ALCOHOL.type, true);
         meta.getPersistentDataContainer().set(PDCKey.ALCOHOL_AMOUNT.key, PDCKey.ALCOHOL_AMOUNT.type, alcoholAmount);
         meta.getPersistentDataContainer().set(PDCKey.ALCOHOL_PERCENTAGE.key, PDCKey.ALCOHOL_PERCENTAGE.type, alcoholPer);
@@ -160,8 +188,7 @@ public class PDCC {
         meta.getPersistentDataContainer().set(PDCKey.MATURATION.key, PDCKey.MATURATION.type, maturation);
     }
 
-    public static <T> void setSuperItem(ItemMeta meta, SuperItemType type, double x, double y, double z, double quality, int rarity, double temp, double humid) {
-        meta.getPersistentDataContainer().set(PDCKey.TYPE.key, PDCKey.TYPE.type, type.toString());
+    public static <T> void setSuperItem(ItemMeta meta, double x, double y, double z, double quality, int rarity, double temp, double humid) {
         meta.getPersistentDataContainer().set(PDCKey.X.key, PDCKey.X.type, x);
         meta.getPersistentDataContainer().set(PDCKey.Y.key, PDCKey.Y.type, y);
         meta.getPersistentDataContainer().set(PDCKey.Z.key, PDCKey.Z.type, z);
@@ -169,5 +196,29 @@ public class PDCC {
         meta.getPersistentDataContainer().set(PDCKey.RARITY.key, PDCKey.RARITY.type, rarity);
         meta.getPersistentDataContainer().set(PDCKey.TEMP.key, PDCKey.TEMP.type, temp);
         meta.getPersistentDataContainer().set(PDCKey.HUMID.key, PDCKey.HUMID.type, humid);
+    }
+
+    public static <T> void setSuperResource(ItemMeta meta, SuperResource r) {
+        meta.getPersistentDataContainer().set(PDCKey.X.key, PDCKey.X.type, r.getX());
+        meta.getPersistentDataContainer().set(PDCKey.Y.key, PDCKey.Y.type, r.getY());
+        meta.getPersistentDataContainer().set(PDCKey.Z.key, PDCKey.Z.type, r.getZ());
+        meta.getPersistentDataContainer().set(PDCKey.QUALITY.key, PDCKey.QUALITY.type, r.getQuality());
+        meta.getPersistentDataContainer().set(PDCKey.RARITY.key, PDCKey.RARITY.type, r.getRarity());
+        meta.getPersistentDataContainer().set(PDCKey.TEMP.key, PDCKey.TEMP.type, r.getTemp());
+        meta.getPersistentDataContainer().set(PDCKey.HUMID.key, PDCKey.HUMID.type, r.getHumid());
+        meta.getPersistentDataContainer().set(PDCKey.PRODUCER.key, PDCKey.PRODUCER.type, r.getProducerName());
+    }
+
+    public static SuperItemData getItemData(ItemStack stack) {
+        ItemMeta meta = stack.getItemMeta();
+        SuperItemType type;
+        if (has(meta, PDCKey.TYPE)) {
+            type = SuperItemType.valueOf(get(meta, PDCKey.TYPE));
+            if (!(type == SuperItemType.DEFAULT)) {
+                return new SuperItemData(type);
+            }
+        }
+        type = SuperItemType.DEFAULT;
+        return new SuperItemData(stack.getType());
     }
 }

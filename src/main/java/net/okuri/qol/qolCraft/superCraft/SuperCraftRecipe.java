@@ -1,24 +1,24 @@
 package net.okuri.qol.qolCraft.superCraft;
 
-import net.okuri.qol.PDCC;
-import net.okuri.qol.PDCKey;
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.factory.SuperItem;
+import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class SuperCraftRecipe implements SuperRecipe {
     // 特殊レシピの判定ができる
     // Materialだけでなく、SuperItemTypeも判定できる
     private String id;
-    private ItemStack[] matrix = new ItemStack[9];
-    public ItemStack result = null;
+    public ItemStack result;
+    public Map<Character, SuperItemData> ingredients = new HashMap<>();
     public String[] shape = new String[3];
-    public Map<Character, Material> ingredients = new HashMap<Character, Material>();
-    public Map<Character, SuperItemType> superIngredients = new HashMap<Character, SuperItemType>();
+    private SuperItemStack[] matrix = new SuperItemStack[9];
     private SuperCraftable resultClass = null;
 
     public SuperCraftRecipe(ItemStack result, String id) {
@@ -28,7 +28,7 @@ public class SuperCraftRecipe implements SuperRecipe {
 
     // レシピの判定
     @Override
-    public boolean checkSuperRecipe(ItemStack[] matrix) {
+    public boolean checkSuperRecipe(SuperItemStack[] matrix) {
         this.matrix = matrix;
         //Bukkit.getServer().getLogger().info("checkSuperRecipe");
 
@@ -38,6 +38,7 @@ public class SuperCraftRecipe implements SuperRecipe {
 
                 int checkIndex = i * 3 + j;
                 char ingredient = row.charAt(j);
+
                 if (ingredient == ' ') {
                     //Bukkit.getServer().getLogger().info("nullAndAirSlotDetected");
                     //Bukkit.getServer().getLogger().info(String.valueOf(checkIndex));
@@ -50,21 +51,8 @@ public class SuperCraftRecipe implements SuperRecipe {
                         //Bukkit.getServer().getLogger().info("nullSlotDetected");
                         return false;
                     }
-                    if (matrix[checkIndex].getType() != ingredients.get(ingredient)) {
+                    if (!matrix[checkIndex].isSimilar(ingredients.get(ingredient))) {
                         //Bukkit.getServer().getLogger().info("differentMaterialDetected");
-                        return false;
-                    }
-                } else if (superIngredients.containsKey(ingredient)) {
-                    if (matrix[checkIndex] == null) {
-                        // Bukkit.getServer().getLogger().info("nullSlotDetected");
-                        return false;
-                    }
-                    if (!PDCC.has(matrix[checkIndex].getItemMeta(), PDCKey.TYPE)) {
-                        //Bukkit.getServer().getLogger().info("noTypeDetected");
-                        return false;
-                    }
-                    if (!Objects.equals(PDCC.get(matrix[checkIndex].getItemMeta(), PDCKey.TYPE), superIngredients.get(ingredient).toString())) {
-                        //Bukkit.getServer().getLogger().info("differentTypeDetected");
                         return false;
                     }
                 } else {
@@ -87,20 +75,21 @@ public class SuperCraftRecipe implements SuperRecipe {
         this.shape = shape;
     }
 
-    public void setIngredients(Map<Character, Material> ingredients) {
+    public void setIngredients(Map<Character, SuperItemData> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public void setSuperIngredients(Map<Character, SuperItemType> superIngredients) {
-        this.superIngredients = superIngredients;
-    }
 
     public void addIngredient(Character key, Material value) {
-        this.ingredients.put(key, value);
+        this.addIngredient(key, new SuperItemData(value));
     }
 
-    public void addSuperIngredient(Character key, SuperItemType value) {
-        this.superIngredients.put(key, value);
+    public void addIngredient(Character key, SuperItemType value) {
+        this.addIngredient(key, new SuperItemData(value));
+    }
+
+    public void addIngredient(Character key, SuperItemData value) {
+        this.ingredients.put(key, value);
     }
 
     public SuperCraftRecipe getRecipe() {
@@ -117,8 +106,8 @@ public class SuperCraftRecipe implements SuperRecipe {
     }
 
     @Override
-    public ItemStack getResult() {
-        return this.resultClass.getSuperItem();
+    public @NotNull SuperItemStack getResult() {
+        return ((SuperItem) this.resultClass).getSuperItem();
     }
 
 
