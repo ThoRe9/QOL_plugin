@@ -12,6 +12,9 @@ import net.okuri.qol.superItems.factory.CraftableXYZItem;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import net.okuri.qol.superItems.itemStack.SuperLiquorStack;
+import org.bukkit.Bukkit;
+import org.bukkit.Color;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -35,7 +38,8 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
     すべて多数ある場合、それらの平均値を取る
      */
 
-    private int maxDuration;
+
+    private int baseDuration;
     private double amplifierLine;
     private double alcoholAmount;
     private double alcoholPercentage;
@@ -50,7 +54,6 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
     private String producer = "";
 
     // 以下設定不要
-    private int itemCount = 1;
     private PotionEffect xEffect;
     private PotionEffect yEffect;
     private PotionEffect zEffect;
@@ -63,10 +66,12 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
     private double maturationDays;
     private int rarity;
 
+    private Color potionColor;
 
-    public Liquor(SuperItemType type, int maxDuration, double amplifierLine, double alcoholAmount, double alcoholPercentage, PotionEffectType xEffectType, PotionEffectType yEffectType, PotionEffectType zEffectType) {
+
+    public Liquor(SuperItemType type, int baseDuration, double amplifierLine, double alcoholAmount, double alcoholPercentage, PotionEffectType xEffectType, PotionEffectType yEffectType, PotionEffectType zEffectType) {
         super(type, true);
-        this.maxDuration = maxDuration;
+        this.baseDuration = baseDuration;
         this.amplifierLine = amplifierLine;
         this.xEffectType = xEffectType;
         this.yEffectType = yEffectType;
@@ -75,9 +80,9 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
         this.alcoholPercentage = alcoholPercentage;
     }
 
-    public Liquor(SuperItemType type, int maxDuration, double amplifierLine, double alcoholAmount, double alcoholPercentage, PotionEffectType xEffectType, PotionEffectType yEffectType) {
+    public Liquor(SuperItemType type, int baseDuration, double amplifierLine, double alcoholAmount, double alcoholPercentage, PotionEffectType xEffectType, PotionEffectType yEffectType) {
         super(type, true);
-        this.maxDuration = maxDuration;
+        this.baseDuration = baseDuration;
         this.amplifierLine = amplifierLine;
         this.xEffectType = xEffectType;
         this.yEffectType = yEffectType;
@@ -85,9 +90,9 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
         this.alcoholPercentage = alcoholPercentage;
     }
 
-    public Liquor(SuperItemType type, int maxDuration, double amplifierLine, double alcoholAmount, double alcoholPercentage, PotionEffectType xEffectType) {
+    public Liquor(SuperItemType type, int baseDuration, double amplifierLine, double alcoholAmount, double alcoholPercentage, PotionEffectType xEffectType) {
         super(type, true);
-        this.maxDuration = maxDuration;
+        this.baseDuration = baseDuration;
         this.amplifierLine = amplifierLine;
         this.xEffectType = xEffectType;
         this.alcoholAmount = alcoholAmount;
@@ -99,12 +104,11 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
         this.xEffectType = liquorStack.getXEffectType();
         this.yEffectType = liquorStack.getYEffectType();
         this.zEffectType = liquorStack.getZEffectType();
-        this.maxDuration = liquorStack.getMaxDuration();
+        this.baseDuration = liquorStack.getBaseDuration();
         this.amplifierLine = liquorStack.getAmplifierLine();
         this.alcoholAmount = liquorStack.getAlcoholAmount();
         this.alcoholPercentage = liquorStack.getAlcoholPercentage();
         this.displayName = liquorStack.displayName();
-        this.maxDuration = liquorStack.getMaxDuration();
         this.amplifierLine = liquorStack.getAmplifierLine();
         this.producer = liquorStack.getProducer();
         this.temp = liquorStack.getTemp();
@@ -113,19 +117,26 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
     }
 
 
+
     @Override
     public SuperLiquorStack getSuperItem() {
         SuperLiquorStack item = new SuperLiquorStack(super.getSuperItem());
+        PotionMeta meta = (PotionMeta) item.getItemMeta();
+        meta.setColor(this.potionColor);
+        item.setItemMeta(meta);
 
-        double newX = item.getX();
-        double newY = item.getY();
-        double newZ = item.getZ();
-        this.xAmplifier = (int) Math.floor(newX / this.amplifierLine);
-        this.yAmplifier = (int) Math.floor(newY / this.amplifierLine);
-        this.zAmplifier = (int) Math.floor(newZ / this.amplifierLine);
-        this.xDuration = (int) Math.floor(newX * this.maxDuration);
-        this.yDuration = (int) Math.floor(newY * this.maxDuration);
-        this.zDuration = (int) Math.floor(newZ * this.maxDuration);
+        double newX = item.getX() * this.getCompatibility();
+        double newY = item.getY() * this.getCompatibility();
+        double newZ = item.getZ() * this.getCompatibility();
+
+
+        this.xAmplifier = (int) Math.floor(newX * calcAmplifierAmp());
+        this.yAmplifier = (int) Math.floor(newY * calcAmplifierAmp());
+        this.zAmplifier = (int) Math.floor(newZ * calcAmplifierAmp());
+        Bukkit.getLogger().info(String.valueOf(newX * baseDuration * calcDurationAmp() * this.alcoholAmount));
+        this.xDuration = (int) Math.floor(newX * baseDuration * calcDurationAmp() * this.alcoholAmount);
+        this.yDuration = (int) Math.floor(newY * baseDuration * calcDurationAmp() * this.alcoholAmount);
+        this.zDuration = (int) Math.floor(newZ * baseDuration * calcDurationAmp() * this.alcoholAmount);
         if (xEffectType != null) {
             this.xEffect = new PotionEffect(this.xEffectType, this.xDuration, this.xAmplifier);
         }
@@ -145,7 +156,9 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
         }
         lore.addInfoLore("made by " + this.producer);
 
-
+        item.setX(newX);
+        item.setY(newY);
+        item.setZ(newZ);
         item.setXEffectType(this.xEffectType);
         item.setYEffectType(this.yEffectType);
         item.setZEffectType(this.zEffectType);
@@ -153,11 +166,10 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
         item.setHumid(this.humid);
         item.setBiomeId(this.biomeId);
         item.setQuality(super.getQuality());
-        item.setRarity(this.rarity);
         item.setProducer(this.producer);
         item.setAlcoholAmount(this.alcoholAmount);
         item.setAlcoholPercentage(this.alcoholPercentage);
-        item.setMaxDuration(this.maxDuration);
+        item.setBaseDuration(this.baseDuration);
         item.setAmplifierLine(this.amplifierLine);
         item.setDisplayName(this.displayName);
         item.setLore(lore);
@@ -171,6 +183,14 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
             item.setZEffect(this.zEffect);
         }
         return item;
+    }
+
+    private double calcDurationAmp() {
+        return this.getSmell() + 1;
+    }
+
+    private double calcAmplifierAmp() {
+        return this.getTaste() / this.amplifierLine;
     }
 
     @Override
@@ -211,42 +231,63 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
     @Override
     public void setDistillationVariable(SuperItemStack item, double temp, double humid) {
         // TODO 要調整
-        assert item instanceof SuperLiquorStack;
-        this.initialize((SuperLiquorStack) item);
-        this.alcoholPercentage = this.alcoholPercentage + (1 - Math.abs(1 - Math.abs(temp))) * 0.10;
-        double amountMod = Math.pow(Math.abs(1.0 - temp) * (1.0 - humid), 0.5);
-        this.alcoholAmount = this.alcoholAmount * amountMod;
-        // パラメータの増減量の設定：
-        // 増 : + 他パラメータから引いた分 * 0.9 * (1+compatibility)
-        // 減 : - そのパラメータ * 0.2 * (1+compatibility)
-        // 最大のパラメータを増やし、他のパラメータを減らす。
-        // 以下処理
-        double dx;
-        double dy;
-        double dz;
-        double x = super.getX();
-        double y = super.getY();
-        double z = super.getZ();
-        double compatibility = super.getCompatibility();
-        if (x > y && x > z) {
-            dy = -y * 0.2 * (1 + compatibility);
-            dz = -z * 0.2 * (1 + compatibility);
-            dx = -(dy + dz) * 0.9 * (1 + compatibility);
-        } else if (y > x && y > z) {
-            dx = -x * 0.2 * (1 + compatibility);
-            dz = -z * 0.2 * (1 + compatibility);
-            dy = -(dx + dz) * 0.9 * (1 + compatibility);
+        SuperLiquorStack liquor = new SuperLiquorStack(item);
+        this.temp = liquor.getTemp();
+        this.humid = liquor.getHumid();
+        this.biomeId = liquor.getBiomeId();
+        this.producer = liquor.getProducer();
+
+        if (item.getSuperItemData().getType().getTag() == this.getSuperItemData().getType().getTag()) {
+            this.initialize(new SuperLiquorStack(item));
+            this.alcoholPercentage = this.alcoholPercentage + (1 - Math.abs(1 - Math.abs(temp))) * 0.10;
+            double amountMod = Math.pow(Math.abs(1.0 - temp) * (1.0 - humid), 0.1);
+            this.alcoholAmount = this.alcoholAmount * amountMod;
+            // パラメータの増減量の設定：
+            // 増 : + 他パラメータから引いた分 * 0.9 * (1+compatibility)
+            // 減 : - そのパラメータ * 0.2 * (1+compatibility)
+            // 最大のパラメータを増やし、他のパラメータを減らす。
+            // 以下処理
+            double dx;
+            double dy;
+            double dz;
+            double x = super.getX();
+            double y = super.getY();
+            double z = super.getZ();
+            double compatibility = super.getCompatibility();
+            if (x > y && x > z) {
+                dy = -y * 0.2 * (1 + compatibility);
+                dz = -z * 0.2 * (1 + compatibility);
+                dx = -(dy + dz) * 0.9 * (1 + compatibility);
+            } else if (y > x && y > z) {
+                dx = -x * 0.2 * (1 + compatibility);
+                dz = -z * 0.2 * (1 + compatibility);
+                dy = -(dx + dz) * 0.9 * (1 + compatibility);
+            } else {
+                dx = -x * 0.2 * (1 + compatibility);
+                dy = -y * 0.2 * (1 + compatibility);
+                dz = -(dx + dy) * 0.9 * (1 + compatibility);
+            }
+            x = x + dx;
+            y = y + dy;
+            z = z + dz;
+            super.setX(x);
+            super.setY(y);
+            super.setZ(z);
         } else {
-            dx = -x * 0.2 * (1 + compatibility);
-            dy = -y * 0.2 * (1 + compatibility);
-            dz = -(dx + dy) * 0.9 * (1 + compatibility);
+
+            super.setX(liquor.getX());
+            super.setY(liquor.getY());
+            super.setZ(liquor.getZ());
+            super.setSmell(liquor.getSmell());
+            super.setTaste(liquor.getTaste());
+            super.setCompatibility(liquor.getCompatibility());
+            this.alcoholAmount = liquor.getAlcoholAmount();
+            this.temp = liquor.getTemp();
+            this.humid = liquor.getHumid();
+            this.biomeId = liquor.getBiomeId();
+            this.producer = liquor.getProducer();
+
         }
-        x = x + dx;
-        y = y + dy;
-        z = z + dz;
-        super.setX(x);
-        super.setY(y);
-        super.setZ(z);
     }
 
     @Override
@@ -256,6 +297,7 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
         // 10倍の日数ですべてのパラメータ1.5倍!
         // ただし、アルコール量も1/2 になる
 
+        this.initialize(new SuperLiquorStack(ingredients.get(0)));
         Duration dur = Duration.between(start, end);
         double days = dur.toDays();
         this.maturationDays = days;
@@ -284,7 +326,7 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
 
     @Override
     public void receive(int count) {
-        this.itemCount = count;
+        super.setCount(count);
     }
 
     @Override
@@ -395,4 +437,45 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
     public void setProducer(String producer) {
         this.producer = producer;
     }
+
+    public int getBaseDuration() {
+        return baseDuration;
+    }
+
+    public void setBaseDuration(int maxDuration) {
+        this.baseDuration = maxDuration;
+    }
+
+    public double getAmplifierLine() {
+        return amplifierLine;
+    }
+
+    public void setAmplifierLine(double amplifierLine) {
+        this.amplifierLine = amplifierLine;
+    }
+
+    public double getAlcoholAmount() {
+        return alcoholAmount;
+    }
+
+    public void setAlcoholAmount(double alcoholAmount) {
+        this.alcoholAmount = alcoholAmount;
+    }
+
+    public double getAlcoholPercentage() {
+        return alcoholPercentage;
+    }
+
+    public void setAlcoholPercentage(double alcoholPercentage) {
+        this.alcoholPercentage = alcoholPercentage;
+    }
+
+    public Color getPotionColor() {
+        return potionColor;
+    }
+
+    public void setPotionColor(Color potionColor) {
+        this.potionColor = potionColor;
+    }
+
 }

@@ -16,6 +16,15 @@ public class DistillationRecipe {
         this.recipeName = name;
     }
 
+    public boolean isDistillable(SuperItemData ingredient) {
+        for (SuperItemData superItemData : ingredients) {
+            if (superItemData.isSimilar(ingredient)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void addIngredient(SuperItemType superIngredient) {
         this.addIngredient(new SuperItemData(superIngredient));
     }

@@ -9,4 +9,6 @@ public interface Distillable {
 
     void setDistillationVariable(SuperItemStack item, double temp, double humid);
 
+    SuperItemStack getSuperItem();
+
 }

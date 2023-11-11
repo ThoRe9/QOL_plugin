@@ -5,10 +5,9 @@ import net.okuri.qol.superItems.factory.DefaultItem;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
-import net.okuri.qol.superItems.factory.drinks.ingredients.BeerIngredient;
-import net.okuri.qol.superItems.factory.drinks.ingredients.SakeIngredient;
-import net.okuri.qol.superItems.factory.drinks.ingredients.WhiskyIngredient;
 import net.okuri.qol.superItems.factory.drinks.sake.*;
+import net.okuri.qol.superItems.factory.drinks.spirits.Ram;
+import net.okuri.qol.superItems.factory.drinks.spirits.RamIngredient;
 import net.okuri.qol.superItems.factory.drinks.whisky.*;
 import net.okuri.qol.superItems.factory.foods.Bread;
 import net.okuri.qol.superItems.factory.ingredient.Koji;
@@ -53,6 +52,7 @@ public enum SuperItemType {
     SUGAR("SUGAR", 0, Material.SUGAR, SuperItemTag.RESOURCE),
     SPIRITS_INGREDIENT("SPIRITS_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
     RAM("RAM", 0, Material.POTION, SuperItemTag.LIQUOR),
+    RAM_INGREDIENT("RAM_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
     STRONG_ZERO("STRONG_ZERO", 0, Material.POTION, SuperItemTag.LIQUOR);
 
     private final String type;
@@ -146,6 +146,10 @@ public enum SuperItemType {
                 return new SugarCane();
             case MOLASSES:
                 return new Molasses();
+            case RAM:
+                return new Ram();
+            case RAM_INGREDIENT:
+                return new RamIngredient();
             case DEFAULT:
                 return new DefaultItem(type);
             default:

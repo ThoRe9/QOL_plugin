@@ -1,7 +1,6 @@
 package net.okuri.qol.qolCraft.distillation;
 
 import net.okuri.qol.event.DistillationEvent;
-import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -30,10 +29,10 @@ public class DistillationController implements Listener {
             SuperItemStack ingredient = new SuperItemStack(((Furnace) event.getBlock().getState()).getInventory().getSmelting());
             // ingredientTypeがDistillation可能なアイテムならば、処理を実行
             for (DistillationRecipe distillationRecipe : distillationRecipes) {
-                if (distillationRecipe.getIngredients().contains(ingredient.getSuperItemType())) {
+                if (distillationRecipe.isDistillable(ingredient.getSuperItemData())) {
                     Distillable resultClass = distillationRecipe.getResultClass();
                     resultClass.setDistillationVariable(ingredient, event.getBlock().getLocation().getBlock().getTemperature(), event.getBlock().getLocation().getBlock().getHumidity());
-                    DistillationEvent distillationEvent = new DistillationEvent(event, resultClass, ((SuperItem) resultClass).getSuperItem());
+                    DistillationEvent distillationEvent = new DistillationEvent(event, resultClass, resultClass.getSuperItem());
                     //Bukkit.getLogger().info("DistillationEvent called");
                     Bukkit.getServer().getPluginManager().callEvent(distillationEvent);
                 }

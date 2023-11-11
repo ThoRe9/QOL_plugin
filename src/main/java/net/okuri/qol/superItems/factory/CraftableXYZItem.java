@@ -7,6 +7,7 @@ import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import net.okuri.qol.superItems.itemStack.SuperXYZStack;
+import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 
@@ -115,6 +116,7 @@ public abstract class CraftableXYZItem extends SuperItem implements SuperCraftab
         this.y = stack.getY();
         this.z = stack.getZ();
         this.hasTSC = stack.isHasTSC();
+        Bukkit.getLogger().info("hasTSC: " + this.hasTSC);
         if (hasTSC) {
             this.smell = stack.getSmell();
             this.taste = stack.getTaste();
@@ -141,14 +143,16 @@ public abstract class CraftableXYZItem extends SuperItem implements SuperCraftab
         y /= ingredients.size();
         z /= ingredients.size();
         // 2. x,y,zへのbuffの計算
-        double buff = 1;
-        for (SuperXYZStack item : buffIngredients) {
-            buff = buff * (1 + (this.allBuffAmp * (item.getX() + item.getY() + item.getZ()) / 3));
-            this.xBuff *= (1 + item.getX() * this.xBuffAmp);
-            this.yBuff *= (1 + item.getY() * this.yBuffAmp);
-            this.zBuff *= (1 + item.getZ() * this.zBuffAmp);
+        if (!buffIngredients.isEmpty()) {
+            double buff = 1;
+            for (SuperXYZStack item : buffIngredients) {
+                buff = buff * (1 + (this.allBuffAmp * (item.getX() + item.getY() + item.getZ()) / 3));
+                this.xBuff *= (1 + item.getX() * this.xBuffAmp);
+                this.yBuff *= (1 + item.getY() * this.yBuffAmp);
+                this.zBuff *= (1 + item.getZ() * this.zBuffAmp);
+            }
+            this.allBuff *= buff;
         }
-        this.allBuff *= buff;
         // 3. subIngredientsの計算。taste, smell, compatibilityを計算する。
         // ない場合は現在のx,y,zから計算する。
         double subX = 0;
@@ -183,30 +187,32 @@ public abstract class CraftableXYZItem extends SuperItem implements SuperCraftab
             this.compatibility = (((max - min) % min) / min) * (this.compatibilityMax - this.compatibilityMin) + this.compatibilityMin;
         }
         // 4. subBuffIngredientsの計算。taste, smell, compatibilityを計算する。
-        subX = 0;
-        subY = 0;
-        subZ = 0;
-        double subBuff = 1;
-        for (SuperXYZStack item : subBuffIngredients) {
-            subBuff *= (1 + (this.subAllBuffAmp * (item.getX() + item.getY() + item.getZ()) / 3));
-            subX += item.getX();
-            subY += item.getY();
-            subZ += item.getZ();
+        if (!subBuffIngredients.isEmpty()) {
+            subX = 0;
+            subY = 0;
+            subZ = 0;
+            double subBuff = 1;
+            for (SuperXYZStack item : subBuffIngredients) {
+                subBuff *= (1 + (this.subAllBuffAmp * (item.getX() + item.getY() + item.getZ()) / 3));
+                subX += item.getX();
+                subY += item.getY();
+                subZ += item.getZ();
+            }
+            subX /= subBuffIngredients.size();
+            subY /= subBuffIngredients.size();
+            subZ /= subBuffIngredients.size();
+            sc = new StatisticalCalcuration();
+            sc.setVariable(subX, subY, subZ);
+            sc.calcuration();
+            standardDeviation = sc.getStandardDeviation();
+            max = sc.getMax();
+            min = sc.getMin();
+            mean = sc.getMean();
+            this.subAllBuff *= subBuff;
+            this.smellBuff *= ((1.1 - standardDeviation * 3) * this.smellBuffAmp + 1.0);
+            this.tasteBuff *= (((0.1 + max - mean) / (1 - max)) * this.tasteBuffAmp + 1.0);
+            this.compatibilityBuff *= ((((max - min) % min) / min) * (this.compatibilityMax - this.compatibilityMin) + this.compatibilityMin) * this.compatibilityBuffAmp + 1.0;
         }
-        subX /= subBuffIngredients.size();
-        subY /= subBuffIngredients.size();
-        subZ /= subBuffIngredients.size();
-        sc = new StatisticalCalcuration();
-        sc.setVariable(subX, subY, subZ);
-        sc.calcuration();
-        standardDeviation = sc.getStandardDeviation();
-        max = sc.getMax();
-        min = sc.getMin();
-        mean = sc.getMean();
-        this.subAllBuff *= subBuff;
-        this.smellBuff *= ((1.1 - standardDeviation * 3) * this.smellBuffAmp + 1.0);
-        this.tasteBuff *= (((0.1 + max - mean) / (1 - max)) * this.tasteBuffAmp + 1.0);
-        this.compatibilityBuff *= ((((max - min) % min) / min) * (this.compatibilityMax - this.compatibilityMin) + this.compatibilityMin) * this.compatibilityBuffAmp + 1.0;
     }
 
 
@@ -354,12 +360,24 @@ public abstract class CraftableXYZItem extends SuperItem implements SuperCraftab
         return smell;
     }
 
+    public void setSmell(double smell) {
+        this.smell = smell;
+    }
+
     public double getTaste() {
         return taste;
     }
 
+    public void setTaste(double taste) {
+        this.taste = taste;
+    }
+
     public double getCompatibility() {
         return compatibility;
+    }
+
+    public void setCompatibility(double compatibility) {
+        this.compatibility = compatibility;
     }
 
     public double getAllBuff() {

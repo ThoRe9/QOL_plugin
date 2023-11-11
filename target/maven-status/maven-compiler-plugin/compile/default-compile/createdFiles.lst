@@ -8,17 +8,19 @@ net\okuri\qol\qolCraft\superCraft\SuperCraftable.class
 net\okuri\qol\qolCraft\distillation\Distillable.class
 net\okuri\qol\Commands.class
 net\okuri\qol\ProtectedBlock.class
+net\okuri\qol\superItems\factory\drinks\whisky\WhiskyIngredient.class
 net\okuri\qol\superItems\factory\drinks\sake\HotSake.class
-net\okuri\qol\superItems\factory\drinks\ingredients\BeerIngredient.class
 net\okuri\qol\listener\QOLSignListener.class
 net\okuri\qol\superItems\factory\resources\Barley.class
 net\okuri\qol\qolCraft\superCraft\Distributable.class
 net\okuri\qol\event\QOLSignCreateEvent.class
 net\okuri\qol\superItems\factory\resources\Rye.class
+net\okuri\qol\superItems\factory\drinks\LiquorIngredient.class
 net\okuri\qol\superItems\itemStack\SuperIngredientStack.class
 net\okuri\qol\superItems\factory\drinks\whisky\Beer.class
 net\okuri\qol\superItems\factory\ingredient\PolishedRice.class
 net\okuri\qol\event\DistillationEvent.class
+net\okuri\qol\superItems\factory\drinks\spirits\RamIngredient.class
 net\okuri\qol\listener\InteractListener.class
 net\okuri\qol\qolCraft\maturation\MaturationRecipe.class
 net\okuri\qol\superItems\itemStack\SuperLiquorStack.class
@@ -31,7 +33,7 @@ net\okuri\qol\superItems\factory\drinks\Soda.class
 net\okuri\qol\superItems\SuperItemTag.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake1ShoBottle.class
 net\okuri\qol\superItems\factory\resources\SuperResource.class
-net\okuri\qol\superItems\factory\drinks\ingredients\SakeIngredient.class
+net\okuri\qol\superItems\factory\drinks\whisky\BeerIngredient.class
 net\okuri\qol\PDCC.class
 net\okuri\qol\qolCraft\distillation\DistillationRecipe.class
 net\okuri\qol\listener\ProtectListener.class
@@ -43,7 +45,6 @@ net\okuri\qol\qolCraft\maturation\Maturable.class
 net\okuri\qol\superItems\factory\resources\Rice.class
 net\okuri\qol\Alcohol.class
 net\okuri\qol\ChatGenerator.class
-net\okuri\qol\superItems\factory\drinks\ingredients\LiquorIngredient.class
 net\okuri\qol\event\SuperCraftEvent.class
 net\okuri\qol\superItems\factory\drinks\sake\Shochu.class
 net\okuri\qol\superItems\itemStack\SuperResourceStack.class
@@ -59,6 +60,7 @@ net\okuri\qol\superItems\factory\drinks\whisky\WhiskyWithIce.class
 net\okuri\qol\superItems\factory\ingredient\Molasses.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake$SakeType.class
 net\okuri\qol\qolCraft\superCraft\DistributionReceiver.class
+net\okuri\qol\superItems\factory\drinks\spirits\Ram.class
 net\okuri\qol\superItems\factory\resources\SuperWheat.class
 net\okuri\qol\superItems\SuperItemType$1.class
 net\okuri\qol\qolCraft\calcuration\RandFromXYZ.class
@@ -84,6 +86,7 @@ net\okuri\qol\superItems\factory\foods\BarleyBread.class
 net\okuri\qol\superItems\factory\resources\SugarCane.class
 net\okuri\qol\superItems\factory\foods\RyeBread.class
 net\okuri\qol\superItems\factory\drinks\Liquor.class
+net\okuri\qol\superItems\factory\drinks\sake\SakeIngredient.class
 net\okuri\qol\superItems\itemStack\SuperLiquorIngredientStack.class
 net\okuri\qol\superItems\factory\resources\SuperPotato.class
 net\okuri\qol\event\MaturationPrepareEvent.class
@@ -97,4 +100,3 @@ net\okuri\qol\superItems\factory\DefaultItem.class
 net\okuri\qol\superItems\factory\drinks\StrongZero.class
 net\okuri\qol\superItems\factory\drinks\whisky\LagerBeer.class
 net\okuri\qol\qolCraft\resource\ResourceController.class
-net\okuri\qol\superItems\factory\drinks\ingredients\WhiskyIngredient.class

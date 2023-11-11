@@ -38,6 +38,8 @@ public enum PDCKey {
     // DIVLINE: パラメータ計算用(4)
     MAX_DURATION("max_duration", PersistentDataType.INTEGER, PDCKey.ApplyType.ITEM),
     // MAX_DURATION: パラメータ計算用(5)
+    BASE_DURATION("base_duration", PersistentDataType.INTEGER, PDCKey.ApplyType.ITEM),
+    // BASE_DURATION: パラメータ計算用(6)
     SODA_STRENGTH("soda_strength", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
     // SODA_STRENGTH: ソーダの強さを記憶する
     PRODUCER("producer", PersistentDataType.STRING, PDCKey.ApplyType.ITEM),

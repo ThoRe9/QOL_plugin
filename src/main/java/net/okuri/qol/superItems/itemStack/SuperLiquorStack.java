@@ -17,39 +17,31 @@ public class SuperLiquorStack extends SuperXYZStack {
     // このクラスはSuperItemStackを継承したクラスです。
     // このクラスはtagにSuperItemTag.LIQUORを持つSuperItemStack全般を表します。
 
-    private double taste;
-    private double smell;
-    private double compatibility;
-    private int rarity;
 
-    public SuperLiquorStack(@NotNull SuperXYZStack item) {
-        super(item);
-        this.setX(item.getX());
-        this.setY(item.getY());
-        this.setZ(item.getZ());
-        this.setTemp(0.0);
-        this.setHumid(0.0);
-        this.setBiomeId(0);
-        this.setQuality(item.getQuality());
-        this.setRarity(0);
-        this.setProducer("");
-        this.setAlcoholAmount(0.0);
-        this.setAlcoholPercentage(0.0);
-        this.setAmplifierLine(0.0);
-        this.setMaxDuration(0);
-        if (item.isHasTSC()) {
-            this.setTaste(item.getTaste());
-            this.setSmell(item.getSmell());
-            this.setCompatibility(item.getCompatibility());
-        } else {
-            this.setTaste(0.0);
-            this.setSmell(0.0);
-            this.setCompatibility(0.0);
-        }
-        this.setXEffectType(null);
-        this.setYEffectType(null);
-        this.setZEffectType(null);
-    }
+    private double temp;
+    private double humid;
+    private int biomeId;
+
+    private String producer;
+    private PotionEffectType xEffectType;
+    private PotionEffectType yEffectType;
+    private PotionEffectType zEffectType;
+    private int xAmplifier;
+    private int yAmplifier;
+    private int zAmplifier;
+    private int xDuration;
+    private int yDuration;
+    private int zDuration;
+    private double amplifierLine;
+    private int baseDuration;
+    private double alcoholAmount;
+    private double alcoholPercentage;
+
+    // 以下設定不要の変数
+    private PotionEffect xEffect;
+    private PotionEffect yEffect;
+    private PotionEffect zEffect;
+
 
     public SuperLiquorStack(@NotNull SuperItemType type) {
         this(type, 1);
@@ -57,9 +49,7 @@ public class SuperLiquorStack extends SuperXYZStack {
 
     public SuperLiquorStack(@NotNull SuperItemType type, int amount) {
         super(type, amount, true);
-        ItemMeta meta = super.getItemMeta();
-        PDCC.set(meta, PDCKey.ALCOHOL, true);
-        super.setItemMeta(meta);
+
 
         this.setX(0.0);
         this.setY(0.0);
@@ -68,12 +58,11 @@ public class SuperLiquorStack extends SuperXYZStack {
         this.setHumid(0.0);
         this.setBiomeId(0);
         this.setQuality(0.0);
-        this.setRarity(0);
         this.setProducer("");
         this.setAlcoholAmount(0.0);
         this.setAlcoholPercentage(0.0);
         this.setAmplifierLine(0.0);
-        this.setMaxDuration(0);
+        this.setBaseDuration(0);
         this.setTaste(0.0);
         this.setSmell(0.0);
         this.setCompatibility(0.0);
@@ -86,87 +75,72 @@ public class SuperLiquorStack extends SuperXYZStack {
     public SuperLiquorStack(ItemStack stack) {
         super(stack);
         PotionMeta meta = (PotionMeta) stack.getItemMeta();
-        this.temp = PDCC.get(meta, PDCKey.TEMP);
-        this.humid = PDCC.get(meta, PDCKey.HUMID);
-        this.biomeId = PDCC.get(meta, PDCKey.BIOME_ID);
-        this.quality = PDCC.get(meta, PDCKey.QUALITY);
-        this.rarity = PDCC.get(meta, PDCKey.RARITY);
-        this.producer = PDCC.get(meta, PDCKey.PRODUCER);
-        this.alcoholAmount = PDCC.get(meta, PDCKey.ALCOHOL_AMOUNT);
-        this.alcoholPercentage = PDCC.get(meta, PDCKey.ALCOHOL_PERCENTAGE);
-        this.maxDuration = PDCC.get(meta, PDCKey.MAX_DURATION);
-        this.amplifierLine = PDCC.get(meta, PDCKey.DIVLINE);
+        PDCC.set(meta, PDCKey.ALCOHOL, true);
+        super.setItemMeta(meta);
+
+
+        if (PDCC.has(meta, PDCKey.TEMP)) {
+            this.temp = PDCC.get(meta, PDCKey.TEMP);
+        } else {
+            this.temp = 0.0;
+        }
+        if (PDCC.has(meta, PDCKey.HUMID)) {
+            this.humid = PDCC.get(meta, PDCKey.HUMID);
+        } else {
+            this.humid = 0.0;
+        }
+        if (PDCC.has(meta, PDCKey.BIOME_ID)) {
+            this.biomeId = PDCC.get(meta, PDCKey.BIOME_ID);
+        } else {
+            this.biomeId = 0;
+        }
+        if (PDCC.has(meta, PDCKey.PRODUCER)) {
+            this.producer = PDCC.get(meta, PDCKey.PRODUCER);
+        } else {
+            this.producer = "";
+        }
+        if (PDCC.has(meta, PDCKey.ALCOHOL_AMOUNT)) {
+            this.alcoholAmount = PDCC.get(meta, PDCKey.ALCOHOL_AMOUNT);
+        } else {
+            this.alcoholAmount = 0.0;
+        }
+        if (PDCC.has(meta, PDCKey.ALCOHOL_PERCENTAGE)) {
+            this.alcoholPercentage = PDCC.get(meta, PDCKey.ALCOHOL_PERCENTAGE);
+        } else {
+            this.alcoholPercentage = 0.0;
+        }
+        if (PDCC.has(meta, PDCKey.BASE_DURATION)) {
+            this.baseDuration = PDCC.get(meta, PDCKey.BASE_DURATION);
+        } else {
+            this.baseDuration = 0;
+        }
+        if (PDCC.has(meta, PDCKey.DIVLINE)) {
+            this.amplifierLine = PDCC.get(meta, PDCKey.DIVLINE);
+        } else {
+            this.amplifierLine = 0.0;
+        }
         Liquor liquor = (Liquor) SuperItemType.getSuperItemClass(this.getSuperItemType());
         this.xEffectType = liquor.getXEffectType();
         this.yEffectType = liquor.getYEffectType();
         this.zEffectType = liquor.getZEffectType();
-
         List<PotionEffect> effects = meta.getCustomEffects();
         for (PotionEffect effect : effects) {
-            if (effect.getType() == this.xEffectType) {
+            if (effect.getType().equals(this.xEffectType)) {
                 this.xEffect = effect;
+                this.xDuration = this.xEffect.getDuration();
+                this.xAmplifier = this.xEffect.getAmplifier();
             }
-            if (effect.getType() == this.yEffectType) {
+            if (effect.getType().equals(this.yEffectType)) {
                 this.yEffect = effect;
+                this.yDuration = this.yEffect.getDuration();
+                this.yAmplifier = this.yEffect.getAmplifier();
             }
-            if (effect.getType() == this.zEffectType) {
+            if (effect.getType().equals(this.zEffectType)) {
                 this.zEffect = effect;
+                this.zDuration = this.zEffect.getDuration();
+                this.zAmplifier = this.zEffect.getAmplifier();
             }
         }
-        this.xDuration = this.xEffect.getDuration();
-        this.yDuration = this.yEffect.getDuration();
-        this.zDuration = this.zEffect.getDuration();
-        this.xAmplifier = this.xEffect.getAmplifier();
-        this.yAmplifier = this.yEffect.getAmplifier();
-        this.zAmplifier = this.zEffect.getAmplifier();
-    }
-
-    public double getTaste() {
-        return taste;
-    }
-
-    public void setTaste(double taste) {
-        this.taste = taste;
-    }
-
-    private double temp;
-    private double humid;
-    private int biomeId;
-    private double quality;
-
-    public double getSmell() {
-        return smell;
-    }
-    private String producer;
-    private PotionEffectType xEffectType;
-    private PotionEffectType yEffectType;
-    private PotionEffectType zEffectType;
-    private int xAmplifier;
-    private int yAmplifier;
-    private int zAmplifier;
-    private int xDuration;
-    private int yDuration;
-    private int zDuration;
-    private double amplifierLine;
-    private int maxDuration;
-    private double alcoholAmount;
-    private double alcoholPercentage;
-
-    // 以下設定不要の変数
-    private PotionEffect xEffect;
-    private PotionEffect yEffect;
-    private PotionEffect zEffect;
-
-    public void setSmell(double smell) {
-        this.smell = smell;
-    }
-
-    public double getCompatibility() {
-        return compatibility;
-    }
-
-    public void setCompatibility(double compatibility) {
-        this.compatibility = compatibility;
     }
 
     public double getTemp() {
@@ -199,17 +173,6 @@ public class SuperLiquorStack extends SuperXYZStack {
         this.biomeId = biomeId;
         ItemMeta meta = super.getItemMeta();
         PDCC.set(meta, PDCKey.BIOME_ID, biomeId);
-        super.setItemMeta(meta);
-    }
-
-    public double getQuality() {
-        return quality;
-    }
-
-    public void setQuality(double quality) {
-        this.quality = quality;
-        ItemMeta meta = super.getItemMeta();
-        PDCC.set(meta, PDCKey.QUALITY, quality);
         super.setItemMeta(meta);
     }
 
@@ -259,14 +222,14 @@ public class SuperLiquorStack extends SuperXYZStack {
         super.setItemMeta(meta);
     }
 
-    public int getMaxDuration() {
-        return maxDuration;
+    public int getBaseDuration() {
+        return baseDuration;
     }
 
-    public void setMaxDuration(int maxDuration) {
-        this.maxDuration = maxDuration;
+    public void setBaseDuration(int baseDuration) {
+        this.baseDuration = baseDuration;
         ItemMeta meta = super.getItemMeta();
-        PDCC.set(meta, PDCKey.MAX_DURATION, maxDuration);
+        PDCC.set(meta, PDCKey.BASE_DURATION, baseDuration);
         super.setItemMeta(meta);
     }
 
@@ -289,17 +252,6 @@ public class SuperLiquorStack extends SuperXYZStack {
         this.alcoholPercentage = alcoholPercentage;
         ItemMeta meta = super.getItemMeta();
         PDCC.set(meta, PDCKey.ALCOHOL_PERCENTAGE, alcoholPercentage);
-        super.setItemMeta(meta);
-    }
-
-    public int getQOLRarity() {
-        return this.rarity;
-    }
-
-    public void setRarity(int rarity) {
-        this.rarity = rarity;
-        ItemMeta meta = super.getItemMeta();
-        PDCC.set(meta, PDCKey.RARITY, rarity);
         super.setItemMeta(meta);
     }
 
