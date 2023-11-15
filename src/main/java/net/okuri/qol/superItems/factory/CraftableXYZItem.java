@@ -7,7 +7,6 @@ import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import net.okuri.qol.superItems.itemStack.SuperXYZStack;
-import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 
@@ -116,7 +115,6 @@ public abstract class CraftableXYZItem extends SuperItem implements SuperCraftab
         this.y = stack.getY();
         this.z = stack.getZ();
         this.hasTSC = stack.isHasTSC();
-        Bukkit.getLogger().info("hasTSC: " + this.hasTSC);
         if (hasTSC) {
             this.smell = stack.getSmell();
             this.taste = stack.getTaste();

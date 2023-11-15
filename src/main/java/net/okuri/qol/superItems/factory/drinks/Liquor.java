@@ -12,8 +12,8 @@ import net.okuri.qol.superItems.factory.CraftableXYZItem;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import net.okuri.qol.superItems.itemStack.SuperLiquorStack;
-import org.bukkit.Bukkit;
 import org.bukkit.Color;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -108,7 +108,8 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
         this.amplifierLine = liquorStack.getAmplifierLine();
         this.alcoholAmount = liquorStack.getAlcoholAmount();
         this.alcoholPercentage = liquorStack.getAlcoholPercentage();
-        this.displayName = liquorStack.displayName();
+        ItemMeta meta = liquorStack.getItemMeta();
+        this.displayName = meta.displayName();
         this.amplifierLine = liquorStack.getAmplifierLine();
         this.producer = liquorStack.getProducer();
         this.temp = liquorStack.getTemp();
@@ -133,7 +134,6 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
         this.xAmplifier = (int) Math.floor(newX * calcAmplifierAmp());
         this.yAmplifier = (int) Math.floor(newY * calcAmplifierAmp());
         this.zAmplifier = (int) Math.floor(newZ * calcAmplifierAmp());
-        Bukkit.getLogger().info(String.valueOf(newX * baseDuration * calcDurationAmp() * this.alcoholAmount));
         this.xDuration = (int) Math.floor(newX * baseDuration * calcDurationAmp() * this.alcoholAmount);
         this.yDuration = (int) Math.floor(newY * baseDuration * calcDurationAmp() * this.alcoholAmount);
         this.zDuration = (int) Math.floor(newZ * baseDuration * calcDurationAmp() * this.alcoholAmount);
@@ -214,11 +214,12 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
     public void setMatrix(SuperItemStack[] matrix, String id) {
         if (Objects.equals(id, "distribution")) {
             // 分配(親)の場合
-            SuperLiquorStack liquor = (SuperLiquorStack) matrix[0];
+            SuperLiquorStack liquor = new SuperLiquorStack(matrix[0]);
             this.initialize(liquor);
         } else if (Objects.equals(id, "distribution_receiver")) {
             // 分配(子)の場合
-            SuperLiquorStack liquor = (SuperLiquorStack) matrix[0];
+            SuperLiquorStack liquor = new SuperLiquorStack(matrix[0]);
+            liquor.setAlcoholAmount(this.alcoholAmount);
             this.initialize(liquor);
             this.displayName = this.displayName.append(Component.text("(" + this.alcoholAmount + "ml)").color(this.displayName.color()));
         } else {

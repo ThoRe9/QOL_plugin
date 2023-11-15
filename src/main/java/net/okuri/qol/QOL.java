@@ -16,8 +16,9 @@ import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
 import net.okuri.qol.superItems.factory.drinks.sake.*;
-import net.okuri.qol.superItems.factory.drinks.spirits.Ram;
-import net.okuri.qol.superItems.factory.drinks.spirits.RamIngredient;
+import net.okuri.qol.superItems.factory.drinks.spirits.Rum;
+import net.okuri.qol.superItems.factory.drinks.spirits.RumIngredient;
+import net.okuri.qol.superItems.factory.drinks.spirits.RumStraight;
 import net.okuri.qol.superItems.factory.drinks.whisky.*;
 import net.okuri.qol.superItems.factory.foods.BarleyBread;
 import net.okuri.qol.superItems.factory.foods.Bread;
@@ -326,8 +327,15 @@ public final class QOL extends JavaPlugin {
         ramIngredientRecipe.setShape(new String[]{"MMM", " W ", "   "});
         ramIngredientRecipe.addIngredient('M', SuperItemType.MOLASSES);
         ramIngredientRecipe.addIngredient('W', Material.POTION);
-        ramIngredientRecipe.setResultClass(new RamIngredient());
+        ramIngredientRecipe.setResultClass(new RumIngredient());
         superCraft.addSuperCraftRecipe(ramIngredientRecipe);
+
+        // a cup of rum
+        DistributionCraftRecipe rumStraight = new DistributionCraftRecipe("distribution");
+        rumStraight.setDistribution(new Rum());
+        rumStraight.setReciver(new RumStraight());
+        rumStraight.setBottle(Material.GLASS_BOTTLE);
+        superCraft.addDistributionCraftRecipe(rumStraight);
 
     }
 
@@ -372,9 +380,9 @@ public final class QOL extends JavaPlugin {
         distillation.addDistillationRecipe(shochuRecipe);
 
         // ram
-        DistillationRecipe ramRecipe = new DistillationRecipe("Ram", new Ram());
-        ramRecipe.addIngredient(SuperItemType.RAM_INGREDIENT);
-        ramRecipe.addIngredient(SuperItemType.RAM);
+        DistillationRecipe ramRecipe = new DistillationRecipe("Ram", new Rum());
+        ramRecipe.addIngredient(SuperItemType.RUM_INGREDIENT);
+        ramRecipe.addIngredient(SuperItemType.RUM);
         distillation.addDistillationRecipe(ramRecipe);
     }
 

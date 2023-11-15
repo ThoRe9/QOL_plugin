@@ -20,7 +20,6 @@ net\okuri\qol\superItems\itemStack\SuperIngredientStack.class
 net\okuri\qol\superItems\factory\drinks\whisky\Beer.class
 net\okuri\qol\superItems\factory\ingredient\PolishedRice.class
 net\okuri\qol\event\DistillationEvent.class
-net\okuri\qol\superItems\factory\drinks\spirits\RamIngredient.class
 net\okuri\qol\listener\InteractListener.class
 net\okuri\qol\qolCraft\maturation\MaturationRecipe.class
 net\okuri\qol\superItems\itemStack\SuperLiquorStack.class
@@ -33,6 +32,7 @@ net\okuri\qol\superItems\factory\drinks\Soda.class
 net\okuri\qol\superItems\SuperItemTag.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake1ShoBottle.class
 net\okuri\qol\superItems\factory\resources\SuperResource.class
+net\okuri\qol\superItems\factory\drinks\spirits\RumIngredient.class
 net\okuri\qol\superItems\factory\drinks\whisky\BeerIngredient.class
 net\okuri\qol\PDCC.class
 net\okuri\qol\qolCraft\distillation\DistillationRecipe.class
@@ -55,18 +55,19 @@ net\okuri\qol\superItems\factory\CraftableXYZItem.class
 net\okuri\qol\listener\InteractListener$1.class
 net\okuri\qol\PDCKey.class
 net\okuri\qol\QOL.class
+net\okuri\qol\superItems\factory\drinks\spirits\Rum.class
 net\okuri\qol\superItems\factory\SuperItem.class
 net\okuri\qol\superItems\factory\drinks\whisky\WhiskyWithIce.class
 net\okuri\qol\superItems\factory\ingredient\Molasses.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake$SakeType.class
 net\okuri\qol\qolCraft\superCraft\DistributionReceiver.class
-net\okuri\qol\superItems\factory\drinks\spirits\Ram.class
 net\okuri\qol\superItems\factory\resources\SuperWheat.class
 net\okuri\qol\superItems\SuperItemType$1.class
 net\okuri\qol\qolCraft\calcuration\RandFromXYZ.class
 net\okuri\qol\superItems\factory\drinks\whisky\Highball.class
 net\okuri\qol\superItems\factory\ingredient\Koji.class
 net\okuri\qol\qolCraft\superCraft\DistributionCraftRecipe.class
+net\okuri\qol\superItems\factory\drinks\spirits\RumStraight.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftRecipe.class
 net\okuri\qol\qolCraft\calcuration\CirculeDistribution.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake$TasteType.class

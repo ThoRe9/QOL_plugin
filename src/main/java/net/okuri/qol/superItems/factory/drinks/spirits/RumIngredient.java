@@ -6,9 +6,9 @@ import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.drinks.LiquorIngredient;
 import org.bukkit.Color;
 
-public class RamIngredient extends LiquorIngredient {
-    public RamIngredient() {
-        super(SuperItemType.RAM_INGREDIENT, new Ram());
+public class RumIngredient extends LiquorIngredient {
+    public RumIngredient() {
+        super(SuperItemType.RUM_INGREDIENT, new Rum());
         super.addMainIngredient(SuperItemType.MOLASSES);
         super.setAlcoholAmount(1000);
         super.setAlcoholPercentage(0.01);

@@ -4,6 +4,7 @@ import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.drinks.Liquor;
+import org.bukkit.Color;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
@@ -37,6 +38,8 @@ public class SuperLiquorStack extends SuperXYZStack {
     private double alcoholAmount;
     private double alcoholPercentage;
 
+    private Color potionColor;
+
     // 以下設定不要の変数
     private PotionEffect xEffect;
     private PotionEffect yEffect;
@@ -66,6 +69,7 @@ public class SuperLiquorStack extends SuperXYZStack {
         this.setTaste(0.0);
         this.setSmell(0.0);
         this.setCompatibility(0.0);
+        this.setPotionColor(Color.WHITE);
         this.setXEffectType(null);
         this.setYEffectType(null);
         this.setZEffectType(null);
@@ -297,6 +301,17 @@ public class SuperLiquorStack extends SuperXYZStack {
             }
         }
         meta.addCustomEffect(zEffect, true);
+        this.setItemMeta(meta);
+    }
+
+    public Color getPotionColor() {
+        return potionColor;
+    }
+
+    public void setPotionColor(Color potionColor) {
+        this.potionColor = potionColor;
+        PotionMeta meta = (PotionMeta) this.getItemMeta();
+        meta.setColor(potionColor);
         this.setItemMeta(meta);
     }
 

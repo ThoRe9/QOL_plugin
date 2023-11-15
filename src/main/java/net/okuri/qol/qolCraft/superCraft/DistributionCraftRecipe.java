@@ -129,8 +129,8 @@ public class DistributionCraftRecipe implements SuperRecipe {
         this.smallBottleAmount = receiver.getAmount();
     }
     public void process(){
-        distribution.setMatrix(matrix,id);
-        receiver.setMatrix(matrix,id);
+        distribution.setMatrix(matrix, "distribution");
+        receiver.setMatrix(matrix, "distribution_receiver");
         distribution.distribute(smallBottleAmount,smallBottleCount);
         receiver.receive(smallBottleCount);
     }
