@@ -86,7 +86,7 @@ public class SuperItemStack extends ItemStack {
 
     public boolean isSimilar(SuperItemStack item) {
         if (item == null) return false;
-        return this.superItemData.isSimillar(item.superItemData);
+        return this.superItemData.isSimilar(item.superItemData);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class SuperItemStack extends ItemStack {
     }
 
     public boolean isSimilar(@NotNull SuperItemData data) {
-        return this.superItemData.isSimillar(data);
+        return this.superItemData.isSimilar(data);
     }
 
     public boolean isConsumable() {
@@ -131,6 +131,12 @@ public class SuperItemStack extends ItemStack {
     public void setLore(LoreGenerator lore) {
         ItemMeta meta = super.getItemMeta();
         meta.lore(lore.generateLore());
+        super.setItemMeta(meta);
+    }
+
+    public void setConsumable(boolean consumable) {
+        ItemMeta meta = super.getItemMeta();
+        PDCC.set(meta, PDCKey.CONSUMABLE, consumable);
         super.setItemMeta(meta);
     }
 }

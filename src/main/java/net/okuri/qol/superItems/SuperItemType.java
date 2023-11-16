@@ -5,10 +5,10 @@ import net.okuri.qol.superItems.factory.DefaultItem;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
-import net.okuri.qol.superItems.factory.drinks.ingredients.BeerIngredient;
-import net.okuri.qol.superItems.factory.drinks.ingredients.SakeIngredient;
-import net.okuri.qol.superItems.factory.drinks.ingredients.WhiskyIngredient;
 import net.okuri.qol.superItems.factory.drinks.sake.*;
+import net.okuri.qol.superItems.factory.drinks.spirits.Rum;
+import net.okuri.qol.superItems.factory.drinks.spirits.RumIngredient;
+import net.okuri.qol.superItems.factory.drinks.spirits.RumStraight;
 import net.okuri.qol.superItems.factory.drinks.whisky.*;
 import net.okuri.qol.superItems.factory.foods.Bread;
 import net.okuri.qol.superItems.factory.ingredient.Koji;
@@ -52,7 +52,9 @@ public enum SuperItemType {
     MOLASSES("MOLASSES", 0, Material.HONEY_BOTTLE, SuperItemTag.RESOURCE),
     SUGAR("SUGAR", 0, Material.SUGAR, SuperItemTag.RESOURCE),
     SPIRITS_INGREDIENT("SPIRITS_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
-    RAM("RAM", 0, Material.POTION, SuperItemTag.LIQUOR),
+    RUM("RUM", 0, Material.POTION, SuperItemTag.LIQUOR),
+    RUM_INGREDIENT("RUM_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
+    RUM_STRAIGHT("RUM_STRAIGHT", 0, Material.POTION, SuperItemTag.LIQUOR),
     STRONG_ZERO("STRONG_ZERO", 0, Material.POTION, SuperItemTag.LIQUOR);
 
     private final String type;
@@ -146,6 +148,12 @@ public enum SuperItemType {
                 return new SugarCane();
             case MOLASSES:
                 return new Molasses();
+            case RUM:
+                return new Rum();
+            case RUM_INGREDIENT:
+                return new RumIngredient();
+            case RUM_STRAIGHT:
+                return new RumStraight();
             case DEFAULT:
                 return new DefaultItem(type);
             default:

@@ -21,7 +21,7 @@ public class SuperItemData {
         return type;
     }
 
-    public boolean isSimillar(SuperItemData data) {
+    public boolean isSimilar(SuperItemData data) {
         if (this.type == SuperItemType.DEFAULT) {
             return this.material == data.material;
         } else {

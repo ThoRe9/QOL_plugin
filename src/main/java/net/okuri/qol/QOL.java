@@ -15,14 +15,11 @@ import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
-import net.okuri.qol.superItems.factory.drinks.ingredients.BeerIngredient;
-import net.okuri.qol.superItems.factory.drinks.ingredients.SakeIngredient;
-import net.okuri.qol.superItems.factory.drinks.ingredients.WhiskyIngredient;
 import net.okuri.qol.superItems.factory.drinks.sake.*;
-import net.okuri.qol.superItems.factory.drinks.whisky.Beer;
-import net.okuri.qol.superItems.factory.drinks.whisky.Highball;
-import net.okuri.qol.superItems.factory.drinks.whisky.Whisky;
-import net.okuri.qol.superItems.factory.drinks.whisky.WhiskyWithIce;
+import net.okuri.qol.superItems.factory.drinks.spirits.Rum;
+import net.okuri.qol.superItems.factory.drinks.spirits.RumIngredient;
+import net.okuri.qol.superItems.factory.drinks.spirits.RumStraight;
+import net.okuri.qol.superItems.factory.drinks.whisky.*;
 import net.okuri.qol.superItems.factory.foods.BarleyBread;
 import net.okuri.qol.superItems.factory.foods.Bread;
 import net.okuri.qol.superItems.factory.foods.RyeBread;
@@ -320,6 +317,25 @@ public final class QOL extends JavaPlugin {
         molassesRecipe.setResultClass(new Molasses());
         superCraft.addShapelessSuperCraftRecipe(molassesRecipe);
 
+        // Ram ingredient
+        ItemStack ramIngredient = new ItemStack(Material.POTION, 1);
+        PotionMeta ramIngredientMeta = (PotionMeta) ramIngredient.getItemMeta();
+        ramIngredientMeta.displayName(Component.text("Ram Ingredient").color(NamedTextColor.GOLD));
+        ramIngredientMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE").generateLore());
+        ramIngredient.setItemMeta(ramIngredientMeta);
+        SuperCraftRecipe ramIngredientRecipe = new SuperCraftRecipe(ramIngredient, "ram_ingredient");
+        ramIngredientRecipe.setShape(new String[]{"MMM", " W ", "   "});
+        ramIngredientRecipe.addIngredient('M', SuperItemType.MOLASSES);
+        ramIngredientRecipe.addIngredient('W', Material.POTION);
+        ramIngredientRecipe.setResultClass(new RumIngredient());
+        superCraft.addSuperCraftRecipe(ramIngredientRecipe);
+
+        // a cup of rum
+        DistributionCraftRecipe rumStraight = new DistributionCraftRecipe("distribution");
+        rumStraight.setDistribution(new Rum());
+        rumStraight.setReciver(new RumStraight());
+        rumStraight.setBottle(Material.GLASS_BOTTLE);
+        superCraft.addDistributionCraftRecipe(rumStraight);
 
     }
 
@@ -362,6 +378,12 @@ public final class QOL extends JavaPlugin {
         DistillationRecipe shochuRecipe = new DistillationRecipe("Shochu", new Shochu());
         shochuRecipe.addIngredient(SuperItemType.SAKE_INGREDIENT);
         distillation.addDistillationRecipe(shochuRecipe);
+
+        // ram
+        DistillationRecipe ramRecipe = new DistillationRecipe("Ram", new Rum());
+        ramRecipe.addIngredient(SuperItemType.RUM_INGREDIENT);
+        ramRecipe.addIngredient(SuperItemType.RUM);
+        distillation.addDistillationRecipe(ramRecipe);
     }
 
 
