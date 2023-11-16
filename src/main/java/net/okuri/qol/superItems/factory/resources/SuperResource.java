@@ -78,7 +78,7 @@ public abstract class SuperResource extends SuperItem {
         rand.calcuration();
         ArrayList<Double> correction = rand.getAns();
         CirculeDistribution calc = new CirculeDistribution();
-        calc.setVariable(this.temp + 0.75, 0.5, 1, 3);
+        calc.setVariable(this.temp + 0.75 + this.base, 0.5, 1, 3);
         calc.setCorrection(correction);
         calc.calcuration();
         ArrayList<Double> ans = calc.getAns();

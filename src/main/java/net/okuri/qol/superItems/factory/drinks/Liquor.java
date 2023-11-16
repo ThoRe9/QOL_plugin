@@ -14,7 +14,6 @@ import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import net.okuri.qol.superItems.itemStack.SuperLiquorStack;
 import org.bukkit.Color;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -122,9 +121,6 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
     @Override
     public SuperLiquorStack getSuperItem() {
         SuperLiquorStack item = new SuperLiquorStack(super.getSuperItem());
-        PotionMeta meta = (PotionMeta) item.getItemMeta();
-        meta.setColor(this.potionColor);
-        item.setItemMeta(meta);
 
         double newX = item.getX() * this.getCompatibility();
         double newY = item.getY() * this.getCompatibility();
@@ -156,6 +152,7 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
         }
         lore.addInfoLore("made by " + this.producer);
 
+        item.setPotionColor(this.potionColor);
         item.setX(newX);
         item.setY(newY);
         item.setZ(newZ);
