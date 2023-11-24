@@ -1,5 +1,6 @@
 package net.okuri.qol;
 
+import net.okuri.qol.producerInfo.ProducerInfo;
 import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.resources.SuperResource;
@@ -10,6 +11,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class PDCC {
@@ -172,6 +174,50 @@ public class PDCC {
         if (pdc.has(key.key, type)) throw new IllegalArgumentException("This key is protected.");
         pdc.set(key.key, type, value);
     }
+
+    public static void setProducerInfo(ItemMeta meta, ProducerInfo info) {
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        pdc.set(PDCKey.PRODUCER_INFO.key, PDCKey.PRODUCER_INFO.type, getProducerContainer(pdc, info));
+
+    }
+
+    private static PersistentDataContainer getProducerContainer(PersistentDataContainer parentPdc, ProducerInfo info) {
+        PersistentDataContainer pdc = parentPdc.getAdapterContext().newPersistentDataContainer();
+        pdc.set(PDCKey.PRODUCER_INFO_ID.key, PDCKey.PRODUCER_INFO_ID.type, info.getPlayerID());
+        pdc.set(PDCKey.PRODUCER_INFO_QUALITY.key, PDCKey.PRODUCER_INFO_QUALITY.type, info.getPlayerQuality());
+        pdc.set(PDCKey.PRODUCER_INFO_TYPE.key, PDCKey.PRODUCER_INFO_TYPE.type, info.getItemData().getType().getStringType());
+        ArrayList<ProducerInfo> children = info.getChildren();
+        PersistentDataContainer[] childrenPdc = new PersistentDataContainer[children.size()];
+        for (int i = 0; i < children.size(); i++) {
+            childrenPdc[i] = getProducerContainer(pdc, children.get(i));
+        }
+        pdc.set(PDCKey.PRODUCER_CHILDREN.key, PDCKey.PRODUCER_CHILDREN.type, childrenPdc);
+        return pdc;
+    }
+
+    public static ProducerInfo getProducerInfo(ItemMeta meta) {
+        assert has(meta, PDCKey.PRODUCER_INFO);
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        PersistentDataContainer producerInfoPdc = (PersistentDataContainer) pdc.get(PDCKey.PRODUCER_INFO.key, PDCKey.PRODUCER_INFO.type);
+        return getProducerInfo(producerInfoPdc);
+    }
+
+    private static ProducerInfo getProducerInfo(PersistentDataContainer pdc) {
+        String playerID = (String) pdc.get(PDCKey.PRODUCER_INFO_ID.key, PDCKey.PRODUCER_INFO_ID.type);
+        double playerQuality = (double) pdc.get(PDCKey.PRODUCER_INFO_QUALITY.key, PDCKey.PRODUCER_INFO_QUALITY.type);
+        SuperItemType itemType = SuperItemType.valueOf((String) pdc.get(PDCKey.PRODUCER_INFO_TYPE.key, PDCKey.PRODUCER_INFO_TYPE.type));
+        SuperItemData data = new SuperItemData(itemType);
+        ProducerInfo info = new ProducerInfo(playerID, playerQuality, data);
+        PersistentDataContainer[] childrenPdc = (PersistentDataContainer[]) pdc.get(PDCKey.PRODUCER_CHILDREN.key, PDCKey.PRODUCER_CHILDREN.type);
+        if (childrenPdc != null) {
+            for (PersistentDataContainer childPdc : childrenPdc) {
+                if (childPdc == null) continue;
+                info.addChild(getProducerInfo(childPdc));
+            }
+        }
+        return info;
+    }
+
 
     public static <T> void setLiquor(ItemMeta meta, double alcoholAmount, double alcoholPer, double x, double y, double z, double divLine, double quality, int rarity, double temp, double humid, double maturation) {
         meta.getPersistentDataContainer().set(PDCKey.ALCOHOL.key, PDCKey.ALCOHOL.type, true);

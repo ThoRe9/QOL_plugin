@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
+import net.okuri.qol.producerInfo.ProducerInfo;
 import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
@@ -15,6 +16,7 @@ import org.jetbrains.annotations.NotNull;
 public class SuperItemStack extends ItemStack {
     private SuperItemData superItemData;
     private SuperItem superItemClass;
+    private ProducerInfo producerInfo = null;
 
     public SuperItemStack(ItemStack stack) {
         // 浅いコピーではなく、深いコピーを行っている
@@ -28,6 +30,10 @@ public class SuperItemStack extends ItemStack {
             }
         } else {
             this.initialize(stack.getType(), stack.getAmount());
+        }
+
+        if (PDCC.has(super.getItemMeta(), PDCKey.PRODUCER_INFO)) {
+            this.producerInfo = PDCC.getProducerInfo(super.getItemMeta());
         }
     }
 
@@ -138,5 +144,21 @@ public class SuperItemStack extends ItemStack {
         ItemMeta meta = super.getItemMeta();
         PDCC.set(meta, PDCKey.CONSUMABLE, consumable);
         super.setItemMeta(meta);
+    }
+
+    public ProducerInfo getProducerInfo() {
+        assert this.hasProducerInfo();
+        return this.producerInfo;
+    }
+
+    public void setProducerInfo(ProducerInfo producerInfo) {
+        this.producerInfo = producerInfo;
+        ItemMeta meta = super.getItemMeta();
+        PDCC.setProducerInfo(meta, producerInfo);
+        super.setItemMeta(meta);
+    }
+
+    public boolean hasProducerInfo() {
+        return this.producerInfo != null;
     }
 }

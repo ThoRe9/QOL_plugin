@@ -73,6 +73,7 @@ public final class QOL extends JavaPlugin {
         getCommand("givesuperitem").setExecutor(new Commands());
         getCommand("superwheat").setExecutor(new Commands());
         getCommand("alc").setExecutor(new Commands());
+        getCommand("producer").setExecutor(new Commands());
 
         // bukkitRunnableを起動
         Alcohol alc = new Alcohol();

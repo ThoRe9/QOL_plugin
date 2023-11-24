@@ -9,9 +9,11 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.ProtectedBlock;
 import net.okuri.qol.event.MaturationEndEvent;
 import net.okuri.qol.event.MaturationPrepareEvent;
+import net.okuri.qol.producerInfo.ProducerInfo;
 import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
+import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -125,11 +127,28 @@ public class MaturationController implements Listener {
         Sign sign = event.getSign();
         Barrel barrel = event.getBarrel();
         Player player = event.getPlayer();
+        ArrayList<SuperItemStack> ingredients = new ArrayList<>();
+        for (ItemStack itemStack : event.getIngredients()) {
+            SuperItemStack superItemStack = new SuperItemStack(itemStack);
+            if (superItemStack.getSuperItemType() == SuperItemType.DEFAULT) continue;
+            ingredients.add(superItemStack);
+        }
+
         result.setMaturationVariable(event.getIngredients(), event.getStart(), event.getEnd(), event.getTemp(), event.getHumid());
         // 樽の中身にresultを入れる
         Inventory barrelInventory = event.getBarrel().getSnapshotInventory();
+
+        SuperItemStack resultStack = ((SuperItem) result).getSuperItem();
+        ProducerInfo producerInfo = new ProducerInfo(player, 1.0, resultStack.getSuperItemData());
+        for (SuperItemStack ingredient : ingredients) {
+            player.getInventory().addItem(ingredient);
+            if (ingredient.hasProducerInfo()) {
+                producerInfo.addChild(ingredient.getProducerInfo());
+            }
+        }
+        resultStack.setProducerInfo(producerInfo);
         barrelInventory.clear();
-        barrelInventory.addItem(((SuperItem) result).getSuperItem());
+        barrelInventory.addItem(resultStack);
         sign.update();
         // 樽、看板の保護を解除
         ProtectedBlock.setProtectedBlock(sign, false);
@@ -183,7 +202,7 @@ public class MaturationController implements Listener {
         // recipeの材料と一致するかどうかを確認する(順番も一致させる)
         ArrayList<SuperItemData> recipeIngredients = recipe.getIngredients();
         for (int i = 0; i < recipeIngredients.size(); i++) {
-            if (recipeIngredients.get(i) != superItemDatas.get(i)) {
+            if (!recipeIngredients.get(i).isSimilar(superItemDatas.get(i))) {
                 return false;
             }
         }

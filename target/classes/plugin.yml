@@ -33,3 +33,9 @@ commands:
     permission: qol.command.alc
     permission-message: Permission denied
     usage: /<command>
+  producer:
+    aliases: [ pro ]
+    description: You can get producer.
+    permission: qol.command.producer
+    permission-message: Permission denied
+    usage: /<command>

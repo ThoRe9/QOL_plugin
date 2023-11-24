@@ -47,6 +47,7 @@ net\okuri\qol\Alcohol.class
 net\okuri\qol\ChatGenerator.class
 net\okuri\qol\event\SuperCraftEvent.class
 net\okuri\qol\superItems\factory\drinks\sake\Shochu.class
+net\okuri\qol\producerInfo\ProducerInfo.class
 net\okuri\qol\superItems\itemStack\SuperResourceStack.class
 net\okuri\qol\qolCraft\distillation\DistillationController.class
 net\okuri\qol\qolCraft\calcuration\PotionEffectCalcuration.class

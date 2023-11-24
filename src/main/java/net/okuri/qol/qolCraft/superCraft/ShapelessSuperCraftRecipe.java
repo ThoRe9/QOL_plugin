@@ -35,6 +35,9 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
                 for (int j = 0; j < ingredients.size(); j++) {
                     SuperItemData ingredient = ingredients.get(j);
                     if (itemStack.isSimilar(ingredient)) {
+                        if (ingredientItems[j] != null) {
+                            return false;
+                        }
                         ingredientItems[j] = itemStack;
                         flag = true;
                         break;

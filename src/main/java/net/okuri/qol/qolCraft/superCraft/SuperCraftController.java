@@ -3,6 +3,8 @@ package net.okuri.qol.qolCraft.superCraft;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.event.SuperCraftEvent;
+import net.okuri.qol.producerInfo.ProducerInfo;
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Bukkit;
@@ -29,7 +31,7 @@ public class SuperCraftController implements Listener {
     private boolean superCraftFlag = false;
     private boolean shapelessCraftFlag = false;
     private boolean distributionFlag = false;
-    private ItemStack distributableItem;
+    private SuperItemStack distributableItem;
     private SuperRecipe recipe;
 
     private SuperCraftController() {
@@ -91,7 +93,7 @@ public class SuperCraftController implements Listener {
                 Bukkit.getLogger().info("SuperCraftRecipe matched!");
                 SuperCraftable result = superCraftRecipe.getResultClass();
                 SuperItemStack resultItem = ((SuperItem) result).getSuperItem();
-
+                resultItem.setProducerInfo(getProducerInfo(superMatrix, resultItem.getSuperItemData(), player));
                 inventory.setResult(resultItem);
                 this.superCraftFlag = true;
                 this.recipe = superCraftRecipe;
@@ -103,8 +105,9 @@ public class SuperCraftController implements Listener {
             if (shapelessSuperCraftRecipe.checkSuperRecipe(superMatrix)) {
                 Bukkit.getLogger().info("ShapelessSuperCraftRecipe matched!");
                 SuperCraftable result = shapelessSuperCraftRecipe.getResultClass();
-                ItemStack resultItem = ((SuperItem) result).getSuperItem();
-
+                SuperItemStack resultItem = ((SuperItem) result).getSuperItem();
+                resultItem.setProducerInfo(getProducerInfo(superMatrix, resultItem.getSuperItemData(), player));
+                inventory.setResult(resultItem);
                 inventory.setResult(resultItem);
                 this.shapelessCraftFlag = true;
                 this.recipe = shapelessSuperCraftRecipe;
@@ -119,16 +122,37 @@ public class SuperCraftController implements Listener {
                 Distributable distribution = d.getDistribution();
                 DistributionReceiver receiver = d.getReceiver();
 
-                ItemStack receiverItem = ((SuperItem) receiver).getSuperItem();
+                SuperItemStack receiverItem = ((SuperItem) receiver).getSuperItem();
 
                 inventory.setResult(receiverItem);
                 this.distributionFlag = true;
                 this.distributableItem = ((SuperItem) distribution).getSuperItem();
+                ProducerInfo info = getProducerInfo(superMatrix, receiverItem.getSuperItemData(), player);
+                receiverItem.setProducerInfo(info);
+                distributableItem.setProducerInfo(info.getChild(distributableItem.getSuperItemData()));
+
                 this.recipe = d;
 
                 return;
             }
         }
+    }
+
+    private ProducerInfo getProducerInfo(SuperItemStack[] matrix, SuperItemData data, Player player) {
+        ProducerInfo result = new ProducerInfo(player, 0.0, data);
+        for (SuperItemStack item : matrix) {
+            if (item == null) {
+                continue;
+            }
+            if (item.getItemMeta() == null) {
+                continue;
+            }
+            if (PDCC.has(item.getItemMeta(), PDCKey.PRODUCER_INFO)) {
+                ProducerInfo info = PDCC.getProducerInfo(item.getItemMeta());
+                result.addChild(info);
+            }
+        }
+        return result;
     }
 
     @EventHandler
