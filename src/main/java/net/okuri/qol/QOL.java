@@ -13,6 +13,7 @@ import net.okuri.qol.qolCraft.superCraft.ShapelessSuperCraftRecipe;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftController;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
 import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.factory.drinks.Horoyoi;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
 import net.okuri.qol.superItems.factory.drinks.sake.*;
@@ -26,10 +27,7 @@ import net.okuri.qol.superItems.factory.foods.RyeBread;
 import net.okuri.qol.superItems.factory.ingredient.Koji;
 import net.okuri.qol.superItems.factory.ingredient.Molasses;
 import net.okuri.qol.superItems.factory.ingredient.PolishedRice;
-import net.okuri.qol.superItems.factory.resources.SugarCane;
-import net.okuri.qol.superItems.factory.resources.SuperCoal;
-import net.okuri.qol.superItems.factory.resources.SuperPotato;
-import net.okuri.qol.superItems.factory.resources.SuperWheat;
+import net.okuri.qol.superItems.factory.resources.*;
 import net.okuri.qol.superItems.factory.tools.EnvGetter;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -338,6 +336,19 @@ public final class QOL extends JavaPlugin {
         rumStraight.setBottle(Material.GLASS_BOTTLE);
         superCraft.addDistributionCraftRecipe(rumStraight);
 
+        // horoyoi
+        ItemStack horoyoi = new ItemStack(Material.POTION, 1);
+        PotionMeta horoyoiMeta = (PotionMeta) horoyoi.getItemMeta();
+        horoyoiMeta.displayName(Component.text("Ram Ingredient").color(NamedTextColor.GOLD));
+        horoyoiMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE").generateLore());
+        horoyoi.setItemMeta(horoyoiMeta);
+        SuperCraftRecipe horoyoiRecipe = new SuperCraftRecipe(horoyoi, "horoyoi");
+        horoyoiRecipe.setShape(new String[]{" A ", " W ", "   "});
+        horoyoiRecipe.addIngredient('A', SuperItemType.APPLE);
+        horoyoiRecipe.addIngredient('W', Material.WATER_BUCKET);
+        horoyoiRecipe.setResultClass(new Horoyoi());
+        superCraft.addSuperCraftRecipe(horoyoiRecipe);
+
     }
 
     // Maturationのレシピを登録する
@@ -406,6 +417,10 @@ public final class QOL extends JavaPlugin {
         // SugarCane
         SugarCane sugarCane = new SugarCane();
         superResource.addResource(sugarCane);
+
+        // Apple
+        SuperApple superApple = new SuperApple();
+        superResource.addResource(superApple);
     }
 
     public JavaPlugin getPlugin() {

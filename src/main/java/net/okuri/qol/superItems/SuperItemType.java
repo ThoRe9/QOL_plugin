@@ -3,6 +3,7 @@ package net.okuri.qol.superItems;
 
 import net.okuri.qol.superItems.factory.DefaultItem;
 import net.okuri.qol.superItems.factory.SuperItem;
+import net.okuri.qol.superItems.factory.drinks.Horoyoi;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
 import net.okuri.qol.superItems.factory.drinks.sake.*;
@@ -55,6 +56,8 @@ public enum SuperItemType {
     RUM("RUM", 0, Material.POTION, SuperItemTag.LIQUOR),
     RUM_INGREDIENT("RUM_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
     RUM_STRAIGHT("RUM_STRAIGHT", 0, Material.POTION, SuperItemTag.LIQUOR),
+    HOROYOI("HOROYOI", 0, Material.POTION, SuperItemTag.LIQUOR),
+    APPLE("APPLE", 0, Material.APPLE, SuperItemTag.RESOURCE),
     STRONG_ZERO("STRONG_ZERO", 0, Material.POTION, SuperItemTag.LIQUOR);
 
     private final String type;
@@ -154,6 +157,10 @@ public enum SuperItemType {
                 return new RumIngredient();
             case RUM_STRAIGHT:
                 return new RumStraight();
+            case APPLE:
+                return new SuperApple();
+            case HOROYOI:
+                return new Horoyoi();
             case DEFAULT:
                 return new DefaultItem(type);
             default:
