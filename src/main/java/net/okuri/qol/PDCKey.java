@@ -92,8 +92,12 @@ public enum PDCKey {
     // PRODUCER_INFO_QUALITY: 生産者情報の品質
     PRODUCER_INFO_TYPE("producer_info_type", PersistentDataType.STRING, ApplyType.ITEM),
     // PRODUCER_INFO_TYPE: 生産者情報の種類
-    PRODUCER_CHILDREN("producer_children", PersistentDataType.TAG_CONTAINER_ARRAY, ApplyType.ITEM);
+    PRODUCER_CHILDREN("producer_children", PersistentDataType.TAG_CONTAINER_ARRAY, ApplyType.ITEM),
     // PRODUCER_CHILDREN: 生産者情報の子供
+    FARMER_TOOL("farmer_tool", PersistentDataType.BOOLEAN, ApplyType.ITEM),
+    // FARMER_TOOL: 農業ツールとして登録されているか。
+    MINER_TOOL("miner_tool", PersistentDataType.BOOLEAN, ApplyType.ITEM);
+    // MINER_TOOL: 採掘ツールとして登録されているか。
 
 
     public final NamespacedKey key;

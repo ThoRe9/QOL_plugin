@@ -161,4 +161,16 @@ public class SuperItemStack extends ItemStack {
     public boolean hasProducerInfo() {
         return this.producerInfo != null;
     }
+
+    public boolean isFarmerTool() {
+        if (!this.hasItemMeta()) return false;
+        if (!PDCC.has(this.getItemMeta(), PDCKey.FARMER_TOOL)) return false;
+        return PDCC.get(this.getItemMeta(), PDCKey.FARMER_TOOL);
+    }
+
+    public boolean isMinerTool() {
+        if (!this.hasItemMeta()) return false;
+        if (!PDCC.has(this.getItemMeta(), PDCKey.MINER_TOOL)) return false;
+        return PDCC.get(this.getItemMeta(), PDCKey.MINER_TOOL);
+    }
 }

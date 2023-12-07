@@ -17,6 +17,8 @@ import net.okuri.qol.superItems.factory.ingredient.Molasses;
 import net.okuri.qol.superItems.factory.ingredient.PolishedRice;
 import net.okuri.qol.superItems.factory.resources.*;
 import net.okuri.qol.superItems.factory.tools.EnvGetter;
+import net.okuri.qol.superItems.factory.tools.FarmerToolAdapter;
+import net.okuri.qol.superItems.factory.tools.MinerToolAdapter;
 import org.bukkit.Material;
 
 public enum SuperItemType {
@@ -58,6 +60,8 @@ public enum SuperItemType {
     RUM_STRAIGHT("RUM_STRAIGHT", 0, Material.POTION, SuperItemTag.LIQUOR),
     HOROYOI("HOROYOI", 0, Material.POTION, SuperItemTag.LIQUOR),
     APPLE("APPLE", 0, Material.APPLE, SuperItemTag.RESOURCE),
+    FARMER_TOOL("FARMER_TOOL", 0, Material.PAPER, SuperItemTag.TOOL),
+    MINER_TOOL("MINER_TOOL", 0, Material.PAPER, SuperItemTag.TOOL),
     STRONG_ZERO("STRONG_ZERO", 0, Material.POTION, SuperItemTag.LIQUOR);
 
     private final String type;
@@ -161,6 +165,10 @@ public enum SuperItemType {
                 return new SuperApple();
             case HOROYOI:
                 return new Horoyoi();
+            case FARMER_TOOL:
+                return new FarmerToolAdapter();
+            case MINER_TOOL:
+                return new MinerToolAdapter();
             case DEFAULT:
                 return new DefaultItem(type);
             default:

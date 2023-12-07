@@ -5,7 +5,7 @@ import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.Tag;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -15,14 +15,12 @@ public class SuperCraftRecipe implements SuperRecipe {
     // 特殊レシピの判定ができる
     // Materialだけでなく、SuperItemTypeも判定できる
     private String id;
-    public ItemStack result;
     public Map<Character, SuperItemData> ingredients = new HashMap<>();
     public String[] shape = new String[3];
     private SuperItemStack[] matrix = new SuperItemStack[9];
     private SuperCraftable resultClass = null;
 
-    public SuperCraftRecipe(ItemStack result, String id) {
-        this.result = result;
+    public SuperCraftRecipe(String id) {
         this.id = id;
     }
 
@@ -90,6 +88,10 @@ public class SuperCraftRecipe implements SuperRecipe {
 
     public void addIngredient(Character key, SuperItemData value) {
         this.ingredients.put(key, value);
+    }
+
+    public void addIngredient(Character key, Tag<Material> value) {
+        this.addIngredient(key, new SuperItemData(value));
     }
 
     public SuperCraftRecipe getRecipe() {

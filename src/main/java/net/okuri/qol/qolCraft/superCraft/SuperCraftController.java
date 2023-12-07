@@ -5,7 +5,6 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.event.SuperCraftEvent;
 import net.okuri.qol.producerInfo.ProducerInfo;
 import net.okuri.qol.superItems.SuperItemData;
-import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -92,7 +91,7 @@ public class SuperCraftController implements Listener {
             if (superCraftRecipe.checkSuperRecipe(superMatrix)) {
                 Bukkit.getLogger().info("SuperCraftRecipe matched!");
                 SuperCraftable result = superCraftRecipe.getResultClass();
-                SuperItemStack resultItem = ((SuperItem) result).getSuperItem();
+                SuperItemStack resultItem = result.getSuperItem();
                 resultItem.setProducerInfo(getProducerInfo(superMatrix, resultItem.getSuperItemData(), player));
                 inventory.setResult(resultItem);
                 this.superCraftFlag = true;
@@ -105,7 +104,7 @@ public class SuperCraftController implements Listener {
             if (shapelessSuperCraftRecipe.checkSuperRecipe(superMatrix)) {
                 Bukkit.getLogger().info("ShapelessSuperCraftRecipe matched!");
                 SuperCraftable result = shapelessSuperCraftRecipe.getResultClass();
-                SuperItemStack resultItem = ((SuperItem) result).getSuperItem();
+                SuperItemStack resultItem = result.getSuperItem();
                 resultItem.setProducerInfo(getProducerInfo(superMatrix, resultItem.getSuperItemData(), player));
                 inventory.setResult(resultItem);
                 inventory.setResult(resultItem);
@@ -122,11 +121,11 @@ public class SuperCraftController implements Listener {
                 Distributable distribution = d.getDistribution();
                 DistributionReceiver receiver = d.getReceiver();
 
-                SuperItemStack receiverItem = ((SuperItem) receiver).getSuperItem();
+                SuperItemStack receiverItem = receiver.getSuperItem();
 
                 inventory.setResult(receiverItem);
                 this.distributionFlag = true;
-                this.distributableItem = ((SuperItem) distribution).getSuperItem();
+                this.distributableItem = distribution.getSuperItem();
                 ProducerInfo info = getProducerInfo(superMatrix, receiverItem.getSuperItemData(), player);
                 receiverItem.setProducerInfo(info);
                 distributableItem.setProducerInfo(info.getChild(distributableItem.getSuperItemData()));

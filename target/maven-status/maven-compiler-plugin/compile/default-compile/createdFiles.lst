@@ -16,10 +16,13 @@ net\okuri\qol\superItems\factory\resources\Barley.class
 net\okuri\qol\qolCraft\superCraft\Distributable.class
 net\okuri\qol\event\QOLSignCreateEvent.class
 net\okuri\qol\superItems\factory\resources\Rye.class
+net\okuri\qol\superItems\factory\tools\MinerTool.class
 net\okuri\qol\superItems\factory\drinks\LiquorIngredient.class
+net\okuri\qol\superItems\factory\tools\MinerToolAdapter.class
 net\okuri\qol\superItems\itemStack\SuperIngredientStack.class
 net\okuri\qol\superItems\factory\drinks\whisky\Beer.class
 net\okuri\qol\superItems\factory\ingredient\PolishedRice.class
+net\okuri\qol\superItems\factory\tools\FarmerTool.class
 net\okuri\qol\event\DistillationEvent.class
 net\okuri\qol\listener\InteractListener.class
 net\okuri\qol\qolCraft\maturation\MaturationRecipe.class
@@ -35,6 +38,7 @@ net\okuri\qol\superItems\factory\drinks\sake\Sake1ShoBottle.class
 net\okuri\qol\superItems\factory\resources\SuperResource.class
 net\okuri\qol\superItems\factory\drinks\spirits\RumIngredient.class
 net\okuri\qol\superItems\factory\drinks\whisky\BeerIngredient.class
+net\okuri\qol\superItems\factory\tools\FarmerToolAdapter.class
 net\okuri\qol\PDCC.class
 net\okuri\qol\qolCraft\distillation\DistillationRecipe.class
 net\okuri\qol\listener\ProtectListener.class

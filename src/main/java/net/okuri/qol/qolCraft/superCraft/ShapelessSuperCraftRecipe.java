@@ -4,6 +4,7 @@ import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -11,14 +12,13 @@ import java.util.ArrayList;
 public class ShapelessSuperCraftRecipe implements SuperRecipe {
     //不定形レシピはsetMatrixに登録した順にSuperItem のItemStackがわたされるので注意!!
 
-    private final ItemStack result;
+
     private final String id;
     private SuperCraftable resultClass;
     private final ArrayList<SuperItemData> ingredients = new ArrayList<>();
     private SuperItemStack[] ingredientItems;
 
-    public ShapelessSuperCraftRecipe(ItemStack result, String id) {
-        this.result = result;
+    public ShapelessSuperCraftRecipe(String id) {
         this.id = id;
     }
 
@@ -69,6 +69,10 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
         this.ingredients.add(ingredient);
     }
 
+    public void addIngredient(Tag<Material> ingredient) {
+        this.ingredients.add(new SuperItemData(ingredient));
+    }
+
 
     public void setResultClass(SuperCraftable resultClass) {
         this.resultClass = resultClass;
@@ -86,6 +90,7 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
 
     @Override
     public ItemStack getResult() {
-        return result;
+        return getResultClass().getSuperItem();
     }
+
 }

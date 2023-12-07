@@ -3,6 +3,7 @@ package net.okuri.qol.qolCraft.resource;
 import net.okuri.qol.ChatGenerator;
 import net.okuri.qol.producerInfo.ProducerInfo;
 import net.okuri.qol.superItems.factory.resources.SuperResource;
+import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import net.okuri.qol.superItems.itemStack.SuperResourceStack;
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -37,11 +38,21 @@ public class ResourceController implements Listener {
     @EventHandler
     public void BlockBreakEvent(BlockBreakEvent event) {
         Player player = event.getPlayer();
+
         Block block = event.getBlock();
         Material blockType = block.getType();
 
         // SilkTouchのエンチャントを持つツールをプレイヤーが持っていた場合はここで終了
         if (event.getPlayer().getInventory().getItemInMainHand().getEnchantments().containsKey(org.bukkit.enchantments.Enchantment.SILK_TOUCH)) {
+            return;
+        }
+        //手に何も持っていないならここで終了
+        if (player.getInventory().getItemInMainHand().getType() == Material.AIR) {
+            return;
+        }
+        SuperItemStack item = new SuperItemStack(player.getInventory().getItemInMainHand());
+        // 壊したツールがFarmerのツール/Minerのツールでない場合はここで終了
+        if (!item.isFarmerTool() && !item.isMinerTool()) {
             return;
         }
 
@@ -50,6 +61,19 @@ public class ResourceController implements Listener {
             if (blockType == r.getBlockMaterial()) {
                 if (Tag.CROPS.isTagged(blockType)) {
                     if (((Ageable) block.getState().getBlockData()).getAge() < 7) {
+                        continue;
+                    }
+                    if (!item.isFarmerTool()) {
+                        continue;
+                    }
+                }
+                if (Tag.LEAVES.isTagged(blockType)) {
+                    if (!item.isFarmerTool()) {
+                        continue;
+                    }
+                }
+                if (Tag.MINEABLE_PICKAXE.isTagged(blockType)) {
+                    if (!item.isMinerTool()) {
                         continue;
                     }
                 }
