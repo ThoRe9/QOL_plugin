@@ -82,8 +82,18 @@ public enum PDCKey {
     // X_EFFECT: X効果の種類
     Y_EFFECT("y_effect", PersistentDataType.STRING, ApplyType.ITEM),
     // Y_EFFECT: Y効果の種類
-    Z_EFFECT("z_effect", PersistentDataType.STRING, ApplyType.ITEM);
+    Z_EFFECT("z_effect", PersistentDataType.STRING, ApplyType.ITEM),
     // Z_EFFECT: Z効果の種類
+    PRODUCER_INFO("producer_info", PersistentDataType.TAG_CONTAINER, ApplyType.ITEM),
+    // PRODUCER_INFO: 生産者情報
+    PRODUCER_INFO_ID("producer_info_id", PersistentDataType.STRING, ApplyType.ITEM),
+    // PRODUCER_INFO_ID: 生産者情報のID
+    PRODUCER_INFO_QUALITY("producer_info_quality", PersistentDataType.DOUBLE, ApplyType.ITEM),
+    // PRODUCER_INFO_QUALITY: 生産者情報の品質
+    PRODUCER_INFO_TYPE("producer_info_type", PersistentDataType.STRING, ApplyType.ITEM),
+    // PRODUCER_INFO_TYPE: 生産者情報の種類
+    PRODUCER_CHILDREN("producer_children", PersistentDataType.TAG_CONTAINER_ARRAY, ApplyType.ITEM);
+    // PRODUCER_CHILDREN: 生産者情報の子供
 
 
     public final NamespacedKey key;

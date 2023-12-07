@@ -13,6 +13,7 @@ import net.okuri.qol.qolCraft.superCraft.ShapelessSuperCraftRecipe;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftController;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
 import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.factory.drinks.Horoyoi;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
 import net.okuri.qol.superItems.factory.drinks.sake.*;
@@ -26,10 +27,7 @@ import net.okuri.qol.superItems.factory.foods.RyeBread;
 import net.okuri.qol.superItems.factory.ingredient.Koji;
 import net.okuri.qol.superItems.factory.ingredient.Molasses;
 import net.okuri.qol.superItems.factory.ingredient.PolishedRice;
-import net.okuri.qol.superItems.factory.resources.SugarCane;
-import net.okuri.qol.superItems.factory.resources.SuperCoal;
-import net.okuri.qol.superItems.factory.resources.SuperPotato;
-import net.okuri.qol.superItems.factory.resources.SuperWheat;
+import net.okuri.qol.superItems.factory.resources.*;
 import net.okuri.qol.superItems.factory.tools.EnvGetter;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
@@ -47,6 +45,8 @@ public final class QOL extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        // config.ymlが存在しない場合はファイルに出力します。
+        saveDefaultConfig();
 
         // drinkCraftsには特殊レシピを登録する
         SuperCraftController superCraft = SuperCraftController.getListener();
@@ -73,6 +73,7 @@ public final class QOL extends JavaPlugin {
         getCommand("givesuperitem").setExecutor(new Commands());
         getCommand("superwheat").setExecutor(new Commands());
         getCommand("alc").setExecutor(new Commands());
+        getCommand("producer").setExecutor(new Commands());
 
         // bukkitRunnableを起動
         Alcohol alc = new Alcohol();
@@ -313,6 +314,8 @@ public final class QOL extends JavaPlugin {
         molasses.setItemMeta(molassesMeta);
         ShapelessSuperCraftRecipe molassesRecipe = new ShapelessSuperCraftRecipe(molasses, "molasses");
         molassesRecipe.addIngredient(SuperItemType.SUGAR_CANE);
+        molassesRecipe.addIngredient(SuperItemType.SUGAR_CANE);
+        molassesRecipe.addIngredient(SuperItemType.SUGAR_CANE);
         molassesRecipe.addIngredient(Material.GLASS_BOTTLE);
         molassesRecipe.setResultClass(new Molasses());
         superCraft.addShapelessSuperCraftRecipe(molassesRecipe);
@@ -324,7 +327,7 @@ public final class QOL extends JavaPlugin {
         ramIngredientMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE").generateLore());
         ramIngredient.setItemMeta(ramIngredientMeta);
         SuperCraftRecipe ramIngredientRecipe = new SuperCraftRecipe(ramIngredient, "ram_ingredient");
-        ramIngredientRecipe.setShape(new String[]{"MMM", " W ", "   "});
+        ramIngredientRecipe.setShape(new String[]{"MMM", "MWM", "MMM"});
         ramIngredientRecipe.addIngredient('M', SuperItemType.MOLASSES);
         ramIngredientRecipe.addIngredient('W', Material.POTION);
         ramIngredientRecipe.setResultClass(new RumIngredient());
@@ -336,6 +339,19 @@ public final class QOL extends JavaPlugin {
         rumStraight.setReciver(new RumStraight());
         rumStraight.setBottle(Material.GLASS_BOTTLE);
         superCraft.addDistributionCraftRecipe(rumStraight);
+
+        // horoyoi
+        ItemStack horoyoi = new ItemStack(Material.POTION, 1);
+        PotionMeta horoyoiMeta = (PotionMeta) horoyoi.getItemMeta();
+        horoyoiMeta.displayName(Component.text("Ram Ingredient").color(NamedTextColor.GOLD));
+        horoyoiMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE").generateLore());
+        horoyoi.setItemMeta(horoyoiMeta);
+        SuperCraftRecipe horoyoiRecipe = new SuperCraftRecipe(horoyoi, "horoyoi");
+        horoyoiRecipe.setShape(new String[]{" A ", " W ", "   "});
+        horoyoiRecipe.addIngredient('A', SuperItemType.APPLE);
+        horoyoiRecipe.addIngredient('W', Material.WATER_BUCKET);
+        horoyoiRecipe.setResultClass(new Horoyoi());
+        superCraft.addSuperCraftRecipe(horoyoiRecipe);
 
     }
 
@@ -392,19 +408,33 @@ public final class QOL extends JavaPlugin {
 
         // SuperWheat
         SuperWheat superWheat = new SuperWheat();
+        int wheatProbability = this.getConfig().getInt("resource.wheat.probability");
+        superWheat.setProbability(wheatProbability);
         superResource.addResource(superWheat);
 
         // SuperCoal
         SuperCoal superCoal = new SuperCoal();
+        int coalProbability = this.getConfig().getInt("resource.coal.probability");
+        superCoal.setProbability(coalProbability);
         superResource.addResource(superCoal);
 
         // SuperPotato
         SuperPotato superPotato = new SuperPotato();
+        int potatoProbability = this.getConfig().getInt("resource.potato.probability");
+        superPotato.setProbability(potatoProbability);
         superResource.addResource(superPotato);
 
         // SugarCane
         SugarCane sugarCane = new SugarCane();
+        int sugarCaneProbability = this.getConfig().getInt("resource.sugar_cane.probability");
+        sugarCane.setProbability(sugarCaneProbability);
         superResource.addResource(sugarCane);
+
+        // Apple
+        SuperApple superApple = new SuperApple();
+        int appleProbability = this.getConfig().getInt("resource.apple.probability");
+        superApple.setProbability(appleProbability);
+        superResource.addResource(superApple);
     }
 
     public JavaPlugin getPlugin() {

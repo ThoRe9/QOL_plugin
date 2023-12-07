@@ -1,5 +1,6 @@
 package net.okuri.qol.event;
 
+import net.okuri.qol.producerInfo.ProducerInfo;
 import net.okuri.qol.qolCraft.distillation.Distillable;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.event.Event;
@@ -14,6 +15,10 @@ public class DistillationEvent extends Event {
     private final FurnaceSmeltEvent furnaceSmeltEvent;
 
     public DistillationEvent(FurnaceSmeltEvent event, Distillable resultClass, SuperItemStack resultItem) {
+        SuperItemStack ingredient = new SuperItemStack(event.getSource());
+        ProducerInfo producerInfo = ingredient.getProducerInfo();
+        resultItem.setProducerInfo(producerInfo);
+
         event.setResult(resultItem);
         this.furnaceSmeltEvent = event;
         this.resultClass = resultClass;

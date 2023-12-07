@@ -1,6 +1,7 @@
 package net.okuri.qol.qolCraft.resource;
 
 import net.okuri.qol.ChatGenerator;
+import net.okuri.qol.producerInfo.ProducerInfo;
 import net.okuri.qol.superItems.factory.resources.SuperResource;
 import net.okuri.qol.superItems.itemStack.SuperResourceStack;
 import org.bukkit.Material;
@@ -65,6 +66,8 @@ public class ResourceController implements Listener {
                     // TODO quality の計算
                     r.setResVariables(block.getX(), block.getY(), block.getZ(), temp, humid, biomeID, 1.0, player);
                     SuperResourceStack resultItem = r.getSuperItem();
+                    ProducerInfo producerInfo = new ProducerInfo(player, 1.0, resultItem.getSuperItemData());
+                    resultItem.setProducerInfo(producerInfo);
                     player.getInventory().addItem(resultItem);
                 }
             }
