@@ -1,6 +1,8 @@
 package net.okuri.qol.producerInfo;
 
 import net.okuri.qol.superItems.SuperItemData;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -59,7 +61,7 @@ public class ProducerInfo {
 
     public String[] getProducerInfo() {
         ArrayList<String> info = new ArrayList<>();
-        String text = "ItemType: " + itemData.getType().toString() + ", Quality: " + playerQuality + ", PlayerID: " + playerID;
+        String text = "ItemType: " + itemData.getType().toString() + ", Quality: " + playerQuality + ", PlayerID: " + Bukkit.getOfflinePlayer(playerID).getName();
         info.add(text);
         if (children.size() != 0) {
             for (ProducerInfo child : children) {
@@ -78,6 +80,14 @@ public class ProducerInfo {
 
     public String getPlayerID() {
         return playerID;
+    }
+
+    public OfflinePlayer getPlayer() {
+        return Bukkit.getOfflinePlayer(playerID);
+    }
+
+    public String getPlayerName() {
+        return Bukkit.getOfflinePlayer(playerID).getName();
     }
 
     public double getPlayerQuality() {

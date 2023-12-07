@@ -25,7 +25,7 @@ public abstract class SuperResource extends SuperItem {
     String info;
     final Material material;
     final Material blockMaterial;
-    final int probabilityPercentage;
+    int probabilityPercentage;
 
     // ここまで
     int Px;
@@ -150,8 +150,12 @@ public abstract class SuperResource extends SuperItem {
         return quality;
     }
 
-    public double getProbability() {
+    public int getProbability() {
         return probabilityPercentage;
+    }
+
+    public void setProbability(int probabilityPercentage) {
+        this.probabilityPercentage = probabilityPercentage;
     }
 
     public int getRarity() {

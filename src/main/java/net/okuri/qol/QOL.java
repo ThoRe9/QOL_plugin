@@ -45,6 +45,8 @@ public final class QOL extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        // config.ymlが存在しない場合はファイルに出力します。
+        saveDefaultConfig();
 
         // drinkCraftsには特殊レシピを登録する
         SuperCraftController superCraft = SuperCraftController.getListener();
@@ -312,6 +314,8 @@ public final class QOL extends JavaPlugin {
         molasses.setItemMeta(molassesMeta);
         ShapelessSuperCraftRecipe molassesRecipe = new ShapelessSuperCraftRecipe(molasses, "molasses");
         molassesRecipe.addIngredient(SuperItemType.SUGAR_CANE);
+        molassesRecipe.addIngredient(SuperItemType.SUGAR_CANE);
+        molassesRecipe.addIngredient(SuperItemType.SUGAR_CANE);
         molassesRecipe.addIngredient(Material.GLASS_BOTTLE);
         molassesRecipe.setResultClass(new Molasses());
         superCraft.addShapelessSuperCraftRecipe(molassesRecipe);
@@ -323,7 +327,7 @@ public final class QOL extends JavaPlugin {
         ramIngredientMeta.lore(new LoreGenerator().addImportantLore("WRONG RECIPE").generateLore());
         ramIngredient.setItemMeta(ramIngredientMeta);
         SuperCraftRecipe ramIngredientRecipe = new SuperCraftRecipe(ramIngredient, "ram_ingredient");
-        ramIngredientRecipe.setShape(new String[]{"MMM", " W ", "   "});
+        ramIngredientRecipe.setShape(new String[]{"MMM", "MWM", "MMM"});
         ramIngredientRecipe.addIngredient('M', SuperItemType.MOLASSES);
         ramIngredientRecipe.addIngredient('W', Material.POTION);
         ramIngredientRecipe.setResultClass(new RumIngredient());
@@ -404,22 +408,32 @@ public final class QOL extends JavaPlugin {
 
         // SuperWheat
         SuperWheat superWheat = new SuperWheat();
+        int wheatProbability = this.getConfig().getInt("resource.wheat.probability");
+        superWheat.setProbability(wheatProbability);
         superResource.addResource(superWheat);
 
         // SuperCoal
         SuperCoal superCoal = new SuperCoal();
+        int coalProbability = this.getConfig().getInt("resource.coal.probability");
+        superCoal.setProbability(coalProbability);
         superResource.addResource(superCoal);
 
         // SuperPotato
         SuperPotato superPotato = new SuperPotato();
+        int potatoProbability = this.getConfig().getInt("resource.potato.probability");
+        superPotato.setProbability(potatoProbability);
         superResource.addResource(superPotato);
 
         // SugarCane
         SugarCane sugarCane = new SugarCane();
+        int sugarCaneProbability = this.getConfig().getInt("resource.sugar_cane.probability");
+        sugarCane.setProbability(sugarCaneProbability);
         superResource.addResource(sugarCane);
 
         // Apple
         SuperApple superApple = new SuperApple();
+        int appleProbability = this.getConfig().getInt("resource.apple.probability");
+        superApple.setProbability(appleProbability);
         superResource.addResource(superApple);
     }
 
