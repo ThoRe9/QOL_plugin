@@ -1,0 +1,11 @@
+resource :
+  wheat :
+    probability : 3
+  potato :
+    probability : 3
+  sugar_cane :
+    probability : 100
+  apple :
+    probability : 1
+  coal :
+    probability : 1
