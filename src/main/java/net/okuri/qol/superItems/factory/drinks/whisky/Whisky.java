@@ -99,11 +99,13 @@ public class Whisky extends SuperItem implements Maturable, Distributable {
         PotionMeta whiskyMeta = (PotionMeta) whisky.getItemMeta();
         whiskyMeta.displayName(Component.text("Whisky").color(NamedTextColor.GOLD));
         LoreGenerator loreGenerator = new LoreGenerator();
-        loreGenerator.addParametersLore("Age: ", this.days/70.0);
-        loreGenerator.addImportantLore("VERY STRONG ORIGINAL WHISKY");
-        loreGenerator.addImportantLore("TOO STRONG TO DRINK!!");
-        loreGenerator.addParametersLore("Alcohol: ", this.alcoholPer, true);
-        whiskyMeta.lore(loreGenerator.generateLore());
+        loreGenerator.setMaturationDays(this.days);
+        loreGenerator.addImportantInfo("VERY STRONG ORIGINAL WHISKY");
+        loreGenerator.addImportantInfo("TOO STRONG TO DRINK!!");
+        loreGenerator.setParams(this.x, this.y, this.z);
+        loreGenerator.setAlcParams(this.alcoholPer, this.amount);
+        loreGenerator.setRarity(this.rarity);
+        whiskyMeta.lore(loreGenerator.generate());
 
         // 日数に応じて色を変える
         whiskyMeta.setColor(Color.fromBGR(0, 80/(1+this.days), 255/(1+this.days)));

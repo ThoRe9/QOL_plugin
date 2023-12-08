@@ -1,10 +1,13 @@
 package net.okuri.qol;
 
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class Alcohol extends BukkitRunnable {
+    private final Plugin plugin;
     // PlayerのPersistentDataContainerのAlcoholLevelの値によってプレイや―に毎分効果を与える
     // 0.00~0.02 効果なし
     // 0.02~0.05 プレイヤーの移動速度が5%上昇
@@ -15,6 +18,9 @@ public class Alcohol extends BukkitRunnable {
     // 0.40~ 即時死亡
 
     // AlcholLevelの値は毎分0.01ずつ減少する
+    public Alcohol(Plugin plugin) {
+        this.plugin = plugin;
+    }
 
     @Override
     public void run() {
@@ -60,6 +66,7 @@ public class Alcohol extends BukkitRunnable {
                 continue;
             }
             PDCC.set(player, PDCKey.ALCOHOL_LEVEL, alcLv);
+
         }
 
     }

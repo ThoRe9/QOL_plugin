@@ -52,17 +52,16 @@ public class Sake1ShoBottle extends Sake implements Maturable, Distributable {
         meta.setColor(Color.WHITE);
 
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("JAPANESE Sake!! BIG BOTTLE!!");
-        lore.addInfoLore(super.sakeType.kanji + " " + super.tasteType.kanji + " " + super.alcType.name);
-        lore.setSuperItemLore(super.x, super.y, super.z, super.quality, super.rarity);
-        lore.addParametersLore("Taste Richness", super.tasteRichness);
-        lore.addParametersLore("Smell Richness", super.smellRichness);
-        lore.addParametersLore("Compatibility", super.compatibility);
-        lore.addParametersLore("Rice Polishing Ratio", super.ricePolishingRatio, true);
-        lore.addParametersLore("Maturation Days", super.days, true);
-        lore.addParametersLore("Alcohol Percentage", super.alcPer, true);
-        lore.addParametersLore("Amount", super.amount, true);
-        meta.lore(lore.generateLore());
+        lore.addInfo("JAPANESE Sake!! BIG BOTTLE!!");
+        lore.addInfo(super.sakeType.kanji + " " + super.tasteType.kanji + " " + super.alcType.name);
+        lore.setParams(super.x, super.y, super.z);
+        lore.setSubParams(super.tasteRichness, super.smellRichness, super.compatibility, super.quality);
+        lore.setAlcParams(super.alcPer, super.amount);
+        lore.setRarity(super.rarity);
+        lore.setMaturationDays((int) super.days);
+        lore.setRarity(super.rarity);
+        lore.addParametersLore("Rice Polishing Ratio", super.ricePolishingRatio);
+        meta.lore(lore.generate());
 
         result.setItemMeta(meta);
         return result;

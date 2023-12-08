@@ -52,12 +52,10 @@ public class BeerIngredient extends SuperItem implements SuperCraftable {
         resultMeta.setColor(Color.WHITE);
 
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("Beer Ingredient");
-        lore.addImportantLore("You can't drink this!");
-        lore.addParametersLore("x", this.x * 10);
-        lore.addParametersLore("y", this.y * 10);
-        lore.addParametersLore("z", this.z * 10);
-        resultMeta.lore(lore.generateLore());
+        lore.addInfo("Beer Ingredient");
+        lore.addImportantInfo("You can't drink this!");
+        lore.setParams(this.x, this.y, this.z);
+        resultMeta.lore(lore.generate());
 
         PDCC.setSuperItem(resultMeta, this.x, this.y, this.z, this.quality, this.rarity, this.temp, this.humid);
         // consumable = false

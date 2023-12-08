@@ -136,7 +136,7 @@ public class SuperItemStack extends ItemStack {
 
     public void setLore(LoreGenerator lore) {
         ItemMeta meta = super.getItemMeta();
-        meta.lore(lore.generateLore());
+        meta.lore(lore.generate());
         super.setItemMeta(meta);
     }
 

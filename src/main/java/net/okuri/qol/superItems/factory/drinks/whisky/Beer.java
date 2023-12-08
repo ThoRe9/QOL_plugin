@@ -111,21 +111,22 @@ public class Beer extends SuperItem implements Maturable {
             meta.displayName(Component.text("Ale Beer").color(NamedTextColor.GOLD));
             meta.addCustomEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, this.hasteDuration, this.hasteLV), true);
             meta.setColor(org.bukkit.Color.fromRGB(246, 245, 19));
-            lore.addInfoLore("Bitter and quite ale Beer!!");
+            lore.addInfo("Bitter and quite ale Beer!!");
         } else if (this.getSuperItemType() == SuperItemType.LAGER_BEER) {
             meta.displayName(Component.text("Lager Beer").color(NamedTextColor.GOLD));
             meta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, this.speedDuration, this.speedLV), true);
             meta.addCustomEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, this.nightVisionDuration, this.nightVisionLV), true);
             meta.setColor(org.bukkit.Color.fromRGB(93, 52, 26));
-            lore.addInfoLore("Heavy stouts lager Beer!!");
+            lore.addInfo("Heavy stouts lager Beer!!");
         } else {
             meta.displayName(Component.text("Beer").color(NamedTextColor.GOLD));
-            lore.addInfoLore("Beer!!");
+            lore.addInfo("Beer!!");
         }
-        lore.addParametersLore("Age: ", this.timeParam);
-        lore.addParametersLore("Alcohol: ", 0.05, true);
-        lore.addParametersLore("Amount: ", 300.0, true);
-        meta.lore(lore.generateLore());
+        lore.setParams(this.x, this.y, this.z);
+        lore.setAlcParams(0.05, 300.0);
+        lore.setMaturationDays(this.days);
+        lore.setRarity(SuperItem.getRarity(this.x, this.y, this.z));
+        meta.lore(lore.generate());
         // PersistentDataContainerにデータを保存
         PDCC.setLiquor(meta, 300.0, 0.05, this.x, this.y, this.z, this.divLine, 1.0, 2, this.temperature, this.humid, this.days);
         PDCC.set(meta, PDCKey.MATURATION_START, this.start);

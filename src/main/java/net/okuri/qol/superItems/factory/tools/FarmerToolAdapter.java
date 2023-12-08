@@ -24,9 +24,9 @@ public class FarmerToolAdapter extends SuperItem implements SuperCraftable {
         ItemMeta meta = item.getItemMeta();
         meta.displayName(Component.text("Farmer Tool").color(NamedTextColor.GREEN));
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("This tool is for farmer!.");
-        lore.addInfoLore("Craft with hoe and get Super Resources from crops!");
-        meta.lore(lore.generateLore());
+        lore.addInfo("This tool is for farmer!.");
+        lore.addInfo("Craft with hoe and get Super Resources from crops!");
+        meta.lore(lore.generate());
         item.setItemMeta(meta);
         return item;
     }

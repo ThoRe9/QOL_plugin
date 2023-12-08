@@ -74,18 +74,16 @@ public class Ochoko extends Sake implements DistributionReceiver {
         PDCC.set(meta, PDCKey.CONSUMABLE, true);
 
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("JAPANESE Sake!!");
-        lore.addInfoLore("in a cup!!");
-        lore.addInfoLore(this.sakeType.kanji + " " + this.tasteType.kanji + " " + this.alcType.name);
-        lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
-        lore.addParametersLore("Taste Richness", this.tasteRichness);
-        lore.addParametersLore("Smell Richness", this.smellRichness);
-        lore.addParametersLore("Compatibility", this.compatibility);
-        lore.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio, true);
-        lore.addParametersLore("Maturation Days", this.days, true);
-        lore.addParametersLore("Alcohol Percentage", this.alcPer, true);
-        lore.addParametersLore("Amount", this.amount, true);
-        meta.lore(lore.generateLore());
+        lore.addInfo("JAPANESE Sake!!");
+        lore.addInfo("in a cup!!");
+        lore.addInfo(this.sakeType.kanji + " " + this.tasteType.kanji + " " + this.alcType.name);
+        lore.setParams(this.x, this.y, this.z);
+        lore.setSubParams(this.tasteRichness, this.smellRichness, this.compatibility, this.quality);
+        lore.setAlcParams(this.alcPer, this.amount);
+        lore.setRarity(this.rarity);
+        lore.setMaturationDays((int) this.days);
+        lore.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio);
+        meta.lore(lore.generate());
 
         result.setItemMeta(meta);
         return result;

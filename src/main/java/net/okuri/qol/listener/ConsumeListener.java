@@ -10,9 +10,14 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.plugin.Plugin;
 
 public class ConsumeListener implements Listener {
+    private final Plugin plugin;
 
+    public ConsumeListener(Plugin plugin) {
+        this.plugin = plugin;
+    }
     @EventHandler
     public void PlayerItemConsumeEvent(PlayerItemConsumeEvent event) {
         Player player = event.getPlayer();
@@ -49,7 +54,7 @@ public class ConsumeListener implements Listener {
         alcLv += (alcAmount * alcPer / 350);
         PDCC.set(player, PDCKey.ALCOHOL_LEVEL, alcLv);
         // alcoholの効果を与える
-        new Alcohol().run();
+        new Alcohol(plugin).run();
     }
 
 }

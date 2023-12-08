@@ -72,9 +72,14 @@ public abstract class CraftableXYZItem extends SuperItem implements SuperCraftab
             stack.setSmell(newSmell);
             stack.setTaste(newTaste);
             stack.setCompatibility(newCompatibility);
-            lore.setIngredientLore(newX, newY, newZ, newSmell, newTaste, newCompatibility, this.quality, stack.getQOLRarity());
+            lore.setParams(newX, newY, newZ);
+            lore.setSubParams(newSmell, newTaste, newCompatibility, quality);
+            lore.setQuality(quality);
+            lore.setRarity(stack.getQOLRarity());
         } else {
-            lore.setIngredientLore(newX, newY, newZ, this.quality, stack.getQOLRarity());
+            lore.setParams(newX, newY, newZ);
+            lore.setQuality(quality);
+            lore.setRarity(stack.getQOLRarity());
         }
         stack.setLore(lore);
         return stack;

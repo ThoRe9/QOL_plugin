@@ -33,8 +33,11 @@ public class SuperCoal extends SuperResource {
 
         //Loreを変更
         LoreGenerator loreGenerator = new LoreGenerator();
-        loreGenerator.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity, "JUST A COAL");
-        meta.lore(loreGenerator.generateLore());
+        loreGenerator.addInfo("This is a coal!");
+        loreGenerator.setParams(this.x, this.y, this.z);
+        loreGenerator.setRarity(this.rarity);
+        loreGenerator.setQuality(this.quality);
+        meta.lore(loreGenerator.generate());
 
         itemStack.setItemMeta(meta);
         return itemStack;

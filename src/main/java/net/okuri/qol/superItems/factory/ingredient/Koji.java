@@ -72,14 +72,11 @@ public class Koji extends SuperItem implements SuperCraftable {
         meta.setColor(Color.WHITE);
 
         LoreGenerator lg = new LoreGenerator();
-        lg.addInfoLore("Used for making sake!");
-        lg.addParametersLore("Smell Richness", this.smell);
-        lg.addParametersLore("Taste Richness", this.taste);
-        lg.addParametersLore("Peculiarity", this.compatibility);
-        lg.addParametersLore("Quality", this.quality);
-        lg.addRarityLore(this.rarity);
-        lg.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio, true);
-        meta.lore(lg.generateLore());
+        lg.addInfo("Used for making sake!");
+        lg.setSubParams(this.taste, this.smell, this.compatibility, this.quality);
+        lg.setRarity(this.rarity);
+        lg.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio);
+        meta.lore(lg.generate());
 
         result.setItemMeta(meta);
         return result;

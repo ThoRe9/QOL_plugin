@@ -74,10 +74,12 @@ public class PolishedRice extends SuperItem implements SuperCraftable {
 
         meta.displayName(Component.text("Polished Rice").color(NamedTextColor.GOLD));
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("Polished Rice");
-        lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
-        lore.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio, true);
-        meta.lore(lore.generateLore());
+        lore.addInfo("Polished Rice");
+        lore.setParams(this.x, this.y, this.z);
+        lore.setRarity(this.rarity);
+        lore.setQuality(this.quality);
+        lore.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio);
+        meta.lore(lore.generate());
         meta.setCustomModelData(this.type.getCustomModelData());
 
         result.setItemMeta(meta);

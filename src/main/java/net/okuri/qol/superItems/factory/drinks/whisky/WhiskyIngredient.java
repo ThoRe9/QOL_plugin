@@ -107,18 +107,16 @@ public class WhiskyIngredient extends SuperItem implements SuperCraftable, Disti
 
         meta.displayName(Component.text("Whisky Ingredient").color(NamedTextColor.GOLD));
         LoreGenerator lore = new LoreGenerator();
-        lore.addImportantLore("You cannot drink this!");
-        lore.addParametersLore("X", this.x);
-        lore.addParametersLore("Y", this.y);
-        lore.addParametersLore("Z", this.z);
-        lore.addParametersLore("D", this.divLine);
+        lore.addImportantInfo("You cannot drink this!");
+        lore.setParams(this.x, this.y, this.z);
+        lore.addParametersLore("DivLine", this.divLine);
         lore.addParametersLore("Distilled", this.distilled);
-        lore.addParametersLore("AlcoholLevel", this.alcPer, true);
+        lore.setAlcParams(this.alcPer, this.alcAmount);
         if (this.distilled == 0){
-            lore.addImportantLore("You need to distill this!");
+            lore.addImportantInfo("You need to distill this!");
         }
-        lore.addRarityLore(this.rarity);
-        meta.lore(lore.generateLore());
+        lore.setRarity(this.rarity);
+        meta.lore(lore.generate());
 
         meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.FAST_DIGGING, (int)Math.floor(this.hasteDuration / this.durationAmplifier), this.hasteLevel + this.distilled - 1), true);
         meta.addCustomEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.SPEED, (int)Math.floor(this.speedDuration / this.durationAmplifier), this.speedLevel + this.distilled -1), true);

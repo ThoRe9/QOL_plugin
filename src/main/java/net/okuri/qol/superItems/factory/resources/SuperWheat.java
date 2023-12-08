@@ -87,12 +87,11 @@ public class SuperWheat extends SuperResource {
 
         // 説明を設定
         LoreGenerator loreGenerator = new LoreGenerator();
-        loreGenerator.addInfoLore("This is a super wheat!");
-        loreGenerator.addParametersLore("Px", this.x);
-        loreGenerator.addParametersLore("Py", this.y);
-        loreGenerator.addParametersLore("Pz", this.z);
-        loreGenerator.addParametersLore("quality", this.quality);
-        meta.lore(loreGenerator.generateLore());
+        loreGenerator.addInfo("This is a super wheat!");
+        loreGenerator.setParams(this.x, this.y, this.z);
+        loreGenerator.setQuality(this.quality);
+        loreGenerator.setRarity(this.rarity);
+        meta.lore(loreGenerator.generate());
 
         wheat.setItemMeta(meta);
 

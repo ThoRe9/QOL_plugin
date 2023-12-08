@@ -51,16 +51,15 @@ public class ShochuBottle extends Shochu implements DistributionReceiver, Distri
         PDCC.set(meta, PDCKey.CONSUMABLE, true);
 
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("JAPANESE Shochu!!");
-        lore.addInfoLore("in a bottle!!");
-        lore.addInfoLore("Made from" + this.getIngredientName());
-        lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
-        lore.addParametersLore("Taste Richness", this.tasteRichness);
-        lore.addParametersLore("Smell Richness", this.smellRichness);
-        lore.addParametersLore("Compatibility", this.compatibility);
-        lore.addParametersLore("Alcohol Percentage", this.alcPer, true);
-        lore.addParametersLore("Amount", this.amount, true);
-        meta.lore(lore.generateLore());
+        lore.addInfo("JAPANESE Shochu!!");
+        lore.addInfo("in a bottle!!");
+        lore.addInfo("Made from" + this.getIngredientName());
+        lore.setParams(this.x, this.y, this.z);
+        lore.setSubParams(this.tasteRichness, this.smellRichness, this.compatibility, this.quality);
+        lore.setAlcParams(this.alcPer, this.amount);
+        lore.setRarity(this.rarity);
+        lore.setMaturationDays((int) this.days);
+        meta.lore(lore.generate());
         result.setItemMeta(meta);
         return result;
     }

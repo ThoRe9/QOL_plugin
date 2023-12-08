@@ -50,7 +50,7 @@ public final class QOL extends JavaPlugin {
         DistillationController distillation = DistillationController.getListener();
         ResourceController superResource = ResourceController.getListener();
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
-        getServer().getPluginManager().registerEvents(new ConsumeListener(), this);
+        getServer().getPluginManager().registerEvents(new ConsumeListener(this), this);
         getServer().getPluginManager().registerEvents(new InteractListener(), this);
         getServer().getPluginManager().registerEvents(new ProtectListener(), this);
         getServer().getPluginManager().registerEvents(new QOLSignListener(this), this);
@@ -64,15 +64,15 @@ public final class QOL extends JavaPlugin {
         registerDistillationRecipes(distillation);
         registerSuperResources(superResource);
 
-        getCommand("getenv").setExecutor(new Commands());
-        getCommand("matsign").setExecutor(new Commands());
-        getCommand("givesuperitem").setExecutor(new Commands());
-        getCommand("superwheat").setExecutor(new Commands());
-        getCommand("alc").setExecutor(new Commands());
-        getCommand("producer").setExecutor(new Commands());
+        getCommand("getenv").setExecutor(new Commands(this));
+        getCommand("matsign").setExecutor(new Commands(this));
+        getCommand("givesuperitem").setExecutor(new Commands(this));
+        getCommand("superwheat").setExecutor(new Commands(this));
+        getCommand("alc").setExecutor(new Commands(this));
+        getCommand("producer").setExecutor(new Commands(this));
 
         // bukkitRunnableを起動
-        Alcohol alc = new Alcohol();
+        Alcohol alc = new Alcohol(this);
         alc.runTaskTimer(this, 0, 1200);
 
         // distillationのレシピを登録

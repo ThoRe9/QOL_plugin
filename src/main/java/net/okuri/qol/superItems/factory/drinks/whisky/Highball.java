@@ -72,11 +72,13 @@ public class Highball extends SuperItem implements SuperCraftable {
 
         // LOREの設定
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("Whisky with soda!");
+        lore.setParams(this.x, this.y, this.z);
+        lore.setRarity(this.rarity);
+        lore.setQuality(this.quality);
+        lore.setAlcParams(this.alcoholPer, this.alcoholAmount);
+        lore.addInfo("Whisky with soda!");
         lore.addParametersLore("Strength", (this.strength - 1) * 10);
-        lore.addParametersLore("Alcohol: ", this.alcoholPer, true);
-        lore.addParametersLore("Amount: ", this.alcoholAmount, true);
-        meta.lore(lore.generateLore());
+        meta.lore(lore.generate());
         highball.setItemMeta(meta);
         return highball;
     }

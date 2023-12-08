@@ -58,11 +58,11 @@ public class Bread extends SuperItem implements SuperCraftable {
         ItemMeta meta = bread.getItemMeta();
         meta.displayName(display);
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("Bread!");
-        lore.addFoodLevelLore(foodLevel);
-        lore.addFoodSaturationLore(foodSaturation);
+        lore.addInfo("Bread!");
+        lore.setFoodLevel(foodLevel);
+        lore.setSaturation(foodSaturation);
         lore.addParametersLore("Parameter", par);
-        meta.lore(lore.generateLore());
+        meta.lore(lore.generate());
         PDCC.set(meta, PDCKey.X, this.par);
         PDCC.set(meta, PDCKey.TYPE, this.superItemType.toString());
         PDCC.set(meta, PDCKey.FOOD_LEVEL, this.foodLevel);

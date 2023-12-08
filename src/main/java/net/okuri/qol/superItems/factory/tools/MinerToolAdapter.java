@@ -24,9 +24,9 @@ public class MinerToolAdapter extends SuperItem implements SuperCraftable {
         ItemMeta meta = item.getItemMeta();
         meta.displayName(Component.text("Miner Tool").color(NamedTextColor.GREEN));
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("This tool is for miner!.");
-        lore.addInfoLore("Craft with pickaxe and get Super Resources from ores!");
-        meta.lore(lore.generateLore());
+        lore.addInfo("This tool is for miner!.");
+        lore.addInfo("Craft with pickaxe and get Super Resources from ores!");
+        meta.lore(lore.generate());
         item.setItemMeta(meta);
         return item;
     }

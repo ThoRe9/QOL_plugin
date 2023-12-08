@@ -98,17 +98,16 @@ public class SakeIngredient extends SuperItem implements SuperCraftable {
         meta.displayName(Component.text("Sake Ingredient").color(NamedTextColor.GOLD));
         meta.setColor(Color.WHITE);
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("Ingredient for Sake");
-        lore.addParametersLore("X", this.x);
-        lore.addParametersLore("Y", this.y);
-        lore.addParametersLore("Z", this.z);
-        lore.addParametersLore("Compatibility", this.compatibility);
-        lore.addParametersLore("Quality", this.quality);
-        lore.addRarityLore(this.rarity);
+        lore.addInfo("Ingredient for Sake");
+        lore.addInfo("Ingredient Type : " + this.ingredientType.toString());
+        lore.setParams(this.x, this.y, this.z);
+        lore.setSubParams(this.tasteRichness, this.smellRichness, this.compatibility, this.quality);
+        lore.setRarity(this.rarity);
+
         if (ingredientType == SuperItemType.POLISHED_RICE) {
-            lore.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio, true);
+            lore.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio);
         }
-        meta.lore(lore.generateLore());
+        meta.lore(lore.generate());
         meta.setCustomModelData(super.getSuperItemType().getCustomModelData());
         result.setItemMeta(meta);
         return result;

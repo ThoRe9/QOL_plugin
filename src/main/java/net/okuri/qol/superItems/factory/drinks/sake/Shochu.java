@@ -109,16 +109,16 @@ public class Shochu extends Sake implements Distillable, Distributable {
         PDCC.set(meta, PDCKey.MATURATION, this.days);
 
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("JAPANESE Shochu!!");
-        lore.addInfoLore("in a big bottle!!");
-        lore.addInfoLore("Made from" + this.getIngredientName());
-        lore.setSuperItemLore(this.x, this.y, this.z, this.quality, this.rarity);
-        lore.addParametersLore("Taste Richness", this.tasteRichness);
-        lore.addParametersLore("Smell Richness", this.smellRichness);
-        lore.addParametersLore("Compatibility", this.compatibility);
-        lore.addParametersLore("Alcohol Percentage", this.alcPer, true);
-        lore.addParametersLore("Amount", this.amount, true);
-        meta.lore(lore.generateLore());
+        lore.addInfo("JAPANESE Shochu!!");
+        lore.addInfo("in a big bottle!!");
+        lore.addInfo("Made from" + this.getIngredientName());
+        lore.setParams(this.x, this.y, this.z);
+        lore.setSubParams(this.tasteRichness, this.smellRichness, this.compatibility, this.quality);
+        lore.setAlcParams(this.alcPer, this.amount);
+        lore.setRarity(this.rarity);
+        lore.setMaturationDays((int) this.days);
+        lore.addParametersLore("Rice Polishing Ratio", this.ricePolishingRatio);
+        meta.lore(lore.generate());
 
         result.setItemMeta(meta);
         return result;

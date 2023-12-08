@@ -49,10 +49,12 @@ public class WhiskyWithIce extends SuperItem implements SuperCraftable {
 
         WWImeta.displayName(Component.text("Whisky with Ice").color(NamedTextColor.GOLD));
         LoreGenerator loreGenerator = new LoreGenerator();
-        loreGenerator.addInfoLore("Whisky on the rocks!");
-        loreGenerator.addParametersLore("Alcohol: ", this.alcoholPer, true);
-        loreGenerator.addParametersLore("Amount: ", this.alcoholAmount, true);
-        WWImeta.lore(loreGenerator.generateLore());
+        loreGenerator.addInfo("Whisky on the rocks!");
+        loreGenerator.setParams(this.x, this.y, this.z);
+        loreGenerator.setRarity(this.rarity);
+        loreGenerator.setQuality(this.quality);
+        loreGenerator.setAlcParams(this.alcoholPer, this.alcoholAmount);
+        WWImeta.lore(loreGenerator.generate());
         WWImeta.addCustomEffect(Wmeta.getCustomEffects().get(0), true);
         WWImeta.addCustomEffect(Wmeta.getCustomEffects().get(1), true);
         WWImeta.addCustomEffect(Wmeta.getCustomEffects().get(2), true);

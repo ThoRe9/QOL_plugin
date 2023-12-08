@@ -145,12 +145,15 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
         this.rarity = SuperItem.getRarity(newX, newY, newZ);
 
         LoreGenerator lore = new LoreGenerator();
-        lore.setLiquorLore(newX, newY, newZ, this.getTaste(), this.getSmell(), this.getCompatibility(), this.alcoholAmount, this.alcoholPercentage, this.getQuality(), this.rarity);
-        lore.addInfoLore(this.infoLore);
+        lore.setParams(newX, newY, newZ);
+        lore.setSubParams(super.getTaste(), super.getSmell(), super.getCompatibility(), super.getQuality());
+        lore.setAlcParams(this.alcoholPercentage, this.alcoholAmount);
+        lore.setRarity(this.rarity);
+        lore.addInfo(this.infoLore);
         if (maturationDays > 0) {
-            lore.addParametersLore("Maturation Days", this.maturationDays, true);
+            lore.setMaturationDays((int) this.maturationDays);
         }
-        lore.addInfoLore("made by " + this.producer);
+        lore.addInfo("made by " + this.producer);
 
         item.setPotionColor(this.potionColor);
         item.setX(newX);

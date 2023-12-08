@@ -90,6 +90,7 @@ net\okuri\qol\superItems\factory\drinks\sake\ShochuOchoko.class
 net\okuri\qol\superItems\factory\tools\EnvGetter.class
 net\okuri\qol\event\MaturationEndEvent.class
 net\okuri\qol\superItems\factory\foods\BarleyBread.class
+net\okuri\qol\AlcBar.class
 net\okuri\qol\superItems\factory\resources\SugarCane.class
 net\okuri\qol\superItems\factory\foods\RyeBread.class
 net\okuri\qol\superItems\factory\drinks\Liquor.class

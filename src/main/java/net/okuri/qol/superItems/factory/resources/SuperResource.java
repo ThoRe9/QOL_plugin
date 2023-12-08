@@ -96,13 +96,11 @@ public abstract class SuperResource extends SuperItem {
         meta.displayName(name);
 
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore(info);
-        lore.addParametersLore("x", x);
-        lore.addParametersLore("y", y);
-        lore.addParametersLore("z", z);
-        lore.addParametersLore("quality", quality);
-        lore.addRarityLore(rarity);
-        meta.lore(lore.generateLore());
+        lore.addInfo(info);
+        lore.setParams(x, y, z);
+        lore.setQuality(quality);
+        lore.setRarity(rarity);
+        meta.lore(lore.generate());
 
         result.setItemMeta(meta);
         return result;

@@ -45,9 +45,9 @@ public class Soda extends SuperItem implements SuperCraftable {
         // displayName, loreを設定
         meta.displayName(Component.text("Soda").color(NamedTextColor.AQUA));
         LoreGenerator lore = new LoreGenerator();
-        lore.addInfoLore("Sparkling water!");
+        lore.addInfo("Sparkling water!");
         lore.addParametersLore("Strength", (strength-1)*10);
-        meta.lore(lore.generateLore());
+        meta.lore(lore.generate());
 
         meta.setColor(Color.AQUA);
 
