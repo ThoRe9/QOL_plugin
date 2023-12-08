@@ -19,14 +19,15 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 public class SuperCraftController implements Listener {
     private static final SuperCraftController listener = new SuperCraftController();
 
-    private final ArrayList<SuperCraftRecipe> superCraftRecipes = new ArrayList<>();
-    private final ArrayList<ShapelessSuperCraftRecipe> shapelessSuperCraftRecipes = new ArrayList<>();
-    private final ArrayList<DistributionCraftRecipe> distributionCraftRecipes = new ArrayList<>();
+    private static final ArrayList<SuperCraftRecipe> superCraftRecipes = new ArrayList<>();
+    private static final ArrayList<ShapelessSuperCraftRecipe> shapelessSuperCraftRecipes = new ArrayList<>();
+    private static final ArrayList<DistributionCraftRecipe> distributionCraftRecipes = new ArrayList<>();
     private boolean superCraftFlag = false;
     private boolean shapelessCraftFlag = false;
     private boolean distributionFlag = false;
@@ -48,6 +49,20 @@ public class SuperCraftController implements Listener {
     }
     public void addDistributionCraftRecipe(DistributionCraftRecipe distributionCraftRecipe) {
         distributionCraftRecipes.add(distributionCraftRecipe);
+    }
+
+    public ArrayList<String> getRecipeList() {
+        ArrayList<String> result = new ArrayList<>();
+        for (SuperCraftRecipe recipe : superCraftRecipes) {
+            result.add(recipe.getId());
+        }
+        for (ShapelessSuperCraftRecipe recipe : shapelessSuperCraftRecipes) {
+            result.add(recipe.getId());
+        }
+        for (DistributionCraftRecipe recipe : distributionCraftRecipes) {
+            result.add(recipe.getId());
+        }
+        return result;
     }
 
     @EventHandler
@@ -105,7 +120,10 @@ public class SuperCraftController implements Listener {
                 Bukkit.getLogger().info("ShapelessSuperCraftRecipe matched!");
                 SuperCraftable result = shapelessSuperCraftRecipe.getResultClass();
                 SuperItemStack resultItem = result.getSuperItem();
-                resultItem.setProducerInfo(getProducerInfo(superMatrix, resultItem.getSuperItemData(), player));
+                // 対処療法
+                if (!Objects.equals(shapelessSuperCraftRecipe.getId(), "fusion_craft") && !Objects.equals(shapelessSuperCraftRecipe.getId(), "rum_ingredient")) {
+                    resultItem.setProducerInfo(getProducerInfo(superMatrix, resultItem.getSuperItemData(), player));
+                }
                 inventory.setResult(resultItem);
                 inventory.setResult(resultItem);
                 this.shapelessCraftFlag = true;

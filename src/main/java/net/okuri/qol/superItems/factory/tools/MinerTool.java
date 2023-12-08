@@ -26,6 +26,7 @@ public class MinerTool implements SuperCraftable {
         meta.displayName(Component.text("Miner's ").color(NamedTextColor.GREEN).append(toolName));
         PDCC.set(meta, PDCKey.MINER_TOOL, true);
         tool.setItemMeta(meta);
+        tool.setAmount(1);
         return tool;
     }
 }

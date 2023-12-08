@@ -26,6 +26,7 @@ public class FarmerTool implements SuperCraftable {
         meta.displayName(Component.text("Farmer's ").color(NamedTextColor.GREEN).append(toolName));
         PDCC.set(meta, PDCKey.FARMER_TOOL, true);
         tool.setItemMeta(meta);
+        tool.setAmount(1);
         return tool;
     }
 }

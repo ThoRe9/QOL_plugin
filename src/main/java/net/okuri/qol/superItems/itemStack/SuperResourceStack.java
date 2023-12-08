@@ -24,7 +24,7 @@ public class SuperResourceStack extends SuperXYZStack {
     private double humid;
     private int biomeId;
     private double quality;
-    private double rarity;
+    private int rarity;
     private String producer;
 
     public SuperResourceStack(ItemStack stack) {

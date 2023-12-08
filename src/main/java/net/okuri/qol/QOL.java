@@ -10,7 +10,9 @@ import net.okuri.qol.qolCraft.superCraft.DistributionCraftRecipe;
 import net.okuri.qol.qolCraft.superCraft.ShapelessSuperCraftRecipe;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftController;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
+import net.okuri.qol.superItems.SuperItemTag;
 import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.factory.FusionCraft;
 import net.okuri.qol.superItems.factory.drinks.Horoyoi;
 import net.okuri.qol.superItems.factory.drinks.LiverHelper;
 import net.okuri.qol.superItems.factory.drinks.Soda;
@@ -253,12 +255,12 @@ public final class QOL extends JavaPlugin {
         superCraft.addShapelessSuperCraftRecipe(molassesRecipe);
 
         // Ram ingredient
-        SuperCraftRecipe ramIngredientRecipe = new SuperCraftRecipe("ram_ingredient");
-        ramIngredientRecipe.setShape(new String[]{"MMM", "MWM", "MMM"});
-        ramIngredientRecipe.addIngredient('M', SuperItemType.MOLASSES);
-        ramIngredientRecipe.addIngredient('W', Material.POTION);
-        ramIngredientRecipe.setResultClass(new RumIngredient());
-        superCraft.addSuperCraftRecipe(ramIngredientRecipe);
+        SuperCraftRecipe rumIngredientRecipe = new SuperCraftRecipe("rum_ingredient");
+        rumIngredientRecipe.setShape(new String[]{"MMM", "MWM", "MMM"});
+        rumIngredientRecipe.addIngredient('M', SuperItemType.MOLASSES);
+        rumIngredientRecipe.addIngredient('W', Material.POTION);
+        rumIngredientRecipe.setResultClass(new RumIngredient());
+        superCraft.addSuperCraftRecipe(rumIngredientRecipe);
 
         // a cup of rum
         DistributionCraftRecipe rumStraight = new DistributionCraftRecipe("distribution");
@@ -314,6 +316,18 @@ public final class QOL extends JavaPlugin {
         liverHelperRecipe.addIngredient('W', Material.POTION);
         liverHelperRecipe.setResultClass(new LiverHelper());
         superCraft.addSuperCraftRecipe(liverHelperRecipe);
+
+        // fusion craft
+        for (SuperItemType t : SuperItemTag.RESOURCE.getSuperItemTypes()) {
+            ShapelessSuperCraftRecipe fcr = new ShapelessSuperCraftRecipe("fusion_craft");
+            fcr.addIngredient(t);
+            fcr.addIngredient(t);
+            fcr.setResultClass(new FusionCraft());
+            superCraft.addShapelessSuperCraftRecipe(fcr);
+        }
+        for (String s : superCraft.getRecipeList()) {
+            getLogger().info(s);
+        }
 
     }
 

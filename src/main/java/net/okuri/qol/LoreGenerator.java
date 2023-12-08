@@ -230,4 +230,5 @@ public class LoreGenerator {
         parametersValue.add(value);
         return this;
     }
+
 }

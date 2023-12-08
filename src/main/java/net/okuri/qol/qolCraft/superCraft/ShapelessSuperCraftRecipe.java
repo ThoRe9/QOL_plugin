@@ -24,24 +24,29 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
 
     @Override
     public boolean checkSuperRecipe(SuperItemStack[] matrix) {
-        boolean flag = false;
+        assert !ingredients.isEmpty();
         // ingredientItemsには、ingredientsの順番にmatrixの中身が入っている
         ingredientItems = new SuperItemStack[ingredients.size()];
+        boolean[] isSeen = new boolean[ingredients.size()];
+        for (int i = 0; i < isSeen.length; i++) {
+            isSeen[i] = false;
+        }
 
         // matrixの中身のSuperItemTypeがingredientsとすべて一致するかチェック
         for (int i = 0; i < matrix.length; i++) {
             SuperItemStack itemStack = matrix[i];
             if (itemStack != null) {
                 for (int j = 0; j < ingredients.size(); j++) {
+                    if (isSeen[j]) {
+                        continue;
+                    }
                     SuperItemData ingredient = ingredients.get(j);
                     if (itemStack.isSimilar(ingredient)) {
-                        if (ingredientItems[j] != null) {
-                            return false;
-                        }
                         ingredientItems[j] = itemStack;
-                        flag = true;
+                        isSeen[j] = true;
                         break;
                     }
+                    // ingredientsの最後まで見ても一致するものがなかった場合
                     if (j == ingredients.size() - 1) {
                         return false;
                     }
@@ -49,12 +54,12 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
             }
         }
         //ingredientItemsにすべての要素が入っているかチェック
-        for (SuperItemStack itemStack : ingredientItems) {
-            if (itemStack == null) {
+        for (int i = 0; i < isSeen.length; i++) {
+            if (!isSeen[i]) {
                 return false;
             }
         }
-        return flag;
+        return true;
     }
 
     public void addIngredient(Material ingredient) {

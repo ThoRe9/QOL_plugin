@@ -252,6 +252,7 @@ public class PDCC {
         meta.getPersistentDataContainer().set(PDCKey.RARITY.key, PDCKey.RARITY.type, r.getRarity());
         meta.getPersistentDataContainer().set(PDCKey.TEMP.key, PDCKey.TEMP.type, r.getTemp());
         meta.getPersistentDataContainer().set(PDCKey.HUMID.key, PDCKey.HUMID.type, r.getHumid());
+        meta.getPersistentDataContainer().set(PDCKey.BIOME_ID.key, PDCKey.BIOME_ID.type, r.getBiomeId());
         meta.getPersistentDataContainer().set(PDCKey.PRODUCER.key, PDCKey.PRODUCER.type, r.getProducerName());
     }
 
