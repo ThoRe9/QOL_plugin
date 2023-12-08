@@ -4,6 +4,8 @@ import net.okuri.qol.Alcohol;
 import net.okuri.qol.ChatGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
+import net.okuri.qol.superItems.SuperItemData;
+import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,6 +33,8 @@ public class ConsumeListener implements Listener {
         }
         // alcoholを使用したとき
         this.alcoholEvent(player, meta);
+        // liverHelperを使用したとき
+        this.liverHelperEvent(player, item);
 
     }
 
@@ -52,6 +56,23 @@ public class ConsumeListener implements Listener {
         double alcAmount = PDCC.get(meta, PDCKey.ALCOHOL_AMOUNT);
         double alcPer = PDCC.get(meta, PDCKey.ALCOHOL_PERCENTAGE);
         alcLv += (alcAmount * alcPer / 350);
+        PDCC.set(player, PDCKey.ALCOHOL_LEVEL, alcLv);
+        // alcoholの効果を与える
+        new Alcohol(plugin).run();
+    }
+
+    private void liverHelperEvent(Player player, SuperItemStack item) {
+
+        if (!item.isSimilar(new SuperItemData(SuperItemType.LIVER_HELPER))) {
+            return;
+        }
+        // プレイヤーのAlcoholLevelを取得
+        // ない場合は無視
+        if (!PDCC.has(player, PDCKey.ALCOHOL_LEVEL)) {
+            return;
+        }
+        double alcLv = PDCC.get(player, PDCKey.ALCOHOL_LEVEL);
+        alcLv = alcLv * 0.9;
         PDCC.set(player, PDCKey.ALCOHOL_LEVEL, alcLv);
         // alcoholの効果を与える
         new Alcohol(plugin).run();

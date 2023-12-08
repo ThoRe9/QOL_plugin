@@ -107,5 +107,6 @@ net\okuri\qol\superItems\factory\resources\Wheat.class
 net\okuri\qol\qolCraft\superCraft\ShapelessSuperCraftRecipe.class
 net\okuri\qol\superItems\factory\DefaultItem.class
 net\okuri\qol\superItems\factory\drinks\StrongZero.class
+net\okuri\qol\superItems\factory\drinks\LiverHelper.class
 net\okuri\qol\superItems\factory\drinks\whisky\LagerBeer.class
 net\okuri\qol\qolCraft\resource\ResourceController.class

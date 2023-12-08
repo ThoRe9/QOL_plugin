@@ -4,6 +4,7 @@ package net.okuri.qol.superItems;
 import net.okuri.qol.superItems.factory.DefaultItem;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.factory.drinks.Horoyoi;
+import net.okuri.qol.superItems.factory.drinks.LiverHelper;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
 import net.okuri.qol.superItems.factory.drinks.sake.*;
@@ -62,7 +63,8 @@ public enum SuperItemType {
     APPLE("APPLE", 0, Material.APPLE, SuperItemTag.RESOURCE),
     FARMER_TOOL("FARMER_TOOL", 0, Material.PAPER, SuperItemTag.TOOL),
     MINER_TOOL("MINER_TOOL", 0, Material.PAPER, SuperItemTag.TOOL),
-    STRONG_ZERO("STRONG_ZERO", 0, Material.POTION, SuperItemTag.LIQUOR);
+    STRONG_ZERO("STRONG_ZERO", 0, Material.POTION, SuperItemTag.LIQUOR),
+    LIVER_HELPER("LIVER_HELPER", 0, Material.POTION, SuperItemTag.DRINK);
 
     private final String type;
     private final int customModelData;
@@ -171,6 +173,8 @@ public enum SuperItemType {
                 return new MinerToolAdapter();
             case DEFAULT:
                 return new DefaultItem(type);
+            case LIVER_HELPER:
+                return new LiverHelper();
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }

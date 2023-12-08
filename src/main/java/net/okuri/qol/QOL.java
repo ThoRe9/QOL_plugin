@@ -12,6 +12,7 @@ import net.okuri.qol.qolCraft.superCraft.SuperCraftController;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.drinks.Horoyoi;
+import net.okuri.qol.superItems.factory.drinks.LiverHelper;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
 import net.okuri.qol.superItems.factory.drinks.sake.*;
@@ -303,6 +304,16 @@ public final class QOL extends JavaPlugin {
         minerToolRecipe.addIngredient(SuperItemType.MINER_TOOL);
         minerToolRecipe.setResultClass(new MinerTool());
         superCraft.addShapelessSuperCraftRecipe(minerToolRecipe);
+
+        // liver helper
+        SuperCraftRecipe liverHelperRecipe = new SuperCraftRecipe("liver_helper");
+        liverHelperRecipe.setShape(new String[]{"PPP", "NNN", "BWB"});
+        liverHelperRecipe.addIngredient('P', Material.PORKCHOP);
+        liverHelperRecipe.addIngredient('N', Material.NETHER_WART);
+        liverHelperRecipe.addIngredient('B', Material.BROWN_MUSHROOM);
+        liverHelperRecipe.addIngredient('W', Material.POTION);
+        liverHelperRecipe.setResultClass(new LiverHelper());
+        superCraft.addSuperCraftRecipe(liverHelperRecipe);
 
     }
 
