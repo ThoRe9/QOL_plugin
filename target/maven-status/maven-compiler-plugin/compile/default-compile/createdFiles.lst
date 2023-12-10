@@ -24,6 +24,8 @@ net\okuri\qol\superItems\factory\drinks\whisky\Beer.class
 net\okuri\qol\superItems\factory\ingredient\PolishedRice.class
 net\okuri\qol\superItems\factory\tools\FarmerTool.class
 net\okuri\qol\event\DistillationEvent.class
+net\okuri\qol\help\HelpContent.class
+net\okuri\qol\help\Help.class
 net\okuri\qol\listener\InteractListener.class
 net\okuri\qol\qolCraft\maturation\MaturationRecipe.class
 net\okuri\qol\superItems\itemStack\SuperLiquorStack.class
@@ -82,10 +84,12 @@ net\okuri\qol\qolCraft\calcuration\DiscontinuityDurationCalcuration.class
 net\okuri\qol\qolCraft\calcuration\Calcuration.class
 net\okuri\qol\superItems\factory\drinks\sake\SakeBottle.class
 net\okuri\qol\superItems\factory\drinks\sake\Ochoko.class
+net\okuri\qol\help\HelpController.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake.class
 net\okuri\qol\qolCraft\maturation\MaturationController.class
 net\okuri\qol\LoreGenerator.class
 net\okuri\qol\superItems\itemStack\SuperItemStack.class
+net\okuri\qol\help\Pages.class
 net\okuri\qol\PDCKey$ApplyType.class
 net\okuri\qol\superItems\factory\drinks\sake\ShochuOchoko.class
 net\okuri\qol\superItems\factory\tools\EnvGetter.class
@@ -104,6 +108,7 @@ net\okuri\qol\superItems\SuperItemType.class
 net\okuri\qol\superItems\factory\resources\SampleResource.class
 net\okuri\qol\listener\Food.class
 net\okuri\qol\superItems\itemStack\SuperXYZStack.class
+net\okuri\qol\help\Page.class
 net\okuri\qol\superItems\factory\resources\Wheat.class
 net\okuri\qol\qolCraft\superCraft\ShapelessSuperCraftRecipe.class
 net\okuri\qol\superItems\factory\DefaultItem.class

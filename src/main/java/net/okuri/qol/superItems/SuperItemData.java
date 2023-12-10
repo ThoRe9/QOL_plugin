@@ -49,6 +49,16 @@ public class SuperItemData {
         }
     }
 
+    public String toString() {
+        if (this.isAbstract) {
+            return this.tag.toString();
+        } else if (this.type == SuperItemType.DEFAULT) {
+            return this.material.toString();
+        } else {
+            return this.type.toString();
+        }
+    }
+
     public boolean isDefault() {
         return this.type == SuperItemType.DEFAULT;
     }

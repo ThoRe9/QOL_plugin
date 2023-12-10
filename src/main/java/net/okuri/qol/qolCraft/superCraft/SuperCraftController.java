@@ -41,6 +41,15 @@ public class SuperCraftController implements Listener {
         return listener;
     }
 
+    public static SuperCraftRecipe getRecipe(String id) {
+        for (SuperCraftRecipe recipe : superCraftRecipes) {
+            if (recipe.getId().equals(id)) {
+                return recipe;
+            }
+        }
+        return null;
+    }
+
     public void addSuperCraftRecipe(SuperCraftRecipe superCraftRecipe) {
         superCraftRecipes.add(superCraftRecipe);
     }
@@ -63,6 +72,10 @@ public class SuperCraftController implements Listener {
             result.add(recipe.getId());
         }
         return result;
+    }
+
+    public ArrayList<SuperCraftRecipe> getSuperCraftRecipes() {
+        return superCraftRecipes;
     }
 
     @EventHandler

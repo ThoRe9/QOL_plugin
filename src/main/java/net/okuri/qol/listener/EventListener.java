@@ -27,6 +27,7 @@ public class EventListener implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         player.sendMessage("Welcome to the server!");
+
         if (PDCC.has(player, PDCKey.HAS_ALC_BAR)) {
             if (PDCC.get(player, PDCKey.HAS_ALC_BAR)) {
                 AlcBar alcBar = new AlcBar(player);

@@ -1,5 +1,9 @@
 package net.okuri.qol;
 
+import net.okuri.qol.help.Help;
+import net.okuri.qol.help.HelpContent;
+import net.okuri.qol.help.HelpController;
+import net.okuri.qol.help.Page;
 import net.okuri.qol.listener.*;
 import net.okuri.qol.qolCraft.distillation.DistillationController;
 import net.okuri.qol.qolCraft.distillation.DistillationRecipe;
@@ -41,49 +45,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class QOL extends JavaPlugin {
 
-    @Override
-    public void onEnable() {
-        // Plugin startup logic
-        // config.ymlが存在しない場合はファイルに出力します。
-        saveDefaultConfig();
+    private static QOL plugin;
 
-        // drinkCraftsには特殊レシピを登録する
-        SuperCraftController superCraft = SuperCraftController.getListener();
-        MaturationController maturation = MaturationController.getListener();
-        DistillationController distillation = DistillationController.getListener();
-        ResourceController superResource = ResourceController.getListener();
-        getServer().getPluginManager().registerEvents(new EventListener(this), this);
-        getServer().getPluginManager().registerEvents(new ConsumeListener(this), this);
-        getServer().getPluginManager().registerEvents(new InteractListener(), this);
-        getServer().getPluginManager().registerEvents(new ProtectListener(), this);
-        getServer().getPluginManager().registerEvents(new QOLSignListener(this), this);
-        getServer().getPluginManager().registerEvents(superCraft, this);
-        getServer().getPluginManager().registerEvents(maturation, this);
-        getServer().getPluginManager().registerEvents(distillation, this);
-        getServer().getPluginManager().registerEvents(superResource, this);
-
-        registerRecipes(superCraft);
-        registerMaturationRecipes(maturation);
-        registerDistillationRecipes(distillation);
-        registerSuperResources(superResource);
-
-        getCommand("getenv").setExecutor(new Commands(this));
-        getCommand("matsign").setExecutor(new Commands(this));
-        getCommand("givesuperitem").setExecutor(new Commands(this));
-        getCommand("superwheat").setExecutor(new Commands(this));
-        getCommand("alc").setExecutor(new Commands(this));
-        getCommand("producer").setExecutor(new Commands(this));
-
-        // bukkitRunnableを起動
-        Alcohol alc = new Alcohol(this);
-        alc.runTaskTimer(this, 0, 1200);
-
-        // distillationのレシピを登録
-        FurnaceRecipe distillationRecipe = new FurnaceRecipe(new NamespacedKey("qol","distillation_recipe"), new ItemStack(Material.POTION, 1), Material.POTION, 0.0f, 200);
-        Bukkit.addRecipe(distillationRecipe);
-        getLogger().info("QOL Plugin Enabled");
-
-
+    public static QOL getPlugin() {
+        return plugin;
     }
 
     @Override
@@ -413,7 +378,66 @@ public final class QOL extends JavaPlugin {
         superResource.addResource(superApple);
     }
 
-    public JavaPlugin getPlugin() {
-        return this;
+    @Override
+    public void onEnable() {
+        plugin = this;
+        // Plugin startup logic
+        // config.ymlが存在しない場合はファイルに出力します。
+        saveDefaultConfig();
+
+        // drinkCraftsには特殊レシピを登録する
+        SuperCraftController superCraft = SuperCraftController.getListener();
+        MaturationController maturation = MaturationController.getListener();
+        DistillationController distillation = DistillationController.getListener();
+        ResourceController superResource = ResourceController.getListener();
+        getServer().getPluginManager().registerEvents(new EventListener(this), this);
+        getServer().getPluginManager().registerEvents(new ConsumeListener(this), this);
+        getServer().getPluginManager().registerEvents(new InteractListener(), this);
+        getServer().getPluginManager().registerEvents(new ProtectListener(), this);
+        getServer().getPluginManager().registerEvents(new QOLSignListener(this), this);
+        getServer().getPluginManager().registerEvents(superCraft, this);
+        getServer().getPluginManager().registerEvents(maturation, this);
+        getServer().getPluginManager().registerEvents(distillation, this);
+        getServer().getPluginManager().registerEvents(superResource, this);
+
+        registerRecipes(superCraft);
+        registerMaturationRecipes(maturation);
+        registerDistillationRecipes(distillation);
+        registerSuperResources(superResource);
+
+        getCommand("getenv").setExecutor(new Commands(this));
+        getCommand("matsign").setExecutor(new Commands(this));
+        getCommand("givesuperitem").setExecutor(new Commands(this));
+        getCommand("superwheat").setExecutor(new Commands(this));
+        getCommand("alc").setExecutor(new Commands(this));
+        getCommand("producer").setExecutor(new Commands(this));
+        getCommand("qolhelp").setExecutor(new HelpController());
+
+        // bukkitRunnableを起動
+        Alcohol alc = new Alcohol(this);
+        alc.runTaskTimer(this, 0, 1200);
+
+        // distillationのレシピを登録
+        FurnaceRecipe distillationRecipe = new FurnaceRecipe(new NamespacedKey("qol","distillation_recipe"), new ItemStack(Material.POTION, 1), Material.POTION, 0.0f, 200);
+        Bukkit.addRecipe(distillationRecipe);
+
+        // help.jsonが存在しない場合はファイルに出力します。
+        Page page = new Page("debug", "sample");
+        HelpContent content = new HelpContent();
+        content.addContent("test");
+        content.addContent("test2");
+        content.addContent("test3");
+        content.addContent("test4");
+        page.addContent(content);
+        HelpContent content2 = new HelpContent();
+        content2.addContent("test");
+        content2.setRecipeID("whisky_ingredient");
+        page.addContent(content2);
+        Help.addPage(page);
+
+
+        getLogger().info("QOL Plugin Enabled");
+
+
     }
 }

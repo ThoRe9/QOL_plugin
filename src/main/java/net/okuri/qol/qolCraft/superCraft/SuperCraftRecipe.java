@@ -98,9 +98,15 @@ public class SuperCraftRecipe implements SuperRecipe {
         return this;
     }
 
+
     public void setResultClass(SuperCraftable resultClass) {
         this.resultClass = resultClass;
     }
+
+    public Map<Character, SuperItemData> getIngredients() {
+        return this.ingredients;
+    }
+
 
     public SuperCraftable getResultClass() {
         this.resultClass.setMatrix(this.matrix, id);
@@ -110,6 +116,14 @@ public class SuperCraftRecipe implements SuperRecipe {
     @Override
     public @NotNull SuperItemStack getResult() {
         return ((SuperItem) this.resultClass).getSuperItem();
+    }
+
+    public SuperItemData getResultData() {
+        return ((SuperItem) this.resultClass).getSuperItemData();
+    }
+
+    public String[] getShape() {
+        return this.shape;
     }
 
 
