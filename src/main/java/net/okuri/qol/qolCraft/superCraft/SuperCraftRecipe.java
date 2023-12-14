@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ public class SuperCraftRecipe implements SuperRecipe {
     public String[] shape = new String[3];
     private SuperItemStack[] matrix = new SuperItemStack[9];
     private SuperCraftable resultClass = null;
+    private final ArrayList<SuperItemStack> returnItems = new ArrayList<>();
 
     public SuperCraftRecipe(String id) {
         this.id = id;
@@ -124,6 +126,15 @@ public class SuperCraftRecipe implements SuperRecipe {
 
     public String[] getShape() {
         return this.shape;
+    }
+
+    @Override
+    public ArrayList<SuperItemStack> getReturnItems() {
+        return this.returnItems;
+    }
+
+    public void addReturnItem(SuperItemStack item) {
+        this.returnItems.add(item);
     }
 
 

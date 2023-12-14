@@ -15,6 +15,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.inventory.CraftingInventory;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
@@ -156,10 +157,8 @@ public class SuperCraftController implements Listener {
 
                 inventory.setResult(receiverItem);
                 this.distributionFlag = true;
-                this.distributableItem = distribution.getSuperItem();
                 ProducerInfo info = getProducerInfo(superMatrix, receiverItem.getSuperItemData(), player);
                 receiverItem.setProducerInfo(info);
-                distributableItem.setProducerInfo(info.getChild(distributableItem.getSuperItemData()));
 
                 this.recipe = d;
 
@@ -189,17 +188,6 @@ public class SuperCraftController implements Listener {
     private void CraftItemEvent(SuperCraftEvent event){
         //Bukkit.getLogger().info("Craft called");
         // distributionの場合は先に容量を減らした瓶をプレイヤーに渡す
-
-        if (this.distributionFlag){
-            //Bukkit.getLogger().info("Flag is true");
-
-            if (this.distributableItem != null){
-                Player player = (Player) event.getWhoClicked();
-                player.getInventory().addItem(this.distributableItem);
-                this.distributableItem = null;
-            }
-        }
-
         // もしflagが立っているなら、グリッド内のアイテムをクラフトした分だけ減らす。
         if (this.superCraftFlag || this.shapelessCraftFlag || this.distributionFlag){
             CraftingInventory inv = event.getInventory();
@@ -229,9 +217,15 @@ public class SuperCraftController implements Listener {
                         //Bukkit.getLogger().info(event.getCursor().toString());
                         SuperCraftEvent craftEvent = new SuperCraftEvent(this.recipe, event.getView(), InventoryType.SlotType.RESULT, event.getRawSlot(), event.getClick(), event.getAction());
                         Bukkit.getPluginManager().callEvent(craftEvent);
-
                         event.setCursor(event.getCurrentItem());
                         event.setCancelled(true);
+
+                        Player player = (Player) event.getWhoClicked();
+                        Inventory pinv = player.getInventory();
+                        for (SuperItemStack i : this.recipe.getReturnItems()) {
+                            pinv.addItem(i);
+                        }
+
                         CraftingInventory inv =(CraftingInventory) event.getInventory();
                         inv.setResult(null);
                         InventoryView view = event.getView();

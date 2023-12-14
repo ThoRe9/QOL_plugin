@@ -34,6 +34,7 @@ import net.okuri.qol.superItems.factory.ingredient.Molasses;
 import net.okuri.qol.superItems.factory.ingredient.PolishedRice;
 import net.okuri.qol.superItems.factory.resources.*;
 import net.okuri.qol.superItems.factory.tools.*;
+import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -68,6 +69,7 @@ public final class QOL extends JavaPlugin {
         whiskyRecipe.addIngredient('W', SuperItemType.BARLEY);
         whiskyRecipe.addIngredient('B', Material.WATER_BUCKET);
         whiskyRecipe.addIngredient('C', SuperItemType.COAL);
+        whiskyRecipe.addReturnItem(new SuperItemStack(Material.BUCKET));
         whiskyRecipe.setResultClass(new WhiskyIngredient());
         superCraft.addSuperCraftRecipe(whiskyRecipe);
 
@@ -86,6 +88,7 @@ public final class QOL extends JavaPlugin {
         sodaRecipe.addIngredient('C', SuperItemType.COAL);
         sodaRecipe.addIngredient('W', Material.WATER_BUCKET);
         sodaRecipe.addIngredient('B', Material.GLASS_BOTTLE);
+        sodaRecipe.addReturnItem(new SuperItemStack(Material.BUCKET));
         sodaRecipe.setResultClass(new Soda());
         superCraft.addSuperCraftRecipe(sodaRecipe);
 
@@ -165,6 +168,7 @@ public final class QOL extends JavaPlugin {
         kojiRecipe.setShape(new String[]{" R ", " W ", "   "});
         kojiRecipe.addIngredient('R', SuperItemType.POLISHED_RICE);
         kojiRecipe.addIngredient('W', Material.WATER_BUCKET);
+        kojiRecipe.addReturnItem(new SuperItemStack(Material.BUCKET));
         kojiRecipe.setResultClass(new Koji());
         superCraft.addSuperCraftRecipe(kojiRecipe);
 
@@ -174,6 +178,7 @@ public final class QOL extends JavaPlugin {
         sakeRecipe.addIngredient('R', SuperItemType.POLISHED_RICE);
         sakeRecipe.addIngredient('K', SuperItemType.KOJI);
         sakeRecipe.addIngredient('W', Material.WATER_BUCKET);
+        sakeRecipe.addReturnItem(new SuperItemStack(Material.BUCKET));
         sakeRecipe.setResultClass(new SakeIngredient());
         superCraft.addSuperCraftRecipe(sakeRecipe);
 

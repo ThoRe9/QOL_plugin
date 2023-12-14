@@ -29,6 +29,8 @@ public class DistributionCraftRecipe implements SuperRecipe {
     private Distributable distribution;
     private DistributionReceiver receiver;
     private SuperItemStack[] matrix = new SuperItemStack[9];
+    private final ArrayList<SuperItemStack> result = new ArrayList<>();
+    private SuperItemStack returnBottle;
     public DistributionCraftRecipe(String id){
         this.id = id;
     }
@@ -39,7 +41,6 @@ public class DistributionCraftRecipe implements SuperRecipe {
         // 同時にbigBottleType,bottle以外のアイテムがあればfalseを返す。
         // bottleの数も数える
         // 上記のどれでもない場合、OtherIngredientの物があるか確認。もしあったら、それを返す。
-
         ArrayList<SuperItemData> lastOtherIngredients = new ArrayList<>();
         ArrayList<ItemStack> superBottles = new ArrayList<>();
         SuperItemStack[] otherIngredientStacks = new SuperItemStack[this.otherIngredients.size()];
@@ -133,6 +134,7 @@ public class DistributionCraftRecipe implements SuperRecipe {
         receiver.setMatrix(matrix, "distribution_receiver");
         distribution.distribute(smallBottleAmount,smallBottleCount);
         receiver.receive(smallBottleCount);
+        this.returnBottle = this.distribution.getSuperItem();
     }
     public void setDistribution(Distributable distribution){
         this.distribution = distribution;
@@ -166,6 +168,18 @@ public class DistributionCraftRecipe implements SuperRecipe {
     @Override
     public @NotNull SuperItemStack getResult() {
         return ((SuperItem) receiver).getSuperItem();
+    }
+
+    @Override
+    public ArrayList<SuperItemStack> getReturnItems() {
+        ArrayList<SuperItemStack> returnItems = new ArrayList<>();
+        returnItems.add(returnBottle);
+        returnItems.addAll(result);
+        return returnItems;
+    }
+
+    public void addReturnItem(SuperItemStack itemStack) {
+        result.add(itemStack);
     }
 
 }

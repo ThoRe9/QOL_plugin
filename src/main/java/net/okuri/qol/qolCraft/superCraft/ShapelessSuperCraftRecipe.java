@@ -18,6 +18,8 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
     private final ArrayList<SuperItemData> ingredients = new ArrayList<>();
     private SuperItemStack[] ingredientItems;
 
+    private final ArrayList<SuperItemStack> returnItems = new ArrayList<>();
+
     public ShapelessSuperCraftRecipe(String id) {
         this.id = id;
     }
@@ -96,6 +98,15 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
     @Override
     public ItemStack getResult() {
         return getResultClass().getSuperItem();
+    }
+
+    @Override
+    public ArrayList<SuperItemStack> getReturnItems() {
+        return returnItems;
+    }
+
+    public void addReturnItem(SuperItemStack itemStack) {
+        returnItems.add(itemStack);
     }
 
 }
