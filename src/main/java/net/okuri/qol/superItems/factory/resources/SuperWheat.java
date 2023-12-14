@@ -58,9 +58,9 @@ public class SuperWheat extends SuperResource {
         this.rarity = SuperItem.getRarity(this.x, this.y, this.z);
         if (temp <= 0) {
             this.setSuperItemType(SuperItemType.RYE);
-        } else if (temp <= 0.70) {
+        } else if (temp <= 0.60) {
             this.setSuperItemType(SuperItemType.BARLEY);
-        } else if (temp <= 0.85) {
+        } else if (humid <= 0.60) {
             this.setSuperItemType(SuperItemType.WHEAT);
         } else {
             this.setSuperItemType(SuperItemType.RICE);

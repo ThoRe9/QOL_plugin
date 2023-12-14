@@ -5,6 +5,8 @@ import net.okuri.qol.QOL;
 import org.bukkit.Bukkit;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,7 +62,7 @@ public class Help {
             writer.close();
             Bukkit.getLogger().info("Created help.json");
         }
-        Reader reader = new FileReader(file);
+        Reader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(file.toPath()), StandardCharsets.UTF_8));
         Pages pages = gson.fromJson(reader, Pages.class);
         Help.pages.clear();
         for (Page page : pages.getPages()) {
@@ -75,19 +77,21 @@ public class Help {
         File file = new File(QOL.getPlugin().getDataFolder().getAbsolutePath() + "/help.json");
         if (file.exists()) {
             file.delete();
-        } else {
-            // resource/help.jsonをコピーする
-            file.getParentFile().mkdir();
-            file.createNewFile();
-            InputStream inputStream = QOL.getPlugin().getResource("help.json");
-            OutputStream outputStream = new FileOutputStream(file);
-            byte[] buffer = new byte[1024];
-            int length;
-            while ((length = inputStream.read(buffer)) > 0) {
-                outputStream.write(buffer, 0, length);
-            }
-            Bukkit.getLogger().info("Created help.json");
         }
+
+        // resource/help.jsonをコピーする
+        file.getParentFile().mkdir();
+        file.createNewFile();
+        InputStream inputStream = QOL.getPlugin().getResource("help.json");
+        OutputStream outputStream = new FileOutputStream(file);
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) > 0) {
+            outputStream.write(buffer, 0, length);
+        }
+        Bukkit.getLogger().info("Created help.json");
+        loadPage();
+
 
     }
 

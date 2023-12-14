@@ -1,8 +1,8 @@
 package net.okuri.qol;
 
 import net.okuri.qol.help.Help;
+import net.okuri.qol.help.HelpCommand;
 import net.okuri.qol.help.HelpContent;
-import net.okuri.qol.help.HelpController;
 import net.okuri.qol.help.Page;
 import net.okuri.qol.listener.*;
 import net.okuri.qol.qolCraft.distillation.DistillationController;
@@ -41,6 +41,8 @@ import org.bukkit.Tag;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.io.IOException;
 
 
 public final class QOL extends JavaPlugin {
@@ -411,7 +413,7 @@ public final class QOL extends JavaPlugin {
         getCommand("superwheat").setExecutor(new Commands(this));
         getCommand("alc").setExecutor(new Commands(this));
         getCommand("producer").setExecutor(new Commands(this));
-        getCommand("qolhelp").setExecutor(new HelpController());
+        getCommand("qolhelp").setExecutor(new HelpCommand());
 
         // bukkitRunnableを起動
         Alcohol alc = new Alcohol(this);
@@ -434,6 +436,12 @@ public final class QOL extends JavaPlugin {
         content2.setRecipeID("whisky_ingredient");
         page.addContent(content2);
         Help.addPage(page);
+        try {
+            Help.setDefaultPages();
+            Help.loadPage();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
         getLogger().info("QOL Plugin Enabled");

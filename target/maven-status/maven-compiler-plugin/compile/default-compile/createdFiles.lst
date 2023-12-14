@@ -4,6 +4,7 @@ net\okuri\qol\superItems\factory\drinks\whisky\AleBeer.class
 net\okuri\qol\listener\ConsumeListener.class
 net\okuri\qol\qolCraft\superCraft\SuperRecipe.class
 net\okuri\qol\event\DistributionEvent.class
+net\okuri\qol\help\GenerateDefaultHelp.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftable.class
 net\okuri\qol\qolCraft\distillation\Distillable.class
 net\okuri\qol\superItems\factory\resources\SuperApple.class
@@ -61,6 +62,7 @@ net\okuri\qol\qolCraft\distillation\DistillationController.class
 net\okuri\qol\qolCraft\calcuration\PotionEffectCalcuration.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftController.class
 net\okuri\qol\superItems\factory\CraftableXYZItem.class
+net\okuri\qol\help\HelpCommand.class
 net\okuri\qol\listener\InteractListener$1.class
 net\okuri\qol\PDCKey.class
 net\okuri\qol\QOL.class
@@ -84,7 +86,6 @@ net\okuri\qol\qolCraft\calcuration\DiscontinuityDurationCalcuration.class
 net\okuri\qol\qolCraft\calcuration\Calcuration.class
 net\okuri\qol\superItems\factory\drinks\sake\SakeBottle.class
 net\okuri\qol\superItems\factory\drinks\sake\Ochoko.class
-net\okuri\qol\help\HelpController.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake.class
 net\okuri\qol\qolCraft\maturation\MaturationController.class
 net\okuri\qol\LoreGenerator.class

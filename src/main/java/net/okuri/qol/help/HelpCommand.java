@@ -9,16 +9,18 @@ import net.okuri.qol.ChatGenerator;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 
-public class HelpController implements CommandExecutor {
+public class HelpCommand implements CommandExecutor {
 
 
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (args.length == 0) {
             // 登録されているpage 一覧を表示する
+            sendMessage(sender, "");
             sendMessage(sender, "登録されているページ一覧 (クリックで表示)");
             for (Page page : Help.getPages().values()) {
                 Component c = Component.text(" ・").color(NamedTextColor.GRAY).decorate(TextDecoration.BOLD)
@@ -60,13 +62,18 @@ public class HelpController implements CommandExecutor {
             sendMessage(sender, "そのページ数は存在しません!");
             return;
         }
+        Component returnButton = Component.text("■").color(NamedTextColor.GREEN).decorate(TextDecoration.BOLD)
+                .clickEvent(ClickEvent.runCommand("/qolhelp"))
+                .hoverEvent(HoverEvent.showText(Component.text("クリックで戻る : ").color(NamedTextColor.GRAY)));
         Component[] pageMove = getPageMoveComponent(page.getTitle(), pageInt, page.getPages());
-        Component title = Component.text("----------").color(NamedTextColor.GRAY).decoration(TextDecoration.BOLD, false)
+        Component title = Component.empty()
+                .append(returnButton)
+                .append(Component.text("----------").color(NamedTextColor.GRAY).decoration(TextDecoration.BOLD, false)
                 .append(pageMove[0])
                 .append(Component.text(" " + page.getTitle() + " :").color(NamedTextColor.GREEN).decoration(TextDecoration.BOLD, false))
                 .append(Component.text(" " + (pageInt + 1) + "/" + page.getPages() + " ").color(NamedTextColor.GRAY).decoration(TextDecoration.BOLD, true)
                         .append(pageMove[1])
-                        .append(Component.text("----------").color(NamedTextColor.GRAY).decoration(TextDecoration.BOLD, false)));
+                        .append(Component.text("----------").color(NamedTextColor.GRAY).decoration(TextDecoration.BOLD, false))));
         sendMessage(sender, title);
         ArrayList<Component> contents = page.getContents(pageInt);
         for (Component content : contents) {

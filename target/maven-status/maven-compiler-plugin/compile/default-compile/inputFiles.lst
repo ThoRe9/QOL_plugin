@@ -29,6 +29,7 @@ C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\producerInfo\Produce
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\foods\BarleyBread.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\listener\InteractListener.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\resources\SuperPotato.java
+C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\help\HelpCommand.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\sake\Ochoko.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\listener\EventListener.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\resources\SuperWheat.java
@@ -82,11 +83,11 @@ C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\t
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\qolCraft\superCraft\SuperRecipe.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\help\Page.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\event\QOLSignCreateEvent.java
+C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\help\GenerateDefaultHelp.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\spirits\RumStraight.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\sake\ShochuOchoko.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\whisky\WhiskyWithIce.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\LoreGenerator.java
-C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\help\HelpController.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\LiquorIngredient.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\ingredient\Koji.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\resources\SampleResource.java

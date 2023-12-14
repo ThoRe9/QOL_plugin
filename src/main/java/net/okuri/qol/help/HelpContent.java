@@ -62,7 +62,6 @@ public class HelpContent {
             contents.add(first);
             contents.addAll(shapeComponents);
             contents.addAll(ingredientsComponents);
-            contents.add(Component.text("----------").color(NamedTextColor.GRAY));
         }
 
         return contents;
