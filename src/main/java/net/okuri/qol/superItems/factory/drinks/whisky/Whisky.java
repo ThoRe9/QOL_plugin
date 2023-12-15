@@ -42,7 +42,8 @@ public class Whisky extends SuperItem implements Maturable, Distributable {
     private double alcoholLevel;
     private double amplifier;
     private double alcoholPer = 0.40;
-    private final double amount = 750.0;
+    private final double amount = 400.0;
+    private final double durationPerAmount = 20 * 60 * 30 / 400.0;
 
     public Whisky() {
         super(SuperItemType.WHISKY);

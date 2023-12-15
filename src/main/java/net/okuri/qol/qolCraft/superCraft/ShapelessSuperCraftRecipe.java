@@ -40,7 +40,7 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
             if (itemStack != null) {
                 for (int j = 0; j < ingredients.size(); j++) {
                     if (isSeen[j]) {
-                        continue;
+                        return false;
                     }
                     SuperItemData ingredient = ingredients.get(j);
                     if (itemStack.isSimilar(ingredient)) {
@@ -52,6 +52,7 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
                     if (j == ingredients.size() - 1) {
                         return false;
                     }
+                    return false;
                 }
             }
         }

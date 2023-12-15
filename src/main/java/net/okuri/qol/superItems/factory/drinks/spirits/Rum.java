@@ -9,14 +9,14 @@ import org.bukkit.potion.PotionEffectType;
 
 public class Rum extends Liquor {
     public Rum() {
-        super(SuperItemType.RUM, 40, 0.5, 700, 0.40, PotionEffectType.WATER_BREATHING, PotionEffectType.DOLPHINS_GRACE, PotionEffectType.CONDUIT_POWER);
+        super(SuperItemType.RUM, 40, 0.5, 420, 0.40, PotionEffectType.WATER_BREATHING, PotionEffectType.DOLPHINS_GRACE, PotionEffectType.CONDUIT_POWER);
         super.setDisplayName(Component.text("Ram").color(NamedTextColor.AQUA));
         super.setInfoLore("Delicious and refreshing, Ram is a popular drink in the desert.");
         super.setPotionColor(Color.fromRGB(0xEA5C03));
     }
 
     public Rum(SuperItemType type) {
-        super(type, 40, 0.5, 700, 0.40, PotionEffectType.WATER_BREATHING, PotionEffectType.DOLPHINS_GRACE, PotionEffectType.CONDUIT_POWER);
+        super(type, 40, 0.5, 420, 0.40, PotionEffectType.WATER_BREATHING, PotionEffectType.DOLPHINS_GRACE, PotionEffectType.CONDUIT_POWER);
         super.setDisplayName(Component.text("Ram").color(NamedTextColor.AQUA));
         super.setInfoLore("Delicious and refreshing, Ram is a popular drink in the desert.");
         super.setPotionColor(Color.fromRGB(0xEA5C03));
