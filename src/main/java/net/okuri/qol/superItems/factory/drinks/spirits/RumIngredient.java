@@ -10,7 +10,7 @@ public class RumIngredient extends LiquorIngredient {
     public RumIngredient() {
         super(SuperItemType.RUM_INGREDIENT, new Rum());
         super.addMainIngredient(SuperItemType.MOLASSES);
-        super.setAlcoholAmount(1000);
+        super.setAlcoholAmount(600);
         super.setAlcoholPercentage(0.01);
         super.setDisplayName(Component.text("Ram Ingredient").color(NamedTextColor.AQUA));
         super.setInfoLore("You need to distill this to make Ram.");

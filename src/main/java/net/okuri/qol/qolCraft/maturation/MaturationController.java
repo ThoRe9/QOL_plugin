@@ -141,7 +141,7 @@ public class MaturationController implements Listener {
         SuperItemStack resultStack = ((SuperItem) result).getSuperItem();
         ProducerInfo producerInfo = new ProducerInfo(player, 1.0, resultStack.getSuperItemData());
         for (SuperItemStack ingredient : ingredients) {
-            player.getInventory().addItem(ingredient);
+
             if (ingredient.hasProducerInfo()) {
                 producerInfo.addChild(ingredient.getProducerInfo());
             }
