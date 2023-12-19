@@ -7,11 +7,11 @@ import net.okuri.qol.superItems.factory.drinks.Horoyoi;
 import net.okuri.qol.superItems.factory.drinks.LiverHelper;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
+import net.okuri.qol.superItems.factory.drinks.newWhisky.*;
 import net.okuri.qol.superItems.factory.drinks.sake.*;
 import net.okuri.qol.superItems.factory.drinks.spirits.Rum;
 import net.okuri.qol.superItems.factory.drinks.spirits.RumIngredient;
 import net.okuri.qol.superItems.factory.drinks.spirits.RumStraight;
-import net.okuri.qol.superItems.factory.drinks.whisky.*;
 import net.okuri.qol.superItems.factory.foods.Bread;
 import net.okuri.qol.superItems.factory.ingredient.Koji;
 import net.okuri.qol.superItems.factory.ingredient.Molasses;
@@ -130,15 +130,15 @@ public enum SuperItemType {
             case POTATO:
                 return new SuperPotato();
             case WHISKY_INGREDIENT:
-                return new WhiskyIngredient(1);
+                return new WhiskyIngredient();
             case UNDISTILLED_WHISKY_INGREDIENT:
-                return new WhiskyIngredient(0);
+                return new UndistilledWhiskyIngredient();
             case WHISKY:
                 return new Whisky();
             case WHISKY_WITH_ICE:
                 return new WhiskyWithIce();
             case HIGHBALL:
-                return new Highball();
+                return new HighBall();
             case BREAD:
                 return new Bread();
             case BEER_INGREDIENT:

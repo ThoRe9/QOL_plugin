@@ -21,11 +21,11 @@ import net.okuri.qol.superItems.factory.drinks.Horoyoi;
 import net.okuri.qol.superItems.factory.drinks.LiverHelper;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
+import net.okuri.qol.superItems.factory.drinks.newWhisky.*;
 import net.okuri.qol.superItems.factory.drinks.sake.*;
 import net.okuri.qol.superItems.factory.drinks.spirits.Rum;
 import net.okuri.qol.superItems.factory.drinks.spirits.RumIngredient;
 import net.okuri.qol.superItems.factory.drinks.spirits.RumStraight;
-import net.okuri.qol.superItems.factory.drinks.whisky.*;
 import net.okuri.qol.superItems.factory.foods.BarleyBread;
 import net.okuri.qol.superItems.factory.foods.Bread;
 import net.okuri.qol.superItems.factory.foods.RyeBread;
@@ -70,17 +70,16 @@ public final class QOL extends JavaPlugin {
         whiskyRecipe.addIngredient('B', Material.WATER_BUCKET);
         whiskyRecipe.addIngredient('C', SuperItemType.COAL);
         whiskyRecipe.addReturnItem(new SuperItemStack(Material.BUCKET));
-        whiskyRecipe.setResultClass(new WhiskyIngredient());
+        whiskyRecipe.setResultClass(new UndistilledWhiskyIngredient());
         superCraft.addSuperCraftRecipe(whiskyRecipe);
 
         // WhiskyWithIce
-        SuperCraftRecipe whiskyWithIceRecipe = new SuperCraftRecipe("whisky_with_ice");
-        whiskyWithIceRecipe.setShape(new String[]{" I ", " W ", "BBB"});
-        whiskyWithIceRecipe.addIngredient('W', SuperItemType.WHISKY);
-        whiskyWithIceRecipe.addIngredient('I', Material.ICE);
-        whiskyWithIceRecipe.addIngredient('B', Material.GLASS_BOTTLE);
-        whiskyWithIceRecipe.setResultClass(new WhiskyWithIce());
-        superCraft.addSuperCraftRecipe(whiskyWithIceRecipe);
+        DistributionCraftRecipe whiskyWithIceRecipe = new DistributionCraftRecipe("whisky_with_ice");
+        whiskyWithIceRecipe.setDistribution(new Whisky());
+        whiskyWithIceRecipe.setReciver(new WhiskyWithIce());
+        whiskyWithIceRecipe.setBottle(Material.GLASS_BOTTLE);
+        whiskyWithIceRecipe.addOtherIngredient(Material.ICE);
+        superCraft.addDistributionCraftRecipe(whiskyWithIceRecipe);
 
         // Soda
         SuperCraftRecipe sodaRecipe = new SuperCraftRecipe("soda");
@@ -93,13 +92,12 @@ public final class QOL extends JavaPlugin {
         superCraft.addSuperCraftRecipe(sodaRecipe);
 
         //Highball
-        SuperCraftRecipe highballRecipe = new SuperCraftRecipe("highball");
-        highballRecipe.setShape(new String[]{" I ", " W ", "SSS"});
-        highballRecipe.addIngredient('W', SuperItemType.WHISKY);
-        highballRecipe.addIngredient('I', Material.ICE);
-        highballRecipe.addIngredient('S', SuperItemType.SODA);
-        highballRecipe.setResultClass(new Highball());
-        superCraft.addSuperCraftRecipe(highballRecipe);
+        DistributionCraftRecipe highballRecipe = new DistributionCraftRecipe("highball");
+        highballRecipe.setDistribution(new Whisky());
+        highballRecipe.setReciver(new HighBall());
+        highballRecipe.setBottle(SuperItemType.SODA);
+        highballRecipe.addOtherIngredient(Material.ICE);
+        superCraft.addDistributionCraftRecipe(highballRecipe);
 
         // Bread
         SuperCraftRecipe superBreadRecipe = new SuperCraftRecipe("bread");
@@ -312,10 +310,17 @@ public final class QOL extends JavaPlugin {
         whiskyRecipe.addIngredient(SuperItemType.WHISKY_INGREDIENT);
         maturation.addMaturationRecipe(whiskyRecipe);
 
-        // Beer
-        MaturationRecipe beerRecipe = new MaturationRecipe("Beer", new Beer());
+        // Ale Beer
+        MaturationRecipe beerRecipe = new MaturationRecipe("Beer", new AleBeer());
+        beerRecipe.setMinTemp(5.0);
         beerRecipe.addIngredient(SuperItemType.BEER_INGREDIENT);
         maturation.addMaturationRecipe(beerRecipe);
+
+        // Lager Beer
+        MaturationRecipe beerRecipe2 = new MaturationRecipe("Beer", new LagerBeer());
+        beerRecipe2.setMaxTemp(4.999);
+        beerRecipe2.addIngredient(SuperItemType.BEER_INGREDIENT);
+        maturation.addMaturationRecipe(beerRecipe2);
 
         // Sake
         MaturationRecipe sakeRecipe = new MaturationRecipe("Sake", new Sake1ShoBottle());
@@ -330,8 +335,11 @@ public final class QOL extends JavaPlugin {
         // Whisky Ingredient
         DistillationRecipe whiskyIngredientRecipe = new DistillationRecipe("Whisky Ingredient", new WhiskyIngredient());
         whiskyIngredientRecipe.addIngredient(SuperItemType.WHISKY_INGREDIENT);
-        whiskyIngredientRecipe.addIngredient(SuperItemType.UNDISTILLED_WHISKY_INGREDIENT);
         distillation.addDistillationRecipe(whiskyIngredientRecipe);
+
+        DistillationRecipe whiskyIngredientRecipe2 = new DistillationRecipe("Whisky Ingredient", new WhiskyIngredient());
+        whiskyIngredientRecipe2.addIngredient(SuperItemType.UNDISTILLED_WHISKY_INGREDIENT);
+        distillation.addDistillationRecipe(whiskyIngredientRecipe2);
 
         // hot sake
         DistillationRecipe hotSakeRecipe = new DistillationRecipe("Hot Sake", new HotSake());

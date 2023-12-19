@@ -41,10 +41,9 @@ public class DistributionCraftRecipe implements SuperRecipe {
         // 同時にbigBottleType,bottle以外のアイテムがあればfalseを返す。
         // bottleの数も数える
         // 上記のどれでもない場合、OtherIngredientの物があるか確認。もしあったら、それを返す。
-        ArrayList<SuperItemData> lastOtherIngredients = new ArrayList<>();
         ArrayList<ItemStack> superBottles = new ArrayList<>();
         SuperItemStack[] otherIngredientStacks = new SuperItemStack[this.otherIngredients.size()];
-        lastOtherIngredients.addAll(otherIngredients);
+        ArrayList<SuperItemData> lastOtherIngredients = new ArrayList<>(otherIngredients);
         int smallBottleCount = 0;
         int bigBottleCount = 0;
         SuperItemStack distributionItem = null;
@@ -75,12 +74,18 @@ public class DistributionCraftRecipe implements SuperRecipe {
                 continue;
             }
             // otherIngredientの処理
-            if (lastOtherIngredients.contains(itemStack.getSuperItemType())) {
-                otherIngredientStacks[lastOtherIngredients.indexOf(itemStack.getSuperItemType())] = itemStack;
-                lastOtherIngredients.remove(itemStack.getSuperItemType());
-                //Bukkit.getLogger().info("otherIngredient");
-            } else{
-                //Bukkit.getLogger().info("anything not found");
+            boolean flag = false;
+            for (SuperItemData otherIngredient : lastOtherIngredients) {
+                if (itemStack.isSimilar(otherIngredient)) {
+                    //Bukkit.getLogger().info("otherIngredient");
+                    lastOtherIngredients.remove(otherIngredient);
+                    otherIngredientStacks[otherIngredients.indexOf(otherIngredient)] = itemStack;
+                    flag = true;
+                    break;
+                }
+            }
+            if (!flag) {
+                //Bukkit.getLogger().info("not otherIngredient");
                 return false;
             }
         }
@@ -108,7 +113,6 @@ public class DistributionCraftRecipe implements SuperRecipe {
             index++;
         }
 
-        distribution.setMatrix(this.matrix,id);
         //Bukkit.getLogger().info("isDistributable");
         return distribution.isDistributable(smallBottleAmount, smallBottleCount);
         //Bukkit.getLogger().info("is not Distributable");

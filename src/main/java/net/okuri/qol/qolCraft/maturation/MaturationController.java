@@ -141,7 +141,7 @@ public class MaturationController implements Listener {
         SuperItemStack resultStack = ((SuperItem) result).getSuperItem();
         ProducerInfo producerInfo = new ProducerInfo(player, 1.0, resultStack.getSuperItemData());
         for (SuperItemStack ingredient : ingredients) {
-            player.getInventory().addItem(ingredient);
+
             if (ingredient.hasProducerInfo()) {
                 producerInfo.addChild(ingredient.getProducerInfo());
             }
@@ -206,6 +206,12 @@ public class MaturationController implements Listener {
                 return false;
             }
         }
+        // maxTemp. minTempの確認
+        double temp = barrel.getWorld().getTemperature(barrel.getX(), barrel.getY(), barrel.getZ());
+        if (temp > recipe.getMaxTemp() || temp < recipe.getMinTemp()) {
+            return false;
+        }
+
         return true;
     }
 }
