@@ -206,6 +206,12 @@ public class MaturationController implements Listener {
                 return false;
             }
         }
+        // maxTemp. minTempの確認
+        double temp = barrel.getWorld().getTemperature(barrel.getX(), barrel.getY(), barrel.getZ());
+        if (temp > recipe.getMaxTemp() || temp < recipe.getMinTemp()) {
+            return false;
+        }
+
         return true;
     }
 }

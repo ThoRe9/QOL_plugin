@@ -26,8 +26,6 @@ import net.okuri.qol.superItems.factory.drinks.sake.*;
 import net.okuri.qol.superItems.factory.drinks.spirits.Rum;
 import net.okuri.qol.superItems.factory.drinks.spirits.RumIngredient;
 import net.okuri.qol.superItems.factory.drinks.spirits.RumStraight;
-import net.okuri.qol.superItems.factory.drinks.whisky.Beer;
-import net.okuri.qol.superItems.factory.drinks.whisky.BeerIngredient;
 import net.okuri.qol.superItems.factory.foods.BarleyBread;
 import net.okuri.qol.superItems.factory.foods.Bread;
 import net.okuri.qol.superItems.factory.foods.RyeBread;
@@ -312,10 +310,17 @@ public final class QOL extends JavaPlugin {
         whiskyRecipe.addIngredient(SuperItemType.WHISKY_INGREDIENT);
         maturation.addMaturationRecipe(whiskyRecipe);
 
-        // Beer
-        MaturationRecipe beerRecipe = new MaturationRecipe("Beer", new Beer());
+        // Ale Beer
+        MaturationRecipe beerRecipe = new MaturationRecipe("Beer", new AleBeer());
+        beerRecipe.setMinTemp(5.0);
         beerRecipe.addIngredient(SuperItemType.BEER_INGREDIENT);
         maturation.addMaturationRecipe(beerRecipe);
+
+        // Lager Beer
+        MaturationRecipe beerRecipe2 = new MaturationRecipe("Beer", new LagerBeer());
+        beerRecipe2.setMaxTemp(4.999);
+        beerRecipe2.addIngredient(SuperItemType.BEER_INGREDIENT);
+        maturation.addMaturationRecipe(beerRecipe2);
 
         // Sake
         MaturationRecipe sakeRecipe = new MaturationRecipe("Sake", new Sake1ShoBottle());

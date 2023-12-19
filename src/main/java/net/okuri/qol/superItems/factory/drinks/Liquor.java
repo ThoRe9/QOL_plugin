@@ -407,6 +407,24 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
             double buff = Math.pow(days / defaultMaturationDays, 0.3 - 0.1 * Math.cos(2 * Math.PI * humid));
             super.setTasteBuff(super.getTasteBuff() * buff);
             super.setSmellBuff(super.getSmellBuff() * buff);
+        } else if (maturationType == MaturationType.COPY_AND_DIVLINE) {
+            SuperLiquorStack liquor = new SuperLiquorStack(ingredients.get(0));
+            super.setX(liquor.getX());
+            super.setY(liquor.getY());
+            super.setZ(liquor.getZ());
+            super.setSmell(liquor.getSmell());
+            super.setTaste(liquor.getTaste());
+            super.setCompatibility(liquor.getCompatibility());
+            this.alcoholAmount = liquor.getAlcoholAmount();
+            this.temp = liquor.getTemp();
+            this.humid = liquor.getHumid();
+            this.biomeId = liquor.getBiomeId();
+            this.producer = liquor.getProducer();
+            this.copyVariable = true;
+            double days = Duration.between(start, end).toDays();
+            double buff = Math.pow(days / defaultMaturationDays, 0.3 - 0.1 * Math.cos(2 * Math.PI * humid));
+            super.setTasteBuff(super.getTasteBuff() * buff);
+            super.setSmellBuff(super.getSmellBuff() * buff);
         }
 
     }
@@ -615,6 +633,18 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
         this.distributionIngredients.put(type, buffType);
     }
 
+    public void setxEffectType(PotionEffectType xEffectType) {
+        this.xEffectType = xEffectType;
+    }
+
+    public void setyEffectType(PotionEffectType yEffectType) {
+        this.yEffectType = yEffectType;
+    }
+
+    public void setzEffectType(PotionEffectType zEffectType) {
+        this.zEffectType = zEffectType;
+    }
+
     public enum DistributionBuffType {
         ALL(0.01),
         X(0.03),
@@ -638,7 +668,8 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
 
     public enum MaturationType {
         NORMAL,
-        DIVLINE
+        DIVLINE,
+        COPY_AND_DIVLINE;
 
     }
 

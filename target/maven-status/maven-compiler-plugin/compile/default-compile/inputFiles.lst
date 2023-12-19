@@ -18,10 +18,11 @@ C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\QOL.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\itemStack\SuperLiquorStack.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\sake\Sake.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\event\SuperCraftEvent.java
-C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\whisky\AleBeer.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\SuperItemTag.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\ProtectedBlock.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\qolCraft\distillation\DistillationController.java
+C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\newWhisky\AleBeer.java
+C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\newWhisky\LagerBeer.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\SuperItem.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\event\MaturationEndEvent.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\newWhisky\UndistilledWhiskyIngredient.java
@@ -34,6 +35,7 @@ C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\d
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\listener\EventListener.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\resources\SuperWheat.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\newWhisky\WhiskyIngredient.java
+C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\newWhisky\Beer.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\qolCraft\resource\ResourceController.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\LiverHelper.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\DefaultItem.java
@@ -50,7 +52,6 @@ C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\qolCraft\calcuration
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\CraftableXYZItem.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\sake\HotSake.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\qolCraft\distillation\Distillable.java
-C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\whisky\LagerBeer.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\tools\EnvGetter.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\sake\ShochuBottle.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\itemStack\SuperLiquorIngredientStack.java
@@ -78,10 +79,10 @@ C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\AlcBar.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\resources\SugarCane.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\qolCraft\superCraft\SuperCraftController.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\qolCraft\maturation\MaturationController.java
+C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\newWhisky\BeerIngredient.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\resources\SuperCoal.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\resources\Barley.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\qolCraft\calcuration\Calcuration.java
-C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\whisky\Beer.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\tools\FarmerToolAdapter.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\qolCraft\superCraft\SuperRecipe.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\help\Page.java
@@ -95,7 +96,6 @@ C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\i
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\resources\SampleResource.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\SuperItemType.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\help\Help.java
-C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\whisky\BeerIngredient.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\tools\FarmerTool.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\event\DistillationEvent.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\listener\Food.java

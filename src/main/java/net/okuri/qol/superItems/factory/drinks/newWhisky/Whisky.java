@@ -13,6 +13,8 @@ public class Whisky extends Liquor {
         super.addMaturationIngredient(SuperItemType.WHISKY_INGREDIENT);
         super.setMaturationType(MaturationType.DIVLINE);
         super.setBaseDurationAmp(0.9);
+        super.setCompatibilityMax(1.0);
+        super.setCompatibilityMin(0.5);
         super.setDisplayName(Component.text("Whisky").color(NamedTextColor.GOLD));
         super.setInfoLore("Barley whisky.");
         super.setPotionColor(Color.fromBGR(0, 80 / (1 + (int) super.getMaturationDays()), 255 / (1 + (int) super.getMaturationDays())));

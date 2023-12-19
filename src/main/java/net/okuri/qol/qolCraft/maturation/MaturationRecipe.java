@@ -12,6 +12,25 @@ public class MaturationRecipe {
     private final Maturable resultClass;
     private final String recipeName;
 
+    private double maxTemp = 1000;
+    private double minTemp = -1000;
+
+    public double getMaxTemp() {
+        return maxTemp;
+    }
+
+    public void setMaxTemp(double maxTemp) {
+        this.maxTemp = maxTemp;
+    }
+
+    public double getMinTemp() {
+        return minTemp;
+    }
+
+    public void setMinTemp(double minTemp) {
+        this.minTemp = minTemp;
+    }
+
     public MaturationRecipe(String name, Maturable resultClass) {
         this.resultClass = resultClass;
         this.recipeName = name;

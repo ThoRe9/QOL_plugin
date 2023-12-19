@@ -13,6 +13,7 @@ public class Rum extends Liquor {
         super.setDisplayName(Component.text("Ram").color(NamedTextColor.AQUA));
         super.setInfoLore("Delicious and refreshing, Ram is a popular drink in the desert.");
         super.setPotionColor(Color.fromRGB(0xEA5C03));
+        super.setCompatibilityMin(0.75);
     }
 
     public Rum(SuperItemType type) {
@@ -20,5 +21,6 @@ public class Rum extends Liquor {
         super.setDisplayName(Component.text("Ram").color(NamedTextColor.AQUA));
         super.setInfoLore("Delicious and refreshing, Ram is a popular drink in the desert.");
         super.setPotionColor(Color.fromRGB(0xEA5C03));
+        super.setCompatibilityMin(0.75);
     }
 }
