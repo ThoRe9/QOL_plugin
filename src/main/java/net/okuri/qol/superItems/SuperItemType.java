@@ -3,15 +3,16 @@ package net.okuri.qol.superItems;
 
 import net.okuri.qol.superItems.factory.DefaultItem;
 import net.okuri.qol.superItems.factory.SuperItem;
+import net.okuri.qol.superItems.factory.adapter.FishermanAdapter;
 import net.okuri.qol.superItems.factory.drinks.Horoyoi;
 import net.okuri.qol.superItems.factory.drinks.LiverHelper;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
-import net.okuri.qol.superItems.factory.drinks.newWhisky.*;
 import net.okuri.qol.superItems.factory.drinks.sake.*;
 import net.okuri.qol.superItems.factory.drinks.spirits.Rum;
 import net.okuri.qol.superItems.factory.drinks.spirits.RumIngredient;
 import net.okuri.qol.superItems.factory.drinks.spirits.RumStraight;
+import net.okuri.qol.superItems.factory.drinks.whisky.*;
 import net.okuri.qol.superItems.factory.foods.Bread;
 import net.okuri.qol.superItems.factory.ingredient.Koji;
 import net.okuri.qol.superItems.factory.ingredient.Molasses;
@@ -64,7 +65,8 @@ public enum SuperItemType {
     FARMER_TOOL("FARMER_TOOL", 0, Material.PAPER, SuperItemTag.TOOL),
     MINER_TOOL("MINER_TOOL", 0, Material.PAPER, SuperItemTag.TOOL),
     STRONG_ZERO("STRONG_ZERO", 0, Material.POTION, SuperItemTag.LIQUOR),
-    LIVER_HELPER("LIVER_HELPER", 0, Material.POTION, SuperItemTag.DRINK);
+    LIVER_HELPER("LIVER_HELPER", 0, Material.POTION, SuperItemTag.DRINK),
+    FISHERMAN_ADAPTER("FISHERMAN_ADAPTER", 0, Material.PUFFERFISH, SuperItemTag.LIQUOR_ADAPTOR);
 
     private final String type;
     private final int customModelData;
@@ -175,6 +177,8 @@ public enum SuperItemType {
                 return new DefaultItem(type);
             case LIVER_HELPER:
                 return new LiverHelper();
+            case FISHERMAN_ADAPTER:
+                return new FishermanAdapter();
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }

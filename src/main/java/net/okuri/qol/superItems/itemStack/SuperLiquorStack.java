@@ -3,6 +3,7 @@ package net.okuri.qol.superItems.itemStack;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.factory.adapter.AdapterID;
 import net.okuri.qol.superItems.factory.drinks.Liquor;
 import org.bukkit.Color;
 import org.bukkit.inventory.ItemStack;
@@ -12,6 +13,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SuperLiquorStack extends SuperXYZStack {
@@ -37,6 +39,7 @@ public class SuperLiquorStack extends SuperXYZStack {
     private int baseDuration;
     private double alcoholAmount;
     private double alcoholPercentage;
+    private ArrayList<AdapterID> adapters = new ArrayList<>();
 
     private Color potionColor;
 
@@ -315,4 +318,17 @@ public class SuperLiquorStack extends SuperXYZStack {
         this.setItemMeta(meta);
     }
 
+    public void addAdapter(AdapterID adapter) {
+        ItemMeta meta = super.getItemMeta();
+        ArrayList<AdapterID> ids = PDCC.getAdapters(meta);
+        ids.add(adapter);
+        PDCC.setAdapters(meta, ids);
+        super.setItemMeta(meta);
+        this.adapters.add(adapter);
+    }
+
+    public ArrayList<AdapterID> getAdapters() {
+        ItemMeta meta = super.getItemMeta();
+        return this.adapters;
+    }
 }

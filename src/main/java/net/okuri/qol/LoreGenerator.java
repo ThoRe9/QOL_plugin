@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.okuri.qol.superItems.factory.adapter.AdapterID;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -36,6 +37,23 @@ public class LoreGenerator {
     private int maturationDays;
     private float saturation;
     private int foodLevel;
+    private final ArrayList<AdapterID> adapterIDS = new ArrayList<>();
+    private double xAddition;
+    private double xAmplifier = 1;
+    private double yAddition;
+    private double yAmplifier = 1;
+    private double zAddition;
+    private double zAmplifier = 1;
+    private double tasteAddition;
+    private double tasteAmplifier = 1;
+    private double smellAddition;
+    private double smellAmplifier = 1;
+    private double compatibilityAddition;
+    private double compatibilityAmplifier = 1;
+    private double amountAddition;
+    private double amountAmplifier = 1;
+    private double alcPercentAddition;
+    private double alcPercentAmplifier = 1;
 
     public ArrayList<Component> generate() {
         ArrayList<Component> components = new ArrayList<>();
@@ -87,6 +105,63 @@ public class LoreGenerator {
         if (saturation != 0) {
             components.add(Component.text("Saturation").color(aColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false).append(Component.text(saturation).color(aColor).decoration(TextDecoration.ITALIC, false))));
         }
+        if (xAddition != 0 || xAmplifier != 1 || yAddition != 0 || yAmplifier != 1 || zAddition != 0 || zAmplifier != 1 || tasteAddition != 0 || tasteAmplifier != 1 || smellAddition != 0 || smellAmplifier != 1 || compatibilityAddition != 0 || compatibilityAmplifier != 1 || amountAddition != 0 || amountAmplifier != 1 || alcPercentAddition != 0 || alcPercentAmplifier != 1) {
+            components.add(Component.text("==========").color(baseColor).decoration(TextDecoration.ITALIC, false).append(Component.text("Adapter").color(subColor).decoration(TextDecoration.ITALIC, false).decorate(TextDecoration.BOLD).append(Component.text("==========").color(baseColor).decoration(TextDecoration.ITALIC, false))));
+        }
+        if (xAddition != 0) {
+            components.add(Component.text("X").color(aColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(xAddition >= 0 ? "+" : "").color(aColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(xAddition).color(aColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (xAmplifier != 1) {
+            components.add(Component.text("X").color(aColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text("×").color(aColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(xAmplifier).color(aColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (yAddition != 0) {
+            components.add(Component.text("Y").color(bColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(yAddition >= 0 ? "+" : "").color(bColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(yAddition).color(bColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (yAmplifier != 1) {
+            components.add(Component.text("Y").color(bColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text("×").color(bColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(yAmplifier).color(bColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (zAddition != 0) {
+            components.add(Component.text("Z").color(cColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(zAddition >= 0 ? "+" : "").color(cColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(zAddition).color(cColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (zAmplifier != 1) {
+            components.add(Component.text("Z").color(cColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text("×").color(cColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(zAmplifier).color(cColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (tasteAddition != 0) {
+            components.add(Component.text("Taste").color(aColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(tasteAddition >= 0 ? "+" : "").color(aColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(tasteAddition).color(aColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (tasteAmplifier != 1) {
+            components.add(Component.text("Taste").color(aColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text("×").color(aColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(tasteAmplifier).color(aColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (smellAddition != 0) {
+            components.add(Component.text("Smell").color(bColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(smellAddition >= 0 ? "+" : "").color(bColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(smellAddition).color(bColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (smellAmplifier != 1) {
+            components.add(Component.text("Smell").color(bColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text("×").color(bColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(smellAmplifier).color(bColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (compatibilityAddition != 0) {
+            components.add(Component.text("Compatibility").color(cColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(compatibilityAddition >= 0 ? "+" : "").color(cColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(compatibilityAddition).color(cColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (compatibilityAmplifier != 1) {
+            components.add(Component.text("Compatibility").color(cColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text("×").color(cColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(compatibilityAmplifier).color(cColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (amountAddition != 0) {
+            components.add(Component.text("Amount").color(aColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(amountAddition >= 0 ? "+" : "").color(dColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(amountAddition).color(dColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (amountAmplifier != 1) {
+            components.add(Component.text("Amount").color(aColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text("×").color(dColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(amountAmplifier).color(dColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (alcPercentAddition != 0) {
+            components.add(Component.text("Alcohol Percent").color(bColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(alcPercentAddition >= 0 ? "+" : "").color(aColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(alcPercentAddition).color(aColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (alcPercentAmplifier != 1) {
+            components.add(Component.text("Alcohol Percent").color(bColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text("×").color(aColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(alcPercentAmplifier).color(aColor).decoration(TextDecoration.ITALIC, false)));
+        }
+        if (!adapterIDS.isEmpty()) {
+            components.add(Component.text("==========").color(baseColor).decoration(TextDecoration.ITALIC, false).append(Component.text("Adapter").color(subColor).decoration(TextDecoration.ITALIC, false).decorate(TextDecoration.BOLD).append(Component.text("==========").color(baseColor).decoration(TextDecoration.ITALIC, false))));
+            for (AdapterID adapterID : adapterIDS) {
+                components.add(Component.text(adapterID.getName()).color(dColor).decoration(TextDecoration.ITALIC, false));
+            }
+        }
         if (rarity != 0 || !lore.isEmpty() || !importantLore.isEmpty() || !parametersLabel.isEmpty() || !parametersValue.isEmpty()) {
             components.add(Component.text("==========").color(baseColor).decoration(TextDecoration.ITALIC, false).append(Component.text("Other").color(baseColor).decoration(TextDecoration.ITALIC, false).decorate(TextDecoration.BOLD).append(Component.text("==========").color(baseColor).decoration(TextDecoration.ITALIC, false))));
         }
@@ -103,30 +178,28 @@ public class LoreGenerator {
             }
         }
         if (!lore.isEmpty()) {
-            Iterator<String> iterator = lore.iterator();
-            while (iterator.hasNext()) {
-                components.add(Component.text(iterator.next()).color(baseColor).decoration(TextDecoration.ITALIC, false));
+            for (String s : lore) {
+                components.add(Component.text(s).color(baseColor).decoration(TextDecoration.ITALIC, false));
             }
         }
         if (!importantLore.isEmpty()) {
             components.add(Component.text("==========").color(baseColor).decoration(TextDecoration.ITALIC, false).append(Component.text("Important").color(importantColor).decoration(TextDecoration.ITALIC, false).decorate(TextDecoration.BOLD).append(Component.text("==========").color(baseColor).decoration(TextDecoration.ITALIC, false))));
-            Iterator<String> iterator = importantLore.iterator();
-            while (iterator.hasNext()) {
-                components.add(Component.text(iterator.next()).color(importantColor).decoration(TextDecoration.ITALIC, false));
+            for (String s : importantLore) {
+                components.add(Component.text(s).color(importantColor).decoration(TextDecoration.ITALIC, false));
             }
         }
         return components;
     }
 
     private String getParameterMeter(int value) {
-        String meter = "";
+        StringBuilder meter = new StringBuilder();
         for (int i = 0; i < value; i++) {
             if (i % 10 == 0) {
-                meter += " ";
+                meter.append(" ");
             }
-            meter += "|";
+            meter.append("|");
         }
-        return meter;
+        return meter.toString();
     }
 
     public LoreGenerator setX(double x) {
@@ -191,6 +264,91 @@ public class LoreGenerator {
 
     public LoreGenerator setFoodLevel(int foodLevel) {
         this.foodLevel = foodLevel;
+        return this;
+    }
+
+    public LoreGenerator setxAddition(double xAddition) {
+        this.xAddition = xAddition;
+        return this;
+    }
+
+    public LoreGenerator setxAmplifier(double xAmplifier) {
+        this.xAmplifier = xAmplifier;
+        return this;
+    }
+
+    public LoreGenerator setyAddition(double yAddition) {
+        this.yAddition = yAddition;
+        return this;
+    }
+
+    public LoreGenerator setyAmplifier(double yAmplifier) {
+        this.yAmplifier = yAmplifier;
+        return this;
+    }
+
+    public LoreGenerator setzAddition(double zAddition) {
+        this.zAddition = zAddition;
+        return this;
+    }
+
+    public LoreGenerator setzAmplifier(double zAmplifier) {
+        this.zAmplifier = zAmplifier;
+        return this;
+    }
+
+    public LoreGenerator setTasteAddition(double tasteAddition) {
+        this.tasteAddition = tasteAddition;
+        return this;
+    }
+
+    public LoreGenerator setTasteAmplifier(double tasteAmplifier) {
+        this.tasteAmplifier = tasteAmplifier;
+        return this;
+    }
+
+    public LoreGenerator setSmellAddition(double smellAddition) {
+        this.smellAddition = smellAddition;
+        return this;
+    }
+
+    public LoreGenerator setSmellAmplifier(double smellAmplifier) {
+        this.smellAmplifier = smellAmplifier;
+        return this;
+    }
+
+    public LoreGenerator setCompatibilityAddition(double compatibilityAddition) {
+        this.compatibilityAddition = compatibilityAddition;
+        return this;
+    }
+
+    public LoreGenerator setCompatibilityAmplifier(double compatibilityAmplifier) {
+        this.compatibilityAmplifier = compatibilityAmplifier;
+        return this;
+    }
+
+    public LoreGenerator setAmountAddition(double amountAddition) {
+        this.amountAddition = amountAddition;
+        return this;
+    }
+
+    public LoreGenerator setAmountAmplifier(double amountAmplifier) {
+        this.amountAmplifier = amountAmplifier;
+        return this;
+    }
+
+    public LoreGenerator setAlcPercentAddition(double alcPercentAddition) {
+        this.alcPercentAddition = alcPercentAddition;
+        return this;
+    }
+
+    public LoreGenerator setAlcPercentAmplifier(double alcPercentAmplifier) {
+        this.alcPercentAmplifier = alcPercentAmplifier;
+        return this;
+    }
+
+    public LoreGenerator addAdapterID(AdapterID adapterID) {
+        this.adapterIDS.add(adapterID);
         return this;
     }
 

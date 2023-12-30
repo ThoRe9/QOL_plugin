@@ -17,15 +17,16 @@ import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
 import net.okuri.qol.superItems.SuperItemTag;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.FusionCraft;
+import net.okuri.qol.superItems.factory.adapter.LiquorAdapterCraft;
 import net.okuri.qol.superItems.factory.drinks.Horoyoi;
 import net.okuri.qol.superItems.factory.drinks.LiverHelper;
 import net.okuri.qol.superItems.factory.drinks.Soda;
 import net.okuri.qol.superItems.factory.drinks.StrongZero;
-import net.okuri.qol.superItems.factory.drinks.newWhisky.*;
 import net.okuri.qol.superItems.factory.drinks.sake.*;
 import net.okuri.qol.superItems.factory.drinks.spirits.Rum;
 import net.okuri.qol.superItems.factory.drinks.spirits.RumIngredient;
 import net.okuri.qol.superItems.factory.drinks.spirits.RumStraight;
+import net.okuri.qol.superItems.factory.drinks.whisky.*;
 import net.okuri.qol.superItems.factory.foods.BarleyBread;
 import net.okuri.qol.superItems.factory.foods.Bread;
 import net.okuri.qol.superItems.factory.foods.RyeBread;
@@ -295,10 +296,16 @@ public final class QOL extends JavaPlugin {
             fcr.setResultClass(new FusionCraft());
             superCraft.addShapelessSuperCraftRecipe(fcr);
         }
+        // liquor adapter craft
+        ShapelessSuperCraftRecipe lac = new ShapelessSuperCraftRecipe("liquor_adapter");
+        lac.addIngredient(SuperItemTag.LIQUOR_INGREDIENT);
+        lac.addIngredient(SuperItemTag.LIQUOR_ADAPTOR);
+        lac.setResultClass(new LiquorAdapterCraft());
+        superCraft.addShapelessSuperCraftRecipe(lac);
+
         for (String s : superCraft.getRecipeList()) {
             getLogger().info(s);
         }
-
     }
 
     // Maturationのレシピを登録する

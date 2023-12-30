@@ -98,8 +98,10 @@ public enum PDCKey {
     // FARMER_TOOL: 農業ツールとして登録されているか。
     MINER_TOOL("miner_tool", PersistentDataType.BOOLEAN, ApplyType.ITEM),
     // MINER_TOOL: 採掘ツールとして登録されているか。
-    HAS_ALC_BAR("has_alc_bar", PersistentDataType.BOOLEAN, ApplyType.PLAYER);
+    HAS_ALC_BAR("has_alc_bar", PersistentDataType.BOOLEAN, ApplyType.PLAYER),
     // HAS_ALC_BAR: アルコールのボスバー表示をonにしているかどうか。
+    ADAPTERS("adapters", PersistentDataType.INTEGER_ARRAY, ApplyType.ITEM);
+    // ADAPTERS: アダプターのIDを記憶する
 
 
     public final NamespacedKey key;

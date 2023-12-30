@@ -1,6 +1,7 @@
 package net.okuri.qol.qolCraft.superCraft;
 
 import net.okuri.qol.superItems.SuperItemData;
+import net.okuri.qol.superItems.SuperItemTag;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
@@ -93,6 +94,10 @@ public class SuperCraftRecipe implements SuperRecipe {
     }
 
     public void addIngredient(Character key, Tag<Material> value) {
+        this.addIngredient(key, new SuperItemData(value));
+    }
+
+    public void addIngredient(Character key, SuperItemTag value) {
         this.addIngredient(key, new SuperItemData(value));
     }
 

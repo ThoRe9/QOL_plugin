@@ -3,6 +3,7 @@ package net.okuri.qol;
 import net.okuri.qol.producerInfo.ProducerInfo;
 import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
+import net.okuri.qol.superItems.factory.adapter.AdapterID;
 import net.okuri.qol.superItems.factory.resources.SuperResource;
 import org.bukkit.block.TileState;
 import org.bukkit.entity.Player;
@@ -267,5 +268,25 @@ public class PDCC {
         }
         type = SuperItemType.DEFAULT;
         return new SuperItemData(stack.getType());
+    }
+
+    public static ArrayList<AdapterID> getAdapters(ItemMeta meta) {
+        ArrayList<AdapterID> result = new ArrayList<>();
+        if (has(meta, PDCKey.ADAPTERS)) {
+            PersistentDataContainer pdc = meta.getPersistentDataContainer();
+            ArrayList<Integer> ids = (ArrayList<Integer>) pdc.get(PDCKey.ADAPTERS.key, PDCKey.ADAPTERS.type);
+            for (int id : ids) {
+                result.add(AdapterID.getAdapterID(id));
+            }
+        }
+        return result;
+    }
+
+    public static void setAdapters(ItemMeta meta, ArrayList<AdapterID> adapters) {
+        ArrayList<Integer> ids = new ArrayList<>();
+        for (AdapterID adapter : adapters) {
+            ids.add(adapter.getID());
+        }
+        meta.getPersistentDataContainer().set(PDCKey.ADAPTERS.key, PDCKey.ADAPTERS.type, ids);
     }
 }

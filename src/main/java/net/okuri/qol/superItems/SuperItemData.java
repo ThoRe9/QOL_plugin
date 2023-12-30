@@ -7,7 +7,8 @@ public class SuperItemData {
     private final SuperItemType type;
     private final Material material;
     private final boolean isAbstract;
-    private final Tag tag;
+    private final Tag<Material> tag;
+    private final SuperItemTag superItemTag;
 
     public SuperItemData(SuperItemType type) {
         assert type != SuperItemType.DEFAULT;
@@ -15,6 +16,7 @@ public class SuperItemData {
         this.material = type.getMaterial();
         this.isAbstract = false;
         this.tag = null;
+        this.superItemTag = null;
     }
 
     public SuperItemData(Material material) {
@@ -22,6 +24,7 @@ public class SuperItemData {
         this.material = material;
         this.isAbstract = false;
         this.tag = null;
+        this.superItemTag = null;
     }
 
     public SuperItemData(Tag<Material> tag) {
@@ -29,6 +32,15 @@ public class SuperItemData {
         this.material = null;
         this.isAbstract = true;
         this.tag = tag;
+        this.superItemTag = null;
+    }
+
+    public SuperItemData(SuperItemTag superItemTag) {
+        this.type = null;
+        this.material = null;
+        this.isAbstract = true;
+        this.tag = null;
+        this.superItemTag = superItemTag;
     }
 
     public SuperItemType getType() {
@@ -39,9 +51,17 @@ public class SuperItemData {
         if (data.isAbstract && this.isAbstract) {
             return data.tag == this.tag;
         } else if (data.isAbstract) {
-            return data.tag.isTagged(this.material);
+            if (data.tag != null) {
+                return data.tag.isTagged(this.material);
+            } else {
+                return data.superItemTag.getSuperItemTypes().contains(this.type);
+            }
         } else if (this.isAbstract) {
-            return this.tag.isTagged(data.material);
+            if (this.tag != null) {
+                return this.tag.isTagged(data.material);
+            } else {
+                return this.superItemTag.getSuperItemTypes().contains(data.type);
+            }
         } else if (this.type == SuperItemType.DEFAULT) {
             return this.material == data.material;
         } else {

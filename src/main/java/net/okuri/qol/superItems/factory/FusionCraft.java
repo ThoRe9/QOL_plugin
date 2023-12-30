@@ -4,6 +4,7 @@ import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import net.okuri.qol.superItems.itemStack.SuperResourceStack;
+import org.bukkit.Bukkit;
 
 public class FusionCraft implements SuperCraftable {
     private SuperResourceStack resource1;
@@ -13,6 +14,8 @@ public class FusionCraft implements SuperCraftable {
     public void setMatrix(SuperItemStack[] matrix, String id) {
         this.resource1 = new SuperResourceStack(matrix[0]);
         this.resource2 = new SuperResourceStack(matrix[1]);
+        Bukkit.getLogger().info("resource1: " + resource1.getSuperItemType().getStringType());
+        Bukkit.getLogger().info("resource2: " + resource2.getSuperItemType().getStringType());
     }
 
     @Override

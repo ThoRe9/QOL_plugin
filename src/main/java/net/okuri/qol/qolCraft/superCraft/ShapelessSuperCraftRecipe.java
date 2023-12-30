@@ -1,8 +1,10 @@
 package net.okuri.qol.qolCraft.superCraft;
 
 import net.okuri.qol.superItems.SuperItemData;
+import net.okuri.qol.superItems.SuperItemTag;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.inventory.ItemStack;
@@ -30,9 +32,6 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
         // ingredientItemsには、ingredientsの順番にmatrixの中身が入っている
         ingredientItems = new SuperItemStack[ingredients.size()];
         boolean[] isSeen = new boolean[ingredients.size()];
-        for (int i = 0; i < isSeen.length; i++) {
-            isSeen[i] = false;
-        }
 
         // matrixの中身のSuperItemTypeがingredientsとすべて一致するかチェック
         for (int i = 0; i < matrix.length; i++) {
@@ -40,11 +39,8 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
             if (itemStack != null) {
                 for (int j = 0; j < ingredients.size(); j++) {
                     SuperItemData ingredient = ingredients.get(j);
-                    if (itemStack.isSimilar(ingredient)) {
+                    if (ingredient.isSimilar(itemStack.getSuperItemData()) && !isSeen[j]) {
                         ingredientItems[j] = itemStack;
-                        if (isSeen[j]) {
-                            return false;
-                        }
                         isSeen[j] = true;
                         break;
                     }
@@ -61,6 +57,7 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
                 return false;
             }
         }
+        Bukkit.getLogger().info(this.getId());
         return true;
     }
 
@@ -80,6 +77,9 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
         this.ingredients.add(new SuperItemData(ingredient));
     }
 
+    public void addIngredient(SuperItemTag tag) {
+        this.ingredients.add(new SuperItemData(tag));
+    }
 
     public void setResultClass(SuperCraftable resultClass) {
         this.resultClass = resultClass;
