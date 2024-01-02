@@ -5,7 +5,6 @@ import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.drinks.LiquorIngredient;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import net.okuri.qol.superItems.itemStack.SuperLiquorStack;
-import org.bukkit.Bukkit;
 
 public class LiquorAdapterCraft implements SuperCraftable {
     private SuperLiquorStack liquorIngredient;
@@ -25,7 +24,6 @@ public class LiquorAdapterCraft implements SuperCraftable {
     @Override
     public SuperItemStack getSuperItem() {
         for (AdapterID id : liquorIngredient.getAdapters()) {
-            Bukkit.getLogger().info("AdapterID: " + id);
             if (id == liquorAdaptorClass.getAdapterID()) {
                 return null;
             }
