@@ -243,6 +243,9 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
         item.setAmplifierLine(this.amplifierLine);
         item.setDisplayName(this.displayName);
         item.setLore(lore);
+        if (!this.adapters.isEmpty()) {
+            item.setAdapters(this.adapters);
+        }
         if (this.xEffect != null) {
             item.setXEffect(this.xEffect);
         }

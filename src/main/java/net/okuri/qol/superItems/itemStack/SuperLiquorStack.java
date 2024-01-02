@@ -126,6 +126,11 @@ public class SuperLiquorStack extends SuperXYZStack {
         } else {
             this.amplifierLine = 0.0;
         }
+        if (PDCC.has(meta, PDCKey.ADAPTERS)) {
+            this.adapters = PDCC.getAdapters(meta);
+        } else {
+            this.adapters = new ArrayList<>();
+        }
         Liquor liquor = (Liquor) SuperItemType.getSuperItemClass(this.getSuperItemType());
         this.xEffectType = liquor.getXEffectType();
         this.yEffectType = liquor.getYEffectType();
@@ -325,6 +330,13 @@ public class SuperLiquorStack extends SuperXYZStack {
         PDCC.setAdapters(meta, ids);
         super.setItemMeta(meta);
         this.adapters.add(adapter);
+    }
+
+    public void setAdapters(ArrayList<AdapterID> adapters) {
+        ItemMeta meta = super.getItemMeta();
+        PDCC.setAdapters(meta, adapters);
+        super.setItemMeta(meta);
+        this.adapters = adapters;
     }
 
     public ArrayList<AdapterID> getAdapters() {

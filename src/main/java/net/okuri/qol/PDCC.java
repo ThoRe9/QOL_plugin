@@ -274,7 +274,7 @@ public class PDCC {
         ArrayList<AdapterID> result = new ArrayList<>();
         if (has(meta, PDCKey.ADAPTERS)) {
             PersistentDataContainer pdc = meta.getPersistentDataContainer();
-            ArrayList<Integer> ids = (ArrayList<Integer>) pdc.get(PDCKey.ADAPTERS.key, PDCKey.ADAPTERS.type);
+            int[] ids = (int[]) pdc.get(PDCKey.ADAPTERS.key, PDCKey.ADAPTERS.type);
             for (int id : ids) {
                 result.add(AdapterID.getAdapterID(id));
             }
@@ -283,9 +283,9 @@ public class PDCC {
     }
 
     public static void setAdapters(ItemMeta meta, ArrayList<AdapterID> adapters) {
-        ArrayList<Integer> ids = new ArrayList<>();
-        for (AdapterID adapter : adapters) {
-            ids.add(adapter.getID());
+        int[] ids = new int[adapters.size()];
+        for (int i = 0; i < adapters.size(); i++) {
+            ids[i] = adapters.get(i).getID();
         }
         meta.getPersistentDataContainer().set(PDCKey.ADAPTERS.key, PDCKey.ADAPTERS.type, ids);
     }

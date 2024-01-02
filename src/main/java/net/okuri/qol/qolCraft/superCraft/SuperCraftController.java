@@ -121,7 +121,9 @@ public class SuperCraftController implements Listener {
                 Bukkit.getLogger().info("SuperCraftRecipe matched!");
                 SuperCraftable result = superCraftRecipe.getResultClass();
                 SuperItemStack resultItem = result.getSuperItem();
-                resultItem.setProducerInfo(getProducerInfo(superMatrix, resultItem.getSuperItemData(), player));
+                if (resultItem != null) {
+                    resultItem.setProducerInfo(getProducerInfo(superMatrix, resultItem.getSuperItemData(), player));
+                }
                 inventory.setResult(resultItem);
                 this.superCraftFlag = true;
                 this.recipe = superCraftRecipe;
@@ -136,9 +138,10 @@ public class SuperCraftController implements Listener {
                 SuperItemStack resultItem = result.getSuperItem();
                 // 対処療法
                 if (!Objects.equals(shapelessSuperCraftRecipe.getId(), "fusion_craft") && !Objects.equals(shapelessSuperCraftRecipe.getId(), "rum_ingredient")) {
-                    resultItem.setProducerInfo(getProducerInfo(superMatrix, resultItem.getSuperItemData(), player));
+                    if (resultItem != null) {
+                        resultItem.setProducerInfo(getProducerInfo(superMatrix, resultItem.getSuperItemData(), player));
+                    }
                 }
-                inventory.setResult(resultItem);
                 inventory.setResult(resultItem);
                 this.shapelessCraftFlag = true;
                 this.recipe = shapelessSuperCraftRecipe;
