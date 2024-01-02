@@ -33,6 +33,7 @@ net\okuri\qol\listener\InteractListener.class
 net\okuri\qol\superItems\factory\drinks\whisky\UndistilledWhiskyIngredient.class
 net\okuri\qol\qolCraft\maturation\MaturationRecipe.class
 net\okuri\qol\superItems\itemStack\SuperLiquorStack.class
+net\okuri\qol\superItems\factory\tools\MaturationTool.class
 net\okuri\qol\superItems\factory\ingredient\Ingredient.class
 net\okuri\qol\listener\EventListener.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake$AlcType.class
@@ -126,3 +127,4 @@ net\okuri\qol\superItems\factory\drinks\StrongZero.class
 net\okuri\qol\superItems\factory\drinks\LiverHelper.class
 net\okuri\qol\superItems\factory\drinks\whisky\LagerBeer.class
 net\okuri\qol\qolCraft\resource\ResourceController.class
+net\okuri\qol\superItems\factory\tools\ResourceGetter.class

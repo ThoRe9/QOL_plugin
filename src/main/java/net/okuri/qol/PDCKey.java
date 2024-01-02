@@ -100,6 +100,8 @@ public enum PDCKey {
     // MINER_TOOL: 採掘ツールとして登録されているか。
     HAS_ALC_BAR("has_alc_bar", PersistentDataType.BOOLEAN, ApplyType.PLAYER),
     // HAS_ALC_BAR: アルコールのボスバー表示をonにしているかどうか。
+    MATURATION_TOOL_AMOUNT("maturation_tool_amount", PersistentDataType.INTEGER, ApplyType.ITEM),
+    // MATURATION_TOOL_AMOUNT: maturation toolの進める日数。
     ADAPTERS("adapters", PersistentDataType.INTEGER_ARRAY, ApplyType.ITEM);
     // ADAPTERS: アダプターのIDを記憶する
 

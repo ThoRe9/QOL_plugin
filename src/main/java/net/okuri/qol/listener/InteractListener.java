@@ -1,5 +1,7 @@
 package net.okuri.qol.listener;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.okuri.qol.ChatGenerator;
 import net.okuri.qol.Commands;
 import net.okuri.qol.PDCC;
@@ -8,11 +10,15 @@ import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Sign;
+import org.bukkit.block.sign.Side;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.time.LocalDateTime;
 
 public class InteractListener implements Listener {
     // プレイヤーが右クリックしたとき
@@ -67,6 +73,37 @@ public class InteractListener implements Listener {
                     World world = event.getClickedBlock().getWorld();
                     ChatGenerator chat = Commands.getEnv(x, y, z, world);
                     chat.sendMessage(player);
+                    event.setCancelled(true);
+                }
+                break;
+            case MATURATION_TOOL:
+                if (event.getClickedBlock() != null) {
+                    // ブロックの座標を取得
+                    int x = event.getClickedBlock().getX();
+                    int y = event.getClickedBlock().getY();
+                    int z = event.getClickedBlock().getZ();
+                    World world = event.getClickedBlock().getWorld();
+                    if (world.getBlockAt(x, y, z).getType().name().endsWith("SIGN")) {
+                        // 看板の３行目に現在の日付から-daysした分の日付、時間を表示する
+                        Sign sign = (Sign) player.getWorld().getBlockAt(x, y, z).getState();
+
+                        String line0 = PlainTextComponentSerializer.plainText().serialize(sign.getSide(Side.FRONT).line(0));
+                        String line1 = PlainTextComponentSerializer.plainText().serialize(sign.getSide(Side.FRONT).line(1));
+                        String line2 = PlainTextComponentSerializer.plainText().serialize(sign.getSide(Side.FRONT).line(2));
+                        if (line0.equals("[QOL]") && line1.equals("[Maturation]")) {
+                            int m = PDCC.get(item.getItemMeta(), PDCKey.MATURATION_TOOL_AMOUNT);
+                            LocalDateTime start = LocalDateTime.parse(line2);
+                            LocalDateTime date = start.minusDays(m);
+                            sign.getSide(Side.FRONT).line(2, Component.text(date.toString()));
+                            sign.update();
+                            new ChatGenerator().addInfo("Successfully set the date!").sendMessage(player);
+                            player.getInventory().getItemInMainHand().setAmount(item.getAmount() - 1);
+                        } else {
+                            new ChatGenerator().addWarning("There is no maturation").sendMessage(player);
+                        }
+                    } else {
+                        new ChatGenerator().addWarning("There is no sign!").sendMessage(player);
+                    }
                     event.setCancelled(true);
                 }
                 break;

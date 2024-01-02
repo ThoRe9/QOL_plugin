@@ -18,9 +18,7 @@ import net.okuri.qol.superItems.factory.ingredient.Koji;
 import net.okuri.qol.superItems.factory.ingredient.Molasses;
 import net.okuri.qol.superItems.factory.ingredient.PolishedRice;
 import net.okuri.qol.superItems.factory.resources.*;
-import net.okuri.qol.superItems.factory.tools.EnvGetter;
-import net.okuri.qol.superItems.factory.tools.FarmerToolAdapter;
-import net.okuri.qol.superItems.factory.tools.MinerToolAdapter;
+import net.okuri.qol.superItems.factory.tools.*;
 import org.bukkit.Material;
 
 public enum SuperItemType {
@@ -66,6 +64,8 @@ public enum SuperItemType {
     MINER_TOOL("MINER_TOOL", 0, Material.PAPER, SuperItemTag.TOOL),
     STRONG_ZERO("STRONG_ZERO", 0, Material.POTION, SuperItemTag.LIQUOR),
     LIVER_HELPER("LIVER_HELPER", 0, Material.POTION, SuperItemTag.DRINK),
+    RESOURCE_GETTER("RESOURCE_GETTER", 0, Material.IRON_PICKAXE, SuperItemTag.TOOL),
+    MATURATION_TOOL("MATURATION_TOOL", 0, Material.BONE, SuperItemTag.TOOL),
     FISHERMAN_ADAPTER("FISHERMAN_ADAPTER", 0, Material.PUFFERFISH, SuperItemTag.LIQUOR_ADAPTOR);
 
     private final String type;
@@ -177,6 +177,10 @@ public enum SuperItemType {
                 return new DefaultItem(type);
             case LIVER_HELPER:
                 return new LiverHelper();
+            case RESOURCE_GETTER:
+                return new ResourceGetter();
+            case MATURATION_TOOL:
+                return new MaturationTool(1);
             case FISHERMAN_ADAPTER:
                 return new FishermanAdapter();
             default:
