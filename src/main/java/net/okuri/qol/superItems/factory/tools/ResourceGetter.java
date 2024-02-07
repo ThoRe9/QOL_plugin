@@ -16,7 +16,7 @@ public class ResourceGetter extends SuperItem {
     @Override
     public SuperItemStack getSuperItem() {
         SuperItemStack item = new SuperItemStack(SuperItemType.RESOURCE_GETTER);
-        item.setDisplayName(Component.text("Resource Getter").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD).decoration(TextDecoration.ITALIC, false));
+        item.setDisplayName(Component.text("LiquorResource Getter").color(NamedTextColor.AQUA).decorate(TextDecoration.BOLD).decoration(TextDecoration.ITALIC, false));
         LoreGenerator lore = new LoreGenerator();
         lore.addInfo("You can get a resource instantly!");
         item.setLore(lore);

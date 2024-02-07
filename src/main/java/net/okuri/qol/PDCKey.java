@@ -12,8 +12,10 @@ public enum PDCKey {
     // PROTECTED: 保護されているかどうかを記憶する
     ALCOHOL_LEVEL("alcohol_level", PersistentDataType.DOUBLE, PDCKey.ApplyType.PLAYER),
     // ALCOHOL_LEVEL: プレイヤーの血中アルコール濃度を記憶する
+    LIQUOR_AMOUNT("liquor_amount", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
+    // LIQUOR_AMOUNT: アルコール飲料の量を記憶する
     ALCOHOL_AMOUNT("alcohol_amount", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
-    // ALCOHOL_AMOUNT: アルコール飲料の量を記憶する
+    // ALCOHOL_AMOUNT: アルコール飲料のアルコール量(ml)を記憶する
     ALCOHOL_PERCENTAGE("alcohol_percentage", PersistentDataType.DOUBLE, PDCKey.ApplyType.ITEM),
     // ALCOHOL_PERCENTAGE: アルコール飲料のアルコール度数を記憶する
     ALCOHOL("alcohol", PersistentDataType.BOOLEAN, PDCKey.ApplyType.ITEM),
@@ -102,8 +104,16 @@ public enum PDCKey {
     // HAS_ALC_BAR: アルコールのボスバー表示をonにしているかどうか。
     MATURATION_TOOL_AMOUNT("maturation_tool_amount", PersistentDataType.INTEGER, ApplyType.ITEM),
     // MATURATION_TOOL_AMOUNT: maturation toolの進める日数。
-    ADAPTERS("adapters", PersistentDataType.INTEGER_ARRAY, ApplyType.ITEM);
+    ADAPTERS("adapters", PersistentDataType.INTEGER_ARRAY, ApplyType.ITEM),
     // ADAPTERS: アダプターのIDを記憶する
+    RESOURCE_POS("resource_pos", PersistentDataType.INTEGER_ARRAY, ApplyType.ITEM),
+    // RESOURCE_POS: リソースが生まれた位置を記憶する(x,y,z)
+    TASTE_ID("taste_id", PersistentDataType.STRING, ApplyType.ITEM),
+    // TASTE_ID: 味のID
+    TASTE_PARAM("taste_param", PersistentDataType.DOUBLE, ApplyType.ITEM),
+    // TASTE_PARAM: 味のパラメータ
+    TASTES("tastes", PersistentDataType.TAG_CONTAINER_ARRAY, ApplyType.ITEM);
+    // TASTES: 味の情報
 
 
     public final NamespacedKey key;

@@ -1,6 +1,7 @@
 package net.okuri.qol.superItems;
 
 
+import net.okuri.qol.alcohol.resources.newBarley;
 import net.okuri.qol.superItems.factory.DefaultItem;
 import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.factory.adapter.FishermanAdapter;
@@ -66,7 +67,8 @@ public enum SuperItemType {
     LIVER_HELPER("LIVER_HELPER", 0, Material.POTION, SuperItemTag.DRINK),
     RESOURCE_GETTER("RESOURCE_GETTER", 0, Material.IRON_PICKAXE, SuperItemTag.TOOL),
     MATURATION_TOOL("MATURATION_TOOL", 0, Material.BONE, SuperItemTag.TOOL),
-    FISHERMAN_ADAPTER("FISHERMAN_ADAPTER", 0, Material.PUFFERFISH, SuperItemTag.LIQUOR_ADAPTOR);
+    FISHERMAN_ADAPTER("FISHERMAN_ADAPTER", 0, Material.PUFFERFISH, SuperItemTag.LIQUOR_ADAPTOR),
+    NEW_BARLEY("NEW_BARLEY", 0, Material.WHEAT, SuperItemTag.TOOL);
 
     private final String type;
     private final int customModelData;
@@ -183,6 +185,8 @@ public enum SuperItemType {
                 return new MaturationTool(1);
             case FISHERMAN_ADAPTER:
                 return new FishermanAdapter();
+            case NEW_BARLEY:
+                return new newBarley();
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }

@@ -106,8 +106,8 @@ public class SuperLiquorStack extends SuperXYZStack {
         } else {
             this.producer = "";
         }
-        if (PDCC.has(meta, PDCKey.ALCOHOL_AMOUNT)) {
-            this.alcoholAmount = PDCC.get(meta, PDCKey.ALCOHOL_AMOUNT);
+        if (PDCC.has(meta, PDCKey.LIQUOR_AMOUNT)) {
+            this.alcoholAmount = PDCC.get(meta, PDCKey.LIQUOR_AMOUNT);
         } else {
             this.alcoholAmount = 0.0;
         }
@@ -252,7 +252,7 @@ public class SuperLiquorStack extends SuperXYZStack {
     public void setAlcoholAmount(double alcoholAmount) {
         this.alcoholAmount = alcoholAmount;
         ItemMeta meta = super.getItemMeta();
-        PDCC.set(meta, PDCKey.ALCOHOL_AMOUNT, alcoholAmount);
+        PDCC.set(meta, PDCKey.LIQUOR_AMOUNT, alcoholAmount);
         super.setItemMeta(meta);
     }
 

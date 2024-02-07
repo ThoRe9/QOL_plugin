@@ -87,7 +87,7 @@ public abstract class Sake extends SuperItem {
         PDCC.set(meta, PDCKey.QUALITY, this.quality);
         PDCC.set(meta, PDCKey.ALCOHOL_PERCENTAGE, this.alcPer);
         PDCC.set(meta, PDCKey.ALCOHOL, true);
-        PDCC.set(meta, PDCKey.ALCOHOL_AMOUNT, this.amount);
+        PDCC.set(meta, PDCKey.LIQUOR_AMOUNT, this.amount);
         PDCC.set(meta, PDCKey.RARITY, this.rarity);
         PDCC.set(meta, PDCKey.INGREDIENT_TYPE, this.ingredientType.toString());
         PDCC.set(meta, PDCKey.CONSUMABLE, false);
@@ -122,7 +122,7 @@ public abstract class Sake extends SuperItem {
         this.compatibility = PDCC.get(meta, PDCKey.COMPATIBILITY);
         this.quality = PDCC.get(meta, PDCKey.QUALITY);
         this.alcPer = PDCC.get(meta, PDCKey.ALCOHOL_PERCENTAGE);
-        this.amount = PDCC.get(meta, PDCKey.ALCOHOL_AMOUNT);
+        this.amount = PDCC.get(meta, PDCKey.LIQUOR_AMOUNT);
         this.rarity = PDCC.get(meta, PDCKey.RARITY);
         this.x = PDCC.get(meta, PDCKey.X);
         this.y = PDCC.get(meta, PDCKey.Y);

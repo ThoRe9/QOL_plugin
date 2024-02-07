@@ -53,7 +53,7 @@ public class ConsumeListener implements Listener {
         }
         double alcLv = PDCC.get(player, PDCKey.ALCOHOL_LEVEL);
         // itemのalcAmount * alcPerをalcLvに加算
-        double alcAmount = PDCC.get(meta, PDCKey.ALCOHOL_AMOUNT);
+        double alcAmount = PDCC.get(meta, PDCKey.LIQUOR_AMOUNT);
         double alcPer = PDCC.get(meta, PDCKey.ALCOHOL_PERCENTAGE);
         alcLv += (alcAmount * alcPer / 350);
         PDCC.set(player, PDCKey.ALCOHOL_LEVEL, alcLv);

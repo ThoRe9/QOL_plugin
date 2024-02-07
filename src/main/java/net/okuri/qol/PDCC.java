@@ -1,5 +1,7 @@
 package net.okuri.qol;
 
+import net.okuri.qol.alcohol.taste.Taste;
+import net.okuri.qol.alcohol.taste.TasteController;
 import net.okuri.qol.producerInfo.ProducerInfo;
 import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemType;
@@ -13,7 +15,10 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+
+import static org.apache.commons.lang3.ArrayUtils.add;
 
 public class PDCC {
     @Deprecated
@@ -222,7 +227,7 @@ public class PDCC {
 
     public static <T> void setLiquor(ItemMeta meta, double alcoholAmount, double alcoholPer, double x, double y, double z, double divLine, double quality, int rarity, double temp, double humid, double maturation) {
         meta.getPersistentDataContainer().set(PDCKey.ALCOHOL.key, PDCKey.ALCOHOL.type, true);
-        meta.getPersistentDataContainer().set(PDCKey.ALCOHOL_AMOUNT.key, PDCKey.ALCOHOL_AMOUNT.type, alcoholAmount);
+        meta.getPersistentDataContainer().set(PDCKey.LIQUOR_AMOUNT.key, PDCKey.LIQUOR_AMOUNT.type, alcoholAmount);
         meta.getPersistentDataContainer().set(PDCKey.ALCOHOL_PERCENTAGE.key, PDCKey.ALCOHOL_PERCENTAGE.type, alcoholPer);
         meta.getPersistentDataContainer().set(PDCKey.X.key, PDCKey.X.type, x);
         meta.getPersistentDataContainer().set(PDCKey.Y.key, PDCKey.Y.type, y);
@@ -288,5 +293,29 @@ public class PDCC {
             ids[i] = adapters.get(i).getID();
         }
         meta.getPersistentDataContainer().set(PDCKey.ADAPTERS.key, PDCKey.ADAPTERS.type, ids);
+    }
+
+    public static Map<Taste, Double> getTastes(ItemMeta meta) {
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        Map<Taste, Double> result = new HashMap<>();
+        if (has(meta, PDCKey.TASTES)) {
+            for (PersistentDataContainer p : (PersistentDataContainer[]) get(meta, PDCKey.TASTES)) {
+                result.put(TasteController.getController().getTaste((String) p.get(PDCKey.TASTE_ID.key, PDCKey.TASTE_ID.type)),
+                        (Double) p.get(PDCKey.TASTE_PARAM.key, PDCKey.TASTE_PARAM.type));
+            }
+        }
+        return result;
+    }
+
+    public static void setTastes(ItemMeta meta, Map<Taste, Double> set) {
+        PersistentDataContainer pdc = meta.getPersistentDataContainer();
+        PersistentDataContainer[] tastes = new PersistentDataContainer[0];
+        for (Map.Entry<Taste, Double> entry : set.entrySet()) {
+            PersistentDataContainer taste = pdc.getAdapterContext().newPersistentDataContainer();
+            taste.set(PDCKey.TASTE_ID.key, PDCKey.TASTE_ID.type, entry.getKey().getID());
+            taste.set(PDCKey.TASTE_PARAM.key, PDCKey.TASTE_PARAM.type, entry.getValue());
+            tastes = add(tastes, taste);
+        }
+        pdc.set(PDCKey.TASTES.key, PDCKey.TASTES.type, tastes);
     }
 }

@@ -103,7 +103,7 @@ public class Shochu extends Sake implements Distillable, Distributable {
         PDCC.set(meta, PDCKey.QUALITY, this.quality);
         PDCC.set(meta, PDCKey.ALCOHOL_PERCENTAGE, this.alcPer);
         PDCC.set(meta, PDCKey.ALCOHOL, true);
-        PDCC.set(meta, PDCKey.ALCOHOL_AMOUNT, this.amount);
+        PDCC.set(meta, PDCKey.LIQUOR_AMOUNT, this.amount);
         PDCC.set(meta, PDCKey.RARITY, this.rarity);
         PDCC.set(meta, PDCKey.INGREDIENT_TYPE, this.ingredientType.toString());
         PDCC.set(meta, PDCKey.MATURATION, this.days);
@@ -177,7 +177,7 @@ public class Shochu extends Sake implements Distillable, Distributable {
         super.compatibility = PDCC.get(meta, PDCKey.COMPATIBILITY);
         super.quality = PDCC.get(meta, PDCKey.QUALITY);
         super.alcPer = PDCC.get(meta, PDCKey.ALCOHOL_PERCENTAGE);
-        super.amount = PDCC.get(meta, PDCKey.ALCOHOL_AMOUNT);
+        super.amount = PDCC.get(meta, PDCKey.LIQUOR_AMOUNT);
         super.rarity = PDCC.get(meta, PDCKey.RARITY);
         super.x = PDCC.get(meta, PDCKey.X);
         super.y = PDCC.get(meta, PDCKey.Y);

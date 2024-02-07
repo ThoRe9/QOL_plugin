@@ -44,9 +44,11 @@ net\okuri\qol\superItems\factory\adapter\LiquorAdapter.class
 net\okuri\qol\superItems\SuperItemTag.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake1ShoBottle.class
 net\okuri\qol\superItems\factory\drinks\whisky\HighBall.class
+net\okuri\qol\alcohol\taste\Taste.class
 net\okuri\qol\superItems\factory\resources\SuperResource.class
 net\okuri\qol\superItems\factory\drinks\spirits\RumIngredient.class
 net\okuri\qol\superItems\factory\drinks\whisky\BeerIngredient.class
+net\okuri\qol\loreGenerator\Lore.class
 net\okuri\qol\superItems\factory\tools\FarmerToolAdapter.class
 net\okuri\qol\PDCC.class
 net\okuri\qol\qolCraft\distillation\DistillationRecipe.class
@@ -56,8 +58,10 @@ net\okuri\qol\superItems\factory\foods\Bread.class
 net\okuri\qol\superItems\SuperItemData.class
 net\okuri\qol\superItems\factory\drinks\sake\ShochuBottle.class
 net\okuri\qol\superItems\factory\drinks\whisky\Whisky.class
+net\okuri\qol\alcohol\taste\TasteController.class
 net\okuri\qol\superItems\factory\drinks\Liquor$MaturationType.class
 net\okuri\qol\superItems\factory\FusionCraft.class
+net\okuri\qol\loreGenerator\LoreGenerator.class
 net\okuri\qol\qolCraft\maturation\Maturable.class
 net\okuri\qol\superItems\factory\resources\Rice.class
 net\okuri\qol\Alcohol.class
@@ -100,8 +104,11 @@ net\okuri\qol\LoreGenerator.class
 net\okuri\qol\superItems\itemStack\SuperItemStack.class
 net\okuri\qol\help\Pages.class
 net\okuri\qol\PDCKey$ApplyType.class
+net\okuri\qol\alcohol\taste\PotionEffectTaste.class
 net\okuri\qol\superItems\factory\drinks\sake\ShochuOchoko.class
 net\okuri\qol\superItems\factory\tools\EnvGetter.class
+net\okuri\qol\alcohol\resources\LiquorResource.class
+net\okuri\qol\alcohol\resources\newBarley.class
 net\okuri\qol\event\MaturationEndEvent.class
 net\okuri\qol\superItems\factory\foods\BarleyBread.class
 net\okuri\qol\AlcBar.class
@@ -110,6 +117,7 @@ net\okuri\qol\superItems\factory\foods\RyeBread.class
 net\okuri\qol\superItems\factory\drinks\Liquor.class
 net\okuri\qol\superItems\factory\drinks\sake\SakeIngredient.class
 net\okuri\qol\superItems\itemStack\SuperLiquorIngredientStack.class
+net\okuri\qol\alcohol\taste\BarleyTaste.class
 net\okuri\qol\superItems\factory\drinks\Horoyoi.class
 net\okuri\qol\superItems\factory\resources\SuperPotato.class
 net\okuri\qol\event\MaturationPrepareEvent.class
@@ -117,6 +125,7 @@ net\okuri\qol\superItems\SuperItemType.class
 net\okuri\qol\superItems\factory\resources\SampleResource.class
 net\okuri\qol\listener\Food.class
 net\okuri\qol\superItems\factory\drinks\Liquor$DistillationType.class
+net\okuri\qol\loreGenerator\ResourceLore.class
 net\okuri\qol\superItems\itemStack\SuperXYZStack.class
 net\okuri\qol\help\Page.class
 net\okuri\qol\superItems\factory\resources\Wheat.class
