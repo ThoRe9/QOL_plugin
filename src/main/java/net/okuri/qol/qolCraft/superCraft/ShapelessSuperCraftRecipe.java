@@ -91,6 +91,7 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
     }
 
     @Override
+
     public String getId() {
         return id;
     }

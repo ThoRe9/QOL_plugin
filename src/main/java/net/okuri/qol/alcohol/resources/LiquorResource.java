@@ -23,9 +23,7 @@ import java.util.Map;
  */
 public class LiquorResource extends SuperItem {
     private final String display;
-    private final String info;
     private final double probability;
-    private final Material material;
     private final Material blockMaterial;
     private final Taste baseTaste;
     // 以下パラメータ計算用変数
@@ -41,29 +39,37 @@ public class LiquorResource extends SuperItem {
     private Player producer;
     //以下パラメータ
     private double baseTasteValue;
-    private double delicacy;
+    private double delicacy = 0.5;
 
     /**
      * 酒類の原料となるアイテムを生成するためのベースとなるクラスです。
      *
      * @param name          表示名
-     * @param info          説明
      * @param blockMaterial ブロックのマテリアル
      * @param superItemType スーパーアイテムタイプ
      * @param probability   生成確率(0.0~1.0)
      * @param baseTaste     基本の味
      */
-    public LiquorResource(String name, String info, Material blockMaterial, SuperItemType superItemType, double probability, Taste baseTaste, int seed) {
+    public LiquorResource(String name, Material blockMaterial, SuperItemType superItemType, double probability, Taste baseTaste, int seed) {
         super(superItemType);
         assert superItemType.hasTag(SuperItemTag.RESOURCE);
         this.display = name;
-        this.info = info;
-        this.material = superItemType.getMaterial();
         this.blockMaterial = blockMaterial;
         assert probability >= 0.0 && probability <= 1.0;
         this.probability = probability;
         this.baseTaste = baseTaste;
         setFactors(seed);
+    }
+
+    public LiquorResource(SuperItemStack item) {
+        super(item.getSuperItemType());
+        assert item.getSuperItemType().hasTag(SuperItemTag.RESOURCE);
+        ItemMeta meta = item.getItemMeta();
+        this.display = ((LiquorResource) SuperItemType.getSuperItemClass(this.getSuperItemType())).getDisplay();
+        this.blockMaterial = ((LiquorResource) SuperItemType.getSuperItemClass(this.getSuperItemType())).getBlockMaterial();
+        this.probability = ((LiquorResource) SuperItemType.getSuperItemClass(this.getSuperItemType())).getProbability();
+        this.baseTaste = ((LiquorResource) SuperItemType.getSuperItemClass(this.getSuperItemType())).baseTaste;
+
     }
 
     private void setFactors(int seed) {
@@ -107,13 +113,12 @@ public class LiquorResource extends SuperItem {
 
         ResourceLore lore = new ResourceLore();
         lore.addTaste(baseTaste, baseTasteValue);
+        lore.setDelicacy(delicacy);
         LoreGenerator loreGenerator = new LoreGenerator();
         loreGenerator.addLore(lore);
         loreGenerator.setLore(meta);
 
-        Map<Taste, Double> tasteParams = new HashMap<>();
-        tasteParams.put(baseTaste, baseTasteValue);
-        PDCC.setTastes(meta, tasteParams);
+        PDCC.setLiquorResource(meta, this);
         item.setItemMeta(meta);
         return item;
     }
@@ -122,5 +127,59 @@ public class LiquorResource extends SuperItem {
     public SuperItemStack getDebugItem(int... args) {
         this.setResVariables(0, 0, 0, 0.0, 0.0, 0, null);
         return this.getSuperItem();
+    }
+
+    public Map<Taste, Double> getTastes() {
+        Map<Taste, Double> tastes = new HashMap<>();
+        tastes.put(baseTaste, baseTasteValue);
+        return tastes;
+    }
+
+    public String getDisplay() {
+        return display;
+    }
+
+    public double getProbability() {
+        return probability;
+    }
+
+    public Material getBlockMaterial() {
+        return blockMaterial;
+    }
+
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
+    public int getPosZ() {
+        return posZ;
+    }
+
+    public double getTemp() {
+        return temp;
+    }
+
+    public double getHumid() {
+        return humid;
+    }
+
+    public int getBiomeId() {
+        return biomeId;
+    }
+
+    public Player getProducer() {
+        return producer;
+    }
+
+    public double getBaseTasteValue() {
+        return baseTasteValue;
+    }
+
+    public double getDelicacy() {
+        return delicacy;
     }
 }

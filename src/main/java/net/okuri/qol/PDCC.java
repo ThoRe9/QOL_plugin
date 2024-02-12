@@ -1,5 +1,7 @@
 package net.okuri.qol;
 
+import net.okuri.qol.alcohol.LiquorIngredient;
+import net.okuri.qol.alcohol.resources.LiquorResource;
 import net.okuri.qol.alcohol.taste.Taste;
 import net.okuri.qol.alcohol.taste.TasteController;
 import net.okuri.qol.producerInfo.ProducerInfo;
@@ -296,10 +298,10 @@ public class PDCC {
     }
 
     public static Map<Taste, Double> getTastes(ItemMeta meta) {
-        PersistentDataContainer pdc = meta.getPersistentDataContainer();
         Map<Taste, Double> result = new HashMap<>();
         if (has(meta, PDCKey.TASTES)) {
-            for (PersistentDataContainer p : (PersistentDataContainer[]) get(meta, PDCKey.TASTES)) {
+            PersistentDataContainer pdc = meta.getPersistentDataContainer();
+            for (PersistentDataContainer p : (PersistentDataContainer[]) pdc.get(PDCKey.TASTES.key, PDCKey.TASTES.type)) {
                 result.put(TasteController.getController().getTaste((String) p.get(PDCKey.TASTE_ID.key, PDCKey.TASTE_ID.type)),
                         (Double) p.get(PDCKey.TASTE_PARAM.key, PDCKey.TASTE_PARAM.type));
             }
@@ -317,5 +319,32 @@ public class PDCC {
             tastes = add(tastes, taste);
         }
         pdc.set(PDCKey.TASTES.key, PDCKey.TASTES.type, tastes);
+    }
+
+    public static int[] getPosition(ItemMeta meta) {
+        int[] pos = get(meta, PDCKey.RESOURCE_POS);
+        return pos;
+    }
+
+    public static void setPosition(ItemMeta meta, int x, int y, int z) {
+        int[] pos = {x, y, z};
+        set(meta, PDCKey.RESOURCE_POS, pos);
+    }
+
+    public static void setLiquorResource(ItemMeta meta, LiquorResource resource) {
+        setPosition(meta, resource.getPosX(), resource.getPosY(), resource.getPosZ());
+        setTastes(meta, resource.getTastes());
+        set(meta, PDCKey.TEMP, resource.getTemp());
+        set(meta, PDCKey.HUMID, resource.getHumid());
+        set(meta, PDCKey.BIOME_ID, resource.getBiomeId());
+        set(meta, PDCKey.DELICACY, resource.getDelicacy());
+    }
+
+    public static void setLiquorIngredient(ItemMeta meta, LiquorIngredient ingredient) {
+        set(meta, PDCKey.LIQUOR_AMOUNT, ingredient.getLiquorAmount());
+        set(meta, PDCKey.ALCOHOL_AMOUNT, ingredient.getAlcoholAmount());
+        setTastes(meta, ingredient.getTastes());
+        set(meta, PDCKey.DELICACY, ingredient.getDelicacy());
+        set(meta, PDCKey.FERMENTATION_DEGREE, ingredient.getFermentationDegree());
     }
 }

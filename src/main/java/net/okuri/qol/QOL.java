@@ -1,5 +1,10 @@
 package net.okuri.qol;
 
+import net.okuri.qol.alcohol.FermentationIngredient;
+import net.okuri.qol.alcohol.LiquorIngredient;
+import net.okuri.qol.alcohol.taste.AlcoholTaste;
+import net.okuri.qol.alcohol.taste.BarleyTaste;
+import net.okuri.qol.alcohol.taste.TasteController;
 import net.okuri.qol.help.Help;
 import net.okuri.qol.help.HelpCommand;
 import net.okuri.qol.help.HelpContent;
@@ -303,6 +308,41 @@ public final class QOL extends JavaPlugin {
         lac.setResultClass(new LiquorAdapterCraft());
         superCraft.addShapelessSuperCraftRecipe(lac);
 
+        //liquor ingredient(初回)
+        ShapelessSuperCraftRecipe li = new ShapelessSuperCraftRecipe("liquor_ingredient");
+        li.addIngredient(SuperItemTag.LIQUOR_RESOURCE);
+        li.addIngredient(Material.WATER_BUCKET);
+        li.setResultClass(new LiquorIngredient());
+        superCraft.addShapelessSuperCraftRecipe(li);
+
+        //liquor ingredient(追加)
+        ShapelessSuperCraftRecipe li2 = new ShapelessSuperCraftRecipe("liquor_ingredient2");
+        li2.addIngredient(SuperItemType.LIQUOR_INGREDIENT);
+        li2.addIngredient(SuperItemTag.LIQUOR_RESOURCE);
+        li2.setResultClass(new LiquorIngredient());
+        superCraft.addShapelessSuperCraftRecipe(li2);
+
+        //liquor ingredient(追加)
+        ShapelessSuperCraftRecipe li3 = new ShapelessSuperCraftRecipe("liquor_ingredient3");
+        li3.addIngredient(SuperItemType.LIQUOR_INGREDIENT);
+        li3.addIngredient(SuperItemType.LIQUOR_INGREDIENT);
+        li3.setResultClass(new LiquorIngredient());
+        superCraft.addShapelessSuperCraftRecipe(li3);
+
+        //liquor ingredient(追加)
+        ShapelessSuperCraftRecipe li4 = new ShapelessSuperCraftRecipe("liquor_ingredient4");
+        li4.addIngredient(SuperItemType.LIQUOR_INGREDIENT);
+        li4.addIngredient(Material.WATER_BUCKET);
+        li4.setResultClass(new LiquorIngredient());
+        superCraft.addShapelessSuperCraftRecipe(li4);
+
+        // fermentation ingredient
+        ShapelessSuperCraftRecipe fi = new ShapelessSuperCraftRecipe("fermentation_ingredient");
+        fi.addIngredient(SuperItemType.LIQUOR_INGREDIENT);
+        fi.addIngredient(SuperItemType.NEW_KOJI);
+        fi.setResultClass(new FermentationIngredient());
+        superCraft.addShapelessSuperCraftRecipe(fi);
+
         for (String s : superCraft.getRecipeList()) {
             getLogger().info(s);
         }
@@ -333,6 +373,11 @@ public final class QOL extends JavaPlugin {
         MaturationRecipe sakeRecipe = new MaturationRecipe("Sake", new Sake1ShoBottle());
         sakeRecipe.addIngredient(SuperItemType.SAKE_INGREDIENT);
         maturation.addMaturationRecipe(sakeRecipe);
+
+        // Fermentation
+        MaturationRecipe fermentationRecipe = new MaturationRecipe("Fermentation", new LiquorIngredient());
+        fermentationRecipe.addIngredient(SuperItemType.FERMENTATION_INGREDIENT);
+        maturation.addMaturationRecipe(fermentationRecipe);
     }
 
     // Distillationのレシピを登録する
@@ -463,6 +508,10 @@ public final class QOL extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
+        // Tasteを登録
+        TasteController taste = TasteController.getController();
+        taste.registerTaste(BarleyTaste.instance);
+        taste.registerTaste(AlcoholTaste.instance);
 
         getLogger().info("QOL Plugin Enabled");
 

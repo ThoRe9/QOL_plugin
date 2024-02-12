@@ -56,6 +56,7 @@ net\okuri\qol\listener\ProtectListener.class
 net\okuri\qol\superItems\factory\adapter\Adapter.class
 net\okuri\qol\superItems\factory\foods\Bread.class
 net\okuri\qol\superItems\SuperItemData.class
+net\okuri\qol\alcohol\Koji.class
 net\okuri\qol\superItems\factory\drinks\sake\ShochuBottle.class
 net\okuri\qol\superItems\factory\drinks\whisky\Whisky.class
 net\okuri\qol\alcohol\taste\TasteController.class
@@ -66,6 +67,7 @@ net\okuri\qol\qolCraft\maturation\Maturable.class
 net\okuri\qol\superItems\factory\resources\Rice.class
 net\okuri\qol\Alcohol.class
 net\okuri\qol\ChatGenerator.class
+net\okuri\qol\alcohol\taste\BuffTaste.class
 net\okuri\qol\event\SuperCraftEvent.class
 net\okuri\qol\superItems\factory\drinks\sake\Shochu.class
 net\okuri\qol\producerInfo\ProducerInfo.class
@@ -84,6 +86,7 @@ net\okuri\qol\superItems\factory\drinks\whisky\WhiskyWithIce.class
 net\okuri\qol\superItems\factory\ingredient\Molasses.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake$SakeType.class
 net\okuri\qol\qolCraft\superCraft\DistributionReceiver.class
+net\okuri\qol\loreGenerator\LiquorIngredientLore.class
 net\okuri\qol\superItems\factory\drinks\Liquor$DistributionBuffType.class
 net\okuri\qol\superItems\factory\resources\SuperWheat.class
 net\okuri\qol\superItems\SuperItemType$1.class
@@ -100,6 +103,7 @@ net\okuri\qol\superItems\factory\drinks\sake\SakeBottle.class
 net\okuri\qol\superItems\factory\drinks\sake\Ochoko.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake.class
 net\okuri\qol\qolCraft\maturation\MaturationController.class
+net\okuri\qol\loreGenerator\FermentationLore.class
 net\okuri\qol\LoreGenerator.class
 net\okuri\qol\superItems\itemStack\SuperItemStack.class
 net\okuri\qol\help\Pages.class
@@ -119,11 +123,13 @@ net\okuri\qol\superItems\factory\drinks\sake\SakeIngredient.class
 net\okuri\qol\superItems\itemStack\SuperLiquorIngredientStack.class
 net\okuri\qol\alcohol\taste\BarleyTaste.class
 net\okuri\qol\superItems\factory\drinks\Horoyoi.class
+net\okuri\qol\alcohol\taste\AlcoholTaste.class
 net\okuri\qol\superItems\factory\resources\SuperPotato.class
 net\okuri\qol\event\MaturationPrepareEvent.class
 net\okuri\qol\superItems\SuperItemType.class
 net\okuri\qol\superItems\factory\resources\SampleResource.class
 net\okuri\qol\listener\Food.class
+net\okuri\qol\alcohol\LiquorIngredient.class
 net\okuri\qol\superItems\factory\drinks\Liquor$DistillationType.class
 net\okuri\qol\loreGenerator\ResourceLore.class
 net\okuri\qol\superItems\itemStack\SuperXYZStack.class
@@ -134,6 +140,7 @@ net\okuri\qol\superItems\factory\DefaultItem.class
 net\okuri\qol\superItems\factory\adapter\LiquorAdapterCraft.class
 net\okuri\qol\superItems\factory\drinks\StrongZero.class
 net\okuri\qol\superItems\factory\drinks\LiverHelper.class
+net\okuri\qol\alcohol\FermentationIngredient.class
 net\okuri\qol\superItems\factory\drinks\whisky\LagerBeer.class
 net\okuri\qol\qolCraft\resource\ResourceController.class
 net\okuri\qol\superItems\factory\tools\ResourceGetter.class

@@ -87,6 +87,59 @@ public abstract class Lore {
     }
 
     /**
+     * おおよそ0~1.0のパラメータと、濃度をLoreに追加します。
+     *
+     * @param name  パラメータ名(半角英数字8文字以内)
+     * @param color パラメータ名の色
+     * @param param パラメータの値
+     * @param all   全体量
+     */
+    void addParamLore(String name, TextColor color, double param, double all) {
+        assert name.length() <= 8;
+        assert name.matches("[a-zA-Z0-9]+");
+        this.lore.add(Component.text(getFixedName(name)).color(color).decoration(TextDecoration.ITALIC, false)
+                .append(Component.text(" : ").color(BASE_COLOR).decoration(TextDecoration.ITALIC, false))
+                .append(Component.text(String.format("%.2f", param)).color(color).decoration(TextDecoration.ITALIC, false))
+                .append(Component.text(" / ").color(BASE_COLOR).decoration(TextDecoration.ITALIC, false))
+                .append(Component.text(String.format("%.2f", param / all * 100)).color(color).decoration(TextDecoration.ITALIC, false))
+                .append(Component.text("%").color(BASE_COLOR).decoration(TextDecoration.ITALIC, false)));
+    }
+
+    /**
+     * おおよそ0~1.0のパラメータと、単位をLoreに追加します。
+     *
+     * @param name  パラメータ名(半角英数字8文字以内)
+     * @param color パラメータ名の色
+     * @param param パラメータの値
+     * @param unit  単位
+     */
+
+    void addParamLore(String name, TextColor color, double param, String unit) {
+        assert name.length() <= 8;
+        assert name.matches("[a-zA-Z0-9]+");
+        this.lore.add(Component.text(getFixedName(name)).color(color).decoration(TextDecoration.ITALIC, false)
+                .append(Component.text(" : ").color(BASE_COLOR).decoration(TextDecoration.ITALIC, false))
+                .append(Component.text(String.format("%.2f", param)).color(color).decoration(TextDecoration.ITALIC, false))
+                .append(Component.text(unit).color(BASE_COLOR).decoration(TextDecoration.ITALIC, false)));
+    }
+
+    /**
+     * 濃度をLoreに追加します。
+     *
+     * @param name    パラメータ名(半角英数字8文字以内)
+     * @param color   パラメータ名の色
+     * @param percent パラメータの値
+     */
+    void addPercentLore(String name, TextColor color, double percent) {
+        assert name.length() <= 8;
+        assert name.matches("[a-zA-Z0-9]+");
+        this.lore.add(Component.text(getFixedName(name)).color(color).decoration(TextDecoration.ITALIC, false)
+                .append(Component.text(" : ").color(BASE_COLOR).decoration(TextDecoration.ITALIC, false))
+                .append(Component.text(String.format("%.2f", percent)).color(color).decoration(TextDecoration.ITALIC, false))
+                .append(Component.text("%").color(BASE_COLOR).decoration(TextDecoration.ITALIC, false)));
+    }
+
+    /**
      * 倍率補正のパラメータをLoreに追加します。
      *
      * @param name  パラメータ名(半角英数字8文字以内)

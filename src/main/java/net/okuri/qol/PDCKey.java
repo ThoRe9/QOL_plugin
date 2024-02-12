@@ -112,8 +112,16 @@ public enum PDCKey {
     // TASTE_ID: 味のID
     TASTE_PARAM("taste_param", PersistentDataType.DOUBLE, ApplyType.ITEM),
     // TASTE_PARAM: 味のパラメータ
-    TASTES("tastes", PersistentDataType.TAG_CONTAINER_ARRAY, ApplyType.ITEM);
+    TASTES("tastes", PersistentDataType.TAG_CONTAINER_ARRAY, ApplyType.ITEM),
     // TASTES: 味の情報
+    DELICACY("delicacy", PersistentDataType.DOUBLE, ApplyType.ITEM),
+    // DELICACY: 味の癖のつよさ。
+    FERMENTATION_DEGREE("fermentation_degree", PersistentDataType.DOUBLE, ApplyType.ITEM),
+    // FERMENTATION_DEGREE: 発酵度
+    FERMENTATION_RATE("fermentation_rate", PersistentDataType.DOUBLE, ApplyType.ITEM),
+    // FERMENTATION_RATE: 発酵速度の倍率
+    FERMENTATION_ALC_RATE("fermentation_alc_rate", PersistentDataType.DOUBLE, ApplyType.ITEM);
+    // FERMENTATION_ALC_RATE: 発酵のアルコール生成倍率
 
 
     public final NamespacedKey key;

@@ -12,15 +12,25 @@ public abstract class Taste {
     private final String ID;
     private final String displayName;
     private final NamedTextColor color;
+    // degradability: 1日の発酵で減少する割合。減少した分だけSugarが増加する
+    private final double degradability;
+    // volatility: 1回の蒸留で減少する割合。
+    private final double volatility;
     /**
      * 味の効果の情報
      * effectType: ポーション効果の種類
      * effectAmplifier: パラメータ1のときのポーション効果の強さ
-     * effectDurationPerAmount: パラメータ1のときの1mlあたりのポーション効果の持続時間
+     * effectDuration: パラメータ1のときの1mlあたりのポーション効果の持続時間
      */
     PotionEffectType effectType;
     double effectAmplifier;
-    double effectDurationPerAmount;
+    double effectDuration;
+    /**
+     * durationAmp: パラメータが1の時の持続時間の増幅率。すべてのポーション効果に対し作用する
+     * levelAmp: レベルの増幅率。すべてのポーション効果に対し作用する
+     */
+    double durationAmplifier;
+    double levelAmplifier;
 
 
     /**
@@ -29,12 +39,16 @@ public abstract class Taste {
      * @param ID          味のID(半角英数字とアンダーバーのみで、すべて小文字かつ、空白なし)
      * @param displayName 味の表示名
      * @param color       味の表示色
+     * @param degradability 発酵時の減少率
+     * @param volatility 蒸留時の減少率
      */
-    public Taste(String ID, String displayName, NamedTextColor color) {
+    public Taste(String ID, String displayName, NamedTextColor color, double degradability, double volatility) {
         assert ID.matches("[a-z0-9_]+");
         this.ID = ID;
         this.displayName = displayName;
         this.color = color;
+        this.degradability = degradability;
+        this.volatility = volatility;
     }
 
     public String getID() {
@@ -54,7 +68,7 @@ public abstract class Taste {
     }
 
     public boolean hasPotionInfo() {
-        return effectType != null && effectAmplifier != 0 && effectDurationPerAmount != 0;
+        return effectType != null && effectAmplifier != 0 && effectDuration != 0;
     }
 
     public PotionEffectType getEffectType() {
@@ -65,7 +79,15 @@ public abstract class Taste {
         return effectAmplifier;
     }
 
-    public double getEffectDurationPerAmount() {
-        return effectDurationPerAmount;
+    public double getEffectDuration() {
+        return effectDuration;
+    }
+
+    public double getDurationAmplifier() {
+        return durationAmplifier;
+    }
+
+    public double getLevelAmplifier() {
+        return levelAmplifier;
     }
 }
