@@ -14,7 +14,7 @@ public abstract class Taste {
     private final NamedTextColor color;
     // degradability: 1日の発酵で減少する割合。減少した分だけSugarが増加する
     private final double degradability;
-    // FermentationLine: 発酵度がこの値を超えると効果がよりよくなる。負の値の場合は発酵度によって効果が変化しない。
+
     private final double[] fermentationCoeffients;
     // fermentationCoeffients: 発酵度による効果の変化率。0:発行度が∞のときの倍率, 1:速度(0<c<∞)
     private final double volatility;
@@ -40,9 +40,10 @@ public abstract class Taste {
      */
     double levelAmplifier;
     // volatility: 1回の蒸留で減少する割合。
-    private double bestFermentation = -1;
+    double bestFermentation = -1;
     // bestMaturation: 最適な発酵度。負の値の場合は発酵度によって効果が変化しない。
-    private double fermentationLine = -1;
+    double fermentationLine = -1;
+    // FermentationLine: 発酵度がこの値を超えると効果がよりよくなる。負の値の場合は発酵度によって効果が変化しない。
 
 
     /**
@@ -105,6 +106,10 @@ public abstract class Taste {
 
     public double getLevelAmplifier() {
         return levelAmplifier;
+    }
+
+    public double getDegradability() {
+        return degradability;
     }
 
     public double getFermentationBuff(double fermentation) {

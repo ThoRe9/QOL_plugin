@@ -11,5 +11,6 @@ public class BarleyTaste extends PotionEffectTaste {
 
     private BarleyTaste() {
         super("barley", "麦の香り", NamedTextColor.GOLD, 0.2, 0.1, PotionEffectType.FAST_DIGGING, 1.5, 3600 * 20);
+        super.fermentationLine = 1;
     }
 }

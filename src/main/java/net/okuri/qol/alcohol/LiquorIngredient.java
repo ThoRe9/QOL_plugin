@@ -126,6 +126,7 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
     public void setMatrix(SuperItemStack[] matrix, String id) {
         this.canCraft = true;
         boolean flag = false;
+        double resourceDelicacy = -1;
         if ("initialize".equals(id)) {
             this.initialize(matrix[0]);
             return;
@@ -148,8 +149,7 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
                         this.tastes.put(entry.getKey(), entry.getValue());
                     }
                 }
-                double a = (double) PDCC.get(item.getItemMeta(), PDCKey.DELICACY);
-                this.delicacy = (1.9 * a * this.delicacy) / (a + this.delicacy);
+                resourceDelicacy = (double) PDCC.get(item.getItemMeta(), PDCKey.DELICACY);
                 this.ingredientCount++;
             }
             // 原料が水の場合、水を足す
@@ -159,6 +159,13 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         }
         if (this.ingredientCount / this.liquorAmount > 3) {
             this.canCraft = false;
+        }
+        if (resourceDelicacy != -1) {
+            if (this.delicacy == 0) {
+                this.delicacy = resourceDelicacy;
+            } else {
+                this.delicacy = (1.9 * resourceDelicacy * this.delicacy) / (resourceDelicacy + this.delicacy);
+            }
         }
     }
 
@@ -200,8 +207,9 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         double fermentation = fermentationRate * days;
         double alc = 0;
         for (Map.Entry<Taste, Double> entry : this.tastes.entrySet()) {
-            double decrease = entry.getValue() * Math.pow(0.9, fermentation);
-            this.tastes.put(entry.getKey(), entry.getValue() - decrease);
+            double buff = Math.pow(1 - entry.getKey().getDegradability(), fermentation);
+            double decrease = entry.getValue() * (1 - buff);
+            this.tastes.put(entry.getKey(), entry.getValue() * buff);
             alc += decrease * alcoholRate;
         }
         this.alcoholAmount += alc;

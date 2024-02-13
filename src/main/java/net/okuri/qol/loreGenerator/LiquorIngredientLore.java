@@ -30,6 +30,7 @@ public class LiquorIngredientLore extends Lore {
         for (Map.Entry<Taste, Double> entry : tasteParams.entrySet()) {
             addParamLore(entry.getKey().getDisplayName(), entry.getKey().getColor(), entry.getValue(), amount);
         }
+        addSeparator();
         addParamLore("くせの強さ", Lore.A_COLOR, delicacy, amount);
         addPercentLore("傾向", Lore.B_COLOR, effectRate * 100);
         addPercentLore("アルコール度数", Lore.C_COLOR, alcoholAmount / amount * 100);

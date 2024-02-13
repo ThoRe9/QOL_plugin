@@ -123,12 +123,14 @@ net\okuri\qol\superItems\factory\resources\SugarCane.class
 net\okuri\qol\superItems\factory\foods\RyeBread.class
 net\okuri\qol\superItems\factory\drinks\Liquor.class
 net\okuri\qol\superItems\factory\drinks\sake\SakeIngredient.class
+net\okuri\qol\loreGenerator\LiquorLore.class
 net\okuri\qol\superItems\itemStack\SuperLiquorIngredientStack.class
 net\okuri\qol\alcohol\taste\BarleyTaste.class
 net\okuri\qol\superItems\factory\drinks\Horoyoi.class
 net\okuri\qol\alcohol\taste\AlcoholTaste.class
 net\okuri\qol\superItems\factory\resources\SuperPotato.class
 net\okuri\qol\event\MaturationPrepareEvent.class
+net\okuri\qol\loreGenerator\TasteEffectInfo.class
 net\okuri\qol\superItems\SuperItemType.class
 net\okuri\qol\superItems\factory\resources\SampleResource.class
 net\okuri\qol\listener\Food.class

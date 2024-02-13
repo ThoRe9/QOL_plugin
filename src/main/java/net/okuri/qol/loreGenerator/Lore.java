@@ -155,6 +155,34 @@ public abstract class Lore {
                 .append(Component.text("×" + String.format("%.2f", param)).color(color).decoration(TextDecoration.ITALIC, false)));
     }
 
+    /**
+     * 倍率補正のパラメータをLoreに追加します。
+     *
+     * @param name   パラメータ名(半角英数字8文字以内)
+     * @param color  パラメータ名の色
+     * @param params パラメータの値
+     * @param units  パラメータの単位
+     */
+    void addDoubleArrayLore(String name, TextColor color, double[] params, String[] units) {
+        assert name.length() <= 8;
+        assert name.matches("[a-zA-Z0-9]+");
+        assert params.length == units.length;
+        Component comp = Component.text(getFixedName(name)).color(color).decoration(TextDecoration.ITALIC, false)
+                .append(Component.text(" : ").color(BASE_COLOR).decoration(TextDecoration.ITALIC, false));
+        for (int i = 0; i < params.length; i++) {
+            comp = comp.append(Component.text(String.format("%.2f", params[i])).color(color).decoration(TextDecoration.ITALIC, false))
+                    .append(Component.text(units[i]).color(BASE_COLOR).decoration(TextDecoration.ITALIC, false));
+            if (i != params.length - 1) {
+                comp = comp.append(Component.text(" / ").color(BASE_COLOR).decoration(TextDecoration.ITALIC, false));
+            }
+        }
+        this.lore.add(comp);
+    }
+
+    void addSeparator() {
+        this.lore.add(Component.text("--------------------").color(BASE_COLOR).decoration(TextDecoration.ITALIC, false));
+    }
+
     public abstract void generateLore();
 
     public ArrayList<Component> getLore() {

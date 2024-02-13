@@ -5,12 +5,12 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.okuri.qol.alcohol.taste.Taste;
 import net.okuri.qol.loreGenerator.LiquorIngredientLore;
+import net.okuri.qol.loreGenerator.LiquorLore;
 import net.okuri.qol.loreGenerator.LoreGenerator;
 import net.okuri.qol.qolCraft.superCraft.Distributable;
 import net.okuri.qol.qolCraft.superCraft.DistributionReceiver;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
-import org.bukkit.Bukkit;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -21,6 +21,7 @@ import java.util.Objects;
 
 public class Liquor extends LiquorIngredient implements Distributable, DistributionReceiver {
     private ArrayList<PotionEffect> potionEffects = new ArrayList<>();
+    private LiquorLore lore = new LiquorLore();
 
     public Liquor(String name) {
         super(SuperItemType.LIQUOR);
@@ -50,6 +51,7 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
         }
         LoreGenerator gen = new LoreGenerator();
         gen.addLore(lore);
+        gen.addLore(this.lore);
         gen.setLore(meta);
         stack.setItemMeta(meta);
         return stack;
@@ -57,11 +59,14 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
 
     private void setPotionEffects() {
         class TasteEffect {
+            Taste taste;
             PotionEffectType type;
             double durationRate;
             double amplifierRate;
             double value;
+            double fermentationBuff;
         }
+        this.lore = new LiquorLore();
         double durationBuff = 1;
         double amplifierBuff = 1;
         ArrayList<TasteEffect> potionEffectTypes = new ArrayList<>();
@@ -69,10 +74,12 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
         for (Map.Entry<Taste, Double> taste : this.getTastes().entrySet()) {
             if (taste.getKey().hasPotionInfo()) {
                 TasteEffect effect = new TasteEffect();
+                effect.taste = taste.getKey();
                 effect.type = taste.getKey().getEffectType();
                 effect.durationRate = taste.getKey().getEffectDuration();
                 effect.amplifierRate = taste.getKey().getEffectAmplifier();
                 effect.value = taste.getValue();
+                effect.fermentationBuff = taste.getKey().getFermentationBuff(super.getFermentationDegree());
                 potionEffectTypes.add(effect);
             }
             if (taste.getKey().hasBuffInfo()) {
@@ -82,10 +89,16 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
         }
 
         for (TasteEffect effect : potionEffectTypes) {
-            int duration = (int) (effect.durationRate * durationBuff * calcDelicacyBuff(effect.value * super.getEffectRate()));
-            int amplifier = (int) (effect.amplifierRate * amplifierBuff * calcDelicacyBuff(effect.value * super.getEffectRate()));
+            double ampParam = calcDelicacyBuff(effect.value) * (1 - super.getEffectRate());
+            double durParam = calcDelicacyBuff(effect.value) * super.getEffectRate();
+            int duration = (int) (effect.durationRate * durationBuff * durParam * effect.fermentationBuff);
+            int amplifier = (int) (effect.amplifierRate * amplifierBuff * ampParam * effect.fermentationBuff);
             this.potionEffects.add(new PotionEffect(effect.type, duration, amplifier));
+
+            this.lore.addTasteEffect(effect.taste, ampParam, durParam, effect.fermentationBuff, calcDelicacyBuff(effect.value) / effect.value);
         }
+        this.lore.setTotalAmpBuff(amplifierBuff);
+        this.lore.setTotalDurBuff(durationBuff);
     }
 
     @Override
@@ -113,16 +126,12 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
 
     @Override
     public boolean isDistributable(double smallBottleAmount, int smallBottleCount) {
-        Bukkit.getLogger().info("Liquor.isDistributable: " + this.getAmount());
-        Bukkit.getLogger().info("Liquor.isDistributable: " + (smallBottleAmount * smallBottleCount));
         return this.getAmount() >= (smallBottleAmount * smallBottleCount);
     }
 
     @Override
     public void distribute(double smallBottleAmount, int smallBottleCounts) {
         super.setRecentAmount(this.getAmount() - (smallBottleAmount * smallBottleCounts));
-        Bukkit.getLogger().info("Liquor.distribute: " + this.getAmount());
-        Bukkit.getLogger().info("Liquor.distribute: " + super.getRecentAmount());
         this.adjustTasteValue();
     }
 
