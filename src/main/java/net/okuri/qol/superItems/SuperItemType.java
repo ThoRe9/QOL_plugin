@@ -76,9 +76,10 @@ public enum SuperItemType {
     FISHERMAN_ADAPTER("FISHERMAN_ADAPTER", 0, Material.PUFFERFISH, SuperItemTag.LIQUOR_ADAPTOR),
     NEW_BARLEY("NEW_BARLEY", 0, Material.WHEAT, SuperItemTag.LIQUOR_RESOURCE),
     LIQUOR_INGREDIENT("LIQUOR_INGREDIENT", 0, Material.POTION, SuperItemTag.INGREDIENT),
-    NEW_KOJI("KOJI", 0, Material.POTION, SuperItemTag.INGREDIENT),
     YEAST("YEAST", 0, Material.POTION, SuperItemTag.INGREDIENT),
-    FERMENTATION_INGREDIENT("FERMENTATION_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT);
+    FERMENTATION_INGREDIENT("FERMENTATION_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
+    LIQUOR("LIQUOR", 0, Material.POTION, SuperItemTag.LIQUOR),
+    LIQUOR_GLASS("LIQUOR_GLASS", 0, Material.POTION, SuperItemTag.LIQUOR);
 
     private final String type;
     private final int customModelData;
@@ -201,10 +202,14 @@ public enum SuperItemType {
                 Map<Taste, Double> tastes = new HashMap<>();
                 tastes.put(TasteController.getController().getTaste("barley"), 0.1);
                 return new LiquorIngredient(1, 0.1, tastes, 0.1);
-            case NEW_KOJI:
-                return new net.okuri.qol.alcohol.Koji();
+            case YEAST:
+                return new net.okuri.qol.alcohol.Yeast();
             case FERMENTATION_INGREDIENT:
                 return new net.okuri.qol.alcohol.FermentationIngredient();
+            case LIQUOR:
+                return new net.okuri.qol.alcohol.Liquor();
+            case LIQUOR_GLASS:
+                return new net.okuri.qol.alcohol.LiquorGlass();
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }

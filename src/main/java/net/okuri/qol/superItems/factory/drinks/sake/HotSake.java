@@ -71,4 +71,9 @@ public class HotSake extends SakeBottle implements Distillable, Distributable {
         this.setDistillationVariable(new SakeBottle().getDebugItem(args), 0.0, 0.0);
         return this.getSuperItem();
     }
+
+    @Override
+    public void setAmount(SuperItemStack stack) {
+        initialize(stack);
+    }
 }

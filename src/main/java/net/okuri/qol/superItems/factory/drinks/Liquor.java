@@ -489,6 +489,11 @@ public abstract class Liquor extends CraftableXYZItem implements Distributable, 
         return newAmount;
     }
 
+    @Override
+    public void setAmount(SuperItemStack stack) {
+        initialize(new SuperLiquorStack(stack));
+    }
+
     public void setAlcoholAmount(double alcoholAmount) {
         this.alcoholAmount = alcoholAmount;
         this.useAmount = alcoholAmount;

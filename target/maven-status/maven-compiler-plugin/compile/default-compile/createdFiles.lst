@@ -50,16 +50,17 @@ net\okuri\qol\superItems\factory\drinks\spirits\RumIngredient.class
 net\okuri\qol\superItems\factory\drinks\whisky\BeerIngredient.class
 net\okuri\qol\loreGenerator\Lore.class
 net\okuri\qol\superItems\factory\tools\FarmerToolAdapter.class
+net\okuri\qol\alcohol\Liquor$1TasteEffect.class
 net\okuri\qol\PDCC.class
 net\okuri\qol\qolCraft\distillation\DistillationRecipe.class
 net\okuri\qol\listener\ProtectListener.class
 net\okuri\qol\superItems\factory\adapter\Adapter.class
 net\okuri\qol\superItems\factory\foods\Bread.class
 net\okuri\qol\superItems\SuperItemData.class
-net\okuri\qol\alcohol\Koji.class
 net\okuri\qol\superItems\factory\drinks\sake\ShochuBottle.class
 net\okuri\qol\superItems\factory\drinks\whisky\Whisky.class
 net\okuri\qol\alcohol\taste\TasteController.class
+net\okuri\qol\alcohol\Yeast.class
 net\okuri\qol\superItems\factory\drinks\Liquor$MaturationType.class
 net\okuri\qol\superItems\factory\FusionCraft.class
 net\okuri\qol\loreGenerator\LoreGenerator.class
@@ -79,6 +80,7 @@ net\okuri\qol\superItems\factory\CraftableXYZItem.class
 net\okuri\qol\help\HelpCommand.class
 net\okuri\qol\listener\InteractListener$1.class
 net\okuri\qol\PDCKey.class
+net\okuri\qol\alcohol\LiquorGlass.class
 net\okuri\qol\QOL.class
 net\okuri\qol\superItems\factory\drinks\spirits\Rum.class
 net\okuri\qol\superItems\factory\SuperItem.class
@@ -94,6 +96,7 @@ net\okuri\qol\qolCraft\calcuration\RandFromXYZ.class
 net\okuri\qol\superItems\factory\ingredient\Koji.class
 net\okuri\qol\qolCraft\superCraft\DistributionCraftRecipe.class
 net\okuri\qol\superItems\factory\drinks\spirits\RumStraight.class
+net\okuri\qol\alcohol\Liquor.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftRecipe.class
 net\okuri\qol\qolCraft\calcuration\CirculeDistribution.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake$TasteType.class

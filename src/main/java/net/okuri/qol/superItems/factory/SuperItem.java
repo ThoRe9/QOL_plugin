@@ -76,7 +76,10 @@ public abstract class SuperItem {
         return this.material;
     }
 
-    public abstract SuperItemStack getSuperItem();
+    public SuperItemStack getSuperItem() {
+        SuperItemStack stack = new SuperItemStack(this.superItemData.getType(), this.count);
+        return stack;
+    }
 
     public abstract SuperItemStack getDebugItem(int... args);
 

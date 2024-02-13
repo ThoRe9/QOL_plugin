@@ -14,23 +14,35 @@ public abstract class Taste {
     private final NamedTextColor color;
     // degradability: 1日の発酵で減少する割合。減少した分だけSugarが増加する
     private final double degradability;
-    // volatility: 1回の蒸留で減少する割合。
+    // FermentationLine: 発酵度がこの値を超えると効果がよりよくなる。負の値の場合は発酵度によって効果が変化しない。
+    private final double[] fermentationCoeffients;
+    // fermentationCoeffients: 発酵度による効果の変化率。0:発行度が∞のときの倍率, 1:速度(0<c<∞)
     private final double volatility;
+    /**
+     * levelAmp: レベルの増幅率。すべてのポーション効果に対し作用する
+     */
+    double effectAmplifier;
+    /**
+     * effectDuration: パラメータ1のときのポーション効果の持続時間
+     */
+    double effectDuration;
     /**
      * 味の効果の情報
      * effectType: ポーション効果の種類
-     * effectAmplifier: パラメータ1のときのポーション効果の強さ
-     * effectDuration: パラメータ1のときの1mlあたりのポーション効果の持続時間
      */
     PotionEffectType effectType;
-    double effectAmplifier;
-    double effectDuration;
     /**
      * durationAmp: パラメータが1の時の持続時間の増幅率。すべてのポーション効果に対し作用する
-     * levelAmp: レベルの増幅率。すべてのポーション効果に対し作用する
      */
     double durationAmplifier;
+    /**
+     * levelAmp: レベルの増幅率。すべてのポーション効果に対し作用する
+     */
     double levelAmplifier;
+    // volatility: 1回の蒸留で減少する割合。
+    private double bestFermentation = -1;
+    // bestMaturation: 最適な発酵度。負の値の場合は発酵度によって効果が変化しない。
+    private double fermentationLine = -1;
 
 
     /**
@@ -49,6 +61,7 @@ public abstract class Taste {
         this.color = color;
         this.degradability = degradability;
         this.volatility = volatility;
+        this.fermentationCoeffients = new double[]{2, 0.5};
     }
 
     public String getID() {
@@ -83,11 +96,36 @@ public abstract class Taste {
         return effectDuration;
     }
 
+    public boolean hasBuffInfo() {
+        return durationAmplifier != 0 && levelAmplifier != 0;
+    }
     public double getDurationAmplifier() {
         return durationAmplifier;
     }
 
     public double getLevelAmplifier() {
         return levelAmplifier;
+    }
+
+    public double getFermentationBuff(double fermentation) {
+        if (bestFermentation > 0 && fermentationLine > 0) {
+            return 0.4 * (bestFunc(fermentation) + 0.6 * growFunc(fermentation));
+        } else if (bestFermentation > 0) {
+            return bestFunc(fermentation);
+        } else if (fermentationLine > 0) {
+            return growFunc(fermentation);
+        }
+        return 1;
+    }
+
+    private double growFunc(double x) {
+        double a = fermentationCoeffients[0];
+        double b = fermentationLine;
+        double c = fermentationCoeffients[1];
+        return (((-1) * a * b * (a - 1)) / (Math.pow(x, c) + b * (a - 1))) + a;
+    }
+
+    private double bestFunc(double x) {
+        return Math.exp((-1) * (x - bestFermentation) * (x - bestFermentation) / 2) + 0.5;
     }
 }

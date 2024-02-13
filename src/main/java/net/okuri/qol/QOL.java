@@ -167,7 +167,7 @@ public final class QOL extends JavaPlugin {
         polishedRiceRecipe2.setResultClass(new PolishedRice());
         superCraft.addShapelessSuperCraftRecipe(polishedRiceRecipe2);
 
-        // Koji
+        // Yeast
         SuperCraftRecipe kojiRecipe = new SuperCraftRecipe("koji");
         kojiRecipe.setShape(new String[]{" R ", " W ", "   "});
         kojiRecipe.addIngredient('R', SuperItemType.POLISHED_RICE);
@@ -339,9 +339,22 @@ public final class QOL extends JavaPlugin {
         // fermentation ingredient
         ShapelessSuperCraftRecipe fi = new ShapelessSuperCraftRecipe("fermentation_ingredient");
         fi.addIngredient(SuperItemType.LIQUOR_INGREDIENT);
-        fi.addIngredient(SuperItemType.NEW_KOJI);
+        fi.addIngredient(SuperItemType.YEAST);
         fi.setResultClass(new FermentationIngredient());
         superCraft.addShapelessSuperCraftRecipe(fi);
+
+        // Liquor
+        ShapelessSuperCraftRecipe lq = new ShapelessSuperCraftRecipe("liquor");
+        lq.addIngredient(SuperItemType.LIQUOR_INGREDIENT);
+        lq.setResultClass(new net.okuri.qol.alcohol.Liquor());
+        superCraft.addShapelessSuperCraftRecipe(lq);
+
+        // LiquorGlass
+        DistributionCraftRecipe lg = new DistributionCraftRecipe("liquor_glass");
+        lg.setDistribution(new net.okuri.qol.alcohol.Liquor());
+        lg.setReciver(new net.okuri.qol.alcohol.LiquorGlass());
+        lg.setBottle(Material.GLASS_BOTTLE);
+        superCraft.addDistributionCraftRecipe(lg);
 
         for (String s : superCraft.getRecipeList()) {
             getLogger().info(s);

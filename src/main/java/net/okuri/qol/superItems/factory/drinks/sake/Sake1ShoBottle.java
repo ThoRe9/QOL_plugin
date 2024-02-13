@@ -98,4 +98,9 @@ public class Sake1ShoBottle extends Sake implements Maturable, Distributable {
         super.setting();
     }
 
+    @Override
+    public void setAmount(SuperItemStack stack) {
+        initialize(stack);
+    }
+
 }

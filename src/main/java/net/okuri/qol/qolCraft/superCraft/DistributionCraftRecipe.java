@@ -9,6 +9,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 public class DistributionCraftRecipe implements SuperRecipe {
@@ -26,8 +28,10 @@ public class DistributionCraftRecipe implements SuperRecipe {
     private double smallBottleAmount;
     private int smallBottleCount;
     private SuperItemData bottle = new SuperItemData(Material.GLASS_BOTTLE);
-    private Distributable distribution;
-    private DistributionReceiver receiver;
+    private Class<? extends Distributable> distribution;
+    private Class<? extends DistributionReceiver> receiver;
+    private Distributable distributionInstance;
+    private DistributionReceiver receiverInstance;
     private SuperItemStack[] matrix = new SuperItemStack[9];
     private final ArrayList<SuperItemStack> result = new ArrayList<>();
     private SuperItemStack returnBottle;
@@ -36,6 +40,15 @@ public class DistributionCraftRecipe implements SuperRecipe {
     }
     @Override
     public boolean checkSuperRecipe(SuperItemStack[] matrix) {
+        try {
+            Constructor<? extends Distributable> constructor1 = this.distribution.getConstructor();
+            this.distributionInstance = constructor1.newInstance();
+            Constructor<? extends DistributionReceiver> constructor2 = this.receiver.getConstructor();
+            this.receiverInstance = constructor2.newInstance();
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException |
+                 InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
         // まず、matrixの中にbigBottleTypeを持つものが在るかチェック
         // あれば、その個数を数える。2つ以上あった時点でfalseを返す。
         // 同時にbigBottleType,bottle以外のアイテムがあればfalseを返す。
@@ -46,6 +59,7 @@ public class DistributionCraftRecipe implements SuperRecipe {
         ArrayList<SuperItemData> lastOtherIngredients = new ArrayList<>(otherIngredients);
         int smallBottleCount = 0;
         int bigBottleCount = 0;
+        double bigBottleAmount = 0;
         SuperItemStack distributionItem = null;
 
         for (SuperItemStack itemStack : matrix) {
@@ -113,15 +127,20 @@ public class DistributionCraftRecipe implements SuperRecipe {
             index++;
         }
 
+
+        distributionInstance.setAmount(distributionItem);
         //Bukkit.getLogger().info("isDistributable");
-        return distribution.isDistributable(smallBottleAmount, smallBottleCount);
+        return distributionInstance.isDistributable(smallBottleAmount, smallBottleCount);
         //Bukkit.getLogger().info("is not Distributable");
     }
     public Distributable getDistribution(){
-        return distribution;
+        return distributionInstance;
     }
-    public DistributionReceiver getReceiver(){
-        return receiver;
+
+    public void setDistribution(Distributable distribution){
+        this.distribution = distribution.getClass();
+        this.bigBottleData = ((SuperItem) distribution).getSuperItemData();
+        this.distributionInstance = distribution;
     }
     public int getSmallBottleCount(){
         return smallBottleCount;
@@ -129,20 +148,23 @@ public class DistributionCraftRecipe implements SuperRecipe {
     public double getSmallBottleAmount(){
         return smallBottleAmount;
     }
+
+    public DistributionReceiver getReceiver(){
+        return receiverInstance;
+    }
+
     public void setReciver(DistributionReceiver receiver){
-        this.receiver = receiver;
+        this.receiver = receiver.getClass();
         this.smallBottleAmount = receiver.getAmount();
+        this.receiverInstance = receiver;
     }
+
     public void process(){
-        distribution.setMatrix(matrix, "distribution");
-        receiver.setMatrix(matrix, "distribution_receiver");
-        distribution.distribute(smallBottleAmount,smallBottleCount);
-        receiver.receive(smallBottleCount);
-        this.returnBottle = this.distribution.getSuperItem();
-    }
-    public void setDistribution(Distributable distribution){
-        this.distribution = distribution;
-        this.bigBottleData = ((SuperItem) distribution).getSuperItemData();
+        distributionInstance.setMatrix(matrix, "distribution");
+        receiverInstance.setMatrix(matrix, "distribution_receiver");
+        distributionInstance.distribute(smallBottleAmount, smallBottleCount);
+        receiverInstance.receive(smallBottleCount);
+        this.returnBottle = this.distributionInstance.getSuperItem();
     }
     public void setBottle(Material bottle){
         this.bottle = new SuperItemData(bottle);
@@ -169,9 +191,10 @@ public class DistributionCraftRecipe implements SuperRecipe {
     public String getId(){
         return id;
     }
+
     @Override
     public @NotNull SuperItemStack getResult() {
-        return ((SuperItem) receiver).getSuperItem();
+        return this.getReceiver().getSuperItem();
     }
 
     @Override

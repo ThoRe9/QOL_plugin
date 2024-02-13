@@ -80,4 +80,9 @@ public class ShochuBottle extends Shochu implements DistributionReceiver, Distri
         super.amount = 170.0;
         super.setting();
     }
+
+    @Override
+    public void setAmount(SuperItemStack stack) {
+        initialize(stack);
+    }
 }

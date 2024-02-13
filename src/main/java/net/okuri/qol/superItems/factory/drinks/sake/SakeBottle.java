@@ -97,4 +97,9 @@ public class SakeBottle extends Sake implements DistributionReceiver, Distributa
         super.amount = amount - decline;
         super.setting();
     }
+
+    @Override
+    public void setAmount(SuperItemStack stack) {
+        initialize(stack);
+    }
 }

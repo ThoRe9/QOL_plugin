@@ -12,22 +12,22 @@ import net.okuri.qol.superItems.factory.SuperItem;
 import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class Koji extends SuperItem {
+public class Yeast extends SuperItem {
     /**
      * ferementationRate 1日で何日分の発酵をするか
      * alcoholRate Tasteパラメータが1減った時のアルコール量の変化量
      */
     private double fermentationRate = 1.0;
-    private double alcoholRate = 0.01;
+    private double alcoholRate = 0.05;
 
-    public Koji() {
-        super(SuperItemType.NEW_KOJI);
+    public Yeast() {
+        super(SuperItemType.YEAST);
     }
 
     @Override
     public SuperItemStack getSuperItem() {
         SuperItemStack stack = new SuperItemStack(this.getSuperItemType());
-        stack.setDisplayName(Component.text("麹", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
+        stack.setDisplayName(Component.text("酵母", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
         ItemMeta meta = stack.getItemMeta();
 
         PDCC.set(meta, PDCKey.FERMENTATION_RATE, fermentationRate);

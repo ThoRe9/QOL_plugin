@@ -40,6 +40,8 @@ public class LiquorResource extends SuperItem {
     //以下パラメータ
     private double baseTasteValue;
     private double delicacy = 0.5;
+    // effectRate : 1 = Durにすべてのパラメータが使われる 0 = Ampにすべてのパラメータが使われる
+    private double effectRate = 0.5;
 
     /**
      * 酒類の原料となるアイテムを生成するためのベースとなるクラスです。
@@ -59,17 +61,6 @@ public class LiquorResource extends SuperItem {
         this.probability = probability;
         this.baseTaste = baseTaste;
         setFactors(seed);
-    }
-
-    public LiquorResource(SuperItemStack item) {
-        super(item.getSuperItemType());
-        assert item.getSuperItemType().hasTag(SuperItemTag.RESOURCE);
-        ItemMeta meta = item.getItemMeta();
-        this.display = ((LiquorResource) SuperItemType.getSuperItemClass(this.getSuperItemType())).getDisplay();
-        this.blockMaterial = ((LiquorResource) SuperItemType.getSuperItemClass(this.getSuperItemType())).getBlockMaterial();
-        this.probability = ((LiquorResource) SuperItemType.getSuperItemClass(this.getSuperItemType())).getProbability();
-        this.baseTaste = ((LiquorResource) SuperItemType.getSuperItemClass(this.getSuperItemType())).baseTaste;
-
     }
 
     private void setFactors(int seed) {
@@ -97,12 +88,18 @@ public class LiquorResource extends SuperItem {
         this.biomeId = biomeId;
         this.producer = producer;
         this.baseTasteValue = calcParam(posX / 16, posY / 16);
+        calcEffectRate(temp, humid);
+        this.delicacy = this.baseTasteValue * (1 - this.effectRate);
     }
 
     private double calcParam(int x, int y) {
         double a = sinFactor * Math.sin(x * factors[0][0] + y * factors[0][1] + factors[0][2]);
         double b = (1 - sinFactor) * Math.cos(x * factors[1][0] + y * factors[1][1] + factors[1][2]);
         return (a + b + 2) * 0.4;
+    }
+
+    private double calcEffectRate(double temp, double humid) {
+        return Math.exp((-1) * (Math.pow(temp, 2) + Math.pow(humid, 2)));
     }
 
     @Override
@@ -114,6 +111,7 @@ public class LiquorResource extends SuperItem {
         ResourceLore lore = new ResourceLore();
         lore.addTaste(baseTaste, baseTasteValue);
         lore.setDelicacy(delicacy);
+        lore.setEffectRate(effectRate);
         LoreGenerator loreGenerator = new LoreGenerator();
         loreGenerator.addLore(lore);
         loreGenerator.setLore(meta);
@@ -125,7 +123,11 @@ public class LiquorResource extends SuperItem {
 
     @Override
     public SuperItemStack getDebugItem(int... args) {
-        this.setResVariables(0, 0, 0, 0.0, 0.0, 0, null);
+        if (args.length == 2) {
+            this.setResVariables(0, 0, 0, args[0], args[1], 0, null);
+        } else {
+            this.setResVariables(0, 0, 0, 0, 0, 0, null);
+        }
         return this.getSuperItem();
     }
 
@@ -181,5 +183,9 @@ public class LiquorResource extends SuperItem {
 
     public double getDelicacy() {
         return delicacy;
+    }
+
+    public double getEffectRate() {
+        return effectRate;
     }
 }

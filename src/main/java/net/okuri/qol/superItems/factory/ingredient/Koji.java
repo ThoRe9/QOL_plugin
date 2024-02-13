@@ -68,7 +68,7 @@ public class Koji extends SuperItem implements SuperCraftable {
         PDCC.set(meta, PDCKey.RICE_POLISHING_RATIO, this.ricePolishingRatio);
         PDCC.set(meta, PDCKey.CONSUMABLE, false);
 
-        meta.displayName(Component.text("Koji").color(net.kyori.adventure.text.format.NamedTextColor.GOLD));
+        meta.displayName(Component.text("Yeast").color(net.kyori.adventure.text.format.NamedTextColor.GOLD));
         meta.setColor(Color.WHITE);
 
         LoreGenerator lg = new LoreGenerator();

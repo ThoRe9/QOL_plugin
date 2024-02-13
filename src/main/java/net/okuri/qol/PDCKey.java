@@ -120,8 +120,12 @@ public enum PDCKey {
     // FERMENTATION_DEGREE: 発酵度
     FERMENTATION_RATE("fermentation_rate", PersistentDataType.DOUBLE, ApplyType.ITEM),
     // FERMENTATION_RATE: 発酵速度の倍率
-    FERMENTATION_ALC_RATE("fermentation_alc_rate", PersistentDataType.DOUBLE, ApplyType.ITEM);
+    FERMENTATION_ALC_RATE("fermentation_alc_rate", PersistentDataType.DOUBLE, ApplyType.ITEM),
     // FERMENTATION_ALC_RATE: 発酵のアルコール生成倍率
+    INGREDIENT_COUNT("ingredient_count", PersistentDataType.INTEGER, ApplyType.ITEM),
+    // INGREDIENT_COUNT: 原料の数
+    LIQUOR_EFFECT_RATIO("liquor_effect_ratio", PersistentDataType.DOUBLE, ApplyType.ITEM);
+    // LIQUOR_EFFECT_RATIO: 飲料の効果倍率
 
 
     public final NamespacedKey key;

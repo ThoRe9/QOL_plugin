@@ -15,7 +15,7 @@ import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class FermentationIngredient extends LiquorIngredient {
-    private SuperItemStack koji;
+    private SuperItemStack yeast;
     private double fermentationRate = 1.0;
     private double alcoholRate = 0.01;
 
@@ -26,12 +26,12 @@ public class FermentationIngredient extends LiquorIngredient {
     @Override
     public SuperItemStack getSuperItem() {
         SuperItemStack stack = super.getSuperItem();
-        stack.setDisplayName(Component.text("麹入り Liquor Ingredient", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
+        stack.setDisplayName(Component.text("酵母入り Liquor Ingredient", NamedTextColor.GREEN).decoration(TextDecoration.ITALIC, false));
         ItemMeta meta = stack.getItemMeta();
         PDCC.set(meta, PDCKey.FERMENTATION_RATE, fermentationRate);
         PDCC.set(meta, PDCKey.FERMENTATION_ALC_RATE, alcoholRate);
 
-        LiquorIngredientLore lore = new LiquorIngredientLore(super.getLiquorAmount(), super.getAlcoholAmount(), super.getDelicacy(), super.getFermentationDegree());
+        LiquorIngredientLore lore = new LiquorIngredientLore(super.getLiquorAmount(), super.getAlcoholAmount(), super.getDelicacy(), super.getFermentationDegree(), super.getEffectRate());
         for (Taste taste : super.getTastes().keySet()) {
             lore.addTaste(taste, super.getTastes().get(taste));
         }
@@ -48,17 +48,17 @@ public class FermentationIngredient extends LiquorIngredient {
     @Override
     public void setMatrix(SuperItemStack[] matrix, String id) {
         for (SuperItemStack stack : matrix) {
-            if (stack.getSuperItemData().isSimilar(new SuperItemData(SuperItemType.NEW_KOJI))) {
-                setKoji(stack);
+            if (stack.getSuperItemData().isSimilar(new SuperItemData(SuperItemType.YEAST))) {
+                setYeast(stack);
             } else if (stack.getSuperItemData().isSimilar(new SuperItemData(SuperItemType.LIQUOR_INGREDIENT))) {
                 super.setMatrix(new SuperItemStack[]{stack}, id);
             }
         }
     }
 
-    private void setKoji(SuperItemStack koji) {
-        this.koji = koji;
-        this.fermentationRate = (double) PDCC.get(koji.getItemMeta(), PDCKey.FERMENTATION_RATE);
-        this.alcoholRate = (double) PDCC.get(koji.getItemMeta(), PDCKey.FERMENTATION_ALC_RATE);
+    private void setYeast(SuperItemStack yeast) {
+        this.yeast = yeast;
+        this.fermentationRate = (double) PDCC.get(yeast.getItemMeta(), PDCKey.FERMENTATION_RATE);
+        this.alcoholRate = (double) PDCC.get(yeast.getItemMeta(), PDCKey.FERMENTATION_ALC_RATE);
     }
 }

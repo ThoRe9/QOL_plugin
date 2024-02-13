@@ -29,10 +29,38 @@ import java.util.Map;
 
 public class LiquorIngredient extends SuperItem implements SuperCraftable, Maturable {
     private final Map<Taste, Double> tastes = new HashMap<>();
+    /**
+     * 含まれるアルコールの絶対量。1 = 1L
+     */
     private double alcoholAmount;
+    /**
+     * 酒の量。1 = 1L
+     */
     private double liquorAmount;
+    /**
+     * 新たに設定したい酒の量。これを設定してからadjustを呼ぶことで、酒の量を調整できる。
+     */
+    private double recentAmount;
+    /**
+     * 味の繊細さ。正味のパラメータに対する影響度
+     */
     private double delicacy;
+    /**
+     * 発酵度。1日の発酵で1増加
+     */
     private double fermentationDegree = 0;
+    /**
+     * 入れられた原料の数。3倍以上の場合は生成できない
+     */
+    private int ingredientCount = 0;
+    /**
+     * TasteのパラメータのDurationに振られる割合。 1 = 全てDurationに適用。 0 = 全てAmplifierに適用。
+     */
+    private double effectRate = 0.5;
+    /**
+     * 内部用フィールド。生成できるかできないかを判断する
+     */
+    private boolean canCraft = true;
 
     /**
      * クラフトで生成するLiquorIngredientを生成します。
@@ -69,6 +97,9 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         this.tastes.clear();
         this.delicacy = 0;
         this.fermentationDegree = 0;
+        this.ingredientCount = 0;
+        super.setCount(stack.getAmount());
+        this.effectRate = (double) PDCC.get(meta, PDCKey.LIQUOR_EFFECT_RATIO);
         this.add(stack);
     }
 
@@ -87,13 +118,23 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         }
         this.delicacy += (double) PDCC.get(meta, PDCKey.DELICACY);
         this.fermentationDegree += (double) PDCC.get(meta, PDCKey.FERMENTATION_DEGREE);
+        this.ingredientCount += (int) PDCC.get(meta, PDCKey.INGREDIENT_COUNT);
+        this.effectRate = this.effectRate * 0.5 + ((double) PDCC.get(meta, PDCKey.LIQUOR_EFFECT_RATIO)) * 0.5;
     }
 
     @Override
     public void setMatrix(SuperItemStack[] matrix, String id) {
+        this.canCraft = true;
+        boolean flag = false;
+        if ("initialize".equals(id)) {
+            this.initialize(matrix[0]);
+            return;
+        }
         for (SuperItemStack item : matrix) {
             // ingredient ならば、それを足す
-            if (item.getSuperItemData().isSimilar(new SuperItemData(SuperItemType.LIQUOR_INGREDIENT))) {
+            if (item.getSuperItemData().isSimilar(new SuperItemData(SuperItemType.LIQUOR_INGREDIENT)) && !flag) {
+                this.initialize(item);
+            } else if (item.getSuperItemData().isSimilar(new SuperItemData(SuperItemType.LIQUOR_INGREDIENT))) {
                 this.add(item);
             }
 
@@ -107,24 +148,33 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
                         this.tastes.put(entry.getKey(), entry.getValue());
                     }
                 }
-                this.delicacy += (double) PDCC.get(item.getItemMeta(), PDCKey.DELICACY);
+                double a = (double) PDCC.get(item.getItemMeta(), PDCKey.DELICACY);
+                this.delicacy = (1.9 * a * this.delicacy) / (a + this.delicacy);
+                this.ingredientCount++;
             }
             // 原料が水の場合、水を足す
             if (item.getSuperItemData().isSimilar(new SuperItemData(Material.WATER_BUCKET))) {
                 this.liquorAmount += 1;
             }
         }
+        if (this.ingredientCount / this.liquorAmount > 3) {
+            this.canCraft = false;
+        }
     }
 
     @Override
     public SuperItemStack getSuperItem() {
-        SuperItemStack stack = new SuperItemStack(this.getSuperItemType());
+        if (!this.canCraft) {
+            return null;
+        }
+
+        SuperItemStack stack = super.getSuperItem();
         PotionMeta meta = (PotionMeta) stack.getItemMeta();
         meta.setColor(Color.WHITE);
         meta.displayName(Component.text("Liquor Ingredient").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY).decorate(TextDecoration.BOLD));
         PDCC.setLiquorIngredient(meta, this);
 
-        LiquorIngredientLore lore = new LiquorIngredientLore(this.liquorAmount, this.alcoholAmount, this.delicacy, this.fermentationDegree);
+        LiquorIngredientLore lore = new LiquorIngredientLore(this.liquorAmount, this.alcoholAmount, this.delicacy, this.fermentationDegree, this.effectRate);
         for (Map.Entry<Taste, Double> entry : this.tastes.entrySet()) {
             lore.addTaste(entry.getKey(), entry.getValue());
         }
@@ -147,10 +197,10 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         double alcoholRate = (double) PDCC.get(ingredient.getItemMeta(), PDCKey.FERMENTATION_ALC_RATE);
         double days = Duration.between(start, end).toDays();
         this.initialize(ingredient);
-        double fermentation = Math.pow(fermentationRate, days);
+        double fermentation = fermentationRate * days;
         double alc = 0;
         for (Map.Entry<Taste, Double> entry : this.tastes.entrySet()) {
-            double decrease = entry.getValue() * fermentation;
+            double decrease = entry.getValue() * Math.pow(0.9, fermentation);
             this.tastes.put(entry.getKey(), entry.getValue() - decrease);
             alc += decrease * alcoholRate;
         }
@@ -177,6 +227,33 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
     public double getFermentationDegree() {
         return fermentationDegree;
     }
+
+    public int getIngredientCount() {
+        return ingredientCount;
+    }
+
+    public double getEffectRate() {
+        return effectRate;
+    }
+
+    public double getRecentAmount() {
+        return recentAmount;
+    }
+
+    public void setRecentAmount(double recentAmount) {
+        this.recentAmount = recentAmount;
+    }
+
+    public void adjustTasteValue() {
+        for (Map.Entry<Taste, Double> taste : this.getTastes().entrySet()) {
+            taste.setValue(taste.getValue() * (this.recentAmount / this.liquorAmount));
+        }
+        this.liquorAmount = this.recentAmount;
+    }
+
+
+
+
 
 
 }

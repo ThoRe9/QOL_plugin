@@ -338,6 +338,7 @@ public class PDCC {
         set(meta, PDCKey.HUMID, resource.getHumid());
         set(meta, PDCKey.BIOME_ID, resource.getBiomeId());
         set(meta, PDCKey.DELICACY, resource.getDelicacy());
+        set(meta, PDCKey.LIQUOR_EFFECT_RATIO, resource.getEffectRate());
     }
 
     public static void setLiquorIngredient(ItemMeta meta, LiquorIngredient ingredient) {
@@ -346,5 +347,7 @@ public class PDCC {
         setTastes(meta, ingredient.getTastes());
         set(meta, PDCKey.DELICACY, ingredient.getDelicacy());
         set(meta, PDCKey.FERMENTATION_DEGREE, ingredient.getFermentationDegree());
+        set(meta, PDCKey.INGREDIENT_COUNT, ingredient.getIngredientCount());
+        set(meta, PDCKey.LIQUOR_EFFECT_RATIO, ingredient.getEffectRate());
     }
 }

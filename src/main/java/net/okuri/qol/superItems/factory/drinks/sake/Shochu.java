@@ -209,4 +209,9 @@ public class Shochu extends Sake implements Distillable, Distributable {
         this.initialize(bigBottle);
         this.setting();
     }
+
+    @Override
+    public void setAmount(SuperItemStack stack) {
+        this.initialize(stack);
+    }
 }
