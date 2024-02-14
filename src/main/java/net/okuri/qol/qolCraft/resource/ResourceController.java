@@ -71,39 +71,48 @@ public class ResourceController implements Listener {
         // SuperResourceの判定
         for (LiquorResource r : this.resources) {
             if (blockType == r.getBlockMaterial()) {
-                if (Tag.CROPS.isTagged(blockType)) {
-                    if (((Ageable) block.getState().getBlockData()).getAge() < 7) {
-                        continue;
+                if (envCheck(block, r)) {
+                    if (Tag.CROPS.isTagged(blockType)) {
+                        if (((Ageable) block.getState().getBlockData()).getAge() < 7) {
+                            continue;
+                        }
+                        if (!item.isFarmerTool()) {
+                            continue;
+                        }
                     }
-                    if (!item.isFarmerTool()) {
-                        continue;
+                    if (Tag.LEAVES.isTagged(blockType)) {
+                        if (!item.isFarmerTool()) {
+                            continue;
+                        }
                     }
-                }
-                if (Tag.LEAVES.isTagged(blockType)) {
-                    if (!item.isFarmerTool()) {
-                        continue;
+                    if (Tag.MINEABLE_PICKAXE.isTagged(blockType)) {
+                        if (!item.isMinerTool()) {
+                            continue;
+                        }
                     }
-                }
-                if (Tag.MINEABLE_PICKAXE.isTagged(blockType)) {
-                    if (!item.isMinerTool()) {
-                        continue;
-                    }
-                }
 
-                new ChatGenerator().addDebug(String.valueOf(n)).sendMessage(player);
-                if (n < r.getProbability() * 100) {
-                    new ChatGenerator().addSuccess("You got " + r.getSuperItemType().name() + " !!").sendMessage(player);
+                    new ChatGenerator().addDebug(String.valueOf(n)).sendMessage(player);
+                    if (n < r.getProbability() * 100) {
+                        new ChatGenerator().addSuccess("You got " + r.getSuperItemType().name() + " !!").sendMessage(player);
 
-                    double temp = player.getLocation().getBlock().getTemperature();
-                    double humid = player.getLocation().getBlock().getHumidity();
-                    Biome biome = player.getLocation().getBlock().getBiome();
-                    int biomeID = biome.ordinal();
-                    // TODO quality の計算
-                    r.setResVariables(block.getX(), block.getY(), block.getZ(), temp, humid, biomeID, player);
-                    player.getInventory().addItem(r.getSuperItem());
+                        double temp = player.getLocation().getBlock().getTemperature();
+                        double humid = player.getLocation().getBlock().getHumidity();
+                        Biome biome = player.getLocation().getBlock().getBiome();
+                        int biomeID = biome.ordinal();
+                        r.setResVariables(block.getX(), block.getY(), block.getZ(), temp, humid, biomeID, player);
+                        player.getInventory().addItem(r.getSuperItem());
+                    }
                 }
             }
         }
+    }
+
+    private boolean envCheck(Block block, LiquorResource r) {
+        double temp = block.getTemperature();
+        double humid = block.getHumidity();
+        boolean tempCheck = r.getMinTemp() <= temp && temp < r.getMaxTemp();
+        boolean humidCheck = r.getMinHumid() <= humid && humid < r.getMaxHumid();
+        return tempCheck && humidCheck;
     }
 
 

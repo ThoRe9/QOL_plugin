@@ -7,13 +7,8 @@ import net.okuri.qol.alcohol.FermentationIngredient;
 import net.okuri.qol.alcohol.LiquorIngredient;
 import net.okuri.qol.alcohol.LiquorRecipe;
 import net.okuri.qol.alcohol.LiquorRecipeController;
-import net.okuri.qol.alcohol.resources.BarleyJuice;
-import net.okuri.qol.alcohol.resources.Malt;
-import net.okuri.qol.alcohol.resources.newBarley;
-import net.okuri.qol.alcohol.taste.AlcoholTaste;
-import net.okuri.qol.alcohol.taste.BarleyTaste;
-import net.okuri.qol.alcohol.taste.MaltTaste;
-import net.okuri.qol.alcohol.taste.TasteController;
+import net.okuri.qol.alcohol.resources.*;
+import net.okuri.qol.alcohol.taste.*;
 import net.okuri.qol.help.Help;
 import net.okuri.qol.help.HelpCommand;
 import net.okuri.qol.help.HelpContent;
@@ -31,9 +26,6 @@ import net.okuri.qol.qolCraft.superCraft.SuperCraftRecipe;
 import net.okuri.qol.superItems.SuperItemTag;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.drinks.LiverHelper;
-import net.okuri.qol.superItems.factory.foods.BarleyBread;
-import net.okuri.qol.superItems.factory.foods.Bread;
-import net.okuri.qol.superItems.factory.foods.RyeBread;
 import net.okuri.qol.superItems.factory.tools.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -62,28 +54,6 @@ public final class QOL extends JavaPlugin {
 
     public void registerRecipes(SuperCraftController superCraft) {
     //ここに特殊レシピ(作業台)を登録する
-
-        // Bread
-        SuperCraftRecipe superBreadRecipe = new SuperCraftRecipe("bread");
-        superBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
-        superBreadRecipe.addIngredient('W', SuperItemType.WHEAT);
-        superBreadRecipe.setResultClass(new Bread());
-        superCraft.addSuperCraftRecipe(superBreadRecipe);
-        // パンは元からレシピが存在するので以下略
-
-        // RyeBread
-        SuperCraftRecipe superRyeBreadRecipe = new SuperCraftRecipe("rye_bread");
-        superRyeBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
-        superRyeBreadRecipe.addIngredient('W', SuperItemType.RYE);
-        superRyeBreadRecipe.setResultClass(new RyeBread());
-        superCraft.addSuperCraftRecipe(superRyeBreadRecipe);
-
-        // BarleyBread
-        SuperCraftRecipe superBarleyBreadRecipe = new SuperCraftRecipe("barley_bread");
-        superBarleyBreadRecipe.setShape(new String[]{"   ", "WWW", "   "});
-        superBarleyBreadRecipe.addIngredient('W', SuperItemType.BARLEY);
-        superBarleyBreadRecipe.setResultClass(new BarleyBread());
-        superCraft.addSuperCraftRecipe(superBarleyBreadRecipe);
 
         // envGetter
         SuperCraftRecipe envGetterRecipe = new SuperCraftRecipe("env_getter");
@@ -184,7 +154,7 @@ public final class QOL extends JavaPlugin {
 
         // BarleyJuice
         ShapelessSuperCraftRecipe bj = new ShapelessSuperCraftRecipe("barley_juice");
-        bj.addIngredient(SuperItemType.NEW_BARLEY);
+        bj.addIngredient(SuperItemType.BARLEY);
         bj.addIngredient(Material.WATER_BUCKET);
         bj.addIngredient(SuperItemType.YEAST);
         bj.setResultClass(new BarleyJuice());
@@ -226,9 +196,17 @@ public final class QOL extends JavaPlugin {
     private void registerSuperResources(ResourceController superResource) {
         // ここにSuperResourceを登録していく
 
-        newBarley barley = new newBarley();
+        Barley barley = new Barley();
         superResource.addResource(barley);
 
+        Rye rye = new Rye();
+        superResource.addResource(rye);
+
+        Wheat wheat = new Wheat();
+        superResource.addResource(wheat);
+
+        Rice rice = new Rice();
+        superResource.addResource(rice);
 
     }
 
@@ -239,8 +217,39 @@ public final class QOL extends JavaPlugin {
         LiquorRecipe whiskyRecipe = new LiquorRecipe("whisky", Component.text("ウィスキー").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 0);
         whiskyRecipe.addMinimumTaste(MaltTaste.instance, 1.5);
         whiskyRecipe.setMinimumAlcohol(0.20);
+        whiskyRecipe.setDurationAmp(1.2);
+        whiskyRecipe.setLevelAmp(1.2);
         controller.addRecipe(whiskyRecipe);
 
+        // Ale Beer
+        LiquorRecipe aleBeerRecipe = new LiquorRecipe("ale_beer", Component.text("エールビール").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 1);
+        aleBeerRecipe.addMinimumTaste(BarleyTaste.instance, 1.0);
+        aleBeerRecipe.setMinimumAlcohol(0.03);
+        aleBeerRecipe.setMaximumAlcohol(0.2);
+        aleBeerRecipe.setMaximumFermentation(1.1);
+        aleBeerRecipe.setDurationAmp(1.7);
+        aleBeerRecipe.setLevelAmp(1.7);
+        controller.addRecipe(aleBeerRecipe);
+
+        // Lager Beer
+        LiquorRecipe lagerBeerRecipe = new LiquorRecipe("lager_beer", Component.text("ラガービール").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 2);
+        lagerBeerRecipe.addMinimumTaste(BarleyTaste.instance, 1.0);
+        lagerBeerRecipe.setMinimumAlcohol(0.03);
+        lagerBeerRecipe.setMaximumAlcohol(0.2);
+        lagerBeerRecipe.setMinimumFermentation(1.1);
+        lagerBeerRecipe.setDurationAmp(1.2);
+        lagerBeerRecipe.setLevelAmp(1.2);
+        controller.addRecipe(lagerBeerRecipe);
+
+    }
+
+    private void registerTastes(TasteController controller) {
+        // ここにTasteを登録していく
+
+        controller.registerTaste(BarleyTaste.instance);
+        controller.registerTaste(MaltTaste.instance);
+        controller.registerTaste(RyeTaste.instance);
+        controller.registerTaste(RiceTaste.instance);
     }
 
     @Override
@@ -256,6 +265,7 @@ public final class QOL extends JavaPlugin {
         DistillationController distillation = DistillationController.getListener();
         ResourceController superResource = ResourceController.getListener();
         LiquorRecipeController liquorRecipe = LiquorRecipeController.instance;
+        TasteController tasteController = TasteController.getController();
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
         getServer().getPluginManager().registerEvents(new ConsumeListener(this), this);
         getServer().getPluginManager().registerEvents(new InteractListener(), this);
@@ -271,6 +281,7 @@ public final class QOL extends JavaPlugin {
         registerDistillationRecipes(distillation);
         registerSuperResources(superResource);
         registerLiquorRecipe(liquorRecipe);
+        registerTastes(tasteController);
 
         getCommand("getenv").setExecutor(new Commands(this));
         getCommand("matsign").setExecutor(new Commands(this));
@@ -307,11 +318,6 @@ public final class QOL extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        // Tasteを登録
-        TasteController taste = TasteController.getController();
-        taste.registerTaste(BarleyTaste.instance);
-        taste.registerTaste(AlcoholTaste.instance);
 
         getLogger().info("QOL Plugin Enabled");
 

@@ -142,6 +142,8 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
             } else if (item.getSuperItemData().isSimilar(new SuperItemData(SuperItemType.LIQUOR_INGREDIENT))) {
                 this.add(item);
             }
+        }
+        for (SuperItemStack item : matrix) {
 
             // 原料の味を取得
             if (item.getSuperItemData().isSimilar(new SuperItemData(SuperItemTag.LIQUOR_RESOURCE))) {
@@ -153,8 +155,9 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
                         this.tastes.put(entry.getKey(), entry.getValue());
                     }
                 }
-                resourceDelicacy = (double) PDCC.get(item.getItemMeta(), PDCKey.DELICACY);
+                resourceDelicacy = (double) PDCC.get(item.getItemMeta(), PDCKey.DELICACY) + 0.01;
                 this.ingredientCount++;
+                this.effectRate = this.effectRate * 0.5 + ((double) PDCC.get(item.getItemMeta(), PDCKey.LIQUOR_EFFECT_RATIO)) * 0.5;
             }
             // 原料が水の場合、水を足す
             if (item.getSuperItemData().isSimilar(new SuperItemData(Material.WATER_BUCKET))) {
@@ -171,7 +174,7 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
             if (this.delicacy == 0) {
                 this.delicacy = resourceDelicacy;
             } else {
-                this.delicacy = (1.9 * resourceDelicacy * this.delicacy) / (resourceDelicacy + this.delicacy);
+                this.delicacy = (1.8 * resourceDelicacy * this.delicacy) / (resourceDelicacy + this.delicacy);
             }
         }
     }
@@ -275,12 +278,11 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         for (Map.Entry<Taste, Double> taste : this.getTastes().entrySet()) {
             taste.setValue(taste.getValue() * (this.recentAmount / this.liquorAmount));
         }
+        this.alcoholAmount *= this.recentAmount / this.liquorAmount;
         this.liquorAmount = this.recentAmount;
     }
 
-
-
-
-
-
+    void setDelicacy(double delicacy) {
+        this.delicacy = delicacy;
+    }
 }

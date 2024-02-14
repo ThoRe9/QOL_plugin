@@ -39,6 +39,19 @@ public abstract class Taste {
      * levelAmp: レベルの増幅率。すべてのポーション効果に対し作用する
      */
     double levelAmplifier;
+    /**
+     * effectRateAffection: Durへパラメータがふられる大きさの変化率。
+     * 0<x<1 : 影響が小さくなる
+     * x = 1 : 影響が変わらない
+     * 1<x : 影響が大きくなる
+     * 注意：かなり影響があるので、適切な値を設定すること。
+     */
+    double effectRateAffection = 1;
+    /**
+     * delicacy: delicacyへのバフ。
+     * パラメータ濃度 * delicacyBuff
+     */
+    double delicacyBuff = 1;
     // volatility: 1回の蒸留で減少する割合。
     double bestFermentation = -1;
     // bestMaturation: 最適な発酵度。負の値の場合は発酵度によって効果が変化しない。
@@ -136,5 +149,21 @@ public abstract class Taste {
 
     private double bestFunc(double x) {
         return Math.exp((-1) * (x - bestFermentation) * (x - bestFermentation) / 2) + 0.5;
+    }
+
+    public boolean hasEffectRateAffection() {
+        return effectRateAffection != 1;
+    }
+
+    public boolean hasDelicacyBuff() {
+        return delicacyBuff != 0;
+    }
+
+    public double getFixedEffectRate(double effectRate) {
+        return -1 * Math.pow(Math.abs(effectRate - 1), effectRateAffection) + 1;
+    }
+
+    public double getDelicacyBuff() {
+        return delicacyBuff;
     }
 }

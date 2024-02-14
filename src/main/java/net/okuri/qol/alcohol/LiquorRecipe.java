@@ -30,6 +30,14 @@ public class LiquorRecipe {
      * このレシピが持つ最高のアルコール濃度 (alc / L)
      */
     private double maximumAlcohol = -1;
+    /**
+     * このレシピが持つ最小の発酵度
+     */
+    private double minimumFermentation = -1;
+    /**
+     * このレシピが持つ最大の発酵度
+     */
+    private double maximumFermentation = -1;
     // 以下バフを表すフィールド
     private double durationAmp = 1.0;
     private double levelAmp = 1.0;
@@ -49,6 +57,16 @@ public class LiquorRecipe {
         }
         if (maximumAlcohol > 0) {
             if (liquor.getAlcoholAmount() / liquorAmount > maximumAlcohol) {
+                return false;
+            }
+        }
+        if (minimumFermentation > 0) {
+            if (liquor.getFermentationDegree() < minimumFermentation) {
+                return false;
+            }
+        }
+        if (maximumFermentation > 0) {
+            if (liquor.getFermentationDegree() > maximumFermentation) {
                 return false;
             }
         }
@@ -96,6 +114,14 @@ public class LiquorRecipe {
 
     public void setMaximumAlcohol(double maximumAlcohol) {
         this.maximumAlcohol = maximumAlcohol;
+    }
+
+    public void setMinimumFermentation(double minimumFermentation) {
+        this.minimumFermentation = minimumFermentation;
+    }
+
+    public void setMaximumFermentation(double maximumFermentation) {
+        this.maximumFermentation = maximumFermentation;
     }
 
     public double getDurationAmp() {

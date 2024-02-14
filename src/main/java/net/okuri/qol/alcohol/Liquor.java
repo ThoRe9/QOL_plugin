@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Objects;
 
 public class Liquor extends LiquorIngredient implements Distributable, DistributionReceiver {
-    private ArrayList<PotionEffect> potionEffects = new ArrayList<>();
+    private final ArrayList<PotionEffect> potionEffects = new ArrayList<>();
     private LiquorLore lore = new LiquorLore();
     private Component name = Component.text("酒", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false);
 
@@ -70,6 +70,8 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
         this.lore = new LiquorLore();
         double durationBuff = 1;
         double amplifierBuff = 1;
+        double delicacyBuff = 1;
+        double effectRate = super.getEffectRate();
         boolean recipeFlag = false;
         ArrayList<TasteEffect> potionEffectTypes = new ArrayList<>();
 
@@ -88,6 +90,12 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
                 durationBuff *= Math.pow(taste.getKey().getDurationAmplifier(), taste.getValue());
                 amplifierBuff *= Math.pow(taste.getKey().getLevelAmplifier(), taste.getValue());
             }
+            if (taste.getKey().hasEffectRateAffection()) {
+                effectRate = taste.getKey().getFixedEffectRate(effectRate);
+            }
+            if (taste.getKey().hasDelicacyBuff()) {
+                delicacyBuff *= Math.pow(taste.getKey().getDelicacyBuff(), taste.getValue() / super.getLiquorAmount());
+            }
         }
         for (LiquorRecipe recipe : LiquorRecipeController.instance.getRecipes()) {
             if (recipe.isMatch(this)) {
@@ -102,10 +110,12 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
                 }
             }
         }
+        this.setDelicacy(delicacyBuff * super.getDelicacy());
+        this.lore.setTotalDelicacyBuff(delicacyBuff);
 
         for (TasteEffect effect : potionEffectTypes) {
-            double ampParam = calcDelicacyBuff(effect.value) * (1 - super.getEffectRate());
-            double durParam = calcDelicacyBuff(effect.value) * super.getEffectRate();
+            double ampParam = calcDelicacyBuff(effect.value) * (1 - effectRate);
+            double durParam = calcDelicacyBuff(effect.value) * effectRate;
             int duration = (int) (effect.durationRate * durationBuff * durParam * effect.fermentationBuff);
             int amplifier = (int) (effect.amplifierRate * amplifierBuff * ampParam * effect.fermentationBuff);
             this.potionEffects.add(new PotionEffect(effect.type, duration, amplifier));
@@ -131,7 +141,6 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
             this.name = liquor.displayName();
         } else {
             super.setMatrix(matrix, id);
-            this.name = matrix[0].displayName();
         }
     }
 

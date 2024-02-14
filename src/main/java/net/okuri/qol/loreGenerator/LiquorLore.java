@@ -20,6 +20,7 @@ public class LiquorLore extends Lore {
     private final ArrayList<TasteEffectInfo> effects = new ArrayList<>();
     private double totalDurBuff;
     private double totalAmpBuff;
+    private double totalDelicacyBuff;
     private final ArrayList<LiquorRecipe> recipes = new ArrayList<>();
 
     public LiquorLore() {
@@ -44,6 +45,7 @@ public class LiquorLore extends Lore {
         }
         super.addAmpLore("レベルの増幅率", Lore.A_COLOR, totalAmpBuff);
         super.addAmpLore("持続時間の増幅率", Lore.B_COLOR, totalDurBuff);
+        super.addAmpLore("くせの強さの増幅率", Lore.C_COLOR, totalDelicacyBuff);
     }
 
     public void addTasteEffect(Taste taste, double ampParam, double durParam, double fermentationBuff, double delicacyBuff) {
@@ -62,6 +64,10 @@ public class LiquorLore extends Lore {
 
     public void setTotalAmpBuff(double totalAmpBuff) {
         this.totalAmpBuff = totalAmpBuff;
+    }
+
+    public void setTotalDelicacyBuff(double totalDelicacyBuff) {
+        this.totalDelicacyBuff = totalDelicacyBuff;
     }
 
     public void addRecipe(LiquorRecipe recipe) {

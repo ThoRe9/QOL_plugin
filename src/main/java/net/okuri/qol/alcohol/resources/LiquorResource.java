@@ -30,6 +30,15 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
     private final double probability;
     private final Material blockMaterial;
     private final Taste baseTaste;
+    private final Map<Taste, Double> additionalTastes = new HashMap<>();
+    /**
+     * baseTempAmp : BaseTasteを弱めたり強めたりできる
+     */
+    private double baseTasteAmp = 1;
+    private double minTemp = -10;
+    private double maxTemp = 10;
+    private double minHumid = -10;
+    private double maxHumid = 10;
     // 以下パラメータ計算用変数
     private double[][] factors = new double[2][3];
     private double sinFactor = 0.5;
@@ -83,6 +92,9 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
     private void add(SuperItemStack stack) {
         ItemMeta meta = stack.getItemMeta();
         int[] pos = PDCC.get(meta, PDCKey.RESOURCE_POS);
+        this.posX += pos[0];
+        this.posY += pos[1];
+        this.posZ += pos[2];
         this.temp += (double) PDCC.get(meta, PDCKey.TEMP);
         this.humid += (double) PDCC.get(meta, PDCKey.HUMID);
         this.biomeId += (int) PDCC.get(meta, PDCKey.BIOME_ID);
@@ -119,10 +131,13 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
         this.humid = humid;
         this.biomeId = biomeId;
         this.producer = producer;
-        this.baseTasteValue = calcParam(posX / 16, posZ / 16);
+        this.baseTasteValue = calcParam(posX / 16, posZ / 16) * baseTasteAmp;
         this.effectRate = calcEffectRate(temp, humid);
         this.delicacy = this.baseTasteValue * (1 - this.effectRate);
         this.tastes.put(baseTaste, baseTasteValue);
+        for (Map.Entry<Taste, Double> entry : additionalTastes.entrySet()) {
+            this.tastes.put(entry.getKey(), baseTasteValue * entry.getValue());
+        }
     }
 
     private double calcParam(int x, int y) {
@@ -254,5 +269,51 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
 
     public double getFermentationRate() {
         return fermentationRate;
+    }
+
+    public double getMinTemp() {
+        return minTemp;
+    }
+
+    public void setMinTemp(double minTemp) {
+        this.minTemp = minTemp;
+    }
+
+    public double getMaxTemp() {
+        return maxTemp;
+    }
+
+    public void setMaxTemp(double maxTemp) {
+        this.maxTemp = maxTemp;
+    }
+
+    public double getMinHumid() {
+        return minHumid;
+    }
+
+    public void setMinHumid(double minHumid) {
+        this.minHumid = minHumid;
+    }
+
+    public double getMaxHumid() {
+        return maxHumid;
+    }
+
+    public void setMaxHumid(double maxHumid) {
+        this.maxHumid = maxHumid;
+    }
+
+    /**
+     * 味を追加します。
+     *
+     * @param taste 味
+     * @param value baseTasteValueに対する割合
+     */
+    public void setAdditionalTaste(Taste taste, double value) {
+        additionalTastes.put(taste, value);
+    }
+
+    public void setBaseTasteAmp(double baseTasteAmp) {
+        this.baseTasteAmp = baseTasteAmp;
     }
 }

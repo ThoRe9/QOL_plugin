@@ -17,6 +17,7 @@ net\okuri\qol\superItems\factory\tools\MinerTool.class
 net\okuri\qol\superItems\factory\tools\MinerToolAdapter.class
 net\okuri\qol\superItems\factory\tools\FarmerTool.class
 net\okuri\qol\event\DistillationEvent.class
+net\okuri\qol\alcohol\resources\Rye.class
 net\okuri\qol\help\HelpContent.class
 net\okuri\qol\help\Help.class
 net\okuri\qol\listener\InteractListener.class
@@ -24,6 +25,7 @@ net\okuri\qol\qolCraft\maturation\MaturationRecipe.class
 net\okuri\qol\superItems\factory\tools\MaturationTool.class
 net\okuri\qol\listener\EventListener.class
 net\okuri\qol\qolCraft\calcuration\StatisticalCalcuration.class
+net\okuri\qol\alcohol\resources\Wheat.class
 net\okuri\qol\superItems\SuperItemTag.class
 net\okuri\qol\alcohol\taste\Taste.class
 net\okuri\qol\alcohol\LiquorRecipeController.class
@@ -33,7 +35,6 @@ net\okuri\qol\alcohol\Liquor$1TasteEffect.class
 net\okuri\qol\PDCC.class
 net\okuri\qol\qolCraft\distillation\DistillationRecipe.class
 net\okuri\qol\listener\ProtectListener.class
-net\okuri\qol\superItems\factory\foods\Bread.class
 net\okuri\qol\superItems\SuperItemData.class
 net\okuri\qol\alcohol\taste\TasteController.class
 net\okuri\qol\alcohol\Yeast.class
@@ -45,6 +46,7 @@ net\okuri\qol\alcohol\taste\BuffTaste.class
 net\okuri\qol\event\SuperCraftEvent.class
 net\okuri\qol\qolCraft\distillation\DistillationController.class
 net\okuri\qol\qolCraft\calcuration\PotionEffectCalcuration.class
+net\okuri\qol\alcohol\resources\Barley.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftController.class
 net\okuri\qol\help\HelpCommand.class
 net\okuri\qol\listener\InteractListener$1.class
@@ -62,6 +64,7 @@ net\okuri\qol\qolCraft\superCraft\SuperCraftRecipe.class
 net\okuri\qol\qolCraft\calcuration\CirculeDistribution.class
 net\okuri\qol\qolCraft\calcuration\DiscontinuityDurationCalcuration.class
 net\okuri\qol\qolCraft\calcuration\Calcuration.class
+net\okuri\qol\alcohol\taste\RyeTaste.class
 net\okuri\qol\qolCraft\maturation\MaturationController.class
 net\okuri\qol\loreGenerator\FermentationLore.class
 net\okuri\qol\alcohol\taste\MaltTaste.class
@@ -71,17 +74,13 @@ net\okuri\qol\PDCKey$ApplyType.class
 net\okuri\qol\alcohol\taste\PotionEffectTaste.class
 net\okuri\qol\superItems\factory\tools\EnvGetter.class
 net\okuri\qol\alcohol\resources\LiquorResource.class
-net\okuri\qol\alcohol\resources\newBarley.class
 net\okuri\qol\alcohol\LiquorRecipe.class
 net\okuri\qol\event\MaturationEndEvent.class
-net\okuri\qol\superItems\factory\foods\BarleyBread.class
 net\okuri\qol\AlcBar.class
-net\okuri\qol\superItems\factory\foods\RyeBread.class
 net\okuri\qol\alcohol\resources\Malt.class
 net\okuri\qol\loreGenerator\LiquorLore.class
 net\okuri\qol\alcohol\taste\BarleyTaste.class
 net\okuri\qol\superItems\SuperItemStack.class
-net\okuri\qol\alcohol\taste\AlcoholTaste.class
 net\okuri\qol\event\MaturationPrepareEvent.class
 net\okuri\qol\loreGenerator\TasteEffectInfo.class
 net\okuri\qol\superItems\SuperItemType.class
