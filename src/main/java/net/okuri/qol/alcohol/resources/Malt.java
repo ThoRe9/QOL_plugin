@@ -4,8 +4,8 @@ import net.okuri.qol.alcohol.taste.BarleyTaste;
 import net.okuri.qol.alcohol.taste.MaltTaste;
 import net.okuri.qol.alcohol.taste.Taste;
 import net.okuri.qol.qolCraft.maturation.Maturable;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
 
 import java.time.Duration;

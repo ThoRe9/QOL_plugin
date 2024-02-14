@@ -4,9 +4,9 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class EnvGetter extends SuperItem implements SuperCraftable {

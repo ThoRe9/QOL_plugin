@@ -11,10 +11,10 @@ import net.okuri.qol.loreGenerator.LoreGenerator;
 import net.okuri.qol.loreGenerator.ResourceLore;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemData;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemTag;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -119,8 +119,8 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
         this.humid = humid;
         this.biomeId = biomeId;
         this.producer = producer;
-        this.baseTasteValue = calcParam(posX / 16, posY / 16);
-        calcEffectRate(temp, humid);
+        this.baseTasteValue = calcParam(posX / 16, posZ / 16);
+        this.effectRate = calcEffectRate(temp, humid);
         this.delicacy = this.baseTasteValue * (1 - this.effectRate);
         this.tastes.put(baseTaste, baseTasteValue);
     }

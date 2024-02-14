@@ -4,9 +4,9 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.okuri.qol.LoreGenerator;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 
 public class ResourceGetter extends SuperItem {
     public ResourceGetter() {

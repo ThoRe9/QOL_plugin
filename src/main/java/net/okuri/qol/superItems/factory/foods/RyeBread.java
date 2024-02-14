@@ -3,7 +3,7 @@ package net.okuri.qol.superItems.factory.foods;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.PDCKey;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
+import net.okuri.qol.superItems.SuperItemStack;
 
 public class RyeBread extends Bread {
 

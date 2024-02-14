@@ -1,6 +1,6 @@
 package net.okuri.qol.qolCraft.superCraft;
 
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
+import net.okuri.qol.superItems.SuperItemStack;
 
 public interface Distributable extends SuperCraftable {
     // setMatrixの1番目の要素には分配前のボトルが記憶される

@@ -1,9 +1,9 @@
 package net.okuri.qol.qolCraft.superCraft;
 
 import net.okuri.qol.superItems.SuperItemData;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemTag;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.jetbrains.annotations.NotNull;

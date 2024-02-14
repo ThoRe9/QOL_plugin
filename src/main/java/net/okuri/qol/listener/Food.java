@@ -2,7 +2,7 @@ package net.okuri.qol.listener;
 
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
+import net.okuri.qol.superItems.SuperItemStack;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 

@@ -10,8 +10,8 @@ import net.okuri.qol.loreGenerator.FermentationLore;
 import net.okuri.qol.loreGenerator.LiquorIngredientLore;
 import net.okuri.qol.loreGenerator.LoreGenerator;
 import net.okuri.qol.superItems.SuperItemData;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class FermentationIngredient extends LiquorIngredient {

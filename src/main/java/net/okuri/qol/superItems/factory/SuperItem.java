@@ -1,8 +1,8 @@
 package net.okuri.qol.superItems.factory;
 
 import net.okuri.qol.superItems.SuperItemData;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
 
 public abstract class SuperItem {

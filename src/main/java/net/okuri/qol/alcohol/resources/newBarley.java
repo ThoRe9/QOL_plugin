@@ -9,6 +9,6 @@ public class newBarley extends LiquorResource {
      * 大麦を生成するためのクラスです。
      */
     public newBarley() {
-        super("大麦", Material.WHEAT, SuperItemType.NEW_BARLEY, 0.01, BarleyTaste.instance, 1);
+        super("大麦", Material.WHEAT, SuperItemType.NEW_BARLEY, 0.05, BarleyTaste.instance, 1);
     }
 }

@@ -5,8 +5,8 @@ import net.okuri.qol.ChatGenerator;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.superItems.SuperItemData;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -52,10 +52,9 @@ public class ConsumeListener implements Listener {
             PDCC.set(player, PDCKey.ALCOHOL_LEVEL, 0.0);
         }
         double alcLv = PDCC.get(player, PDCKey.ALCOHOL_LEVEL);
-        // itemのalcAmount * alcPerをalcLvに加算
-        double alcAmount = PDCC.get(meta, PDCKey.LIQUOR_AMOUNT);
-        double alcPer = PDCC.get(meta, PDCKey.ALCOHOL_PERCENTAGE);
-        alcLv += (alcAmount * alcPer / 350);
+        // itemのalcAmountをalcLvに加算
+        double alc = PDCC.get(meta, PDCKey.ALCOHOL_AMOUNT);
+        alcLv += (alc / 0.35);
         PDCC.set(player, PDCKey.ALCOHOL_LEVEL, alcLv);
         // alcoholの効果を与える
         new Alcohol(plugin).run();

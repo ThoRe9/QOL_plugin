@@ -1,12 +1,10 @@
 package net.okuri.qol.qolCraft.resource;
 
 import net.okuri.qol.ChatGenerator;
-import net.okuri.qol.producerInfo.ProducerInfo;
+import net.okuri.qol.alcohol.resources.LiquorResource;
 import net.okuri.qol.superItems.SuperItemData;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.factory.resources.SuperResource;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
-import net.okuri.qol.superItems.itemStack.SuperResourceStack;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Biome;
@@ -26,7 +24,7 @@ public class ResourceController implements Listener {
     // Resourceを管理を司るシングルトンインスタンス。
 
     private static ResourceController listener = new ResourceController();
-    private final ArrayList<SuperResource> resources = new ArrayList<>();
+    private final ArrayList<LiquorResource> resources = new ArrayList<>();
 
     private ResourceController() {
     }
@@ -35,7 +33,7 @@ public class ResourceController implements Listener {
         return listener;
     }
 
-    public void addResource(SuperResource r) {
+    public void addResource(LiquorResource r) {
         this.resources.add(r);
     }
 
@@ -71,7 +69,7 @@ public class ResourceController implements Listener {
         }
 
         // SuperResourceの判定
-        for (SuperResource r : this.resources) {
+        for (LiquorResource r : this.resources) {
             if (blockType == r.getBlockMaterial()) {
                 if (Tag.CROPS.isTagged(blockType)) {
                     if (((Ageable) block.getState().getBlockData()).getAge() < 7) {
@@ -93,7 +91,7 @@ public class ResourceController implements Listener {
                 }
 
                 new ChatGenerator().addDebug(String.valueOf(n)).sendMessage(player);
-                if (n < r.getProbability()) {
+                if (n < r.getProbability() * 100) {
                     new ChatGenerator().addSuccess("You got " + r.getSuperItemType().name() + " !!").sendMessage(player);
 
                     double temp = player.getLocation().getBlock().getTemperature();
@@ -101,11 +99,8 @@ public class ResourceController implements Listener {
                     Biome biome = player.getLocation().getBlock().getBiome();
                     int biomeID = biome.ordinal();
                     // TODO quality の計算
-                    r.setResVariables(block.getX(), block.getY(), block.getZ(), temp, humid, biomeID, 1.0, player);
-                    SuperResourceStack resultItem = r.getSuperItem();
-                    ProducerInfo producerInfo = new ProducerInfo(player, 1.0, resultItem.getSuperItemData());
-                    resultItem.setProducerInfo(producerInfo);
-                    player.getInventory().addItem(resultItem);
+                    r.setResVariables(block.getX(), block.getY(), block.getZ(), temp, humid, biomeID, player);
+                    player.getInventory().addItem(r.getSuperItem());
                 }
             }
         }

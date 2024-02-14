@@ -3,9 +3,7 @@ package net.okuri.qol.qolCraft.superCraft;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.event.SuperCraftEvent;
-import net.okuri.qol.producerInfo.ProducerInfo;
-import net.okuri.qol.superItems.SuperItemData;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
+import net.okuri.qol.superItems.SuperItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -158,22 +156,6 @@ public class SuperCraftController implements Listener {
         }
     }
 
-    private ProducerInfo getProducerInfo(SuperItemStack[] matrix, SuperItemData data, Player player) {
-        ProducerInfo result = new ProducerInfo(player, 0.0, data);
-        for (SuperItemStack item : matrix) {
-            if (item == null) {
-                continue;
-            }
-            if (item.getItemMeta() == null) {
-                continue;
-            }
-            if (PDCC.has(item.getItemMeta(), PDCKey.PRODUCER_INFO)) {
-                ProducerInfo info = PDCC.getProducerInfo(item.getItemMeta());
-                result.addChild(info);
-            }
-        }
-        return result;
-    }
 
     @EventHandler
     private void CraftItemEvent(SuperCraftEvent event){

@@ -7,9 +7,9 @@ import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.loreGenerator.FermentationLore;
 import net.okuri.qol.loreGenerator.LoreGenerator;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class Yeast extends SuperItem {

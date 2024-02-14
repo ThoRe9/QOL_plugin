@@ -1,8 +1,8 @@
 package net.okuri.qol.alcohol.resources;
 
 import net.okuri.qol.alcohol.taste.BarleyTaste;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.inventory.meta.PotionMeta;
