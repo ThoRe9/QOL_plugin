@@ -23,16 +23,14 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
     private ArrayList<PotionEffect> potionEffects = new ArrayList<>();
     private LiquorLore lore = new LiquorLore();
 
-    public Liquor(String name) {
-        super(SuperItemType.LIQUOR);
-    }
-
     public Liquor() {
         super(SuperItemType.LIQUOR);
+        super.setConsumable(true);
     }
 
     public Liquor(SuperItemType type) {
         super(type);
+        super.setConsumable(true);
     }
 
     @Override

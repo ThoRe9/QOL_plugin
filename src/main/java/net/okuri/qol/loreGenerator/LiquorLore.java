@@ -2,7 +2,6 @@ package net.okuri.qol.loreGenerator;
 
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.okuri.qol.alcohol.taste.Taste;
-import org.bukkit.Bukkit;
 
 import java.util.ArrayList;
 
@@ -28,9 +27,6 @@ public class LiquorLore extends Lore {
     public void generateLore() {
         addLore(title);
         for (TasteEffectInfo info : effects) {
-            Bukkit.getLogger().info("Level Amplifier: " + info.taste.getID());
-            Bukkit.getLogger().info("Duration Amplifier: " + info.taste.getDurationAmplifier());
-            Bukkit.getLogger().info("Delicacy Buff: " + info.delicacyBuff);
             double[] lore = new double[]{info.ampParam, info.taste.getEffectAmplifier(), info.durParam, info.taste.getEffectDuration() / 1200, info.fermentationBuff, info.delicacyBuff};
             String[] units = new String[]{"p", "lv/p", "p", "min/p", "倍", "倍"};
             addDoubleArrayLore(info.taste.getDisplayName(), info.taste.getColor(), lore, units);

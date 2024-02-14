@@ -5,6 +5,7 @@ net\okuri\qol\listener\ConsumeListener.class
 net\okuri\qol\qolCraft\superCraft\SuperRecipe.class
 net\okuri\qol\event\DistributionEvent.class
 net\okuri\qol\help\GenerateDefaultHelp.class
+net\okuri\qol\alcohol\resources\BarleyJuice.class
 net\okuri\qol\superItems\factory\adapter\AdapterID.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftable.class
 net\okuri\qol\qolCraft\distillation\Distillable.class
@@ -107,6 +108,7 @@ net\okuri\qol\superItems\factory\drinks\sake\Ochoko.class
 net\okuri\qol\superItems\factory\drinks\sake\Sake.class
 net\okuri\qol\qolCraft\maturation\MaturationController.class
 net\okuri\qol\loreGenerator\FermentationLore.class
+net\okuri\qol\alcohol\taste\MaltTaste.class
 net\okuri\qol\LoreGenerator.class
 net\okuri\qol\superItems\itemStack\SuperItemStack.class
 net\okuri\qol\help\Pages.class
@@ -123,6 +125,7 @@ net\okuri\qol\superItems\factory\resources\SugarCane.class
 net\okuri\qol\superItems\factory\foods\RyeBread.class
 net\okuri\qol\superItems\factory\drinks\Liquor.class
 net\okuri\qol\superItems\factory\drinks\sake\SakeIngredient.class
+net\okuri\qol\alcohol\resources\Malt.class
 net\okuri\qol\loreGenerator\LiquorLore.class
 net\okuri\qol\superItems\itemStack\SuperLiquorIngredientStack.class
 net\okuri\qol\alcohol\taste\BarleyTaste.class

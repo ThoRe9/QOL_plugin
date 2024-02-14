@@ -112,6 +112,10 @@ public abstract class Taste {
         return degradability;
     }
 
+    public double getVolatility() {
+        return volatility;
+    }
+
     public double getFermentationBuff(double fermentation) {
         if (bestFermentation > 0 && fermentationLine > 0) {
             return 0.4 * (bestFunc(fermentation) + 0.6 * growFunc(fermentation));

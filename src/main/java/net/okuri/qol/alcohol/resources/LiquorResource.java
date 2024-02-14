@@ -4,9 +4,13 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.alcohol.taste.Taste;
+import net.okuri.qol.loreGenerator.FermentationLore;
 import net.okuri.qol.loreGenerator.LoreGenerator;
 import net.okuri.qol.loreGenerator.ResourceLore;
+import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
+import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemTag;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
@@ -21,7 +25,7 @@ import java.util.Map;
 /**
  * 酒類の原料となるアイテムを生成するためのベースとなるクラスです。
  */
-public class LiquorResource extends SuperItem {
+public class LiquorResource extends SuperItem implements SuperCraftable {
     private final String display;
     private final double probability;
     private final Material blockMaterial;
@@ -42,6 +46,8 @@ public class LiquorResource extends SuperItem {
     private double delicacy = 0.5;
     // effectRate : 1 = Durにすべてのパラメータが使われる 0 = Ampにすべてのパラメータが使われる
     private double effectRate = 0.5;
+    private double fermentationRate;
+    private Map<Taste, Double> tastes = new HashMap<>();
 
     /**
      * 酒類の原料となるアイテムを生成するためのベースとなるクラスです。
@@ -61,6 +67,28 @@ public class LiquorResource extends SuperItem {
         this.probability = probability;
         this.baseTaste = baseTaste;
         setFactors(seed);
+        super.setConsumable(false);
+    }
+
+    private void initialize(SuperItemStack stack) {
+        this.temp = 0;
+        this.humid = 0;
+        this.biomeId = PDCC.get(stack.getItemMeta(), PDCKey.BIOME_ID);
+        this.effectRate = 1;
+        this.tastes.clear();
+        this.add(stack);
+    }
+
+    private void add(SuperItemStack stack) {
+        ItemMeta meta = stack.getItemMeta();
+        int[] pos = PDCC.get(meta, PDCKey.RESOURCE_POS);
+        this.temp += (double) PDCC.get(meta, PDCKey.TEMP);
+        this.humid += (double) PDCC.get(meta, PDCKey.HUMID);
+        this.biomeId += (int) PDCC.get(meta, PDCKey.BIOME_ID);
+        this.biomeId /= 2;
+        this.effectRate *= (double) PDCC.get(meta, PDCKey.LIQUOR_EFFECT_RATIO);
+        // produce TODO
+        this.tastes.putAll(PDCC.getTastes(meta));
     }
 
     private void setFactors(int seed) {
@@ -90,6 +118,7 @@ public class LiquorResource extends SuperItem {
         this.baseTasteValue = calcParam(posX / 16, posY / 16);
         calcEffectRate(temp, humid);
         this.delicacy = this.baseTasteValue * (1 - this.effectRate);
+        this.tastes.put(baseTaste, baseTasteValue);
     }
 
     private double calcParam(int x, int y) {
@@ -103,18 +132,50 @@ public class LiquorResource extends SuperItem {
     }
 
     @Override
+    public void setMatrix(SuperItemStack[] matrix, String id) {
+        boolean flag = false;
+        if (id.equals("initialize")) {
+            initialize(matrix[0]);
+            return;
+        }
+        for (SuperItemStack stack : matrix) {
+            if (new SuperItemData(SuperItemTag.LIQUOR_RESOURCE).isSimilar(stack.getSuperItemData())) {
+                if (!flag) {
+                    initialize(stack);
+                    flag = true;
+                } else {
+                    add(stack);
+                }
+            }
+            if (new SuperItemData(SuperItemType.YEAST).isSimilar(stack.getSuperItemData())) {
+                this.fermentationRate = (double) PDCC.get(stack.getItemMeta(), PDCKey.FERMENTATION_RATE);
+            }
+        }
+    }
+
+    @Override
     public SuperItemStack getSuperItem() {
         SuperItemStack item = new SuperItemStack(this.getSuperItemType(), 1);
         item.setDisplayName(Component.text(display).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY).decorate(TextDecoration.BOLD));
         ItemMeta meta = item.getItemMeta();
 
         ResourceLore lore = new ResourceLore();
-        lore.addTaste(baseTaste, baseTasteValue);
+        for (Map.Entry<Taste, Double> entry : tastes.entrySet()) {
+            lore.addTaste(entry.getKey(), entry.getValue());
+        }
+
         lore.setDelicacy(delicacy);
         lore.setEffectRate(effectRate);
         LoreGenerator loreGenerator = new LoreGenerator();
         loreGenerator.addLore(lore);
+
+        if (fermentationRate != 0) {
+            PDCC.set(meta, PDCKey.FERMENTATION_RATE, fermentationRate);
+            FermentationLore fLore = new FermentationLore(fermentationRate, 0);
+            loreGenerator.addLore(fLore);
+        }
         loreGenerator.setLore(meta);
+
 
         PDCC.setLiquorResource(meta, this);
         item.setItemMeta(meta);
@@ -132,8 +193,6 @@ public class LiquorResource extends SuperItem {
     }
 
     public Map<Taste, Double> getTastes() {
-        Map<Taste, Double> tastes = new HashMap<>();
-        tastes.put(baseTaste, baseTasteValue);
         return tastes;
     }
 
@@ -187,5 +246,9 @@ public class LiquorResource extends SuperItem {
 
     public double getEffectRate() {
         return effectRate;
+    }
+
+    public double getFermentationRate() {
+        return fermentationRate;
     }
 }

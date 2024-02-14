@@ -9,6 +9,7 @@ import net.okuri.qol.alcohol.taste.Taste;
 import net.okuri.qol.alcohol.taste.TasteController;
 import net.okuri.qol.loreGenerator.LiquorIngredientLore;
 import net.okuri.qol.loreGenerator.LoreGenerator;
+import net.okuri.qol.qolCraft.distillation.Distillable;
 import net.okuri.qol.qolCraft.maturation.Maturable;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemData;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LiquorIngredient extends SuperItem implements SuperCraftable, Maturable {
+public class LiquorIngredient extends SuperItem implements SuperCraftable, Maturable, Distillable {
     private final Map<Taste, Double> tastes = new HashMap<>();
     /**
      * 含まれるアルコールの絶対量。1 = 1L
@@ -78,15 +79,18 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         this.delicacy = delicacy;
         this.tastes.putAll(tastes);
         this.tastes.put(TasteController.getController().getTaste("alcohol"), alcoholAmount);
+        super.setConsumable(false);
     }
 
     public LiquorIngredient() {
         super(SuperItemType.LIQUOR_INGREDIENT);
+        super.setConsumable(false);
     }
 
     public LiquorIngredient(SuperItemType type) {
         super(type);
         assert new SuperItemData(SuperItemTag.LIQUOR_INGREDIENT).isSimilar(new SuperItemData(type));
+        super.setConsumable(false);
     }
 
     private void initialize(SuperItemStack stack) {
@@ -169,6 +173,7 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         }
     }
 
+
     @Override
     public SuperItemStack getSuperItem() {
         if (!this.canCraft) {
@@ -215,6 +220,17 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         this.alcoholAmount += alc;
         this.fermentationDegree += fermentation;
     }
+
+    @Override
+    public void setDistillationVariable(SuperItemStack item, double temp, double humid) {
+        this.initialize(item);
+        this.alcoholAmount *= 0.9;
+        this.liquorAmount *= 0.5;
+        for (Map.Entry<Taste, Double> entry : this.tastes.entrySet()) {
+            this.tastes.put(entry.getKey(), entry.getValue() * entry.getKey().getVolatility());
+        }
+    }
+
 
     public Map<Taste, Double> getTastes() {
         return tastes;

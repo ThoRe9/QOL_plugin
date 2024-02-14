@@ -10,6 +10,7 @@ C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\i
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\FusionCraft.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\itemStack\SuperResourceStack.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\qolCraft\distillation\DistillationRecipe.java
+C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\alcohol\taste\MaltTaste.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\help\HelpContent.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\qolCraft\calcuration\CirculeDistribution.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\loreGenerator\FermentationLore.java
@@ -25,6 +26,7 @@ C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\itemStack
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\sake\Sake.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\event\SuperCraftEvent.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\loreGenerator\LiquorIngredientLore.java
+C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\alcohol\resources\BarleyJuice.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\drinks\whisky\AleBeer.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\adapter\Adapter.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\SuperItemTag.java
@@ -33,6 +35,7 @@ C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\qolCraft\distillatio
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\tools\ResourceGetter.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\SuperItem.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\event\MaturationEndEvent.java
+C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\alcohol\resources\Malt.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\loreGenerator\ResourceLore.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\producerInfo\ProducerInfo.java
 C:\Users\ikeda\IdeaProjects\QOL\src\main\java\net\okuri\qol\superItems\factory\foods\BarleyBread.java

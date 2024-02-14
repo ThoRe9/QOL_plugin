@@ -2,6 +2,8 @@ package net.okuri.qol.superItems;
 
 
 import net.okuri.qol.alcohol.LiquorIngredient;
+import net.okuri.qol.alcohol.resources.BarleyJuice;
+import net.okuri.qol.alcohol.resources.Malt;
 import net.okuri.qol.alcohol.resources.newBarley;
 import net.okuri.qol.alcohol.taste.Taste;
 import net.okuri.qol.alcohol.taste.TasteController;
@@ -79,7 +81,9 @@ public enum SuperItemType {
     YEAST("YEAST", 0, Material.POTION, SuperItemTag.INGREDIENT),
     FERMENTATION_INGREDIENT("FERMENTATION_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
     LIQUOR("LIQUOR", 0, Material.POTION, SuperItemTag.LIQUOR),
-    LIQUOR_GLASS("LIQUOR_GLASS", 0, Material.POTION, SuperItemTag.LIQUOR);
+    LIQUOR_GLASS("LIQUOR_GLASS", 0, Material.POTION, SuperItemTag.LIQUOR),
+    MALT("MALT", 0, Material.WHEAT, SuperItemTag.LIQUOR_RESOURCE),
+    BARLEY_JUICE("BARLEY_JUICE", 0, Material.POTION, SuperItemTag.LIQUOR_RESOURCE);
 
     private final String type;
     private final int customModelData;
@@ -210,6 +214,10 @@ public enum SuperItemType {
                 return new net.okuri.qol.alcohol.Liquor();
             case LIQUOR_GLASS:
                 return new net.okuri.qol.alcohol.LiquorGlass();
+            case MALT:
+                return new Malt();
+            case BARLEY_JUICE:
+                return new BarleyJuice();
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }

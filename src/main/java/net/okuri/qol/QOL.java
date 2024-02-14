@@ -2,6 +2,8 @@ package net.okuri.qol;
 
 import net.okuri.qol.alcohol.FermentationIngredient;
 import net.okuri.qol.alcohol.LiquorIngredient;
+import net.okuri.qol.alcohol.resources.BarleyJuice;
+import net.okuri.qol.alcohol.resources.Malt;
 import net.okuri.qol.alcohol.taste.AlcoholTaste;
 import net.okuri.qol.alcohol.taste.BarleyTaste;
 import net.okuri.qol.alcohol.taste.TasteController;
@@ -356,6 +358,14 @@ public final class QOL extends JavaPlugin {
         lg.setBottle(Material.GLASS_BOTTLE);
         superCraft.addDistributionCraftRecipe(lg);
 
+        // BarleyJuice
+        ShapelessSuperCraftRecipe bj = new ShapelessSuperCraftRecipe("barley_juice");
+        bj.addIngredient(SuperItemType.NEW_BARLEY);
+        bj.addIngredient(Material.WATER_BUCKET);
+        bj.addIngredient(SuperItemType.YEAST);
+        bj.setResultClass(new BarleyJuice());
+        superCraft.addShapelessSuperCraftRecipe(bj);
+
         for (String s : superCraft.getRecipeList()) {
             getLogger().info(s);
         }
@@ -391,6 +401,12 @@ public final class QOL extends JavaPlugin {
         MaturationRecipe fermentationRecipe = new MaturationRecipe("Fermentation", new LiquorIngredient());
         fermentationRecipe.addIngredient(SuperItemType.FERMENTATION_INGREDIENT);
         maturation.addMaturationRecipe(fermentationRecipe);
+
+        // Malt
+        MaturationRecipe maltRecipe = new MaturationRecipe("Malt", new Malt());
+        maltRecipe.addIngredient(SuperItemType.BARLEY_JUICE);
+        maturation.addMaturationRecipe(maltRecipe);
+
     }
 
     // Distillationのレシピを登録する
@@ -421,6 +437,12 @@ public final class QOL extends JavaPlugin {
         ramRecipe.addIngredient(SuperItemType.RUM_INGREDIENT);
         ramRecipe.addIngredient(SuperItemType.RUM);
         distillation.addDistillationRecipe(ramRecipe);
+
+        // LiquorIngredient
+        DistillationRecipe liquorIngredientRecipe = new DistillationRecipe("Liquor Ingredient", new LiquorIngredient());
+        liquorIngredientRecipe.addIngredient(SuperItemType.LIQUOR_INGREDIENT);
+        distillation.addDistillationRecipe(liquorIngredientRecipe);
+
     }
 
 
