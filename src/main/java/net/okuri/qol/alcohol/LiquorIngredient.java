@@ -61,7 +61,7 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
     /**
      * 内部用フィールド。生成できるかできないかを判断する
      */
-    private boolean canCraft = true;
+    boolean canCraft = true;
 
     /**
      * クラフトで生成するLiquorIngredientを生成します。
@@ -159,6 +159,9 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
             // 原料が水の場合、水を足す
             if (item.getSuperItemData().isSimilar(new SuperItemData(Material.WATER_BUCKET))) {
                 this.liquorAmount += 1;
+                if (this.liquorAmount > 10) {
+                    this.canCraft = false;
+                }
             }
         }
         if (this.ingredientCount / this.liquorAmount > 3) {

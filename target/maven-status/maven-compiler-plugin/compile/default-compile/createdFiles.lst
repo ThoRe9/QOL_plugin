@@ -10,6 +10,7 @@ net\okuri\qol\superItems\factory\adapter\AdapterID.class
 net\okuri\qol\qolCraft\superCraft\SuperCraftable.class
 net\okuri\qol\qolCraft\distillation\Distillable.class
 net\okuri\qol\superItems\factory\resources\SuperApple.class
+net\okuri\qol\alcohol\taste\TasteGroup.class
 net\okuri\qol\Commands.class
 net\okuri\qol\ProtectedBlock.class
 net\okuri\qol\superItems\factory\drinks\whisky\WhiskyIngredient.class
@@ -48,6 +49,7 @@ net\okuri\qol\superItems\factory\drinks\whisky\HighBall.class
 net\okuri\qol\alcohol\taste\Taste.class
 net\okuri\qol\superItems\factory\resources\SuperResource.class
 net\okuri\qol\superItems\factory\drinks\spirits\RumIngredient.class
+net\okuri\qol\alcohol\LiquorRecipeController.class
 net\okuri\qol\superItems\factory\drinks\whisky\BeerIngredient.class
 net\okuri\qol\loreGenerator\Lore.class
 net\okuri\qol\superItems\factory\tools\FarmerToolAdapter.class
@@ -118,6 +120,7 @@ net\okuri\qol\superItems\factory\drinks\sake\ShochuOchoko.class
 net\okuri\qol\superItems\factory\tools\EnvGetter.class
 net\okuri\qol\alcohol\resources\LiquorResource.class
 net\okuri\qol\alcohol\resources\newBarley.class
+net\okuri\qol\alcohol\LiquorRecipe.class
 net\okuri\qol\event\MaturationEndEvent.class
 net\okuri\qol\superItems\factory\foods\BarleyBread.class
 net\okuri\qol\AlcBar.class

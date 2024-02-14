@@ -1,6 +1,8 @@
 package net.okuri.qol.loreGenerator;
 
 import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import net.okuri.qol.alcohol.LiquorRecipe;
 import net.okuri.qol.alcohol.taste.Taste;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ public class LiquorLore extends Lore {
     private final ArrayList<TasteEffectInfo> effects = new ArrayList<>();
     private double totalDurBuff;
     private double totalAmpBuff;
+    private final ArrayList<LiquorRecipe> recipes = new ArrayList<>();
 
     public LiquorLore() {
         super(3, "Liquor", NamedTextColor.GOLD);
@@ -30,6 +33,14 @@ public class LiquorLore extends Lore {
             double[] lore = new double[]{info.ampParam, info.taste.getEffectAmplifier(), info.durParam, info.taste.getEffectDuration() / 1200, info.fermentationBuff, info.delicacyBuff};
             String[] units = new String[]{"p", "lv/p", "p", "min/p", "倍", "倍"};
             addDoubleArrayLore(info.taste.getDisplayName(), info.taste.getColor(), lore, units);
+        }
+        if (!recipes.isEmpty()) {
+            addInfoLore("レシピ：");
+            for (LiquorRecipe recipe : recipes) {
+                double[] rl = new double[]{recipe.getLevelAmp(), recipe.getDurationAmp()};
+                String[] units = new String[]{"倍", "倍"};
+                addDoubleArrayLore(PlainTextComponentSerializer.plainText().serialize(recipe.getName()), recipe.getName().color(), rl, units);
+            }
         }
         super.addAmpLore("レベルの増幅率", Lore.A_COLOR, totalAmpBuff);
         super.addAmpLore("持続時間の増幅率", Lore.B_COLOR, totalDurBuff);
@@ -51,6 +62,10 @@ public class LiquorLore extends Lore {
 
     public void setTotalAmpBuff(double totalAmpBuff) {
         this.totalAmpBuff = totalAmpBuff;
+    }
+
+    public void addRecipe(LiquorRecipe recipe) {
+        recipes.add(recipe);
     }
 
 }

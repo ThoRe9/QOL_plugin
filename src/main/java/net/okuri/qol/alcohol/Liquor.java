@@ -22,6 +22,7 @@ import java.util.Objects;
 public class Liquor extends LiquorIngredient implements Distributable, DistributionReceiver {
     private ArrayList<PotionEffect> potionEffects = new ArrayList<>();
     private LiquorLore lore = new LiquorLore();
+    private Component name = Component.text("酒", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false);
 
     public Liquor() {
         super(SuperItemType.LIQUOR);
@@ -35,8 +36,9 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
 
     @Override
     public SuperItemStack getSuperItem() {
+        super.canCraft = true;
         SuperItemStack stack = super.getSuperItem();
-        stack.setDisplayName(Component.text("酒", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false));
+
         PotionMeta meta = (PotionMeta) stack.getItemMeta();
         setPotionEffects();
         for (PotionEffect effect : this.potionEffects) {
@@ -52,6 +54,7 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
         gen.addLore(this.lore);
         gen.setLore(meta);
         stack.setItemMeta(meta);
+        stack.setDisplayName(this.name);
         return stack;
     }
 
@@ -67,6 +70,7 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
         this.lore = new LiquorLore();
         double durationBuff = 1;
         double amplifierBuff = 1;
+        boolean recipeFlag = false;
         ArrayList<TasteEffect> potionEffectTypes = new ArrayList<>();
 
         for (Map.Entry<Taste, Double> taste : this.getTastes().entrySet()) {
@@ -83,6 +87,19 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
             if (taste.getKey().hasBuffInfo()) {
                 durationBuff *= Math.pow(taste.getKey().getDurationAmplifier(), taste.getValue());
                 amplifierBuff *= Math.pow(taste.getKey().getLevelAmplifier(), taste.getValue());
+            }
+        }
+        for (LiquorRecipe recipe : LiquorRecipeController.instance.getRecipes()) {
+            if (recipe.isMatch(this)) {
+                durationBuff *= recipe.getDurationAmp();
+                amplifierBuff *= recipe.getLevelAmp();
+                this.lore.addRecipe(recipe);
+                if (!recipeFlag) {
+                    this.name = recipe.getName();
+                    recipeFlag = true;
+                } else {
+                    this.name = this.name.append(Component.text(" ")).append(recipe.getName());
+                }
             }
         }
 
@@ -105,13 +122,16 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
             // 分配(親)の場合
             SuperItemStack liquor = matrix[0];
             super.setMatrix(new SuperItemStack[]{liquor}, "initialize");
+            this.name = liquor.displayName();
         } else if (Objects.equals(id, "distribution_receiver")) {
             // 分配(子)の場合
             SuperItemStack liquor = new SuperItemStack(matrix[0]);
             super.setRecentAmount(this.getAmount());
             super.setMatrix(new SuperItemStack[]{liquor}, "initialize");
+            this.name = liquor.displayName();
         } else {
             super.setMatrix(matrix, id);
+            this.name = matrix[0].displayName();
         }
     }
 

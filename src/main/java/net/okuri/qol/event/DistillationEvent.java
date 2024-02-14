@@ -17,8 +17,6 @@ public class DistillationEvent extends Event {
     public DistillationEvent(FurnaceSmeltEvent event, Distillable resultClass, SuperItemStack resultItem) {
         SuperItemStack ingredient = new SuperItemStack(event.getSource());
         ProducerInfo producerInfo = ingredient.getProducerInfo();
-        resultItem.setProducerInfo(producerInfo);
-
         event.setResult(resultItem);
         this.furnaceSmeltEvent = event;
         this.resultClass = resultClass;

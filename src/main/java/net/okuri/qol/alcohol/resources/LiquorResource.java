@@ -76,6 +76,7 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
         this.biomeId = PDCC.get(stack.getItemMeta(), PDCKey.BIOME_ID);
         this.effectRate = 1;
         this.tastes.clear();
+        this.fermentationRate = 0;
         this.add(stack);
     }
 
@@ -89,6 +90,9 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
         this.effectRate *= (double) PDCC.get(meta, PDCKey.LIQUOR_EFFECT_RATIO);
         // produce TODO
         this.tastes.putAll(PDCC.getTastes(meta));
+        if (PDCC.has(meta, PDCKey.FERMENTATION_RATE)) {
+            this.fermentationRate += (double) PDCC.get(meta, PDCKey.FERMENTATION_RATE);
+        }
     }
 
     private void setFactors(int seed) {

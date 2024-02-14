@@ -53,6 +53,10 @@ public abstract class Lore {
         lore.add(Component.text(info).color(BASE_COLOR).decoration(TextDecoration.ITALIC, false));
     }
 
+    void addInfoLore(Component component) {
+        lore.add(component);
+    }
+
     /**
      * おおよそ0~1.0のパラメータをLoreに追加します。
      *

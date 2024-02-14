@@ -1,11 +1,17 @@
 package net.okuri.qol;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.okuri.qol.alcohol.FermentationIngredient;
 import net.okuri.qol.alcohol.LiquorIngredient;
+import net.okuri.qol.alcohol.LiquorRecipe;
+import net.okuri.qol.alcohol.LiquorRecipeController;
 import net.okuri.qol.alcohol.resources.BarleyJuice;
 import net.okuri.qol.alcohol.resources.Malt;
 import net.okuri.qol.alcohol.taste.AlcoholTaste;
 import net.okuri.qol.alcohol.taste.BarleyTaste;
+import net.okuri.qol.alcohol.taste.MaltTaste;
 import net.okuri.qol.alcohol.taste.TasteController;
 import net.okuri.qol.help.Help;
 import net.okuri.qol.help.HelpCommand;
@@ -480,6 +486,17 @@ public final class QOL extends JavaPlugin {
         superResource.addResource(superApple);
     }
 
+    private void registerLiquorRecipe(LiquorRecipeController controller) {
+        // ここにLiquorRecipeを登録していく
+
+        // whisky
+        LiquorRecipe whiskyRecipe = new LiquorRecipe("whisky", Component.text("ウィスキー").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 0);
+        whiskyRecipe.addMinimumTaste(MaltTaste.instance, 1.5);
+        whiskyRecipe.setMinimumAlcohol(0.20);
+        controller.addRecipe(whiskyRecipe);
+
+    }
+
     @Override
     public void onEnable() {
         plugin = this;
@@ -492,6 +509,7 @@ public final class QOL extends JavaPlugin {
         MaturationController maturation = MaturationController.getListener();
         DistillationController distillation = DistillationController.getListener();
         ResourceController superResource = ResourceController.getListener();
+        LiquorRecipeController liquorRecipe = LiquorRecipeController.instance;
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
         getServer().getPluginManager().registerEvents(new ConsumeListener(this), this);
         getServer().getPluginManager().registerEvents(new InteractListener(), this);
@@ -506,6 +524,7 @@ public final class QOL extends JavaPlugin {
         registerMaturationRecipes(maturation);
         registerDistillationRecipes(distillation);
         registerSuperResources(superResource);
+        registerLiquorRecipe(liquorRecipe);
 
         getCommand("getenv").setExecutor(new Commands(this));
         getCommand("matsign").setExecutor(new Commands(this));
