@@ -56,7 +56,8 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
     // effectRate : 1 = Durにすべてのパラメータが使われる 0 = Ampにすべてのパラメータが使われる
     private double effectRate = 0.5;
     private double fermentationRate;
-    private Map<Taste, Double> tastes = new HashMap<>();
+    Map<Taste, Double> tastes = new HashMap<>();
+    ResourceLore lore = new ResourceLore();
 
     /**
      * 酒類の原料となるアイテムを生成するためのベースとなるクラスです。
@@ -138,6 +139,7 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
         for (Map.Entry<Taste, Double> entry : additionalTastes.entrySet()) {
             this.tastes.put(entry.getKey(), baseTasteValue * entry.getValue());
         }
+        this.lore = new ResourceLore();
     }
 
     private double calcParam(int x, int y) {
@@ -153,6 +155,7 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
     @Override
     public void setMatrix(SuperItemStack[] matrix, String id) {
         boolean flag = false;
+        this.lore = new ResourceLore();
         if (id.equals("initialize")) {
             initialize(matrix[0]);
             return;
@@ -178,7 +181,6 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
         item.setDisplayName(Component.text(display).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY).decorate(TextDecoration.BOLD));
         ItemMeta meta = item.getItemMeta();
 
-        ResourceLore lore = new ResourceLore();
         for (Map.Entry<Taste, Double> entry : tastes.entrySet()) {
             lore.addTaste(entry.getKey(), entry.getValue());
         }

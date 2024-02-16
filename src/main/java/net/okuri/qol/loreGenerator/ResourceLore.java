@@ -13,6 +13,7 @@ public class ResourceLore extends Lore {
     Map<Taste, Double> tasteParams = new HashMap<>();
     double delicacy;
     double effectRate = 0.5;
+    double ricePolishingRate = -1;
 
     public ResourceLore() {
         super(0, "Resource", NamedTextColor.GREEN);
@@ -26,6 +27,9 @@ public class ResourceLore extends Lore {
         }
         addParamLore("くせの強さ", Lore.A_COLOR, delicacy);
         addPercentLore("傾向", Lore.B_COLOR, effectRate * 100);
+        if (ricePolishingRate >= 0) {
+            addPercentLore("精米歩合", Lore.B_COLOR, ricePolishingRate * 100);
+        }
     }
 
     public ResourceLore addTaste(Taste taste, double param) {
@@ -39,5 +43,9 @@ public class ResourceLore extends Lore {
 
     public void setEffectRate(double effectRate) {
         this.effectRate = effectRate;
+    }
+
+    public void setRicePolishingRate(double ricePolishingRate) {
+        this.ricePolishingRate = ricePolishingRate;
     }
 }

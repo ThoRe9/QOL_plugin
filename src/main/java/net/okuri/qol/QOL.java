@@ -160,6 +160,18 @@ public final class QOL extends JavaPlugin {
         bj.setResultClass(new BarleyJuice());
         superCraft.addShapelessSuperCraftRecipe(bj);
 
+        // PolishedRice
+        ShapelessSuperCraftRecipe pr = new ShapelessSuperCraftRecipe("polished_rice");
+        pr.addIngredient(SuperItemType.RICE);
+        pr.setResultClass(new PolishedRice());
+        superCraft.addShapelessSuperCraftRecipe(pr);
+
+        // PolishedRice 2
+        ShapelessSuperCraftRecipe pr2 = new ShapelessSuperCraftRecipe("polished_rice2");
+        pr2.addIngredient(SuperItemType.POLISHED_RICE);
+        pr2.setResultClass(new PolishedRice());
+        superCraft.addShapelessSuperCraftRecipe(pr2);
+
         for (String s : superCraft.getRecipeList()) {
             getLogger().info(s);
         }
@@ -208,6 +220,15 @@ public final class QOL extends JavaPlugin {
         Rice rice = new Rice();
         superResource.addResource(rice);
 
+        Potato potato = new Potato();
+        superResource.addResource(potato);
+
+        SugarCane sugarCane = new SugarCane();
+        superResource.addResource(sugarCane);
+
+        Grape grape = new Grape();
+        superResource.addResource(grape);
+
     }
 
     private void registerLiquorRecipe(LiquorRecipeController controller) {
@@ -224,6 +245,7 @@ public final class QOL extends JavaPlugin {
         // Ale Beer
         LiquorRecipe aleBeerRecipe = new LiquorRecipe("ale_beer", Component.text("エールビール").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 1);
         aleBeerRecipe.addMinimumTaste(BarleyTaste.instance, 1.0);
+        aleBeerRecipe.addMinimumTaste(HopTaste.instance, 0.1);
         aleBeerRecipe.setMinimumAlcohol(0.03);
         aleBeerRecipe.setMaximumAlcohol(0.2);
         aleBeerRecipe.setMaximumFermentation(1.1);
@@ -234,12 +256,30 @@ public final class QOL extends JavaPlugin {
         // Lager Beer
         LiquorRecipe lagerBeerRecipe = new LiquorRecipe("lager_beer", Component.text("ラガービール").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 2);
         lagerBeerRecipe.addMinimumTaste(BarleyTaste.instance, 1.0);
+        lagerBeerRecipe.addMinimumTaste(HopTaste.instance, 0.1);
         lagerBeerRecipe.setMinimumAlcohol(0.03);
         lagerBeerRecipe.setMaximumAlcohol(0.2);
         lagerBeerRecipe.setMinimumFermentation(1.1);
         lagerBeerRecipe.setDurationAmp(1.2);
         lagerBeerRecipe.setLevelAmp(1.2);
         controller.addRecipe(lagerBeerRecipe);
+
+        // Sake
+        LiquorRecipe sakeRecipe = new LiquorRecipe("sake", Component.text("日本酒").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 3);
+        sakeRecipe.addMinimumTaste(RiceTaste.instance, 1.0);
+        sakeRecipe.setMinimumAlcohol(0.05);
+        sakeRecipe.setMaximumAlcohol(0.2);
+        sakeRecipe.setMinimumFermentation(1);
+        sakeRecipe.setDurationAmp(1.2);
+        sakeRecipe.setLevelAmp(1.2);
+
+        // Shochu
+        LiquorRecipe shochuRecipe = new LiquorRecipe("shochu", Component.text("焼酎").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 4);
+        shochuRecipe.addMinimumTaste(RiceTaste.instance, 2.0);
+        shochuRecipe.setMinimumAlcohol(0.2);
+        shochuRecipe.setDurationAmp(0.9);
+        shochuRecipe.setLevelAmp(1.6);
+
 
     }
 
@@ -250,6 +290,14 @@ public final class QOL extends JavaPlugin {
         controller.registerTaste(MaltTaste.instance);
         controller.registerTaste(RyeTaste.instance);
         controller.registerTaste(RiceTaste.instance);
+        controller.registerTaste(RiceSweetness.instance);
+        controller.registerTaste(PotatoTaste.instance);
+        controller.registerTaste(HopTaste.instance);
+        controller.registerTaste(SugarTaste.instance);
+        controller.registerTaste(RumTaste.instance);
+        controller.registerTaste(GrapeSweetness.instance);
+        controller.registerTaste(GrapeSourness.instance);
+        controller.registerTaste(GrapeBitterness.instance);
     }
 
     @Override

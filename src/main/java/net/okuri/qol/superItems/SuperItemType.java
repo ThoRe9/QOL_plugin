@@ -29,6 +29,12 @@ public enum SuperItemType {
     YEAST("YEAST", 0, Material.POTION, SuperItemTag.INGREDIENT),
     MALT("MALT", 0, Material.WHEAT, SuperItemTag.LIQUOR_RESOURCE),
     BARLEY_JUICE("BARLEY_JUICE", 0, Material.POTION, SuperItemTag.LIQUOR_RESOURCE),
+    POLISHED_RICE("POLISHED_RICE", 0, Material.PUMPKIN_SEEDS, SuperItemTag.LIQUOR_RESOURCE),
+    POTATO("POTATO", 0, Material.POTATO, SuperItemTag.LIQUOR_RESOURCE),
+    HOP("HOP", 0, Material.VINE, SuperItemTag.LIQUOR_RESOURCE),
+    SUGAR_CANE("SUGAR_CANE", 0, Material.SUGAR_CANE, SuperItemTag.LIQUOR_RESOURCE),
+    MOLASSES("MOLASSES", 0, Material.HONEY_BOTTLE, SuperItemTag.LIQUOR_RESOURCE),
+    GRAPE("grape", 0, Material.SWEET_BERRIES, SuperItemTag.LIQUOR_RESOURCE),
     LIQUOR_INGREDIENT("LIQUOR_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
     FERMENTATION_INGREDIENT("FERMENTATION_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
     LIQUOR("LIQUOR", 0, Material.POTION, SuperItemTag.LIQUOR),
@@ -103,6 +109,18 @@ public enum SuperItemType {
                 return new Wheat();
             case RICE:
                 return new Rice();
+            case POLISHED_RICE:
+                return new PolishedRice();
+            case POTATO:
+                return new Potato();
+            case HOP:
+                return new Hop();
+            case SUGAR_CANE:
+                return new SugarCane();
+            case MOLASSES:
+                return new Molasses();
+            case GRAPE:
+                return new Grape();
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }
