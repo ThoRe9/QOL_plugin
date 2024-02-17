@@ -40,7 +40,8 @@ public enum SuperItemType {
     FERMENTATION_INGREDIENT("FERMENTATION_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
     LIQUOR("LIQUOR", 0, Material.POTION, SuperItemTag.LIQUOR),
     LIQUOR_GLASS("LIQUOR_GLASS", 0, Material.POTION, SuperItemTag.LIQUOR),
-    GLASS("GLASS", 0, Material.GLASS_BOTTLE, SuperItemTag.INGREDIENT);
+    GLASS("GLASS", 0, Material.GLASS_BOTTLE, SuperItemTag.INGREDIENT),
+    YEAST_GOTCHA("YEAST_GOTCHA", 0, Material.PAPER, SuperItemTag.INGREDIENT);
 
     private final String type;
     private final int customModelData;
@@ -127,6 +128,8 @@ public enum SuperItemType {
                 return new FermentedGrape();
             case GLASS:
                 return new Glass();
+            case YEAST_GOTCHA:
+                return new YeastGotcha();
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }

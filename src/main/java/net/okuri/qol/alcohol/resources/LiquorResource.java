@@ -172,7 +172,7 @@ public class LiquorResource extends Resource implements SuperCraftable {
     @Override
     public SuperItemStack getSuperItem() {
         SuperItemStack item = new SuperItemStack(this.getSuperItemType(), 1);
-        item.setDisplayName(Component.text(display).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY).decorate(TextDecoration.BOLD));
+        item.setDisplayName(this.header.append(Component.text(display).decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY).decorate(TextDecoration.BOLD)));
         ItemMeta meta = item.getItemMeta();
 
         for (Map.Entry<Taste, Double> entry : tastes.entrySet()) {

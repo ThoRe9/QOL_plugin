@@ -6,6 +6,7 @@ import net.okuri.qol.ChatGenerator;
 import net.okuri.qol.Commands;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
+import net.okuri.qol.alcohol.YeastGotcha;
 import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import org.bukkit.Material;
@@ -16,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.time.LocalDateTime;
@@ -88,6 +90,11 @@ public class InteractListener implements Listener {
                     }
                     event.setCancelled(true);
                 }
+                break;
+            case YEAST_GOTCHA:
+                YeastGotcha.get(player);
+                PlayerInventory inv = player.getInventory();
+                inv.getItemInMainHand().setAmount(item.getAmount() - 1);
                 break;
             default:
                 break;

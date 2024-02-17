@@ -22,6 +22,7 @@ net\okuri\qol\superItems\factory\tools\FarmerTool.class
 net\okuri\qol\event\DistillationEvent.class
 net\okuri\qol\alcohol\resources\Rye.class
 net\okuri\qol\alcohol\taste\RumTaste.class
+net\okuri\qol\alcohol\YeastGotcha.class
 net\okuri\qol\help\HelpContent.class
 net\okuri\qol\help\Help.class
 net\okuri\qol\listener\InteractListener.class
