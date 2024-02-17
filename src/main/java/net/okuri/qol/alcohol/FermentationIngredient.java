@@ -31,7 +31,7 @@ public class FermentationIngredient extends LiquorIngredient {
         PDCC.set(meta, PDCKey.FERMENTATION_RATE, fermentationRate);
         PDCC.set(meta, PDCKey.FERMENTATION_ALC_RATE, alcoholRate);
 
-        LiquorIngredientLore lore = new LiquorIngredientLore(super.getLiquorAmount(), super.getAlcoholAmount(), super.getDelicacy(), super.getFermentationDegree(), super.getEffectRate());
+        LiquorIngredientLore lore = new LiquorIngredientLore(super.getLiquorAmount(), super.getAlcoholAmount(), super.getMaxAmount(), super.getDelicacy(), super.getFermentationDegree(), super.getEffectRate());
         for (Taste taste : super.getTastes().keySet()) {
             lore.addTaste(taste, super.getTastes().get(taste));
         }

@@ -3,6 +3,8 @@ package net.okuri.qol.alcohol;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.okuri.qol.PDCC;
+import net.okuri.qol.PDCKey;
 import net.okuri.qol.alcohol.taste.Taste;
 import net.okuri.qol.loreGenerator.LiquorIngredientLore;
 import net.okuri.qol.loreGenerator.LiquorLore;
@@ -23,6 +25,7 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
     private final ArrayList<PotionEffect> potionEffects = new ArrayList<>();
     private LiquorLore lore = new LiquorLore();
     private Component name = Component.text("酒", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false);
+    private double drinkCost = 0;
 
     public Liquor() {
         super(SuperItemType.LIQUOR);
@@ -34,18 +37,27 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
         super.setConsumable(true);
     }
 
+    public Liquor(SuperItemStack liquor) {
+        super(liquor);
+    }
+
     @Override
     public SuperItemStack getSuperItem() {
         super.canCraft = true;
         SuperItemStack stack = super.getSuperItem();
+        if (stack == null) {
+            return null;
+        }
 
         PotionMeta meta = (PotionMeta) stack.getItemMeta();
         setPotionEffects();
         for (PotionEffect effect : this.potionEffects) {
             meta.addCustomEffect(effect, true);
         }
-
-        LiquorIngredientLore lore = new LiquorIngredientLore(super.getLiquorAmount(), super.getAlcoholAmount(), super.getDelicacy(), super.getFermentationDegree(), super.getEffectRate());
+        this.calcDrinkCost();
+        PDCC.set(meta, PDCKey.DRINK_COST, this.drinkCost);
+        this.lore.setDrinkCost(this.drinkCost);
+        LiquorIngredientLore lore = new LiquorIngredientLore(super.getLiquorAmount(), super.getAlcoholAmount(), super.getMaxAmount(), super.getDelicacy(), super.getFermentationDegree(), super.getEffectRate());
         for (Taste taste : super.getTastes().keySet()) {
             lore.addTaste(taste, super.getTastes().get(taste));
         }
@@ -53,9 +65,10 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
         gen.addLore(lore);
         gen.addLore(this.lore);
         gen.setLore(meta);
+        meta.displayName(this.name);
         stack.setItemMeta(meta);
-        stack.setDisplayName(this.name);
         return stack;
+
     }
 
     private void setPotionEffects() {
@@ -132,13 +145,22 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
             // 分配(親)の場合
             SuperItemStack liquor = matrix[0];
             super.setMatrix(new SuperItemStack[]{liquor}, "initialize");
-            this.name = liquor.displayName();
+            this.name = Component.text().append(matrix[0].getItemMeta().displayName()).build();
+            this.drinkCost = PDCC.get(liquor.getItemMeta(), PDCKey.DRINK_COST);
         } else if (Objects.equals(id, "distribution_receiver")) {
             // 分配(子)の場合
             SuperItemStack liquor = new SuperItemStack(matrix[0]);
             super.setRecentAmount(this.getAmount());
             super.setMatrix(new SuperItemStack[]{liquor}, "initialize");
-            this.name = liquor.displayName();
+            // displayNameの深いコピーを作成
+            this.name = Component.text().append(liquor.displayName()).build();
+            this.drinkCost = PDCC.get(liquor.getItemMeta(), PDCKey.DRINK_COST);
+        } else if ("initialize".equals(id)) {
+            super.setMatrix(matrix, id);
+            this.name = Component.text().append(matrix[0].getItemMeta().displayName()).build();
+
+        } else if ("add".equals(id)) {
+            super.setMatrix(matrix, id);
         } else {
             super.setMatrix(matrix, id);
         }
@@ -146,9 +168,13 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
 
     private double calcDelicacyBuff(double param) {
         int count = getTastes().size();
-        double delicacy = getDelicacy() / getAmount();
+        double delicacy = getDelicacy();
         double factor = 0.1 * Math.pow(delicacy, 2);
         return Math.pow(param, factor + 1) / (Math.pow(count * 0.5, factor));
+    }
+
+    private void calcDrinkCost() {
+        this.drinkCost = Math.pow((this.getLiquorAmount() * 10), 2) * Math.pow((this.getAlcoholAmount() * 1000), 2) * this.getDelicacy();
     }
 
     @Override

@@ -250,6 +250,7 @@ public class PDCC {
     public static void setLiquorIngredient(ItemMeta meta, LiquorIngredient ingredient) {
         set(meta, PDCKey.LIQUOR_AMOUNT, ingredient.getLiquorAmount());
         set(meta, PDCKey.ALCOHOL_AMOUNT, ingredient.getAlcoholAmount());
+        set(meta, PDCKey.GLASS_VOLUME, ingredient.getMaxAmount());
         setTastes(meta, ingredient.getTastes());
         set(meta, PDCKey.DELICACY, ingredient.getDelicacy());
         set(meta, PDCKey.FERMENTATION_DEGREE, ingredient.getFermentationDegree());

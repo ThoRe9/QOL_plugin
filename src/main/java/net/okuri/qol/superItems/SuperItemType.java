@@ -35,10 +35,12 @@ public enum SuperItemType {
     SUGAR_CANE("SUGAR_CANE", 0, Material.SUGAR_CANE, SuperItemTag.LIQUOR_RESOURCE),
     MOLASSES("MOLASSES", 0, Material.HONEY_BOTTLE, SuperItemTag.LIQUOR_RESOURCE),
     GRAPE("grape", 0, Material.SWEET_BERRIES, SuperItemTag.LIQUOR_RESOURCE),
+    FERMENTED_GRAPE("fermented_grape", 0, Material.SWEET_BERRIES, SuperItemTag.LIQUOR_RESOURCE),
     LIQUOR_INGREDIENT("LIQUOR_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
     FERMENTATION_INGREDIENT("FERMENTATION_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
     LIQUOR("LIQUOR", 0, Material.POTION, SuperItemTag.LIQUOR),
-    LIQUOR_GLASS("LIQUOR_GLASS", 0, Material.POTION, SuperItemTag.LIQUOR);
+    LIQUOR_GLASS("LIQUOR_GLASS", 0, Material.POTION, SuperItemTag.LIQUOR),
+    GLASS("GLASS", 0, Material.GLASS_BOTTLE, SuperItemTag.INGREDIENT);
 
     private final String type;
     private final int customModelData;
@@ -121,6 +123,10 @@ public enum SuperItemType {
                 return new Molasses();
             case GRAPE:
                 return new Grape();
+            case FERMENTED_GRAPE:
+                return new FermentedGrape();
+            case GLASS:
+                return new Glass();
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }

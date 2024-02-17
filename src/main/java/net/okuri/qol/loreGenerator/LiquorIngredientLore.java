@@ -12,14 +12,16 @@ public class LiquorIngredientLore extends Lore {
     double amount = 0;
     double delicacy = 0;
     double alcoholAmount = 0;
+    double maxAmount = 0;
     double fermentation = 0;
     double effectRate = 0.5;
 
-    public LiquorIngredientLore(double amount, double alcoholAmount, double delicacy, double fermentation, double effectRate) {
+    public LiquorIngredientLore(double amount, double alcoholAmount, double maxAmount, double delicacy, double fermentation, double effectRate) {
         super(1, "LiquorIngredient", NamedTextColor.GREEN);
         this.amount = amount;
         this.delicacy = delicacy;
         this.alcoholAmount = alcoholAmount;
+        this.maxAmount = maxAmount;
         this.fermentation = fermentation;
         this.effectRate = effectRate;
     }
@@ -34,7 +36,9 @@ public class LiquorIngredientLore extends Lore {
         addParamLore("くせの強さ", Lore.A_COLOR, delicacy, amount);
         addPercentLore("傾向", Lore.B_COLOR, effectRate * 100);
         addPercentLore("アルコール度数", Lore.C_COLOR, alcoholAmount / amount * 100);
-        addParamLore("量", Lore.D_COLOR, amount * 1000, "ml");
+        double[] amounts = {amount * 1000, maxAmount * 1000};
+        String[] amountNames = {"ml", "ml"};
+        addDoubleArrayLore("量", Lore.D_COLOR, amounts, amountNames);
         addParamLore("発酵度", Lore.A_COLOR, fermentation);
 
     }

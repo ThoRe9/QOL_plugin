@@ -39,24 +39,6 @@ public class InteractListener implements Listener {
             return;
         }
         ItemMeta meta = item.getItemMeta();
-        // 手に持ったitemがeatableなら処理をする
-        // metaのPersistentDataContainerにeatableKeyがあるか確認
-        if (PDCC.has(meta, PDCKey.EATABLE)) {
-            if (!(boolean) PDCC.get(meta, PDCKey.EATABLE)) {
-                // playerが満腹なら食べない
-                if (player.getFoodLevel() <= 20) {
-                    new ChatGenerator().addWarning("You are full!").sendMessage(player);
-                    event.setCancelled(true);
-                    return;
-                }
-                // 食べる処理
-                Food food = new Food();
-                food.whenEat(player, item);
-                // 消費する
-                item.setAmount(item.getAmount() - 1);
-                event.setCancelled(true);
-            }
-        }
 
         //以下ツールの処理
         // metaのPersistentDataContainerにtypeKeyがあるか確認

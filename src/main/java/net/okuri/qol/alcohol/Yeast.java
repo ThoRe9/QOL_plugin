@@ -48,4 +48,12 @@ public class Yeast extends SuperItem {
         return getSuperItem();
     }
 
+    public void setFermentationRate(double fermentationRate) {
+        this.fermentationRate = fermentationRate;
+    }
+
+    public void setAlcoholRate(double alcoholRate) {
+        this.alcoholRate = alcoholRate;
+    }
+
 }

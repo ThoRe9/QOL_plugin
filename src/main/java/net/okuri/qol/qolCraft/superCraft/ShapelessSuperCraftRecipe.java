@@ -16,8 +16,9 @@ import java.util.ArrayList;
 
 public class ShapelessSuperCraftRecipe implements SuperRecipe {
     //不定形レシピはsetMatrixに登録した順にSuperItem のItemStackがわたされるので注意!!
+    // なお、getRawMatrixをtrueにすると、そのままのItemStackがわたされる
 
-
+    private boolean getRawMatrix = false;
     private final String id;
     private Class<? extends SuperCraftable> resultClass;
     private SuperCraftable resultInstance;
@@ -71,6 +72,9 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
                  InvocationTargetException e) {
             throw new RuntimeException(e);
         }
+        if (getRawMatrix) {
+            this.ingredientItems = matrix;
+        }
         return true;
     }
 
@@ -122,6 +126,10 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
 
     public void addReturnItem(SuperItemStack itemStack) {
         returnItems.add(itemStack);
+    }
+
+    public void setGetRawMatrix(boolean getRawMatrix) {
+        this.getRawMatrix = getRawMatrix;
     }
 
 }

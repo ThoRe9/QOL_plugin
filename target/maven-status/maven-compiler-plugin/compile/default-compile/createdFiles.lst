@@ -29,9 +29,13 @@ net\okuri\qol\qolCraft\maturation\MaturationRecipe.class
 net\okuri\qol\alcohol\resources\Grape.class
 net\okuri\qol\superItems\factory\tools\MaturationTool.class
 net\okuri\qol\listener\EventListener.class
+net\okuri\qol\alcohol\resources\buff\LiquorResourceBuff.class
+net\okuri\qol\alcohol\taste\SkyTaste.class
 net\okuri\qol\qolCraft\calcuration\StatisticalCalcuration.class
 net\okuri\qol\alcohol\resources\Wheat.class
 net\okuri\qol\superItems\SuperItemTag.class
+net\okuri\qol\alcohol\resources\FermentedGrape.class
+net\okuri\qol\alcohol\resources\FermentationLiquorResource.class
 net\okuri\qol\alcohol\taste\Taste.class
 net\okuri\qol\alcohol\resources\Potato.class
 net\okuri\qol\alcohol\LiquorRecipeController.class
@@ -43,6 +47,7 @@ net\okuri\qol\alcohol\taste\HopTaste.class
 net\okuri\qol\qolCraft\distillation\DistillationRecipe.class
 net\okuri\qol\listener\ProtectListener.class
 net\okuri\qol\superItems\SuperItemData.class
+net\okuri\qol\alcohol\Glass.class
 net\okuri\qol\alcohol\taste\TasteController.class
 net\okuri\qol\alcohol\Yeast.class
 net\okuri\qol\loreGenerator\LoreGenerator.class
@@ -76,12 +81,14 @@ net\okuri\qol\qolCraft\calcuration\CirculeDistribution.class
 net\okuri\qol\qolCraft\calcuration\DiscontinuityDurationCalcuration.class
 net\okuri\qol\qolCraft\calcuration\Calcuration.class
 net\okuri\qol\alcohol\taste\RyeTaste.class
+net\okuri\qol\qolCraft\resource\Resource.class
 net\okuri\qol\qolCraft\maturation\MaturationController.class
 net\okuri\qol\alcohol\resources\Hop.class
 net\okuri\qol\loreGenerator\FermentationLore.class
 net\okuri\qol\alcohol\taste\MaltTaste.class
 net\okuri\qol\LoreGenerator.class
 net\okuri\qol\help\Pages.class
+net\okuri\qol\alcohol\resources\buff\LiquorResourceBuffController.class
 net\okuri\qol\PDCKey$ApplyType.class
 net\okuri\qol\alcohol\taste\PotionEffectTaste.class
 net\okuri\qol\superItems\factory\tools\EnvGetter.class
@@ -98,7 +105,6 @@ net\okuri\qol\superItems\SuperItemStack.class
 net\okuri\qol\event\MaturationPrepareEvent.class
 net\okuri\qol\loreGenerator\TasteEffectInfo.class
 net\okuri\qol\superItems\SuperItemType.class
-net\okuri\qol\listener\Food.class
 net\okuri\qol\alcohol\LiquorIngredient.class
 net\okuri\qol\loreGenerator\ResourceLore.class
 net\okuri\qol\help\Page.class

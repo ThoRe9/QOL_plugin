@@ -1,7 +1,6 @@
 package net.okuri.qol.qolCraft.resource;
 
 import net.okuri.qol.ChatGenerator;
-import net.okuri.qol.alcohol.resources.LiquorResource;
 import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
@@ -24,7 +23,7 @@ public class ResourceController implements Listener {
     // Resourceを管理を司るシングルトンインスタンス。
 
     private static ResourceController listener = new ResourceController();
-    private final ArrayList<LiquorResource> resources = new ArrayList<>();
+    private final ArrayList<Resource> resources = new ArrayList<>();
 
     private ResourceController() {
     }
@@ -33,7 +32,7 @@ public class ResourceController implements Listener {
         return listener;
     }
 
-    public void addResource(LiquorResource r) {
+    public void addResource(Resource r) {
         this.resources.add(r);
     }
 
@@ -69,7 +68,7 @@ public class ResourceController implements Listener {
         }
 
         // SuperResourceの判定
-        for (LiquorResource r : this.resources) {
+        for (Resource r : this.resources) {
             if (blockType == r.getBlockMaterial()) {
                 if (envCheck(block, r)) {
                     if (Tag.CROPS.isTagged(blockType)) {
@@ -107,7 +106,7 @@ public class ResourceController implements Listener {
         }
     }
 
-    private boolean envCheck(Block block, LiquorResource r) {
+    private boolean envCheck(Block block, Resource r) {
         double temp = block.getTemperature();
         double humid = block.getHumidity();
         boolean tempCheck = r.getMinTemp() <= temp && temp < r.getMaxTemp();

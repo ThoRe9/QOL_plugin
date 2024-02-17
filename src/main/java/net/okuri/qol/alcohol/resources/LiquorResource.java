@@ -5,16 +5,17 @@ import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
+import net.okuri.qol.alcohol.resources.buff.LiquorResourceBuffController;
 import net.okuri.qol.alcohol.taste.Taste;
 import net.okuri.qol.loreGenerator.FermentationLore;
 import net.okuri.qol.loreGenerator.LoreGenerator;
 import net.okuri.qol.loreGenerator.ResourceLore;
+import net.okuri.qol.qolCraft.resource.Resource;
 import net.okuri.qol.qolCraft.superCraft.SuperCraftable;
 import net.okuri.qol.superItems.SuperItemData;
 import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemTag;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.factory.SuperItem;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -25,20 +26,14 @@ import java.util.Map;
 /**
  * 酒類の原料となるアイテムを生成するためのベースとなるクラスです。
  */
-public class LiquorResource extends SuperItem implements SuperCraftable {
+public class LiquorResource extends Resource implements SuperCraftable {
     private final String display;
-    private final double probability;
-    private final Material blockMaterial;
     private final Taste baseTaste;
     private final Map<Taste, Double> additionalTastes = new HashMap<>();
     /**
      * baseTempAmp : BaseTasteを弱めたり強めたりできる
      */
     private double baseTasteAmp = 1;
-    private double minTemp = -10;
-    private double maxTemp = 10;
-    private double minHumid = -10;
-    private double maxHumid = 10;
     // 以下パラメータ計算用変数
     private double[][] factors = new double[2][3];
     private double sinFactor = 0.5;
@@ -58,6 +53,7 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
     private double fermentationRate;
     Map<Taste, Double> tastes = new HashMap<>();
     ResourceLore lore = new ResourceLore();
+    private Component header = Component.text("");
 
     /**
      * 酒類の原料となるアイテムを生成するためのベースとなるクラスです。
@@ -69,12 +65,9 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
      * @param baseTaste     基本の味
      */
     public LiquorResource(String name, Material blockMaterial, SuperItemType superItemType, double probability, Taste baseTaste, int seed) {
-        super(superItemType);
+        super(blockMaterial, superItemType, probability);
         assert superItemType.hasTag(SuperItemTag.RESOURCE);
         this.display = name;
-        this.blockMaterial = blockMaterial;
-        assert probability >= 0.0 && probability <= 1.0;
-        this.probability = probability;
         this.baseTaste = baseTaste;
         setFactors(seed);
         super.setConsumable(false);
@@ -140,12 +133,13 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
             this.tastes.put(entry.getKey(), baseTasteValue * entry.getValue());
         }
         this.lore = new ResourceLore();
+        LiquorResourceBuffController.instance.applyBuffs(this, posX, posY, posZ, temp, humid, biomeId, producer);
     }
 
     private double calcParam(int x, int y) {
         double a = sinFactor * Math.sin(x * factors[0][0] + y * factors[0][1] + factors[0][2]);
         double b = (1 - sinFactor) * Math.cos(x * factors[1][0] + y * factors[1][1] + factors[1][2]);
-        return (a + b + 2) * 0.4;
+        return (a + b + 1) * 0.4;
     }
 
     private double calcEffectRate(double temp, double humid) {
@@ -220,15 +214,6 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
     public String getDisplay() {
         return display;
     }
-
-    public double getProbability() {
-        return probability;
-    }
-
-    public Material getBlockMaterial() {
-        return blockMaterial;
-    }
-
     public int getPosX() {
         return posX;
     }
@@ -273,37 +258,6 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
         return fermentationRate;
     }
 
-    public double getMinTemp() {
-        return minTemp;
-    }
-
-    public void setMinTemp(double minTemp) {
-        this.minTemp = minTemp;
-    }
-
-    public double getMaxTemp() {
-        return maxTemp;
-    }
-
-    public void setMaxTemp(double maxTemp) {
-        this.maxTemp = maxTemp;
-    }
-
-    public double getMinHumid() {
-        return minHumid;
-    }
-
-    public void setMinHumid(double minHumid) {
-        this.minHumid = minHumid;
-    }
-
-    public double getMaxHumid() {
-        return maxHumid;
-    }
-
-    public void setMaxHumid(double maxHumid) {
-        this.maxHumid = maxHumid;
-    }
 
     /**
      * 味を追加します。
@@ -317,5 +271,9 @@ public class LiquorResource extends SuperItem implements SuperCraftable {
 
     public void setBaseTasteAmp(double baseTasteAmp) {
         this.baseTasteAmp = baseTasteAmp;
+    }
+
+    public void addHeader(Component header) {
+        this.header = this.header.append(header);
     }
 }

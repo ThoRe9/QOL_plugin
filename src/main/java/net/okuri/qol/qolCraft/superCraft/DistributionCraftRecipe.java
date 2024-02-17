@@ -35,6 +35,8 @@ public class DistributionCraftRecipe implements SuperRecipe {
     private SuperItemStack[] matrix = new SuperItemStack[9];
     private final ArrayList<SuperItemStack> result = new ArrayList<>();
     private SuperItemStack returnBottle;
+    private boolean isGetRawMatrix = false;
+    private SuperItemStack[] rawMatrix;
     public DistributionCraftRecipe(String id){
         this.id = id;
     }
@@ -82,7 +84,8 @@ public class DistributionCraftRecipe implements SuperRecipe {
             }
 
             // smallBottleの処理
-            if (itemStack.isSimilar(this.bottle)) {
+            if (this.bottle.isSimilar(itemStack.getSuperItemData())) {
+                //Bukkit.getLogger().info("bottle" + id);
                 smallBottleCount++;
                 superBottles.add(itemStack);
                 continue;
@@ -130,6 +133,17 @@ public class DistributionCraftRecipe implements SuperRecipe {
 
         distributionInstance.setAmount(distributionItem);
         //Bukkit.getLogger().info("isDistributable");
+
+        if (isGetRawMatrix) {
+            this.rawMatrix = matrix;
+            //Bukkit.getLogger().info("rawMatrix");
+            this.receiverInstance.setMatrix(matrix, "distribution_receiver");
+            this.smallBottleAmount = receiverInstance.getAmount();
+        } else {
+            receiverInstance.setMatrix(this.matrix, "distribution_receiver");
+        }
+        //Bukkit.getLogger().info("distributionInstance.setMatrix");
+        distributionInstance.setMatrix(this.matrix, "distribution");
         return distributionInstance.isDistributable(smallBottleAmount, smallBottleCount);
         //Bukkit.getLogger().info("is not Distributable");
     }
@@ -153,17 +167,18 @@ public class DistributionCraftRecipe implements SuperRecipe {
         return receiverInstance;
     }
 
-    public void setReciver(DistributionReceiver receiver){
+    public void setReceiver(DistributionReceiver receiver) {
         this.receiver = receiver.getClass();
         this.smallBottleAmount = receiver.getAmount();
         this.receiverInstance = receiver;
     }
 
     public void process(){
-        distributionInstance.setMatrix(matrix, "distribution");
-        receiverInstance.setMatrix(matrix, "distribution_receiver");
+        //Bukkit.getLogger().info(smallBottleAmount + " "+ smallBottleCount);
         distributionInstance.distribute(smallBottleAmount, smallBottleCount);
+        //Bukkit.getLogger().info("distribute");
         receiverInstance.receive(smallBottleCount);
+        //Bukkit.getLogger().info("receive");
         this.returnBottle = this.distributionInstance.getSuperItem();
     }
     public void setBottle(Material bottle){
@@ -207,6 +222,10 @@ public class DistributionCraftRecipe implements SuperRecipe {
 
     public void addReturnItem(SuperItemStack itemStack) {
         result.add(itemStack);
+    }
+
+    public void setGetRawMatrix(boolean isGetRawMatrix) {
+        this.isGetRawMatrix = isGetRawMatrix;
     }
 
 }

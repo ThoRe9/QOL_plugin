@@ -43,6 +43,10 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
      */
     private double recentAmount;
     /**
+     * 酒の量の最大値。これを超えると生成できない
+     */
+    double maxAmount = 5;
+    /**
      * 味の繊細さ。正味のパラメータに対する影響度
      */
     private double delicacy;
@@ -93,6 +97,13 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         super.setConsumable(false);
     }
 
+    public LiquorIngredient(SuperItemStack liquor) {
+        super(liquor.getSuperItemType());
+        assert liquor.getSuperItemData().isSimilar(new SuperItemData(SuperItemType.LIQUOR_INGREDIENT));
+        super.setConsumable(false);
+        this.initialize(liquor);
+    }
+
     private void initialize(SuperItemStack stack) {
         assert stack.getSuperItemData().isSimilar(new SuperItemData(SuperItemType.LIQUOR_INGREDIENT));
         ItemMeta meta = stack.getItemMeta();
@@ -133,6 +144,10 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         double resourceDelicacy = -1;
         if ("initialize".equals(id)) {
             this.initialize(matrix[0]);
+            return;
+        }
+        if ("add".equals(id)) {
+            this.add(matrix[0]);
             return;
         }
         for (SuperItemStack item : matrix) {
@@ -182,7 +197,7 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
 
     @Override
     public SuperItemStack getSuperItem() {
-        if (!this.canCraft) {
+        if (!this.canCraft || this.liquorAmount > this.maxAmount) {
             return null;
         }
 
@@ -192,7 +207,7 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         meta.displayName(Component.text("Liquor Ingredient").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.GRAY).decorate(TextDecoration.BOLD));
         PDCC.setLiquorIngredient(meta, this);
 
-        LiquorIngredientLore lore = new LiquorIngredientLore(this.liquorAmount, this.alcoholAmount, this.delicacy, this.fermentationDegree, this.effectRate);
+        LiquorIngredientLore lore = new LiquorIngredientLore(this.liquorAmount, this.alcoholAmount, this.maxAmount, this.delicacy, this.fermentationDegree, this.effectRate);
         for (Map.Entry<Taste, Double> entry : this.tastes.entrySet()) {
             lore.addTaste(entry.getKey(), entry.getValue());
         }
@@ -274,7 +289,12 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         this.recentAmount = recentAmount;
     }
 
+    void setAmount(double amount) {
+        this.liquorAmount = amount;
+    }
+
     public void adjustTasteValue() {
+        //Bukkit.getLogger().info("adjustTasteValue" + this.recentAmount + "←" + this.liquorAmount);
         for (Map.Entry<Taste, Double> taste : this.getTastes().entrySet()) {
             taste.setValue(taste.getValue() * (this.recentAmount / this.liquorAmount));
         }
@@ -284,5 +304,9 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
 
     void setDelicacy(double delicacy) {
         this.delicacy = delicacy;
+    }
+
+    public double getMaxAmount() {
+        return maxAmount;
     }
 }

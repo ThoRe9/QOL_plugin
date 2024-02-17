@@ -3,11 +3,10 @@ package net.okuri.qol;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.okuri.qol.alcohol.FermentationIngredient;
-import net.okuri.qol.alcohol.LiquorIngredient;
-import net.okuri.qol.alcohol.LiquorRecipe;
-import net.okuri.qol.alcohol.LiquorRecipeController;
+import net.okuri.qol.alcohol.*;
 import net.okuri.qol.alcohol.resources.*;
+import net.okuri.qol.alcohol.resources.buff.LiquorResourceBuff;
+import net.okuri.qol.alcohol.resources.buff.LiquorResourceBuffController;
 import net.okuri.qol.alcohol.taste.*;
 import net.okuri.qol.help.Help;
 import net.okuri.qol.help.HelpCommand;
@@ -145,13 +144,6 @@ public final class QOL extends JavaPlugin {
         lq.setResultClass(new net.okuri.qol.alcohol.Liquor());
         superCraft.addShapelessSuperCraftRecipe(lq);
 
-        // LiquorGlass
-        DistributionCraftRecipe lg = new DistributionCraftRecipe("liquor_glass");
-        lg.setDistribution(new net.okuri.qol.alcohol.Liquor());
-        lg.setReciver(new net.okuri.qol.alcohol.LiquorGlass());
-        lg.setBottle(Material.GLASS_BOTTLE);
-        superCraft.addDistributionCraftRecipe(lg);
-
         // BarleyJuice
         ShapelessSuperCraftRecipe bj = new ShapelessSuperCraftRecipe("barley_juice");
         bj.addIngredient(SuperItemType.BARLEY);
@@ -171,6 +163,33 @@ public final class QOL extends JavaPlugin {
         pr2.addIngredient(SuperItemType.POLISHED_RICE);
         pr2.setResultClass(new PolishedRice());
         superCraft.addShapelessSuperCraftRecipe(pr2);
+
+        // Pouring
+        DistributionCraftRecipe pouring = new DistributionCraftRecipe("pouring");
+        pouring.setGetRawMatrix(true);
+        pouring.setDistribution(new Liquor());
+        pouring.setReceiver(new LiquorGlass());
+        pouring.setBottle(SuperItemType.GLASS);
+        superCraft.addDistributionCraftRecipe(pouring);
+
+        // pouring2
+        DistributionCraftRecipe pouring2 = new DistributionCraftRecipe("pouring2");
+        pouring2.setGetRawMatrix(true);
+        pouring2.setDistribution(new Liquor());
+        pouring2.setReceiver(new LiquorGlass());
+        pouring2.setBottle(SuperItemType.LIQUOR_GLASS);
+        superCraft.addDistributionCraftRecipe(pouring2);
+
+
+        // glass(100~900ml)
+        for (int i = 1; i < 10; i++) {
+            ShapelessSuperCraftRecipe glass = new ShapelessSuperCraftRecipe(String.valueOf(i * 100));
+            for (int j = 0; j < i; j++) {
+                glass.addIngredient(Material.GLASS_BOTTLE);
+            }
+            glass.setResultClass(new Glass());
+            superCraft.addShapelessSuperCraftRecipe(glass);
+        }
 
         for (String s : superCraft.getRecipeList()) {
             getLogger().info(s);
@@ -265,13 +284,14 @@ public final class QOL extends JavaPlugin {
         controller.addRecipe(lagerBeerRecipe);
 
         // Sake
-        LiquorRecipe sakeRecipe = new LiquorRecipe("sake", Component.text("日本酒").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 3);
+        LiquorRecipe sakeRecipe = new LiquorRecipe("sake", Component.text("日本酒").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false), 3);
         sakeRecipe.addMinimumTaste(RiceTaste.instance, 1.0);
         sakeRecipe.setMinimumAlcohol(0.05);
         sakeRecipe.setMaximumAlcohol(0.2);
         sakeRecipe.setMinimumFermentation(1);
         sakeRecipe.setDurationAmp(1.2);
         sakeRecipe.setLevelAmp(1.2);
+        controller.addRecipe(sakeRecipe);
 
         // Shochu
         LiquorRecipe shochuRecipe = new LiquorRecipe("shochu", Component.text("焼酎").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 4);
@@ -279,7 +299,23 @@ public final class QOL extends JavaPlugin {
         shochuRecipe.setMinimumAlcohol(0.2);
         shochuRecipe.setDurationAmp(0.9);
         shochuRecipe.setLevelAmp(1.6);
+        controller.addRecipe(shochuRecipe);
 
+        // Wine
+        LiquorRecipe wineRecipe = new LiquorRecipe("wine", Component.text("ワイン").color(NamedTextColor.DARK_PURPLE).decoration(TextDecoration.ITALIC, false), 5);
+        wineRecipe.addMinimumTaste(GrapeBitterness.instance, 1);
+        wineRecipe.addMinimumTaste(GrapeSourness.instance, 0.3);
+        wineRecipe.setDurationAmp(1.4);
+        wineRecipe.setLevelAmp(0.9);
+        controller.addRecipe(wineRecipe);
+
+        // White wine
+        LiquorRecipe whiteWineRecipe = new LiquorRecipe("white_wine", Component.text("白ワイン").color(NamedTextColor.LIGHT_PURPLE).decoration(TextDecoration.ITALIC, false), 6);
+        whiteWineRecipe.addMinimumTaste(GrapeSourness.instance, 1);
+        whiteWineRecipe.addMinimumTaste(GrapeBitterness.instance, 0.3);
+        whiteWineRecipe.setDurationAmp(0.9);
+        whiteWineRecipe.setLevelAmp(1.4);
+        controller.addRecipe(whiteWineRecipe);
 
     }
 
@@ -298,6 +334,16 @@ public final class QOL extends JavaPlugin {
         controller.registerTaste(GrapeSweetness.instance);
         controller.registerTaste(GrapeSourness.instance);
         controller.registerTaste(GrapeBitterness.instance);
+        controller.registerTaste(SkyTaste.instance);
+    }
+
+
+    private void registerLiquorResourceBuffs(LiquorResourceBuffController controller) {
+        // ここにLiquorResourceBuffを登録する
+        LiquorResourceBuff skyBuff = new LiquorResourceBuff("天空", NamedTextColor.AQUA, SkyTaste.instance, 0.1);
+        skyBuff.setHeader(Component.text("天空の").color(NamedTextColor.AQUA));
+        skyBuff.setMinY(300);
+        controller.registerBuff(skyBuff);
     }
 
     @Override
@@ -314,6 +360,7 @@ public final class QOL extends JavaPlugin {
         ResourceController superResource = ResourceController.getListener();
         LiquorRecipeController liquorRecipe = LiquorRecipeController.instance;
         TasteController tasteController = TasteController.getController();
+        LiquorResourceBuffController liquorResourceBuffController = LiquorResourceBuffController.instance;
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
         getServer().getPluginManager().registerEvents(new ConsumeListener(this), this);
         getServer().getPluginManager().registerEvents(new InteractListener(), this);
@@ -330,6 +377,7 @@ public final class QOL extends JavaPlugin {
         registerSuperResources(superResource);
         registerLiquorRecipe(liquorRecipe);
         registerTastes(tasteController);
+        registerLiquorResourceBuffs(liquorResourceBuffController);
 
         getCommand("getenv").setExecutor(new Commands(this));
         getCommand("matsign").setExecutor(new Commands(this));
@@ -371,4 +419,5 @@ public final class QOL extends JavaPlugin {
 
 
     }
+
 }
