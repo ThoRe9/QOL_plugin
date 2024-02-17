@@ -1,7 +1,7 @@
 package net.okuri.qol.event;
 
 import net.okuri.qol.qolCraft.maturation.Maturable;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
+import net.okuri.qol.superItems.SuperItemStack;
 import org.bukkit.block.Barrel;
 import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;

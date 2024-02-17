@@ -6,8 +6,9 @@ import net.okuri.qol.ChatGenerator;
 import net.okuri.qol.Commands;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
+import net.okuri.qol.alcohol.YeastGotcha;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
@@ -16,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.time.LocalDateTime;
@@ -39,24 +41,6 @@ public class InteractListener implements Listener {
             return;
         }
         ItemMeta meta = item.getItemMeta();
-        // 手に持ったitemがeatableなら処理をする
-        // metaのPersistentDataContainerにeatableKeyがあるか確認
-        if (PDCC.has(meta, PDCKey.EATABLE)) {
-            if (!(boolean) PDCC.get(meta, PDCKey.EATABLE)) {
-                // playerが満腹なら食べない
-                if (player.getFoodLevel() <= 20) {
-                    new ChatGenerator().addWarning("You are full!").sendMessage(player);
-                    event.setCancelled(true);
-                    return;
-                }
-                // 食べる処理
-                Food food = new Food();
-                food.whenEat(player, item);
-                // 消費する
-                item.setAmount(item.getAmount() - 1);
-                event.setCancelled(true);
-            }
-        }
 
         //以下ツールの処理
         // metaのPersistentDataContainerにtypeKeyがあるか確認
@@ -106,6 +90,11 @@ public class InteractListener implements Listener {
                     }
                     event.setCancelled(true);
                 }
+                break;
+            case YEAST_GOTCHA:
+                YeastGotcha.get(player);
+                PlayerInventory inv = player.getInventory();
+                inv.getItemInMainHand().setAmount(item.getAmount() - 1);
                 break;
             default:
                 break;

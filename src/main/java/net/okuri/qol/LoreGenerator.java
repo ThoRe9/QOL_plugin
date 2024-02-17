@@ -4,7 +4,6 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
-import net.okuri.qol.superItems.factory.adapter.AdapterID;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class LoreGenerator {
     private int maturationDays;
     private float saturation;
     private int foodLevel;
-    private final ArrayList<AdapterID> adapterIDS = new ArrayList<>();
+
     private double xAddition;
     private double xAmplifier = 1;
     private double yAddition;
@@ -155,12 +154,6 @@ public class LoreGenerator {
         }
         if (alcPercentAmplifier != 1) {
             components.add(Component.text("Alcohol Percent").color(bColor).decoration(TextDecoration.ITALIC, false).append(Component.text(" : ").color(baseColor).decoration(TextDecoration.ITALIC, false)).append(Component.text("×").color(aColor).decoration(TextDecoration.ITALIC, false)).append(Component.text(alcPercentAmplifier).color(aColor).decoration(TextDecoration.ITALIC, false)));
-        }
-        if (!adapterIDS.isEmpty()) {
-            components.add(Component.text("==========").color(baseColor).decoration(TextDecoration.ITALIC, false).append(Component.text("Adapter").color(subColor).decoration(TextDecoration.ITALIC, false).decorate(TextDecoration.BOLD).append(Component.text("==========").color(baseColor).decoration(TextDecoration.ITALIC, false))));
-            for (AdapterID adapterID : adapterIDS) {
-                components.add(Component.text(adapterID.getName()).color(dColor).decoration(TextDecoration.ITALIC, false));
-            }
         }
         if (rarity != 0 || !lore.isEmpty() || !importantLore.isEmpty() || !parametersLabel.isEmpty() || !parametersValue.isEmpty()) {
             components.add(Component.text("==========").color(baseColor).decoration(TextDecoration.ITALIC, false).append(Component.text("Other").color(baseColor).decoration(TextDecoration.ITALIC, false).decorate(TextDecoration.BOLD).append(Component.text("==========").color(baseColor).decoration(TextDecoration.ITALIC, false))));
@@ -347,10 +340,6 @@ public class LoreGenerator {
         return this;
     }
 
-    public LoreGenerator addAdapterID(AdapterID adapterID) {
-        this.adapterIDS.add(adapterID);
-        return this;
-    }
 
     public LoreGenerator setParams(double x, double y, double z) {
         this.x = x;

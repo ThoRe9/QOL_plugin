@@ -1,14 +1,15 @@
 package net.okuri.qol.qolCraft.superCraft;
 
 import net.okuri.qol.superItems.SuperItemData;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemTag;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.factory.SuperItem;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,7 +21,8 @@ public class SuperCraftRecipe implements SuperRecipe {
     public Map<Character, SuperItemData> ingredients = new HashMap<>();
     public String[] shape = new String[3];
     private SuperItemStack[] matrix = new SuperItemStack[9];
-    private SuperCraftable resultClass = null;
+    private Class<? extends SuperCraftable> resultClass = null;
+    private SuperCraftable resultInstance = null;
     private final ArrayList<SuperItemStack> returnItems = new ArrayList<>();
 
     public SuperCraftRecipe(String id) {
@@ -30,6 +32,7 @@ public class SuperCraftRecipe implements SuperRecipe {
     // レシピの判定
     @Override
     public boolean checkSuperRecipe(SuperItemStack[] matrix) {
+
         this.matrix = matrix;
         //Bukkit.getServer().getLogger().info("checkSuperRecipe");
 
@@ -61,6 +64,14 @@ public class SuperCraftRecipe implements SuperRecipe {
                 }
             }
         }
+        try {
+            Constructor<? extends SuperCraftable> constructor = this.resultClass.getConstructor();
+            this.resultInstance = constructor.newInstance();
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException |
+                 InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+
         return true;
     }
 
@@ -105,28 +116,28 @@ public class SuperCraftRecipe implements SuperRecipe {
         return this;
     }
 
+    public SuperCraftable getResultClass() {
 
-    public void setResultClass(SuperCraftable resultClass) {
-        this.resultClass = resultClass;
+        resultInstance.setMatrix(this.matrix, id);
+        return resultInstance;
     }
 
     public Map<Character, SuperItemData> getIngredients() {
         return this.ingredients;
     }
 
-
-    public SuperCraftable getResultClass() {
-        this.resultClass.setMatrix(this.matrix, id);
-        return this.resultClass;
+    public void setResultClass(SuperCraftable resultClass) {
+        this.resultClass = resultClass.getClass();
+        this.resultInstance = resultClass;
     }
 
     @Override
     public @NotNull SuperItemStack getResult() {
-        return ((SuperItem) this.resultClass).getSuperItem();
+        return resultInstance.getSuperItem();
     }
 
     public SuperItemData getResultData() {
-        return ((SuperItem) this.resultClass).getSuperItemData();
+        return resultInstance.getSuperItem().getSuperItemData();
     }
 
     public String[] getShape() {

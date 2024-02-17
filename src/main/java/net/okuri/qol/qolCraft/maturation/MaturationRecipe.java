@@ -9,7 +9,8 @@ import java.util.ArrayList;
 public class MaturationRecipe {
     private final ArrayList<SuperItemData> ingredients = new ArrayList<>();
 
-    private final Maturable resultClass;
+    private final Class<? extends Maturable> resultClass;
+    private Maturable resultInstance;
     private final String recipeName;
 
     private double maxTemp = 1000;
@@ -32,7 +33,8 @@ public class MaturationRecipe {
     }
 
     public MaturationRecipe(String name, Maturable resultClass) {
-        this.resultClass = resultClass;
+        this.resultClass = resultClass.getClass();
+        this.resultInstance = resultClass;
         this.recipeName = name;
     }
 
@@ -57,6 +59,6 @@ public class MaturationRecipe {
     }
 
     public Maturable getResultClass() {
-        return resultClass;
+        return resultInstance;
     }
 }

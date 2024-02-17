@@ -3,9 +3,7 @@ package net.okuri.qol.qolCraft.superCraft;
 import net.okuri.qol.PDCC;
 import net.okuri.qol.PDCKey;
 import net.okuri.qol.event.SuperCraftEvent;
-import net.okuri.qol.producerInfo.ProducerInfo;
-import net.okuri.qol.superItems.SuperItemData;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
+import net.okuri.qol.superItems.SuperItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,7 +18,6 @@ import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 
 public class SuperCraftController implements Listener {
@@ -121,9 +118,6 @@ public class SuperCraftController implements Listener {
                 Bukkit.getLogger().info("SuperCraftRecipe matched!");
                 SuperCraftable result = superCraftRecipe.getResultClass();
                 SuperItemStack resultItem = result.getSuperItem();
-                if (resultItem != null) {
-                    resultItem.setProducerInfo(getProducerInfo(superMatrix, resultItem.getSuperItemData(), player));
-                }
                 inventory.setResult(resultItem);
                 this.superCraftFlag = true;
                 this.recipe = superCraftRecipe;
@@ -136,12 +130,6 @@ public class SuperCraftController implements Listener {
                 Bukkit.getLogger().info("ShapelessSuperCraftRecipe matched!");
                 SuperCraftable result = shapelessSuperCraftRecipe.getResultClass();
                 SuperItemStack resultItem = result.getSuperItem();
-                // 対処療法
-                if (!Objects.equals(shapelessSuperCraftRecipe.getId(), "fusion_craft") && !Objects.equals(shapelessSuperCraftRecipe.getId(), "rum_ingredient")) {
-                    if (resultItem != null) {
-                        resultItem.setProducerInfo(getProducerInfo(superMatrix, resultItem.getSuperItemData(), player));
-                    }
-                }
                 inventory.setResult(resultItem);
                 this.shapelessCraftFlag = true;
                 this.recipe = shapelessSuperCraftRecipe;
@@ -160,8 +148,6 @@ public class SuperCraftController implements Listener {
 
                 inventory.setResult(receiverItem);
                 this.distributionFlag = true;
-                ProducerInfo info = getProducerInfo(superMatrix, receiverItem.getSuperItemData(), player);
-                receiverItem.setProducerInfo(info);
 
                 this.recipe = d;
 
@@ -170,22 +156,6 @@ public class SuperCraftController implements Listener {
         }
     }
 
-    private ProducerInfo getProducerInfo(SuperItemStack[] matrix, SuperItemData data, Player player) {
-        ProducerInfo result = new ProducerInfo(player, 0.0, data);
-        for (SuperItemStack item : matrix) {
-            if (item == null) {
-                continue;
-            }
-            if (item.getItemMeta() == null) {
-                continue;
-            }
-            if (PDCC.has(item.getItemMeta(), PDCKey.PRODUCER_INFO)) {
-                ProducerInfo info = PDCC.getProducerInfo(item.getItemMeta());
-                result.addChild(info);
-            }
-        }
-        return result;
-    }
 
     @EventHandler
     private void CraftItemEvent(SuperCraftEvent event){

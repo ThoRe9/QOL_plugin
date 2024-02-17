@@ -9,11 +9,10 @@ import net.okuri.qol.PDCKey;
 import net.okuri.qol.ProtectedBlock;
 import net.okuri.qol.event.MaturationEndEvent;
 import net.okuri.qol.event.MaturationPrepareEvent;
-import net.okuri.qol.producerInfo.ProducerInfo;
 import net.okuri.qol.superItems.SuperItemData;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -139,14 +138,6 @@ public class MaturationController implements Listener {
         Inventory barrelInventory = event.getBarrel().getSnapshotInventory();
 
         SuperItemStack resultStack = ((SuperItem) result).getSuperItem();
-        ProducerInfo producerInfo = new ProducerInfo(player, 1.0, resultStack.getSuperItemData());
-        for (SuperItemStack ingredient : ingredients) {
-
-            if (ingredient.hasProducerInfo()) {
-                producerInfo.addChild(ingredient.getProducerInfo());
-            }
-        }
-        resultStack.setProducerInfo(producerInfo);
         barrelInventory.clear();
         barrelInventory.addItem(resultStack);
         sign.update();

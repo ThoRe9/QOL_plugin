@@ -7,6 +7,8 @@ public enum SuperItemTag {
     // RESOURCE: 資源のSuperItem。x,y,z のパラメータを x+y+z~1 になるように持つ。
     INGREDIENT,
     // INGREDIENT: x,y,zのパラメータ, もしくはtaste, smell, compatibilityを持つ材料。
+    LIQUOR_RESOURCE,
+    // LIQUOR_RESOURCE: Liquorの原料。LiquorIngredientをクラフトするのに使える。
     LIQUOR_INGREDIENT,
     // LIQUOR_INGREDIENT: Liquorとほぼ同じだが、Consumableがfalseに設定されている中間素材。
     LIQUOR,

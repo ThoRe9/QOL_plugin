@@ -1,12 +1,9 @@
 package net.okuri.qol.qolCraft.resource;
 
 import net.okuri.qol.ChatGenerator;
-import net.okuri.qol.producerInfo.ProducerInfo;
 import net.okuri.qol.superItems.SuperItemData;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.factory.resources.SuperResource;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
-import net.okuri.qol.superItems.itemStack.SuperResourceStack;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Biome;
@@ -26,7 +23,7 @@ public class ResourceController implements Listener {
     // Resourceを管理を司るシングルトンインスタンス。
 
     private static ResourceController listener = new ResourceController();
-    private final ArrayList<SuperResource> resources = new ArrayList<>();
+    private final ArrayList<Resource> resources = new ArrayList<>();
 
     private ResourceController() {
     }
@@ -35,7 +32,7 @@ public class ResourceController implements Listener {
         return listener;
     }
 
-    public void addResource(SuperResource r) {
+    public void addResource(Resource r) {
         this.resources.add(r);
     }
 
@@ -71,44 +68,50 @@ public class ResourceController implements Listener {
         }
 
         // SuperResourceの判定
-        for (SuperResource r : this.resources) {
+        for (Resource r : this.resources) {
             if (blockType == r.getBlockMaterial()) {
-                if (Tag.CROPS.isTagged(blockType)) {
-                    if (((Ageable) block.getState().getBlockData()).getAge() < 7) {
-                        continue;
+                if (envCheck(block, r)) {
+                    if (Tag.CROPS.isTagged(blockType)) {
+                        if (((Ageable) block.getState().getBlockData()).getAge() < 7) {
+                            continue;
+                        }
+                        if (!item.isFarmerTool()) {
+                            continue;
+                        }
                     }
-                    if (!item.isFarmerTool()) {
-                        continue;
+                    if (Tag.LEAVES.isTagged(blockType)) {
+                        if (!item.isFarmerTool()) {
+                            continue;
+                        }
                     }
-                }
-                if (Tag.LEAVES.isTagged(blockType)) {
-                    if (!item.isFarmerTool()) {
-                        continue;
+                    if (Tag.MINEABLE_PICKAXE.isTagged(blockType)) {
+                        if (!item.isMinerTool()) {
+                            continue;
+                        }
                     }
-                }
-                if (Tag.MINEABLE_PICKAXE.isTagged(blockType)) {
-                    if (!item.isMinerTool()) {
-                        continue;
-                    }
-                }
 
-                new ChatGenerator().addDebug(String.valueOf(n)).sendMessage(player);
-                if (n < r.getProbability()) {
-                    new ChatGenerator().addSuccess("You got " + r.getSuperItemType().name() + " !!").sendMessage(player);
+                    new ChatGenerator().addDebug(String.valueOf(n)).sendMessage(player);
+                    if (n < r.getProbability() * 100) {
+                        new ChatGenerator().addSuccess("You got " + r.getSuperItemType().name() + " !!").sendMessage(player);
 
-                    double temp = player.getLocation().getBlock().getTemperature();
-                    double humid = player.getLocation().getBlock().getHumidity();
-                    Biome biome = player.getLocation().getBlock().getBiome();
-                    int biomeID = biome.ordinal();
-                    // TODO quality の計算
-                    r.setResVariables(block.getX(), block.getY(), block.getZ(), temp, humid, biomeID, 1.0, player);
-                    SuperResourceStack resultItem = r.getSuperItem();
-                    ProducerInfo producerInfo = new ProducerInfo(player, 1.0, resultItem.getSuperItemData());
-                    resultItem.setProducerInfo(producerInfo);
-                    player.getInventory().addItem(resultItem);
+                        double temp = player.getLocation().getBlock().getTemperature();
+                        double humid = player.getLocation().getBlock().getHumidity();
+                        Biome biome = player.getLocation().getBlock().getBiome();
+                        int biomeID = biome.ordinal();
+                        r.setResVariables(block.getX(), block.getY(), block.getZ(), temp, humid, biomeID, player);
+                        player.getInventory().addItem(r.getSuperItem());
+                    }
                 }
             }
         }
+    }
+
+    private boolean envCheck(Block block, Resource r) {
+        double temp = block.getTemperature();
+        double humid = block.getHumidity();
+        boolean tempCheck = r.getMinTemp() <= temp && temp < r.getMaxTemp();
+        boolean humidCheck = r.getMinHumid() <= humid && humid < r.getMaxHumid();
+        return tempCheck && humidCheck;
     }
 
 

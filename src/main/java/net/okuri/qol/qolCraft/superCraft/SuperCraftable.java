@@ -1,6 +1,6 @@
 package net.okuri.qol.qolCraft.superCraft;
 
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
+import net.okuri.qol.superItems.SuperItemStack;
 
 public interface SuperCraftable {
     // matrixは作業台の材料を記憶する
