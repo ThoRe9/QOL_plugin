@@ -39,3 +39,8 @@ commands:
     permission: qol.command.producer
     permission-message: Permission denied
     usage: /<command>
+  qolhelp:
+    description: You can get help.
+    permission: qol.command.qolhelp
+    permission-message: Permission denied
+    usage: /<command>

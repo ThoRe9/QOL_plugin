@@ -1,8 +1,8 @@
 package net.okuri.qol.superItems.factory;
 
 import net.okuri.qol.superItems.SuperItemData;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Material;
 
 public abstract class SuperItem {
@@ -22,6 +22,7 @@ public abstract class SuperItem {
     private SuperItemData superItemData;
     private Material material;
     private int count = 1;
+    private boolean consumable = true;
 
     public SuperItem(SuperItemType type, SuperItemStack stack) {
         if (type != stack.getSuperItemType()) throw new IllegalArgumentException("SuperItemTypeが一致しません。");
@@ -76,7 +77,13 @@ public abstract class SuperItem {
         return this.material;
     }
 
-    public abstract SuperItemStack getSuperItem();
+    public SuperItemStack getSuperItem() {
+        SuperItemStack stack = new SuperItemStack(this.superItemData.getType(), this.count);
+        if (!this.consumable) {
+            stack.setConsumable(false);
+        }
+        return stack;
+    }
 
     public abstract SuperItemStack getDebugItem(int... args);
 
@@ -86,6 +93,10 @@ public abstract class SuperItem {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public void setConsumable(boolean flag) {
+        this.consumable = flag;
     }
 
 }

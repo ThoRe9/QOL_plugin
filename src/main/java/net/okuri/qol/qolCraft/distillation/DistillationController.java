@@ -1,7 +1,7 @@
 package net.okuri.qol.qolCraft.distillation;
 
 import net.okuri.qol.event.DistillationEvent;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
+import net.okuri.qol.superItems.SuperItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.block.Furnace;

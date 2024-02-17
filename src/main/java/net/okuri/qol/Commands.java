@@ -1,9 +1,8 @@
 package net.okuri.qol;
 
 import net.kyori.adventure.text.Component;
-import net.okuri.qol.producerInfo.ProducerInfo;
+import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
-import net.okuri.qol.superItems.itemStack.SuperItemStack;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Sign;
@@ -12,12 +11,18 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 
 public class Commands implements CommandExecutor {
+
+    private final Plugin plugin;
+
+    public Commands(Plugin plugin) {
+        this.plugin = plugin;
+    }
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, String[] args) {
         if (command.getName().equalsIgnoreCase("getenv")) { //親コマンドの判定
@@ -66,8 +71,6 @@ public class Commands implements CommandExecutor {
                         return true;
                     }
                     SuperItemStack item = SuperItemType.getSuperItemClass(SuperItemType.valueOf(typeStr)).getDebugItem();
-                    ProducerInfo producerInfo = new ProducerInfo(player, 1.0, item.getSuperItemData());
-                    item.setProducerInfo(producerInfo);
                     player.getInventory().addItem(item);
                     new ChatGenerator().addInfo("Successfully gave the item!").sendMessage(player);
                     return true;
@@ -80,7 +83,6 @@ public class Commands implements CommandExecutor {
                     int type = Integer.parseInt(args[0]);
                     int temp = Integer.parseInt(args[1]);
                     SuperItemStack item = SuperItemType.getSuperItemClass(SuperItemType.WHEAT).getDebugItem(type, temp);
-                    ProducerInfo producerInfo = new ProducerInfo(player, 1.0, item.getSuperItemData());
                     player.getInventory().addItem(item);
                     new ChatGenerator().addInfo("Successfully gave the item!").sendMessage(player);
                     return true;
@@ -90,42 +92,21 @@ public class Commands implements CommandExecutor {
             if (sender instanceof Player) {
                 if (args.length == 0) {
                     Player player = (Player) sender;
-                    if (!PDCC.has(player, PDCKey.ALCOHOL_LEVEL)) {
-                        new ChatGenerator().addTitle("Your Alcohol Level").addInfo("You don't have alcohol level!").sendMessage(player);
-                        return true;
-                    }
-                    new ChatGenerator().addTitle("Your Alcohol Level").addInfo("Alcohol Percentage: " + PDCC.get(player, PDCKey.ALCOHOL_LEVEL)).sendMessage(player);
-                    return true;
-                }
-            }
-        } else if (command.getName().equalsIgnoreCase(("producer"))) {
-            if (sender instanceof Player) {
-                if (args.length == 0) {
-                    Player player = (Player) sender;
-                    // プレイヤーがメインハンドに持っているアイテムのproducerInfoを表示する
-                    ItemStack item = player.getInventory().getItemInMainHand();
-                    SuperItemStack superItemStack = new SuperItemStack(item);
-                    if (superItemStack.getSuperItemType() != SuperItemType.DEFAULT) {
-                        if (superItemStack.hasProducerInfo()) {
-                            ProducerInfo producerInfo = superItemStack.getProducerInfo();
-                            String[] stringInfo = producerInfo.getProducerInfo();
-                            ChatGenerator chat = new ChatGenerator();
-                            chat.addTitle("Producer Info");
-                            for (String info : stringInfo) {
-                                chat.addInfo(info);
-                            }
-                            chat.sendMessage(player);
-
-                            return true;
+                    if (PDCC.has(player, PDCKey.HAS_ALC_BAR)) {
+                        if (PDCC.get(player, PDCKey.HAS_ALC_BAR)) {
+                            PDCC.set(player, PDCKey.HAS_ALC_BAR, false);
+                            new ChatGenerator().addInfo("You turned off the alc bar!").sendMessage(player);
                         } else {
-                            new ChatGenerator().addWarning("This item doesn't have producer info!").sendMessage(player);
-                            return true;
+                            PDCC.set(player, PDCKey.HAS_ALC_BAR, true);
+                            new ChatGenerator().addInfo("You turned on the alc bar!").sendMessage(player);
+                            AlcBar alcBar = new AlcBar(player);
+                            alcBar.runTaskTimer(this.plugin, 0, 20);
                         }
                     } else {
-                        new ChatGenerator().addWarning("This item is not a super item!").sendMessage(player);
-                        return true;
-
+                        PDCC.set(player, PDCKey.HAS_ALC_BAR, true);
+                        new ChatGenerator().addInfo("You turned on the alc bar!").sendMessage(player);
                     }
+                    return true;
                 }
             }
         }

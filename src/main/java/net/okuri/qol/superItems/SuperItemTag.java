@@ -7,6 +7,8 @@ public enum SuperItemTag {
     // RESOURCE: 資源のSuperItem。x,y,z のパラメータを x+y+z~1 になるように持つ。
     INGREDIENT,
     // INGREDIENT: x,y,zのパラメータ, もしくはtaste, smell, compatibilityを持つ材料。
+    LIQUOR_RESOURCE,
+    // LIQUOR_RESOURCE: Liquorの原料。LiquorIngredientをクラフトするのに使える。
     LIQUOR_INGREDIENT,
     // LIQUOR_INGREDIENT: Liquorとほぼ同じだが、Consumableがfalseに設定されている中間素材。
     LIQUOR,
@@ -15,6 +17,8 @@ public enum SuperItemTag {
     // FOOD: 食料のSuperItem。食べられるものすべてに付与。
     DRINK,
     // DRINK: 飲料のSuperItem。飲めるもので、酒以外に付与。
+    LIQUOR_ADAPTOR,
+    // LIQUOR_ADAPTOR: 様々なバフを与える。LiquorIngredientと一緒にクラフトすると様々な効果が得られる
     TOOL;
     // TOOL: 道具のSuperItem。右クリックで何かするものすべてに付与。
     private final HashSet<SuperItemType> superItemTypes = new HashSet<>();
