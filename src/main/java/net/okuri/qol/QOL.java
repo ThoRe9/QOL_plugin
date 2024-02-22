@@ -259,6 +259,7 @@ public final class QOL extends JavaPlugin {
         whiskyRecipe.setMinimumAlcohol(0.20);
         whiskyRecipe.setDurationAmp(1.2);
         whiskyRecipe.setLevelAmp(1.2);
+        whiskyRecipe.setCustomModelData(1);
         controller.addRecipe(whiskyRecipe);
 
         // Ale Beer
@@ -270,6 +271,7 @@ public final class QOL extends JavaPlugin {
         aleBeerRecipe.setMaximumFermentation(1.1);
         aleBeerRecipe.setDurationAmp(1.7);
         aleBeerRecipe.setLevelAmp(1.7);
+        aleBeerRecipe.setCustomModelData(4);
         controller.addRecipe(aleBeerRecipe);
 
         // Lager Beer
@@ -281,6 +283,7 @@ public final class QOL extends JavaPlugin {
         lagerBeerRecipe.setMinimumFermentation(1.1);
         lagerBeerRecipe.setDurationAmp(1.2);
         lagerBeerRecipe.setLevelAmp(1.2);
+        aleBeerRecipe.setCustomModelData(5);
         controller.addRecipe(lagerBeerRecipe);
 
         // Sake
@@ -291,6 +294,7 @@ public final class QOL extends JavaPlugin {
         sakeRecipe.setMinimumFermentation(1);
         sakeRecipe.setDurationAmp(1.2);
         sakeRecipe.setLevelAmp(1.2);
+        sakeRecipe.setCustomModelData(6);
         controller.addRecipe(sakeRecipe);
 
         // Shochu
@@ -299,6 +303,7 @@ public final class QOL extends JavaPlugin {
         shochuRecipe.setMinimumAlcohol(0.2);
         shochuRecipe.setDurationAmp(0.9);
         shochuRecipe.setLevelAmp(1.6);
+        shochuRecipe.setCustomModelData(6);
         controller.addRecipe(shochuRecipe);
 
         // Wine
@@ -386,6 +391,7 @@ public final class QOL extends JavaPlugin {
         getCommand("alc").setExecutor(new Commands(this));
         getCommand("producer").setExecutor(new Commands(this));
         getCommand("qolhelp").setExecutor(new HelpCommand());
+        getCommand("drinkcost").setExecutor(new Commands(this));
 
         // bukkitRunnableを起動
         Alcohol alc = new Alcohol(this);
@@ -414,6 +420,37 @@ public final class QOL extends JavaPlugin {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        // Taste一覧のページを作成する
+        Page tastePage = new Page("taste", "tasteの一覧を表示します");
+        for (Taste taste : TasteController.getController().getTastes()) {
+            HelpContent t = new HelpContent();
+            t.addContent("● " + taste.getDisplayName());
+            t.addContent("発酵しやすさ : " + String.format("%.2f", taste.getDegradability()) + "/1 日");
+            t.addContent("蒸留での減少量 : " + String.format("%.2f", 1 - taste.getVolatility()) + "/1 回");
+            if (taste.hasPotionInfo()) {
+                t.addContent("ポーション効果 : " + taste.getEffectType());
+                t.addContent("レベル : " + String.format("%.2f", taste.getEffectAmplifier()) + "/1p  時間 : " + String.format("%.2f", taste.getEffectDuration()) + "/1p");
+            }
+            if (taste.hasBuffInfo()) {
+                t.addContent("ポーション時間のバフ : x" + String.format("%.2f", taste.getDurationAmplifier()) + "/1p");
+                t.addContent("ポーションレベルのバフ : x" + String.format("%.2f", taste.getLevelAmplifier()) + "/1p");
+            }
+            if (taste.hasDelicacyBuff()) {
+                t.addContent("くせの変化量 : " + String.format("%.2f", taste.getDelicacyBuff()) + "/1p/L");
+            }
+            if (taste.hasEffectRateAffection()) {
+                t.addContent("傾向の変化 : " + String.format("%.2f", taste.getEffectRateAffection() - 1) + "/1p");
+            }
+            if (taste.hasBestFermentation()) {
+                t.addContent("最適な発酵度 : " + String.format("%.2f", taste.getBestFermentation()) + "days");
+            }
+            if (taste.hasFermentationLine()) {
+                t.addContent("このTasteは発酵させないと効果が表れません。");
+            }
+            tastePage.addContent(t);
+        }
+        Help.addPage(tastePage);
 
         getLogger().info("QOL Plugin Enabled");
 

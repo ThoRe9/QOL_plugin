@@ -44,3 +44,8 @@ commands:
     permission: qol.command.qolhelp
     permission-message: Permission denied
     usage: /<command>
+  drinkcost:
+    description: You can get your capability of drink cost.
+    permission: qol.command.drinkcost
+    permission-message: Permission denied
+    usage: /<command>

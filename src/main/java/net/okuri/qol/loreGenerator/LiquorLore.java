@@ -33,7 +33,7 @@ public class LiquorLore extends Lore {
         addLore(title);
         for (TasteEffectInfo info : effects) {
             double[] lore = new double[]{info.ampParam, info.taste.getEffectAmplifier(), info.durParam, info.taste.getEffectDuration() / 1200, info.fermentationBuff, info.delicacyBuff};
-            String[] units = new String[]{"p", "lv/p", "p", "min/p", "倍", "倍"};
+            String[] units = new String[]{"p/l", "lv/(p/l)", "p", "min/p", "倍", "倍"};
             addDoubleArrayLore(info.taste.getDisplayName(), info.taste.getColor(), lore, units);
         }
         if (!recipes.isEmpty()) {

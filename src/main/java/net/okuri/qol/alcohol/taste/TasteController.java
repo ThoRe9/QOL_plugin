@@ -43,4 +43,8 @@ public class TasteController {
         return null;
     }
 
+    public ArrayList<Taste> getTastes() {
+        return tastes;
+    }
+
 }

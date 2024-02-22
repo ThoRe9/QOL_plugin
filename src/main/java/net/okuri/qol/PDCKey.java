@@ -68,8 +68,10 @@ public enum PDCKey {
     // LIQUOR_EFFECT_RATIO: 飲料の効果倍率
     DRINK_COST("drink_cost", PersistentDataType.DOUBLE, ApplyType.ITEM),
     // DRINK_COST: 飲むのにかかるコスト
-    GLASS_VOLUME("glass_volume", PersistentDataType.DOUBLE, ApplyType.ITEM);
+    GLASS_VOLUME("glass_volume", PersistentDataType.DOUBLE, ApplyType.ITEM),
     // GLASS_VOLUME: グラスの容量
+    DRINK_COST_CAPABILITY("drink_cost_capability", PersistentDataType.DOUBLE, ApplyType.PLAYER);
+    // DRINK_COST_CAPABILITY: drink costの許容量
 
 
     public final NamespacedKey key;

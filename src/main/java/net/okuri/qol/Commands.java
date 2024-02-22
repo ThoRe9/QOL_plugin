@@ -109,6 +109,18 @@ public class Commands implements CommandExecutor {
                     return true;
                 }
             }
+        } else if (command.getName().equalsIgnoreCase("drinkcost")) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                double capability;
+                if (PDCC.has(player, PDCKey.DRINK_COST_CAPABILITY)) {
+                    capability = PDCC.get(player, PDCKey.DRINK_COST_CAPABILITY);
+                } else {
+                    capability = 500;
+                }
+                new ChatGenerator().addInfo("You have " + capability + " capability now.").sendMessage(player);
+                return true;
+            }
         }
         return false;
     }

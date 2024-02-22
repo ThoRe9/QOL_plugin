@@ -1,11 +1,16 @@
 package net.okuri.qol.alcohol;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.okuri.qol.ChatGenerator;
+import net.okuri.qol.LoreGenerator;
 import net.okuri.qol.superItems.SuperItemStack;
 import net.okuri.qol.superItems.SuperItemType;
 import net.okuri.qol.superItems.factory.SuperItem;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Random;
 
@@ -54,8 +59,20 @@ public class YeastGotcha extends SuperItem {
     }
 
     @Override
+    public SuperItemStack getSuperItem() {
+        SuperItemStack stack = super.getSuperItem();
+        stack.setDisplayName(Component.text("酵母菌ガチャ").decoration(TextDecoration.ITALIC, false).color(NamedTextColor.LIGHT_PURPLE));
+        LoreGenerator lore = new LoreGenerator();
+        lore.addInfo("右クリックでガチャを引く!");
+        ItemMeta meta = stack.getItemMeta();
+        meta.lore(lore.generate());
+        stack.setItemMeta(meta);
+        return stack;
+    }
+
+    @Override
     public SuperItemStack getDebugItem(int... args) {
-        return super.getSuperItem();
+        return this.getSuperItem();
     }
 
 }

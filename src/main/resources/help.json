@@ -121,7 +121,7 @@
               "Environment getter",
               " これをもって右クリックをするとその場所の環境パラメータを得られます。"
             ],
-            "recipeID": "env_tool"
+            "recipeID": "env_getter"
           }
         ]
       ]
@@ -149,6 +149,8 @@
         [
           {
             "contents": [
+              "Environment getter",
+              " これをもって右クリックをするとその場所の環境パラメータを得られます。"
             ],
             "recipeID": "env_getter"
           }

@@ -36,6 +36,7 @@ public class ConsumeListener implements Listener {
         // liverHelperを使用したとき
         this.liverHelperEvent(player, item);
 
+
     }
 
     private void alcoholEvent(Player player, ItemMeta meta) {
@@ -58,8 +59,33 @@ public class ConsumeListener implements Listener {
         PDCC.set(player, PDCKey.ALCOHOL_LEVEL, alcLv);
         // alcoholの効果を与える
         new Alcohol(plugin).run();
-    }
 
+        // drink costの確認
+        double drink_cost = PDCC.get(meta, PDCKey.DRINK_COST);
+        double capability = 0;
+        if (PDCC.has(player, PDCKey.DRINK_COST_CAPABILITY)) {
+            capability = PDCC.get(player, PDCKey.DRINK_COST_CAPABILITY);
+        } else {
+            PDCC.set(player, PDCKey.DRINK_COST_CAPABILITY, 0.1);
+            capability = 500;
+        }
+
+        if (capability * 2 < drink_cost) {
+            new ChatGenerator().addWarning("You drunk so much at once!! so, you died :(").sendMessage(player);
+            player.setHealth(0);
+        } else if (capability * 1.5 < drink_cost) {
+            new ChatGenerator().addWarning("You drunk so much at once!").sendMessage(player);
+            player.setHealth(5);
+            player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.CONFUSION, 400, 0));
+            player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.BLINDNESS, 200, 0));
+        } else if (capability < drink_cost) {
+            new ChatGenerator().addWarning("You drunk little much at once.").sendMessage(player);
+            player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.BLINDNESS, 200, 0));
+            PDCC.set(player, PDCKey.DRINK_COST_CAPABILITY, capability + drink_cost * 0.01);
+        } else {
+            PDCC.set(player, PDCKey.DRINK_COST_CAPABILITY, capability + drink_cost * 0.1);
+        }
+    }
     private void liverHelperEvent(Player player, SuperItemStack item) {
 
         if (!item.isSimilar(new SuperItemData(SuperItemType.LIVER_HELPER))) {

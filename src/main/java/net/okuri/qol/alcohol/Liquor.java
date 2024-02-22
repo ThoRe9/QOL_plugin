@@ -26,6 +26,7 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
     private LiquorLore lore = new LiquorLore();
     private Component name = Component.text("酒", NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false);
     private double drinkCost = 0;
+    private int customModelData = 0;
 
     public Liquor() {
         super(SuperItemType.LIQUOR);
@@ -48,7 +49,6 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
         if (stack == null) {
             return null;
         }
-
         PotionMeta meta = (PotionMeta) stack.getItemMeta();
         setPotionEffects();
         for (PotionEffect effect : this.potionEffects) {
@@ -66,6 +66,7 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
         gen.addLore(this.lore);
         gen.setLore(meta);
         meta.displayName(this.name);
+        meta.setCustomModelData(this.customModelData);
         stack.setItemMeta(meta);
         return stack;
 
@@ -115,6 +116,7 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
                 durationBuff *= recipe.getDurationAmp();
                 amplifierBuff *= recipe.getLevelAmp();
                 this.lore.addRecipe(recipe);
+                this.customModelData = recipe.getCustomModelData();
                 if (!recipeFlag) {
                     this.name = recipe.getName();
                     recipeFlag = true;
@@ -127,7 +129,7 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
         this.lore.setTotalDelicacyBuff(delicacyBuff);
 
         for (TasteEffect effect : potionEffectTypes) {
-            double ampParam = calcDelicacyBuff(effect.value) * (1 - effectRate);
+            double ampParam = calcDelicacyBuff(effect.value) * (1 - effectRate) / this.getAmount();
             double durParam = calcDelicacyBuff(effect.value) * effectRate;
             int duration = (int) (effect.durationRate * durationBuff * durParam * effect.fermentationBuff);
             int amplifier = (int) (effect.amplifierRate * amplifierBuff * ampParam * effect.fermentationBuff);
@@ -174,7 +176,7 @@ public class Liquor extends LiquorIngredient implements Distributable, Distribut
     }
 
     private void calcDrinkCost() {
-        this.drinkCost = Math.pow((this.getLiquorAmount() * 10), 2) * Math.pow((this.getAlcoholAmount() * 1000), 2) * this.getDelicacy();
+        this.drinkCost = Math.pow((this.getLiquorAmount() * 10), 2) * Math.pow((1 + (this.getAlcoholAmount())), 2) * (1 + this.getDelicacy());
     }
 
     @Override

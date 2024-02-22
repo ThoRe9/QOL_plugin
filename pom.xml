@@ -6,7 +6,7 @@
 
     <groupId>net.okuri</groupId>
     <artifactId>QOL</artifactId>
-    <version>0.2</version>
+    <version>0.4</version>
     <packaging>jar</packaging>
 
     <name>QOL</name>

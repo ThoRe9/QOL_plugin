@@ -1,5 +1,5 @@
 name: QOL
-version: '0.2'
+version: '0.4'
 main: net.okuri.qol.QOL
 api-version: '1.20'
 commands:
@@ -42,5 +42,10 @@ commands:
   qolhelp:
     description: You can get help.
     permission: qol.command.qolhelp
+    permission-message: Permission denied
+    usage: /<command>
+  drinkcost:
+    description: You can get your capability of drink cost.
+    permission: qol.command.drinkcost
     permission-message: Permission denied
     usage: /<command>

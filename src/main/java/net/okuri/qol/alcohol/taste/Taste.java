@@ -18,6 +18,7 @@ public abstract class Taste {
     private final double[] fermentationCoeffients;
     // fermentationCoeffients: 発酵度による効果の変化率。0:発行度が∞のときの倍率, 1:速度(0<c<∞)
     private final double volatility;
+    // volatility: 1回の蒸留で減少する割合。
     /**
      * levelAmp: レベルの増幅率。すべてのポーション効果に対し作用する
      */
@@ -52,7 +53,7 @@ public abstract class Taste {
      * パラメータ濃度 * delicacyBuff
      */
     double delicacyBuff = 1;
-    // volatility: 1回の蒸留で減少する割合。
+
     double bestFermentation = -1;
     // bestMaturation: 最適な発酵度。負の値の場合は発酵度によって効果が変化しない。
     double fermentationLine = -1;
@@ -163,7 +164,27 @@ public abstract class Taste {
         return -1 * Math.pow(Math.abs(effectRate - 1), effectRateAffection) + 1;
     }
 
+    public double getEffectRateAffection() {
+        return effectRateAffection;
+    }
+
     public double getDelicacyBuff() {
         return delicacyBuff;
+    }
+
+    public boolean hasBestFermentation() {
+        return this.bestFermentation > 0;
+    }
+
+    public boolean hasFermentationLine() {
+        return this.fermentationLine > 0;
+    }
+
+    public double getBestFermentation() {
+        return bestFermentation;
+    }
+
+    public double getFermentationLine() {
+        return fermentationLine;
     }
 }

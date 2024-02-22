@@ -41,6 +41,7 @@ public class LiquorRecipe {
     // 以下バフを表すフィールド
     private double durationAmp = 1.0;
     private double levelAmp = 1.0;
+    private int customModelData = 0;
 
     public LiquorRecipe(String id, Component name, int priority) {
         this.id = id;
@@ -142,5 +143,13 @@ public class LiquorRecipe {
 
     public int getPriority() {
         return priority;
+    }
+
+    public int getCustomModelData() {
+        return customModelData;
+    }
+
+    public void setCustomModelData(int customModelData) {
+        this.customModelData = customModelData;
     }
 }

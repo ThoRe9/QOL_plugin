@@ -110,12 +110,14 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
         this.alcoholAmount = 0;
         this.liquorAmount = 0;
         this.tastes.clear();
-        this.delicacy = 0;
+        this.delicacy = (double) PDCC.get(meta, PDCKey.DELICACY);
+        this.delicacy /= 0.8;
         this.fermentationDegree = 0;
         this.ingredientCount = 0;
         super.setCount(stack.getAmount());
         this.effectRate = (double) PDCC.get(meta, PDCKey.LIQUOR_EFFECT_RATIO);
         this.add(stack);
+
     }
 
     private void add(SuperItemStack stack) {
@@ -131,7 +133,8 @@ public class LiquorIngredient extends SuperItem implements SuperCraftable, Matur
                 this.tastes.put(entry.getKey(), entry.getValue());
             }
         }
-        this.delicacy += (double) PDCC.get(meta, PDCKey.DELICACY);
+        double resourceDelicacy = (double) PDCC.get(meta, PDCKey.DELICACY);
+        this.delicacy = (1.8 * resourceDelicacy * this.delicacy) / (resourceDelicacy + this.delicacy);
         this.fermentationDegree += (double) PDCC.get(meta, PDCKey.FERMENTATION_DEGREE);
         this.ingredientCount += (int) PDCC.get(meta, PDCKey.INGREDIENT_COUNT);
         this.effectRate = this.effectRate * 0.5 + ((double) PDCC.get(meta, PDCKey.LIQUOR_EFFECT_RATIO)) * 0.5;
