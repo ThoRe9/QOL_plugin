@@ -3,8 +3,10 @@ package net.okuri.qol.alcohol;
 import net.kyori.adventure.text.Component;
 import net.okuri.qol.alcohol.taste.Taste;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Liquor で特定のTaste、Alcohol濃度を持つものに対し、ブランドとバフを付与できます。
@@ -42,6 +44,8 @@ public class LiquorRecipe {
     private double durationAmp = 1.0;
     private double levelAmp = 1.0;
     private int customModelData = 0;
+    private double amountRate = 1.0;
+    private int modelType = 0;
 
     public LiquorRecipe(String id, Component name, int priority) {
         this.id = id;
@@ -51,6 +55,12 @@ public class LiquorRecipe {
 
     public boolean isMatch(Liquor liquor) {
         double liquorAmount = liquor.getAmount();
+        this.amountRate = liquorAmount / liquor.getMaxAmount();
+        if (liquor.maxAmount >= 1) {
+            this.modelType = 1;
+        } else {
+            this.modelType = 2;
+        }
         if (minimumAlcohol > 0) {
             if (liquor.getAlcoholAmount() / liquorAmount < minimumAlcohol) {
                 return false;
@@ -146,10 +156,66 @@ public class LiquorRecipe {
     }
 
     public int getCustomModelData() {
-        return customModelData;
+        // customModelDataの構成: customModelData(3桁) + タイプ(1:bottle, 2:glass)+ 量(1, 2, 3)
+        return customModelData * 100 + this.modelType * 10 + (int) (amountRate / 0.334) + 1;
     }
 
     public void setCustomModelData(int customModelData) {
+
         this.customModelData = customModelData;
     }
+
+    public Map<Taste, Double> getMinimumTastes() {
+        return minimumTastes;
+    }
+
+    public Map<Taste, Double> getMaximumTastes() {
+        return maximumTastes;
+    }
+
+    public double getMinimumAlcohol() {
+        return minimumAlcohol;
+    }
+
+    public double getMaximumAlcohol() {
+        return maximumAlcohol;
+    }
+
+    public double getMinimumFermentation() {
+        return minimumFermentation;
+    }
+
+    public double getMaximumFermentation() {
+        return maximumFermentation;
+    }
+
+    public ArrayList<TasteStandardInfo> getTasteStandards() {
+        ArrayList<TasteStandardInfo> list = new ArrayList<>();
+        Set<Taste> tastes = minimumTastes.keySet();
+        tastes.addAll(maximumTastes.keySet());
+        for (Taste taste : tastes) {
+            TasteStandardInfo info = new TasteStandardInfo(taste, -1, -1);
+            if (minimumTastes.get(taste) != null) {
+                info.min = minimumTastes.get(taste);
+            }
+            if (maximumTastes.get(taste) != null) {
+                info.max = maximumTastes.get(taste);
+            }
+            list.add(info);
+        }
+        return list;
+    }
+
+    public class TasteStandardInfo {
+        public Taste taste;
+        public double max;
+        public double min;
+
+        public TasteStandardInfo(Taste taste, double max, double min) {
+            this.taste = taste;
+            this.max = max;
+            this.min = min;
+        }
+    }
 }
+

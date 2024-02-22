@@ -3,6 +3,7 @@ package net.okuri.qol;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.okuri.qol.alcohol.*;
 import net.okuri.qol.alcohol.resources.*;
 import net.okuri.qol.alcohol.resources.buff.LiquorResourceBuff;
@@ -107,6 +108,7 @@ public final class QOL extends JavaPlugin {
         ShapelessSuperCraftRecipe li = new ShapelessSuperCraftRecipe("liquor_ingredient");
         li.addIngredient(SuperItemTag.LIQUOR_RESOURCE);
         li.addIngredient(Material.WATER_BUCKET);
+        li.addReturnItem(Material.BUCKET);
         li.setResultClass(new LiquorIngredient());
         superCraft.addShapelessSuperCraftRecipe(li);
 
@@ -121,6 +123,7 @@ public final class QOL extends JavaPlugin {
         ShapelessSuperCraftRecipe li3 = new ShapelessSuperCraftRecipe("liquor_ingredient3");
         li3.addIngredient(SuperItemType.LIQUOR_INGREDIENT);
         li3.addIngredient(SuperItemType.LIQUOR_INGREDIENT);
+        li3.addReturnItem(Material.GLASS_BOTTLE);
         li3.setResultClass(new LiquorIngredient());
         superCraft.addShapelessSuperCraftRecipe(li3);
 
@@ -128,6 +131,7 @@ public final class QOL extends JavaPlugin {
         ShapelessSuperCraftRecipe li4 = new ShapelessSuperCraftRecipe("liquor_ingredient4");
         li4.addIngredient(SuperItemType.LIQUOR_INGREDIENT);
         li4.addIngredient(Material.WATER_BUCKET);
+        li4.addReturnItem(Material.BUCKET);
         li4.setResultClass(new LiquorIngredient());
         superCraft.addShapelessSuperCraftRecipe(li4);
 
@@ -135,6 +139,7 @@ public final class QOL extends JavaPlugin {
         ShapelessSuperCraftRecipe fi = new ShapelessSuperCraftRecipe("fermentation_ingredient");
         fi.addIngredient(SuperItemType.LIQUOR_INGREDIENT);
         fi.addIngredient(SuperItemType.YEAST);
+        fi.addReturnItem(Material.GLASS_BOTTLE);
         fi.setResultClass(new FermentationIngredient());
         superCraft.addShapelessSuperCraftRecipe(fi);
 
@@ -147,7 +152,6 @@ public final class QOL extends JavaPlugin {
         // BarleyJuice
         ShapelessSuperCraftRecipe bj = new ShapelessSuperCraftRecipe("barley_juice");
         bj.addIngredient(SuperItemType.BARLEY);
-        bj.addIngredient(Material.WATER_BUCKET);
         bj.addIngredient(SuperItemType.YEAST);
         bj.setResultClass(new BarleyJuice());
         superCraft.addShapelessSuperCraftRecipe(bj);
@@ -180,6 +184,14 @@ public final class QOL extends JavaPlugin {
         pouring2.setBottle(SuperItemType.LIQUOR_GLASS);
         superCraft.addDistributionCraftRecipe(pouring2);
 
+        // grapeJuice
+        ShapelessSuperCraftRecipe grapeJuice = new ShapelessSuperCraftRecipe("grape_juice");
+        grapeJuice.addIngredient(SuperItemType.GRAPE);
+        grapeJuice.addIngredient(SuperItemType.YEAST);
+        grapeJuice.setResultClass(new GrapeJuice());
+        superCraft.addShapelessSuperCraftRecipe(grapeJuice);
+
+
 
         // glass(100~900ml)
         for (int i = 1; i < 10; i++) {
@@ -209,6 +221,11 @@ public final class QOL extends JavaPlugin {
         MaturationRecipe maltRecipe = new MaturationRecipe("Malt", new Malt());
         maltRecipe.addIngredient(SuperItemType.BARLEY_JUICE);
         maturation.addMaturationRecipe(maltRecipe);
+
+        // GrapeJuice
+        MaturationRecipe grapeJuiceRecipe = new MaturationRecipe("GrapeJuice", new FermentedGrape());
+        grapeJuiceRecipe.addIngredient(SuperItemType.GRAPE_JUICE);
+        maturation.addMaturationRecipe(grapeJuiceRecipe);
 
     }
 
@@ -255,7 +272,7 @@ public final class QOL extends JavaPlugin {
 
         // whisky
         LiquorRecipe whiskyRecipe = new LiquorRecipe("whisky", Component.text("ウィスキー").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 0);
-        whiskyRecipe.addMinimumTaste(MaltTaste.instance, 1.5);
+        whiskyRecipe.addMinimumTaste(MaltTaste.instance, 1);
         whiskyRecipe.setMinimumAlcohol(0.20);
         whiskyRecipe.setDurationAmp(1.2);
         whiskyRecipe.setLevelAmp(1.2);
@@ -264,60 +281,60 @@ public final class QOL extends JavaPlugin {
 
         // Ale Beer
         LiquorRecipe aleBeerRecipe = new LiquorRecipe("ale_beer", Component.text("エールビール").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 1);
-        aleBeerRecipe.addMinimumTaste(BarleyTaste.instance, 1.0);
+        aleBeerRecipe.addMinimumTaste(BarleyTaste.instance, 0.5);
         aleBeerRecipe.addMinimumTaste(HopTaste.instance, 0.1);
         aleBeerRecipe.setMinimumAlcohol(0.03);
         aleBeerRecipe.setMaximumAlcohol(0.2);
         aleBeerRecipe.setMaximumFermentation(1.1);
         aleBeerRecipe.setDurationAmp(1.7);
         aleBeerRecipe.setLevelAmp(1.7);
-        aleBeerRecipe.setCustomModelData(4);
+        aleBeerRecipe.setCustomModelData(2);
         controller.addRecipe(aleBeerRecipe);
 
         // Lager Beer
         LiquorRecipe lagerBeerRecipe = new LiquorRecipe("lager_beer", Component.text("ラガービール").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 2);
-        lagerBeerRecipe.addMinimumTaste(BarleyTaste.instance, 1.0);
+        lagerBeerRecipe.addMinimumTaste(BarleyTaste.instance, 0.5);
         lagerBeerRecipe.addMinimumTaste(HopTaste.instance, 0.1);
         lagerBeerRecipe.setMinimumAlcohol(0.03);
         lagerBeerRecipe.setMaximumAlcohol(0.2);
         lagerBeerRecipe.setMinimumFermentation(1.1);
         lagerBeerRecipe.setDurationAmp(1.2);
         lagerBeerRecipe.setLevelAmp(1.2);
-        aleBeerRecipe.setCustomModelData(5);
+        aleBeerRecipe.setCustomModelData(3);
         controller.addRecipe(lagerBeerRecipe);
 
         // Sake
         LiquorRecipe sakeRecipe = new LiquorRecipe("sake", Component.text("日本酒").color(NamedTextColor.WHITE).decoration(TextDecoration.ITALIC, false), 3);
-        sakeRecipe.addMinimumTaste(RiceTaste.instance, 1.0);
+        sakeRecipe.addMinimumTaste(RiceTaste.instance, 0.5);
         sakeRecipe.setMinimumAlcohol(0.05);
         sakeRecipe.setMaximumAlcohol(0.2);
         sakeRecipe.setMinimumFermentation(1);
         sakeRecipe.setDurationAmp(1.2);
         sakeRecipe.setLevelAmp(1.2);
-        sakeRecipe.setCustomModelData(6);
+        sakeRecipe.setCustomModelData(4);
         controller.addRecipe(sakeRecipe);
 
         // Shochu
         LiquorRecipe shochuRecipe = new LiquorRecipe("shochu", Component.text("焼酎").color(NamedTextColor.GOLD).decoration(TextDecoration.ITALIC, false), 4);
-        shochuRecipe.addMinimumTaste(RiceTaste.instance, 2.0);
+        shochuRecipe.addMinimumTaste(RiceTaste.instance, 1.0);
         shochuRecipe.setMinimumAlcohol(0.2);
         shochuRecipe.setDurationAmp(0.9);
         shochuRecipe.setLevelAmp(1.6);
-        shochuRecipe.setCustomModelData(6);
+        shochuRecipe.setCustomModelData(4);
         controller.addRecipe(shochuRecipe);
 
         // Wine
         LiquorRecipe wineRecipe = new LiquorRecipe("wine", Component.text("ワイン").color(NamedTextColor.DARK_PURPLE).decoration(TextDecoration.ITALIC, false), 5);
-        wineRecipe.addMinimumTaste(GrapeBitterness.instance, 1);
-        wineRecipe.addMinimumTaste(GrapeSourness.instance, 0.3);
+        wineRecipe.addMinimumTaste(GrapeBitterness.instance, 0.5);
+        wineRecipe.addMinimumTaste(GrapeSourness.instance, 0.1);
         wineRecipe.setDurationAmp(1.4);
         wineRecipe.setLevelAmp(0.9);
         controller.addRecipe(wineRecipe);
 
         // White wine
         LiquorRecipe whiteWineRecipe = new LiquorRecipe("white_wine", Component.text("白ワイン").color(NamedTextColor.LIGHT_PURPLE).decoration(TextDecoration.ITALIC, false), 6);
-        whiteWineRecipe.addMinimumTaste(GrapeSourness.instance, 1);
-        whiteWineRecipe.addMinimumTaste(GrapeBitterness.instance, 0.3);
+        whiteWineRecipe.addMinimumTaste(GrapeSourness.instance, 0.5);
+        whiteWineRecipe.addMinimumTaste(GrapeBitterness.instance, 0.1);
         whiteWineRecipe.setDurationAmp(0.9);
         whiteWineRecipe.setLevelAmp(1.4);
         controller.addRecipe(whiteWineRecipe);
@@ -451,6 +468,60 @@ public final class QOL extends JavaPlugin {
             tastePage.addContent(t);
         }
         Help.addPage(tastePage);
+
+        // LiquorRecipe一覧のページを作成する
+        Page liquorRecipePage = new Page("liquor_recipe", "liquorのレシピ一覧を表示します");
+        for (LiquorRecipe recipe : LiquorRecipeController.instance.getRecipes()) {
+            HelpContent t = new HelpContent();
+            t.addContent("● " + PlainTextComponentSerializer.plainText().serialize(recipe.getName()));
+            if (recipe.getMinimumAlcohol() > 0 || recipe.getMaximumAlcohol() > 0) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("  アルコール度 : ");
+                if (recipe.getMinimumAlcohol() > 0) {
+                    sb.append(String.format("%.2f", recipe.getMinimumAlcohol() * 100));
+                }
+                sb.append("% ~ ");
+                if (recipe.getMaximumAlcohol() > 0) {
+                    sb.append(String.format("%.2f", recipe.getMaximumAlcohol() * 100));
+                }
+                sb.append("%");
+                t.addContent(sb.toString());
+            }
+            if (recipe.getMaximumFermentation() > 0 || recipe.getMinimumFermentation() > 0) {
+                StringBuilder sb = new StringBuilder();
+                sb.append("  発酵度 : ");
+                if (recipe.getMinimumFermentation() > 0) {
+                    sb.append(String.format("%.2f", recipe.getMinimumFermentation()));
+                }
+                sb.append(" ~ ");
+                if (recipe.getMaximumFermentation() > 0) {
+                    sb.append(String.format("%.2f", recipe.getMaximumFermentation()));
+                }
+                t.addContent(sb.toString());
+            }
+            if (!recipe.getTasteStandards().isEmpty()) {
+                for (LiquorRecipe.TasteStandardInfo taste : recipe.getTasteStandards()) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append("  ");
+                    sb.append(taste.taste.getDisplayName()).append(" : ");
+                    if (taste.min > 0) {
+                        sb.append(String.format("%.2f", taste.min * 100));
+                        sb.append("%");
+                    }
+                    sb.append(" ~ ");
+                    if (taste.max > 0) {
+                        sb.append(String.format("%.2f", taste.max * 100));
+                        sb.append("%");
+                    }
+                    t.addContent(sb.toString());
+                }
+            }
+            t.addContent("レシピ効果 : ");
+            t.addContent("  発酵時間の倍率 : " + String.format("%.2f", recipe.getDurationAmp()) + "/1");
+            t.addContent("  レベルの倍率 : " + String.format("%.2f", recipe.getLevelAmp()) + "/1");
+            liquorRecipePage.addContent(t);
+        }
+        Help.addPage(liquorRecipePage);
 
         getLogger().info("QOL Plugin Enabled");
 

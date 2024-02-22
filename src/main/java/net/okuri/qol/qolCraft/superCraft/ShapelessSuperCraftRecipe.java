@@ -128,6 +128,10 @@ public class ShapelessSuperCraftRecipe implements SuperRecipe {
         returnItems.add(itemStack);
     }
 
+    public void addReturnItem(Material material) {
+        returnItems.add(new SuperItemStack(material));
+    }
+
     public void setGetRawMatrix(boolean getRawMatrix) {
         this.getRawMatrix = getRawMatrix;
     }

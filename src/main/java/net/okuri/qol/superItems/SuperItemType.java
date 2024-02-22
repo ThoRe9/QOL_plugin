@@ -35,6 +35,7 @@ public enum SuperItemType {
     SUGAR_CANE("SUGAR_CANE", 0, Material.SUGAR_CANE, SuperItemTag.LIQUOR_RESOURCE),
     MOLASSES("MOLASSES", 0, Material.HONEY_BOTTLE, SuperItemTag.LIQUOR_RESOURCE),
     GRAPE("grape", 0, Material.SWEET_BERRIES, SuperItemTag.LIQUOR_RESOURCE),
+    GRAPE_JUICE("grape_juice", 0, Material.POTION, SuperItemTag.LIQUOR_RESOURCE),
     FERMENTED_GRAPE("fermented_grape", 0, Material.SWEET_BERRIES, SuperItemTag.LIQUOR_RESOURCE),
     LIQUOR_INGREDIENT("LIQUOR_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
     FERMENTATION_INGREDIENT("FERMENTATION_INGREDIENT", 0, Material.POTION, SuperItemTag.LIQUOR_INGREDIENT),
@@ -130,6 +131,8 @@ public enum SuperItemType {
                 return new Glass();
             case YEAST_GOTCHA:
                 return new YeastGotcha();
+            case GRAPE_JUICE:
+                return new GrapeJuice();
             default:
                 throw new IllegalStateException("Unexpected value: " + type);
         }

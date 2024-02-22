@@ -82,6 +82,7 @@ net\okuri\qol\qolCraft\calcuration\CirculeDistribution.class
 net\okuri\qol\qolCraft\calcuration\DiscontinuityDurationCalcuration.class
 net\okuri\qol\qolCraft\calcuration\Calcuration.class
 net\okuri\qol\alcohol\taste\RyeTaste.class
+net\okuri\qol\alcohol\resources\GrapeJuice.class
 net\okuri\qol\qolCraft\resource\Resource.class
 net\okuri\qol\qolCraft\maturation\MaturationController.class
 net\okuri\qol\alcohol\resources\Hop.class
@@ -95,6 +96,7 @@ net\okuri\qol\alcohol\taste\PotionEffectTaste.class
 net\okuri\qol\superItems\factory\tools\EnvGetter.class
 net\okuri\qol\alcohol\resources\Rice.class
 net\okuri\qol\alcohol\resources\LiquorResource.class
+net\okuri\qol\alcohol\LiquorRecipe$TasteStandardInfo.class
 net\okuri\qol\alcohol\LiquorRecipe.class
 net\okuri\qol\event\MaturationEndEvent.class
 net\okuri\qol\alcohol\resources\Molasses.class

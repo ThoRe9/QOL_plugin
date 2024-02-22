@@ -81,9 +81,9 @@ public class ConsumeListener implements Listener {
         } else if (capability < drink_cost) {
             new ChatGenerator().addWarning("You drunk little much at once.").sendMessage(player);
             player.addPotionEffect(new org.bukkit.potion.PotionEffect(org.bukkit.potion.PotionEffectType.BLINDNESS, 200, 0));
-            PDCC.set(player, PDCKey.DRINK_COST_CAPABILITY, capability + drink_cost * 0.01);
-        } else {
             PDCC.set(player, PDCKey.DRINK_COST_CAPABILITY, capability + drink_cost * 0.1);
+        } else {
+            PDCC.set(player, PDCKey.DRINK_COST_CAPABILITY, capability + drink_cost * 0.5);
         }
     }
     private void liverHelperEvent(Player player, SuperItemStack item) {
